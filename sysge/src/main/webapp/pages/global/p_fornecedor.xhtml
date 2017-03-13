@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<ui:composition template="/template/template.xhtml">
+	<ui:define name="conteudo">
+		<h:form id="formGeralCliente">
+			<p:panel header="Listagem de fornecedores">
+
+				<h:panelGrid columns="10" id="panelPesquisa">
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Nome fantasia" />
+						<p:inputText style="width: 300px;"
+							value="#{fornecedorController.fornecedor.nomeFantasia}" />
+					</h:panelGrid>
+					<p:tooltip value="Digite o nome fantasia." position="bottom" />
+					<p:focus context="panelPesquisa" />
+
+					<h:panelGrid columns="1">
+						<p:outputLabel value="CNPJ" />
+						<p:inputMask mask="99.999.999/9999-99" style="width: 150px;"
+							value="#{fornecedorController.fornecedor.cnpj}" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Situação" />
+						<p:selectOneMenu
+							value="#{fornecedorController.fornecedor.situacao}">
+							<f:selectItems var="s" value="#{fornecedorController.situacoes}"
+								itemLabel="#{s.situacao}" itemValue="#{s}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
+					<h:panelGrid columns="1">
+						<p:outputLabel value="." style="color: white;" />
+						<p:commandButton icon="ui-icon-search" update="tableCliente"
+							actionListener="#{fornecedorController.pesquisar}"
+							value="Pesquisar" />
+					</h:panelGrid>
+				</h:panelGrid>
+
+				<p:dataTable id="tableCliente" var="c" paginator="true"
+					paginatorPosition="bottom"
+					value="#{fornecedorController.fornecedores}"
+					emptyMessage="Nenhum registro encontrado!" rows="8"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+					{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}">
+
+					<f:facet name="{Exporters}">
+						<h:commandLink>
+							<p:graphicImage library="img" name="Excel-icon32.png" width="24" />
+							<p:dataExporter type="xls" target="tableCliente"
+								fileName="Fornecedores" />
+						</h:commandLink>
+					</f:facet>
+
+					<p:column headerText="ID" width="15" style="text-align:center;">
+						<p:outputLabel value="#{c.id}" />
+					</p:column>
+
+					<p:column headerText="Nome fantasia">
+						<p:outputLabel value="#{c.nomeFantasia}" />
+					</p:column>
+
+					<p:column headerText="Telefone Fixo" width="100"
+						style="text-align:center;">
+						<p:outputLabel value="#{c.telefone}" />
+					</p:column>
+
+					<p:column headerText="Situação" width="50"
+						style="text-align:center;">
+						<p:outputLabel value="#{c.situacao.situacao}" />
+					</p:column>
+
+					<p:column width="40">
+						<p:commandButton id="btnEditar" icon="ui-icon-pencil"
+							oncomplete="PF('dialogEditarCliente').show()"
+							update=":msgGlobal tableCliente :formEditarCliente"
+							actionListener="#{fornecedorController.setarFornecedor(c)}">
+						</p:commandButton>
+						<p:tooltip value="Cliquei aqui para editar!" for="btnEditar"
+							position="left" />
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton value="Novo fornecedor"
+							actionListener="#{fornecedorController.novoFornecedor}"
+							icon="ui-icon-circle-plus"
+							oncomplete="PF('dialogNovoCliente').show();"
+							update=":msgGlobal :formNovoCliente" />
+					</f:facet>
+
+				</p:dataTable>
+			</p:panel>
+
+			<p:blockUI block="tableCliente" trigger="tableCliente">
+			        Carregando! Aguarde...<br />
+				<p:graphicImage library="img" name="loading.gif" />
+			</p:blockUI>
+
+		</h:form>
+
+		<!-- Dialog editar fornecedor -->
+		<p:dialog id="dialogEditarCliente" widgetVar="dialogEditarCliente"
+			header="Editar fornecedor" modal="true" appendTo="@(body)"
+			resizable="false" position="top" width="600" closable="false">
+			<h:form id="formEditarCliente">
+
+				<p:tabView activeIndex="#{fornecedorController.currentTab}">
+					<p:tab title="Dados básicos">
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="." style="color: white;" />
+								<p:commandButton icon="ui-icon-search"
+									value="Preencher via CNPJ"
+									oncomplete="PF('dialog_procurar_cnpj').show();"
+									update=":formProcurarCnpj" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Nome fantasia" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.nomeFantasia}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Telefone" />
+								<p:inputMask style="width: 244px;"
+									value="#{fornecedorController.fornecedor.telefone}"
+									mask="(99) 9999-9999" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Celular" />
+								<p:inputMask style="width: 244px;"
+									value="#{fornecedorController.fornecedor.celular}"
+									mask="(99) 99999-9999" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="E-mail" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.email}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Site" />
+								<p:inputText style="width: 500px; color: blue;"
+									value="#{fornecedorController.fornecedor.site}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Situação" />
+								<p:selectOneMenu
+									value="#{fornecedorController.fornecedor.situacao}">
+									<f:selectItems var="s"
+										value="#{fornecedorController.situacoes}"
+										itemLabel="#{s.situacao}" itemValue="#{s}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Dados complementares">
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Razão social" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.razaoSocial}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="CNPJ" />
+								<p:inputMask mask="99.999.999/9999-99" style="width: 500px;"
+									value="#{fornecedorController.fornecedor.cnpj}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="3">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Tipo de empresa" />
+								<p:inputText
+									value="#{fornecedorController.fornecedor.tipoEmpresa}"
+									style="width: 140px;" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Insc. Estadual" />
+								<p:inputText
+									value="#{fornecedorController.fornecedor.inscEstadual}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Insc. Municipal" />
+								<p:inputText
+									value="#{fornecedorController.fornecedor.inscMunicipal}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Horário de Funcionamento" />
+								<p:inputTextarea style="width: 500px;"
+									value="#{fornecedorController.fornecedor.horarioFuncionamento}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Observação" />
+								<p:inputTextarea style="width: 500px;"
+									value="#{fornecedorController.fornecedor.observacao}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+
+						<!-- <p:outputLabel value="Logo" />
+							<p:fieldset>
+								<p:fileUpload mode="advanced" dragDropSupport="false"
+									sizeLimit="100000" fileLimit="3"
+									allowTypes="/(\.|\/)(gif|jpe?g|png)$/" cancelLabel="Cancelar"
+									label="Procurar" />
+							</p:fieldset> -->
+
+					</p:tab>
+					<p:tab title="Endereço" id="tabEndereco">
+						<h:panelGrid columns="3">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Cep" />
+								<p:inputMask mask="99999-999"
+									value="#{fornecedorController.fornecedor.cep}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="." style="color: white;" />
+								<p:commandButton id="button1" icon="ui-icon-circle-zoomout"
+									update=":msgGlobal panelEndereco1 panelEndereco2 panelEndereco3"
+									actionListener="#{fornecedorController.consultarCep}" />
+								<p:tooltip for="button1"
+									value="Cliquei para consultar o CEP automaticamente nos correios!"
+									position="top" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="." style="color: white;" />
+								<p:commandLink value="Não sabe o CEP ? Clique aqui!" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+						<h:panelGrid columns="2" id="panelEndereco1">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Logradouro" />
+								<p:inputText style="width: 270px;"
+									value="#{fornecedorController.fornecedor.logradouro}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Número" />
+								<p:inputText style="width: 250px;"
+									value="#{fornecedorController.fornecedor.numero}" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+						<h:panelGrid columns="2" id="panelEndereco2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Complemento" />
+								<p:inputText style="width: 270px;"
+									value="#{fornecedorController.fornecedor.complemento}" />
+							</h:panelGrid>
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Bairro" />
+								<p:inputText style="width: 250px;"
+									value="#{fornecedorController.fornecedor.bairro}" />
+							</h:panelGrid>
+						</h:panelGrid>
+						<h:panelGrid columns="3" id="panelEndereco3">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Cidade" />
+								<p:inputText style="width: 270px;"
+									value="#{fornecedorController.fornecedor.cidade}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="UF" />
+								<p:selectOneMenu filter="true" filterMatchMode="startsWith"
+									converter="omnifaces.SelectItemsConverter"
+									value="#{fornecedorController.fornecedor.unidadeFederativa}">
+									<f:selectItems var="uf"
+										value="#{fornecedorController.unidadesFederativas}"
+										itemLabel="#{uf.unidadeFederativa}" itemValue="#{uf}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Código IBGE" />
+								<p:inputText style="width: 100px;" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+
+						<p:blockUI block="tabEndereco" trigger="button1">
+								        Carregando! Aguarde...<br />
+							<p:graphicImage library="img" name="loading.gif" />
+						</p:blockUI>
+					</p:tab>
+					<p:tab title="Redes Sociais">
+						<h:panelGrid columns="1">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Facebook" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.facebook}" />
+							</h:panelGrid>
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Twitter" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.twitter}" />
+							</h:panelGrid>
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Linkdin" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.linkdin}" />
+							</h:panelGrid>
+							<h:panelGrid columns="1">
+								<p:outputLabel value="YouTube" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.youtube}" />
+							</h:panelGrid>
+						</h:panelGrid>
+					</p:tab>
+				</p:tabView>
+
+				<h:panelGrid id="panelBotoesCliente" columns="2">
+					<h:panelGrid columns="2">
+						<p:commandButton id="btnSalvarCliente" value="Salvar"
+							icon="ui-icon-check" action="#{fornecedorController.salvar}"
+							update=":msgGlobal :formGeralCliente:tableCliente" />
+						<p:commandButton value="Cancelar" icon="ui-icon-close"
+							oncomplete="PF('dialogEditarCliente').hide();"
+							actionListener="#{fornecedorController.cancelar}"
+							update=":msgGlobal :formGeralCliente:tableCliente" />
+					</h:panelGrid>
+				</h:panelGrid>
+				<p:blockUI block="panelBotoesCliente" trigger="btnSalvarCliente" />
+			</h:form>
+		</p:dialog>
+
+
+		<!-- Dialog novo fornecedor -->
+		<p:dialog widgetVar="dialogNovoCliente" header="Novo fornecedor"
+			modal="true" appendTo="@(body)" resizable="false" position="top"
+			width="600" closable="false">
+			<h:form id="formNovoCliente">
+				<p:tabView activeIndex="#{fornecedorController.currentTab}">
+					<p:tab title="Dados básicos">
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="." style="color: white;" />
+								<p:commandButton icon="ui-icon-search"
+									value="Preencher via CNPJ"
+									oncomplete="PF('dialog_procurar_cnpj').show();"
+									update=":formProcurarCnpj" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Nome fantasia" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.nomeFantasia}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Telefone" />
+								<p:inputMask style="width: 244px;"
+									value="#{fornecedorController.fornecedor.telefone}"
+									mask="(99) 9999-9999" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Celular" />
+								<p:inputMask style="width: 244px;"
+									value="#{fornecedorController.fornecedor.celular}"
+									mask="(99) 99999-9999" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="E-mail" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.email}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Site" />
+								<p:inputText style="width: 500px; color: blue;"
+									value="#{fornecedorController.fornecedor.site}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<!-- <h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Atividade" />
+								<p:selectOneMenu style="width: 100px;"
+									value="#{fornecedorController.fornecedor.atividade}">
+									<f:selectItems var="at"
+										value="#{fornecedorController.atividades}"
+										itemLabel="#{at.atividade}" itemValue="#{at}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</h:panelGrid> -->
+					</p:tab>
+					<p:tab title="Dados complementares">
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Razão social" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.razaoSocial}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="CNPJ" />
+								<p:inputMask mask="99.999.999/9999-99" style="width: 500px;"
+									value="#{fornecedorController.fornecedor.cnpj}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="3">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Tipo de empresa" />
+								<p:inputText
+									value="#{fornecedorController.fornecedor.tipoEmpresa}"
+									style="width: 140px;" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Insc. Estadual" />
+								<p:inputText
+									value="#{fornecedorController.fornecedor.inscEstadual}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Insc. Municipal" />
+								<p:inputText
+									value="#{fornecedorController.fornecedor.inscMunicipal}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Horário de Funcionamento" />
+								<p:inputTextarea style="width: 500px;"
+									value="#{fornecedorController.fornecedor.horarioFuncionamento}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Observação" />
+								<p:inputTextarea style="width: 500px;"
+									value="#{fornecedorController.fornecedor.observacao}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+
+						<!-- <p:outputLabel value="Logo" />
+							<p:fieldset>
+								<p:fileUpload mode="advanced" dragDropSupport="false"
+									sizeLimit="100000" fileLimit="3"
+									allowTypes="/(\.|\/)(gif|jpe?g|png)$/" cancelLabel="Cancelar"
+									label="Procurar" />
+							</p:fieldset> -->
+
+					</p:tab>
+					<p:tab title="Endereço" id="tabEndereco">
+						<h:panelGrid columns="3">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Cep" />
+								<p:inputMask mask="99999-999"
+									value="#{fornecedorController.fornecedor.cep}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="." style="color: white;" />
+								<p:commandButton id="button1" icon="ui-icon-circle-zoomout"
+									update=":msgGlobal panelEndereco1 panelEndereco2 panelEndereco3"
+									actionListener="#{fornecedorController.consultarCep}" />
+								<p:tooltip for="button1"
+									value="Cliquei para consultar o CEP automaticamente nos correios!"
+									position="top" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="." style="color: white;" />
+								<p:commandLink value="Não sabe o CEP ? Clique aqui!" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+						<h:panelGrid columns="2" id="panelEndereco1">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Logradouro" />
+								<p:inputText style="width: 270px;"
+									value="#{fornecedorController.fornecedor.logradouro}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Número" />
+								<p:inputText style="width: 250px;"
+									value="#{fornecedorController.fornecedor.numero}" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+						<h:panelGrid columns="2" id="panelEndereco2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Complemento" />
+								<p:inputText style="width: 270px;"
+									value="#{fornecedorController.fornecedor.complemento}" />
+							</h:panelGrid>
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Bairro" />
+								<p:inputText style="width: 250px;"
+									value="#{fornecedorController.fornecedor.bairro}" />
+							</h:panelGrid>
+						</h:panelGrid>
+						<h:panelGrid columns="3" id="panelEndereco3">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Cidade" />
+								<p:inputText style="width: 270px;"
+									value="#{fornecedorController.fornecedor.cidade}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="UF" />
+								<p:selectOneMenu filter="true" filterMatchMode="startsWith"
+									converter="omnifaces.SelectItemsConverter"
+									value="#{fornecedorController.fornecedor.unidadeFederativa}">
+									<f:selectItems var="uf"
+										value="#{fornecedorController.unidadesFederativas}"
+										itemLabel="#{uf.unidadeFederativa}" itemValue="#{uf}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Código IBGE" />
+								<p:inputText style="width: 100px;" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+
+						<p:blockUI block="tabEndereco" trigger="button1">
+								        Carregando! Aguarde...<br />
+							<p:graphicImage library="img" name="loading.gif" />
+						</p:blockUI>
+					</p:tab>
+					<p:tab title="Redes Sociais">
+						<h:panelGrid columns="1">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Facebook" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.facebook}" />
+							</h:panelGrid>
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Twitter" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.twitter}" />
+							</h:panelGrid>
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Linkdin" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.linkdin}" />
+							</h:panelGrid>
+							<h:panelGrid columns="1">
+								<p:outputLabel value="YouTube" />
+								<p:inputText style="width: 500px;"
+									value="#{fornecedorController.fornecedor.youtube}" />
+							</h:panelGrid>
+						</h:panelGrid>
+					</p:tab>
+				</p:tabView>
+				<h:panelGrid id="panelBotoesNovoCliente" columns="2">
+					<h:panelGrid columns="2">
+						<p:commandButton id="btnSalvarNovoCliente" value="Salvar"
+							icon="ui-icon-check" action="#{fornecedorController.salvar}"
+							update=":msgGlobal :formGeralCliente:tableCliente" />
+						<p:commandButton value="Cancelar" icon="ui-icon-close"
+							oncomplete="PF('dialogNovoCliente').hide();" />
+					</h:panelGrid>
+				</h:panelGrid>
+				<p:blockUI block="panelBotoesNovoCliente"
+					trigger="btnSalvarNovoCliente" />
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dialog_procurar_cnpj" minimizable="false"
+			draggable="false" resizable="false" header="Carregar Cnpj"
+			modal="true" appendTo="@(body)">
+			<h:form id="formProcurarCnpj">
+				<p:panelGrid columns="1">
+					<p:outputLabel value="Cnpj" />
+					<p:inputMask mask="99.999.999/9999-99"
+						value="#{fornecedorController.fornecedor.cnpj}" />
+				</p:panelGrid>
+				<p:panelGrid columns="2">
+					<p:commandButton id="btnCarregarCNPJ" value="Carregar"
+						icon="ui-icon-refresh"
+						actionListener="#{fornecedorController.consultarCnpj}"
+						update=":msgGlobal :formNovoCliente :formEditarCliente" />
+					<p:commandButton value="Cancelar" icon="ui-icon-closethick"
+						oncomplete="PF('dialog_procurar_cnpj').hide();" />
+				</p:panelGrid>
+				<p:blockUI block="formProcurarCnpj" trigger="btnCarregarCNPJ">
+			        Carregando! Aguarde...<br />
+					<p:graphicImage library="img" name="loading.gif" />
+				</p:blockUI>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>
+
+</html>
