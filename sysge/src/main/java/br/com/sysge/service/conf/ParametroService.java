@@ -45,7 +45,7 @@ public class ParametroService extends GenericDaoImpl<Parametro, Long>{
 		
 	}
 	
-	private boolean verificarParametroEstoqueNegativo(){
+	public boolean verificarParametroEstoqueNegativo(){
 		for(Parametro p : super.findAll()){
 			if(p.isPermitirQtdeNegativaEstoque()){
 				return true;

@@ -170,7 +170,8 @@ public class OrdemServicoController implements Serializable {
 	public void produtoSelecionado(SelectEvent event){
 		this.produto = (Produto) event.getObject();
 		if(parametroService.verificarParametroEstoqueNegativo(this.produto)){
-			FacesUtil.mensagemWarn("O produto se encontra com estoque igual a ZERO, não é permitido adicionar o produto, "
+			FacesUtil.mensagemWarn("O produto '"+this.produto.getDescricaoProduto()+"' "
+					+ "se encontra com estoque igual a "+this.produto.getQuantidadeEstoque()+", não é permitido adicionar o produto, "
 					+ "para permitir essa ação desmarque o parâmetro do sistema.");
 		}else{
 			if(produtoOrdemServicoService.verificarSeExisteProdutoNaTabela(listaProdutos, produto)){
@@ -283,6 +284,24 @@ public class OrdemServicoController implements Serializable {
 	}
 	
 	public void calcularValorProduto(){
+		
+			if(this.quantidadeAdicionada >= produtoOrdemServico.getProduto().getQuantidadeEstoque()){
+				if(parametroService.verificarParametroEstoqueNegativo()){
+					FacesUtil.mensagemWarn("Não é possível adicionar a quantidade '"+this.quantidadeAdicionada+"' "
+							+ "para o produto '"+produtoOrdemServico.getProduto().getDescricaoProduto()+" "
+							+ "pois o mesmo possui a quantidade de estoque = "+produtoOrdemServico.getProduto().getQuantidadeEstoque()+" "
+							+ "verifique os parâmetros do sistema "
+							+ "e tente novamente!");
+					return;
+				}
+			}
+		
+			if(parametroService.verificarParametroEstoqueNegativo(produtoOrdemServico.getProduto())){
+				FacesUtil.mensagemWarn("O produto '"+produtoOrdemServico.getProduto().getDescricaoProduto()+"' "
+						+ "se encontra com estoque igual a "+produtoOrdemServico.getProduto().getQuantidadeEstoque()+", não é permitido adicionar o produto, "
+						+ "para permitir essa ação desmarque o parâmetro do sistema.");
+				return;
+			}
 
 		if(quantidadeAdicionada == 0L){
 			FacesUtil.mensagemWarn("A quantidade é obrigatório!");
@@ -370,6 +389,7 @@ public class OrdemServicoController implements Serializable {
 	
 	public void confirmarSalvamentoOS(){
 		salvarOrdemServico();
+		RequestContextUtil.execute("PF('dialog_confirmacao_valor_parcelas').hide()");
 	}
 	
 	private void salvarOS(){
@@ -385,23 +405,23 @@ public class OrdemServicoController implements Serializable {
 			List<ProdutoOrdemServico> listaProdutoOS = produtoOrdemServicoService.findByListProperty(ordemServico.getId(), "ordemServico.id");
 			
 			for(ProdutoOrdemServico listProduto : listaProdutos){
-				List<ProdutoOrdemServico> prodBd = produtoOrdemServicoService.findByListProperty(listProduto.getProduto().getId(), "produto.id");
-				if(listaProdutoOS.isEmpty()){
-					subtrairQuantidadeEstoqueProduto(listProduto);
-				}else{
-					if(prodBd.isEmpty()){
+					List<ProdutoOrdemServico> prodBd = produtoOrdemServicoService.findByListProperty(listProduto.getProduto().getId(), "produto.id");
+					if(listaProdutoOS.isEmpty()){
 						subtrairQuantidadeEstoqueProduto(listProduto);
 					}else{
-						for(ProdutoOrdemServico ps : listaProdutoOS){
-							if(ps.getProduto().getId() == listProduto.getProduto().getId()){
-								if(ps.getQuantidade() != listProduto.getQuantidade()){
-									subtrairQuantidadeEstoqueProduto(listProduto, ps);
+						if(prodBd.isEmpty()){
+							subtrairQuantidadeEstoqueProduto(listProduto);
+						}else{
+							for(ProdutoOrdemServico ps : listaProdutoOS){
+								if(ps.getProduto().getId() == listProduto.getProduto().getId()){
+									if(ps.getQuantidade() != listProduto.getQuantidade()){
+										subtrairQuantidadeEstoqueProduto(listProduto, ps);
+									}
 								}
 							}
 						}
 					}
-				}
-				produtoOrdemServicoService.save(listProduto);
+					produtoOrdemServicoService.save(listProduto);
 			}
 			for(ServicoOrdemServico sos : listaServicos){
 				servicoOrdemServicoService.save(sos);
