@@ -9,13 +9,18 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </h:head>
 
+
 <ui:composition template="/template/template.xhtml">
+
+
 	<ui:define name="conteudo">
 		<h:form>
+		<f:event listener="#{dashboardController.verificarParametroSistema}" type="preRenderView"/>
 
 			<p:dashboard id="board" model="#{dashboardController.model}">
 				<p:panel id="osAbertas"
-					header="Ordem de serviços 'Abertas' ou 'Em Andamento'">
+					header="Ordem de serviços 'Abertas' ou 'Em Andamento'"
+					rendered="#{dashboardController.parametro.mostrarListagemOSTelaInicial}">
 					<p:dataTable emptyMessage="Nenhuma ordem de serviço encontrada!"
 						var="os" value="#{ordemServicoController.ordensServicosAbertas}"
 						paginator="true" paginatorPosition="bottom" rows="4">
@@ -57,7 +62,7 @@
 				</p:panel>
 
 				<p:panel id="produtoEstoqMinimo"
-					header="Produtos com estoque mínimo">
+					header="Produtos com estoque mínimo" rendered="#{dashboardController.parametro.mostrarListagemEstoqueNegativoTelaInicial}">
 					<p:dataTable emptyMessage="Nenhum registro encontrado!" var="p"
 						value="#{produtoController.produtosEstoqueMinimo}" paginator="true"
 						paginatorPosition="bottom" rows="4">
