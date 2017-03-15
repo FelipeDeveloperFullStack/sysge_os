@@ -14,7 +14,6 @@ import javax.inject.Named;
 import org.primefaces.event.SelectEvent;
 
 import br.com.sysge.controller.sys.TemplateViewPage;
-import br.com.sysge.model.conf.Parametro;
 import br.com.sysge.model.estoque.Produto;
 import br.com.sysge.model.financ.CondicaoPagamento;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
