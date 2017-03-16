@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-15T13:16:34 -->
+<!-- 2017-03-16T12:36:39 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_ordem_servico" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e6c48e67-078d-4383-8a87-6c65fbbe652f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<queryString>
@@ -10,24 +10,126 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="90" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="30" width="100" height="20" uuid="0fa13996-1e50-4e4c-8b91-311c3e1581a6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[QualyData]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="50" width="100" height="20" uuid="0542e63e-4f7f-4d10-8651-1723cb689d15"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[062 99455-4488]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="455" y="30" width="100" height="50" backcolor="#EDEDED" uuid="bd1e6473-6d22-4893-9a06-6019e5b20fab"/>
+				<graphicElement>
+					<pen lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="467" y="30" width="30" height="20" uuid="b6d0caec-d36d-4243-be27-f75f8e26b5e4"/>
+				<box>
+					<pen lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Valor:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="467" y="51" width="23" height="20" uuid="daf60027-53f6-43e4-b046-d3d06796a28a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[R$]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="51" width="54" height="20" uuid="112c6a64-15d7-47d5-ae54-74e4b4daf6c4"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[215,00]]></text>
+			</staticText>
+		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band splitType="Stretch">
+			<rectangle>
+				<reportElement x="-20" y="-86" width="595" height="26" backcolor="#F0F0F0" uuid="ea3bdb51-3407-47ee-b371-717af41d5036"/>
+				<graphicElement>
+					<pen lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="160" y="-86" width="240" height="20" uuid="aab35659-8654-4528-8cc5-08f760a02a3b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECIBO DE PAGAMENTO]]></text>
+			</staticText>
+		</band>
 	</pageHeader>
-	<columnHeader>
-		<band height="61" splitType="Stretch"/>
-	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="125" splitType="Stretch">
+			<line>
+				<reportElement x="-20" y="0" width="595" height="1" uuid="5e63a8f7-a838-4f72-b63f-1141daea1f50"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<rectangle>
+				<reportElement x="-20" y="98" width="595" height="26" backcolor="#F0F0F0" uuid="9183694d-896e-4de7-95ce-517c96d310ab"/>
+				<graphicElement>
+					<pen lineColor="#FFFFFF"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="475" y="98" width="100" height="27" uuid="f6385125-7810-4c35-aa28-7677c4b1567b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Recibo N.º 275559]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="180" height="19" uuid="84423888-f661-42f0-8afb-e71d2a2069c0"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Declaro para todos os fins que recebi de ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="182" y="0" width="373" height="19" uuid="130251eb-f9fc-468d-9d2f-00667ff500f3"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Felipe Miguel dos Santos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="19" width="100" height="19" uuid="ad9c95dc-3870-4d41-b6d2-e8cdebf7e9ad"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[CPF: 798.654.789-40,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="19" width="80" height="19" uuid="8159e679-dcf5-4609-a156-c42e122946f2"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[a quantia de R$]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="174" y="19" width="46" height="19" uuid="d2c2fa3f-d566-4569-9ee3-9342798d05d7"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[215,00]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="19" width="46" height="19" uuid="e9a5a013-fcd5-40ef-8b28-061086a16583"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[215,00]]></text>
+			</staticText>
+		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</summary>
 </jasperReport>
