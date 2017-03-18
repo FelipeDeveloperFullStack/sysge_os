@@ -374,6 +374,7 @@ public class OrdemServicoController implements Serializable {
 					salvarOrdemServico();
 				}
 			}
+			
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			FacesUtil.mensagemErro(e.getMessage());
@@ -526,6 +527,10 @@ public class OrdemServicoController implements Serializable {
 			ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
 			ordemServicoService.salvar(ordemServico);
 		}
+	}
+	
+	public void gerarComprovantePagamento(){
+		ordemServicoService.gerarComprovantePagamento();
 	}
 	
 	public void setarTabIndex(int tabIndex) {

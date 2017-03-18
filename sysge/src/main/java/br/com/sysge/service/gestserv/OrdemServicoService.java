@@ -1,16 +1,10 @@
 package br.com.sysge.service.gestserv;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.gestserv.OrdemServico;
@@ -18,13 +12,13 @@ import br.com.sysge.model.gestserv.ProdutoOrdemServico;
 import br.com.sysge.model.gestserv.ServicoOrdemServico;
 import br.com.sysge.service.estoque.ProdutoService;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 
@@ -106,36 +100,19 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		return listaOS;
 	}
 	
-	public static void main(String[] args) {
-		new OrdemServicoService().gerarRelatorioOrdemServico();
-	}
-	
-	public StreamedContent gerarRelatorioOrdemServico(){
-		InputStream relatorio = null;
+	public void gerarComprovantePagamento(){
 		try {
-			ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-			JasperReport jasperReport = (JasperReport)JRLoader.loadObject(getClass().getClassLoader().getResourceAsStream("r_ordem_servico.jasper"));
+			 JasperReport jasperReport = (JasperReport)JRLoader.loadObject(getClass().getClassLoader().getResourceAsStream("br/com/sysge/relatorios/r_ordem_servico.jasper"));
 			 jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
-
 		     HashMap<String, Integer> params = new HashMap<String, Integer>();
-		     JasperPrint print = JasperFillManager.fillReport(jasperReport, params);
-
-		     JRExporter exporter = new net.sf.jasperreports.engine.export.JRPdfExporter();
-		     //JRExporter exporter = new net.sf.jasperreports.engine.export.JRHtmlExporter();
-		     //JRExporter exporter = new net.sf.jasperreports.engine.export.JRXlsExporter();
-		     //JRExporter exporter = new net.sf.jasperreports.engine.export.JRXmlExporter();
-		     //JRExporter exporter = new net.sf.jasperreports.engine.export.JRCsvExporter();
-
-		     //exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, pdfFile);
-		     exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, byteArray);
-		     exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
-		     exporter.exportReport();
-
-		     relatorio = new ByteArrayInputStream(byteArray.toByteArray());
+		     JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(super.findAll());
+		     JasperPrint print = JasperFillManager.fillReport(jasperReport, params, beanCollectionDataSource);
+		     
+		     JasperViewer viewer = new JasperViewer(print, false);
+		     viewer.setVisible(true);
 		} catch (JRException e) {
 			e.printStackTrace();
 		}
-		return new DefaultStreamedContent(relatorio);
 	}
 	
 }
