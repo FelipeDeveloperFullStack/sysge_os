@@ -175,7 +175,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>3.7.4</version>
+			<version>5.5.0</version>
 		</dependency>
 
 		<dependency>
@@ -203,15 +203,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.beanshell</groupId>
-			<artifactId>bsh</artifactId>
-			<version>2.0b4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.lowagie</groupId>
-			<artifactId>itext</artifactId>
-			<version>2.1.7</version>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.11</version>
 		</dependency>
 
 		<dependency>

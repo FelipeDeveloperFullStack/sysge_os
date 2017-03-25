@@ -14,18 +14,24 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.JRTextExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 public class ReportFactory {
 
 	private String reportName;
-	private Map<?, ?> params;
+	private Map<String, Object> params;
 	private TiposRelatorio tipoRelatorio;
 	private List<?> list;
 
-	public ReportFactory(String ReportName, Map<?, ?> params, TiposRelatorio tipoRelatorio, List<?> list) {
+	public ReportFactory(String ReportName, Map<String, Object> params, TiposRelatorio tipoRelatorio, List<?> list) {
 		this.reportName = ReportName;
 		this.params = params;
 		this.tipoRelatorio = tipoRelatorio;
@@ -37,7 +43,7 @@ public class ReportFactory {
 		this.tipoRelatorio = tipoRelatorio;
 	}
 	
-	public ReportFactory(String ReportName, Map<?, ?> params, TiposRelatorio tipoRelatorio) {
+	public ReportFactory(String ReportName, Map<String, Object> params, TiposRelatorio tipoRelatorio) {
 		this.reportName = ReportName;
 		this.params = params;
 		this.tipoRelatorio = tipoRelatorio;
@@ -57,26 +63,26 @@ public class ReportFactory {
 
 			JasperPrint print = JasperFillManager.fillReport(jasperReport, params, datasource);
 			JRExporter exporter = null;
-
+			
 			if (tipoRelatorio == TiposRelatorio.PDF)
-				exporter = new net.sf.jasperreports.engine.export.JRPdfExporter();
+				exporter = new JRPdfExporter();
 
 			if (tipoRelatorio == TiposRelatorio.HTML) {
-				exporter = new net.sf.jasperreports.engine.export.JRHtmlExporter();
+				exporter = new JRHtmlExporter();
 				exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, false);
 			}
 
 			if (tipoRelatorio == TiposRelatorio.XLS)
-				exporter = new net.sf.jasperreports.engine.export.JRXlsExporter();
+				exporter = new JRXlsExporter();
 
 			if (tipoRelatorio == TiposRelatorio.CVS)
-				exporter = new net.sf.jasperreports.engine.export.JRCsvExporter();
+				exporter = new JRCsvExporter();
 
 			if (tipoRelatorio == TiposRelatorio.TXT)
-				exporter = new net.sf.jasperreports.engine.export.JRTextExporter();
+				exporter = new JRTextExporter();
 
 			if (tipoRelatorio == TiposRelatorio.RTF)
-				exporter = new net.sf.jasperreports.engine.export.JRRtfExporter();
+				exporter = new JRRtfExporter();
 
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, output);
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
