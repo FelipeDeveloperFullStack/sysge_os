@@ -858,10 +858,14 @@
 							<p:column style="text-align:center;">
 								<p:commandButton id="btn_pago" icon="ui-icon-check"
 									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
+									
 								<p:commandButton id="btn_boleto" icon="ui-icon-bookmark"
 									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
+									
 								<p:commandButton id="btn_comprovante" icon="ui-icon-print"
-									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
+									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" ajax="false">
+									<p:fileDownload value="#{ordemServicoController.gerarComprovantePagamento}"/>
+								</p:commandButton>	
 
 								<p:tooltip for="btn_pago" position="left" value="Pago ?" />
 								<p:tooltip for="btn_boleto" position="left" value="Gerar boleto" />

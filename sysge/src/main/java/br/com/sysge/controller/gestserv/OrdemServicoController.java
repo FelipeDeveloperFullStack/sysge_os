@@ -1,5 +1,6 @@
 package br.com.sysge.controller.gestserv;
 
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import br.com.sysge.controller.sys.TemplateViewPage;
 import br.com.sysge.model.estoque.Produto;
@@ -529,8 +532,14 @@ public class OrdemServicoController implements Serializable {
 		}
 	}
 	
-	public void gerarComprovantePagamento(){
-		ordemServicoService.gerarComprovantePagamento();
+	public StreamedContent getGerarComprovantePagamento(){
+		try {
+			return ordemServicoService.gerarComprovantePagamento();
+		} catch (FileNotFoundException e) {
+			FacesUtil.mensagemErro(e.getMessage());
+			e.printStackTrace();
+		}
+		return new DefaultStreamedContent();
 	}
 	
 	public void setarTabIndex(int tabIndex) {

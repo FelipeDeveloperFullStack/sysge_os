@@ -1,24 +1,22 @@
 package br.com.sysge.service.gestserv;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
+import br.com.sysge.infraestrutura.relatorios.ReportFactory;
+import br.com.sysge.infraestrutura.relatorios.TiposRelatorio;
 import br.com.sysge.model.gestserv.OrdemServico;
 import br.com.sysge.model.gestserv.ProdutoOrdemServico;
 import br.com.sysge.model.gestserv.ServicoOrdemServico;
 import br.com.sysge.service.estoque.ProdutoService;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
 
 public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 
@@ -100,19 +98,13 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		return listaOS;
 	}
 	
-	public void gerarComprovantePagamento(){
-		try {
-			 JasperReport jasperReport = (JasperReport)JRLoader.loadObject(getClass().getClassLoader().getResourceAsStream("br/com/sysge/relatorios/r_ordem_servico.jasper"));
-			 jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
-		     HashMap<String, Integer> params = new HashMap<String, Integer>();
-		     JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(super.findAll());
-		     JasperPrint print = JasperFillManager.fillReport(jasperReport, params, beanCollectionDataSource);
-		     
-		     JasperViewer viewer = new JasperViewer(print, false);
-		     viewer.setVisible(true);
-		} catch (JRException e) {
-			e.printStackTrace();
-		}
+	public StreamedContent gerarComprovantePagamento() throws FileNotFoundException{
+		
+		 HashMap<String, Object> params = new HashMap<String, Object>();
+	     params.put("VALOR", "500,00");
+	     
+	     ReportFactory reportFactory = new ReportFactory("r_comprovante_pagamento.jasper", params, TiposRelatorio.PDF);
+	     return new DefaultStreamedContent(reportFactory.getReportStream(), "" , "comprovante_de_pagamento.pdf");
 	}
 	
 }
