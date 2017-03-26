@@ -13,8 +13,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
 import br.com.sysge.controller.sys.TemplateViewPage;
 import br.com.sysge.model.estoque.Produto;
@@ -532,14 +530,13 @@ public class OrdemServicoController implements Serializable {
 		}
 	}
 	
-	public StreamedContent gerarComprovantePagamento(ParcelasPagamentoOs parcelasPagamentoOs){
+	public void gerarComprovantePagamento(ParcelasPagamentoOs parcelasPagamentoOs){
 		try {
-			return ordemServicoService.gerarComprovantePagamento(parcelasPagamentoOs);
+			ordemServicoService.gerarComprovantePagamento(parcelasPagamentoOs);
 		} catch (FileNotFoundException e) {
 			FacesUtil.mensagemErro(e.getMessage());
 			e.printStackTrace();
 		}
-		return new DefaultStreamedContent();
 	}
 	
 	public void setarTabIndex(int tabIndex) {

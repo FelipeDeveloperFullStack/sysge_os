@@ -864,7 +864,7 @@
 									
 								<p:commandButton id="btn_comprovante" icon="ui-icon-print"
 									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" ajax="false"
-									action="#{ordemServicoController.gerarComprovantePagamento(p)}">
+									actionListener="#{ordemServicoController.gerarComprovantePagamento(p)}">
 								</p:commandButton>	
 
 								<p:tooltip for="btn_pago" position="left" value="Pago ?" />

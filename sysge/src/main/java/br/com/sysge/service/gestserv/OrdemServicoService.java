@@ -9,10 +9,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-
-
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.infraestrutura.relatorios.ReportFactory;
 import br.com.sysge.infraestrutura.relatorios.TiposRelatorio;
@@ -37,6 +33,16 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 
 	@Inject
 	private ProdutoService produtoService;
+	
+	private static String NUMERO_RECIDO = "numero_recibo";
+	private static String VALOR_OS = "valor_os";
+	private static String VALOR_PARCELA = "valor_parcela";
+	private static String RAZAO_SOCIAL_UNIDADE_EMPRESARIAL = "razao_social_unidade_empresarial";
+	private static String TELEFONE_UNIDADE_EMPRESARIAL = "telefone_unidade_empresarial";
+	private static String NOME_CLIENTE = "nome_cliente";
+	private static String DOCUMENTO = "documento";
+	private static String NUMERO_PARCELA = "numero_parcela";
+	private static String NUMERO_OS = "numero_os";
 	
 	public OrdemServico salvar(OrdemServico ordemServico) {
 		try {
@@ -102,24 +108,25 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		return listaOS;
 	}
 	
-	public StreamedContent gerarComprovantePagamento(ParcelasPagamentoOs parcela) throws FileNotFoundException{
+	public void gerarComprovantePagamento(ParcelasPagamentoOs parcela) throws FileNotFoundException{
 		
 		 HashMap<String, Object> params = new HashMap<String, Object>();
 		 Calendar c = Calendar.getInstance();
 		 DecimalFormat df = new DecimalFormat("###,###0.00");
 		 
-	     params.put("numero_recibo", String.valueOf(c.get(Calendar.YEAR)) + String.valueOf(parcela.getOrdemServico().getId()) + String.valueOf(parcela.getNumero()));
-	     params.put("valor_os", df.format(parcela.getOrdemServico().getTotal()));
-	     params.put("valor_parcela", df.format(parcela.getValorCobrado()));
-	     params.put("razao_social_unidade_empresarial", "NovaTech Informática");
-	     params.put("telefone_unidade_empresarial", "(62) 3545-9877");
-	     params.put("nome_cliente", parcela.getOrdemServico().getCliente().getNomeDaPessoaFisica());
-	     params.put("documento", String.valueOf(parcela.getOrdemServico().getCliente().getCpf()));
-	     params.put("numero_parcela", String.valueOf(parcela.getNumero()+ "º"));
-	     params.put("numero_os", String.valueOf(parcela.getOrdemServico().getId()));
+	     params.put(NUMERO_RECIDO, String.valueOf(c.get(Calendar.YEAR)) + String.valueOf(parcela.getOrdemServico().getId()) + String.valueOf(parcela.getNumero()));
+	     params.put(VALOR_OS, df.format(parcela.getOrdemServico().getTotal()));
+	     params.put(VALOR_PARCELA, df.format(parcela.getValorCobrado()));
+	     params.put(RAZAO_SOCIAL_UNIDADE_EMPRESARIAL, "NovaTech Informática");
+	     params.put(TELEFONE_UNIDADE_EMPRESARIAL, "(62) 3545-9877");
+	     params.put(NOME_CLIENTE, parcela.getOrdemServico().getCliente().getNomeDaPessoaFisica());
+	     params.put(DOCUMENTO, String.valueOf(parcela.getOrdemServico().getCliente().getCpf()));
+	     params.put(NUMERO_PARCELA, String.valueOf(parcela.getNumero()+ "º"));
+	     params.put(NUMERO_OS, String.valueOf(parcela.getOrdemServico().getId()));
 	     
 	     ReportFactory reportFactory = new ReportFactory("r_comprovante_pagamento.jasper", params, TiposRelatorio.PDF);
-	     return new DefaultStreamedContent(reportFactory.getReportStream(), "" , "comprovante_de_pagamento.pdf");
+	     //return new DefaultStreamedContent(reportFactory.getReportStream(), "" , "comprovante_de_pagamento.pdf");
+	     reportFactory.getReportStream();
 	}
 	
 }
