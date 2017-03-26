@@ -863,8 +863,8 @@
 									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
 									
 								<p:commandButton id="btn_comprovante" icon="ui-icon-print"
-									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" ajax="false">
-									<p:fileDownload value="#{ordemServicoController.gerarComprovantePagamento(p)}"/>
+									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" ajax="false"
+									action="#{ordemServicoController.gerarComprovantePagamento(p)}">
 								</p:commandButton>	
 
 								<p:tooltip for="btn_pago" position="left" value="Pago ?" />
@@ -923,7 +923,7 @@
 				</p:fieldset>
 			</h:form>
 		</p:dialog>
-
+		
 		<p:dialog header="Adicione a quantidade!" closable="false"
 			draggable="false" resizable="false" maximizable="false"
 			widgetVar="dialog_quantidade_estoque_produto" modal="true"
