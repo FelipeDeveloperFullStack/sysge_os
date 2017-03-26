@@ -1,7 +1,9 @@
 package br.com.sysge.service.gestserv;
 
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,9 +12,11 @@ import javax.inject.Inject;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.infraestrutura.relatorios.ReportFactory;
 import br.com.sysge.infraestrutura.relatorios.TiposRelatorio;
+import br.com.sysge.model.financ.ParcelasPagamentoOs;
 import br.com.sysge.model.gestserv.OrdemServico;
 import br.com.sysge.model.gestserv.ProdutoOrdemServico;
 import br.com.sysge.model.gestserv.ServicoOrdemServico;
@@ -98,10 +102,21 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		return listaOS;
 	}
 	
-	public StreamedContent gerarComprovantePagamento() throws FileNotFoundException{
+	public StreamedContent gerarComprovantePagamento(ParcelasPagamentoOs parcela) throws FileNotFoundException{
 		
 		 HashMap<String, Object> params = new HashMap<String, Object>();
-	     params.put("VALOR", "500,00");
+		 Calendar c = Calendar.getInstance();
+		 DecimalFormat df = new DecimalFormat("###,###0.00");
+		 
+	     params.put("numero_recibo", String.valueOf(c.get(Calendar.YEAR)) + String.valueOf(parcela.getOrdemServico().getId()) + String.valueOf(parcela.getNumero()));
+	     params.put("valor_os", df.format(parcela.getOrdemServico().getTotal()));
+	     params.put("valor_parcela", df.format(parcela.getValorCobrado()));
+	     params.put("razao_social_unidade_empresarial", "NovaTech Informática");
+	     params.put("telefone_unidade_empresarial", "(62) 3545-9877");
+	     params.put("nome_cliente", parcela.getOrdemServico().getCliente().getNomeDaPessoaFisica());
+	     params.put("documento", String.valueOf(parcela.getOrdemServico().getCliente().getCpf()));
+	     params.put("numero_parcela", String.valueOf(parcela.getNumero()+ "º"));
+	     params.put("numero_os", String.valueOf(parcela.getOrdemServico().getId()));
 	     
 	     ReportFactory reportFactory = new ReportFactory("r_comprovante_pagamento.jasper", params, TiposRelatorio.PDF);
 	     return new DefaultStreamedContent(reportFactory.getReportStream(), "" , "comprovante_de_pagamento.pdf");
