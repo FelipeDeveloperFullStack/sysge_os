@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-25T23:07:50 -->
+<!-- 2017-03-27T22:51:04 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_comprovante_pagamento" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0d3fb848-00b4-495a-b966-3ce4698c96ff">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="numero_recibo" class="java.lang.String"/>
@@ -13,6 +13,7 @@
 	<parameter name="telefone_unidade_empresarial" class="java.lang.String"/>
 	<parameter name="numero_por_extenso" class="java.lang.String"/>
 	<parameter name="valor_parcela" class="java.lang.String"/>
+	<parameter name="numero_extenso" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -98,13 +99,6 @@
 				<text><![CDATA[a quantia de R$]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="295" y="80" width="239" height="20" uuid="04153a69-09eb-4fe0-8f81-b8c2624d18de"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[(duzentos e quize reais),]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="0" y="101" width="79" height="20" uuid="97c44205-40bd-498c-9d56-6197b156c7fa"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
@@ -119,14 +113,14 @@
 				<text><![CDATA[parcela da ordem de serviço]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="277" y="101" width="78" height="20" uuid="9746e3f7-b4b9-4db5-a06b-e00dd0679141"/>
+				<reportElement x="283" y="101" width="78" height="20" uuid="9746e3f7-b4b9-4db5-a06b-e00dd0679141"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[emitida em ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="355" y="101" width="76" height="20" uuid="c57693c7-70cb-4b73-9445-d971b86d31b5"/>
+				<reportElement x="361" y="101" width="76" height="20" uuid="c57693c7-70cb-4b73-9445-d971b86d31b5"/>
 				<textElement verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
@@ -200,6 +194,13 @@
 					<font size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{nome_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="80" width="274" height="20" uuid="2d950662-0757-4a51-a5b9-ca72cfce1a2f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["("+$P{numero_extenso}+")"]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

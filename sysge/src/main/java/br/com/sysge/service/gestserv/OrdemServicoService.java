@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
+import br.com.sysge.infraestrutura.decimal.ConverteNumeroExtensoReal;
 import br.com.sysge.infraestrutura.relatorios.ReportFactory;
 import br.com.sysge.infraestrutura.relatorios.TiposRelatorio;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
@@ -21,6 +22,8 @@ import br.com.sysge.service.estoque.ProdutoService;
 public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 
 	private static final long serialVersionUID = 6697038638256448464L;
+	
+	private ConverteNumeroExtensoReal converteNumeroExtensoReal;
 
 	@Inject
 	private ServicoOrdemServicoService servicoOrdemServicoService;
@@ -43,6 +46,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	private static String DOCUMENTO = "documento";
 	private static String NUMERO_PARCELA = "numero_parcela";
 	private static String NUMERO_OS = "numero_os";
+	private static String NUMERO_EXTENSO = "numero_extenso";
 	
 	public OrdemServico salvar(OrdemServico ordemServico) {
 		try {
@@ -110,6 +114,8 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	
 	public void gerarComprovantePagamento(ParcelasPagamentoOs parcela) throws FileNotFoundException{
 		
+		converteNumeroExtensoReal = new ConverteNumeroExtensoReal();
+		
 		 HashMap<String, Object> params = new HashMap<String, Object>();
 		 Calendar c = Calendar.getInstance();
 		 DecimalFormat df = new DecimalFormat("###,###0.00");
@@ -123,6 +129,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	     params.put(DOCUMENTO, String.valueOf(parcela.getOrdemServico().getCliente().getCpf()));
 	     params.put(NUMERO_PARCELA, String.valueOf(parcela.getNumero()+ "º"));
 	     params.put(NUMERO_OS, String.valueOf(parcela.getOrdemServico().getId()));
+	     params.put(NUMERO_EXTENSO, converteNumeroExtensoReal.converterNumeroParaExtensoReal(parcela.getValorCobrado()));
 	     
 	     ReportFactory reportFactory = new ReportFactory("r_comprovante_pagamento.jasper", params, TiposRelatorio.PDF);
 	     //return new DefaultStreamedContent(reportFactory.getReportStream(), "" , "comprovante_de_pagamento.pdf");

@@ -536,6 +536,8 @@ public class OrdemServicoController implements Serializable {
 		} catch (FileNotFoundException e) {
 			FacesUtil.mensagemErro(e.getMessage());
 			e.printStackTrace();
+		}finally {
+			parcelasPagamentoOs = new ParcelasPagamentoOs();
 		}
 	}
 	
