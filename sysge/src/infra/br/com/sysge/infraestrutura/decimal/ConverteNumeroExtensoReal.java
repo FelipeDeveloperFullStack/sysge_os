@@ -8,8 +8,6 @@ import br.com.caelum.stella.inwords.NumericToWordsConverter;
 
 /**
  * https://github.com/caelum/caelum-stella/wiki/Numeros-por-extenso-core
- * @author Felipe
- *
  */
 public class ConverteNumeroExtensoReal {
 

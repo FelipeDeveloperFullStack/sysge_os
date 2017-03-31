@@ -535,9 +535,18 @@ public class OrdemServicoController implements Serializable {
 			ordemServicoService.gerarComprovantePagamento(parcelasPagamentoOs);
 		} catch (FileNotFoundException e) {
 			FacesUtil.mensagemErro(e.getMessage());
-			e.printStackTrace();
 		}finally {
 			parcelasPagamentoOs = new ParcelasPagamentoOs();
+		}
+	}
+	
+	public void gerarNotaRecebimento(OrdemServico ordemServico){
+		try {
+			ordemServicoService.gerarNotaRecebimento(ordemServico);
+		} catch (RuntimeException e) {
+			FacesUtil.mensagemErro(e.getMessage());
+		}finally {
+			ordemServico = new OrdemServico();
 		}
 	}
 	
