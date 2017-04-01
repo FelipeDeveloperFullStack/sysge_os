@@ -60,6 +60,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	private static String TELEFONE = "telefone";
 	private static String BAIRRO = "bairro";
 	private static String CEP = "cep";
+	private static String UF = "uf";
 	private static String MARCA = "marca";
 	private static String MODELO = "modelo";
 	private static String ACESSORIOS = "acessorios";
@@ -162,12 +163,14 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		ordemServico.setCliente(clienteService.verificarTipoPessoa(ordemServico.getCliente()));
 		
 		params.put(CLIENTE, ordemServico.getCliente().getNomeTemporario());
-		params.put(ENDERECO, ordemServico.getCliente().getComplemento());
+		params.put(ENDERECO, ordemServico.getCliente().getLogradouro());
 		params.put(CIDADE, ordemServico.getCliente().getCidade());
-		params.put(CPF_CNPJ, ordemServico.getCliente().getCpf()+""+ordemServico.getCliente().getCnpj());
+		params.put(CPF_CNPJ, (ordemServico.getCliente().getCpf() == null ? "" : ordemServico.getCliente().getCpf())
+				   +""+(ordemServico.getCliente().getCnpj() == null ? "" : ordemServico.getCliente().getCnpj()));
 		params.put(TELEFONE, ordemServico.getCliente().getTelefone());
 		params.put(BAIRRO, ordemServico.getCliente().getBairro());
 		params.put(CEP, ordemServico.getCliente().getCep());
+		params.put(UF, String.valueOf(ordemServico.getCliente().getUnidadeFederativa()));
 		
 		params.put(MARCA, ordemServico.getMarca());
 		params.put(MODELO, ordemServico.getModelo());
