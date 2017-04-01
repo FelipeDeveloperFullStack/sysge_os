@@ -2,8 +2,10 @@ package br.com.sysge.service.gestserv;
 
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +54,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	private static String NUMERO_PARCELA = "numero_parcela";
 	private static String NUMERO_OS = "numero_os";
 	private static String NUMERO_EXTENSO = "numero_extenso";
+	private static String DATA_EMISSAO = "data_emissao";
 	
 	private static String CLIENTE = "cliente";
 	private static String ENDERECO = "endereco";
@@ -69,6 +72,8 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	private static String NUMERO_PATRIMONIO = "numero_patrimonio";
 	private static String DATA_ENTRADA = "data_entrada";
 	private static String OBSERVACOES = "observacoes";
+	
+	private SimpleDateFormat sdf;
 	
 	public OrdemServico salvar(OrdemServico ordemServico) {
 		try {
@@ -141,14 +146,19 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		 HashMap<String, Object> params = new HashMap<String, Object>();
 		 Calendar c = Calendar.getInstance();
 		 DecimalFormat df = new DecimalFormat("###,###0.00");
+		 sdf = new SimpleDateFormat("dd/MM/yyyy");
 		 
+		 parcela.getOrdemServico().setCliente(clienteService.verificarTipoPessoa(parcela.getOrdemServico().getCliente()));
+		 
+		 params.put(DATA_EMISSAO, String.valueOf(sdf.format(new Date())));
 	     params.put(NUMERO_RECIDO, String.valueOf(c.get(Calendar.YEAR)) + String.valueOf(parcela.getOrdemServico().getId()) + String.valueOf(parcela.getNumero()));
 	     params.put(VALOR_OS, df.format(parcela.getOrdemServico().getTotal()));
 	     params.put(VALOR_PARCELA, df.format(parcela.getValorCobrado()));
 	     params.put(RAZAO_SOCIAL_UNIDADE_EMPRESARIAL, "NovaTech Informática");
 	     params.put(TELEFONE_UNIDADE_EMPRESARIAL, "(62) 3545-9877");
-	     params.put(NOME_CLIENTE, parcela.getOrdemServico().getCliente().getNomeDaPessoaFisica());
-	     params.put(DOCUMENTO, String.valueOf(parcela.getOrdemServico().getCliente().getCpf()));
+	     params.put(NOME_CLIENTE, parcela.getOrdemServico().getCliente().getNomeTemporario());
+	     params.put(DOCUMENTO, String.valueOf((parcela.getOrdemServico().getCliente().getCpf() == null ? "" : parcela.getOrdemServico().getCliente().getCpf()) 
+	    		 		       + "" + (parcela.getOrdemServico().getCliente().getCnpj() == null ? "" : parcela.getOrdemServico().getCliente().getCnpj())));
 	     params.put(NUMERO_PARCELA, String.valueOf(parcela.getNumero()+ "º"));
 	     params.put(NUMERO_OS, String.valueOf(parcela.getOrdemServico().getId()));
 	     params.put(NUMERO_EXTENSO, converteNumeroExtensoReal.converterNumeroParaExtensoReal(parcela.getValorCobrado()));
