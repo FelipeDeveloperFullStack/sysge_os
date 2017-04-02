@@ -27,6 +27,7 @@ public enum MenuSistema {
 		CADASTROS_GL("Cadastros"),
 			CLIENTE("Cliente"),
 			FORNECEDOR("Fornecedor"),
+			UNIDADE_EMPRESARIAL("Unidade Empresarial"),
 	CONFIGURACAO("Configuracao"),
 		USUARIO("Usuário"),
 		PERFIL_ACESSO("Perfil de acesso"),

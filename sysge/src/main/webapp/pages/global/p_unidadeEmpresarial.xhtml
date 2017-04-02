@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<ui:composition template="/template/template.xhtml">
+	<ui:define name="conteudo">
+		<h:form id="formGeralUnidadeEmpresarial">
+			<p:panel header="Listagem de unidade empresarial">
+
+				<h:panelGrid columns="10" id="panelPesquisa">
+				
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Nome fantasia" />
+						<p:inputText style="width: 300px;"
+							value="#{unidadeEmpresarialController.unidadeEmpresarial.nomeFantasia}" />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Situação" />
+						<p:selectOneMenu value="#{unidadeEmpresarialController.unidadeEmpresarial.situacao}">
+							<f:selectItems var="s" value="#{unidadeEmpresarialController.situacoes}"
+								itemLabel="#{s.situacao}" itemValue="#{s}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<p:outputLabel value="." style="color: white;" />
+						<p:commandButton icon="ui-icon-search" update="tableUnidadeEmpresarial"
+							actionListener="#{unidadeEmpresarialController.pesquisar}" value="Pesquisar" />
+					</h:panelGrid>
+					
+					<p:tooltip value="Digite o nome fantasia."
+						position="bottom" />
+					<p:focus context="panelPesquisa" />
+				</h:panelGrid>
+
+				<p:dataTable id="tableUnidadeEmpresarial" var="u" paginator="true"
+					paginatorPosition="bottom" value="#{unidadeEmpresarialController.unidadeEmpresariais}"
+					emptyMessage="Nenhum registro encontrado!" rows="8"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+					{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+					<p:column headerText="ID" width="15" style="text-align:center;">
+						<p:outputLabel value="#{u.id}" />
+					</p:column>
+
+					<p:column headerText="Nome fantasia">
+						<p:outputLabel value="#{u.nomeFantasia}" />
+					</p:column>
+
+					<p:column headerText="Telefone Fixo" width="100"
+						style="text-align:center;">
+						<p:outputLabel value="#{u.telefone}" />
+					</p:column>
+
+					<p:column headerText="Situação" width="50"
+						style="text-align:center;">
+						<p:outputLabel value="#{u.situacao.situacao}" />
+					</p:column>
+
+					<p:column width="40">
+						<p:commandButton id="btnEditar" icon="ui-icon-pencil"
+							oncomplete="PF('dialogEditarUnidadeEmpresarial').show()"
+							update=":msgGlobal tableUnidadeEmpresarial :formEditarUnidadeEmpresarial"
+							actionListener="#{unidadeEmpresarialController.setarUnidadeEmpresarial(u)}">
+						</p:commandButton>
+						<p:tooltip value="Cliquei aqui para editar!" for="btnEditar"
+							position="left" />
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton value="Nova Unidade Empresarial"
+							actionListener="#{unidadeEmpresarialController.novo}"
+							icon="ui-icon-circle-plus"
+							oncomplete="PF('dialogNovoUnidadeEmpresarial').show();"
+							update=":msgGlobal :formNovoUnidadeEmpresarial" />
+					</f:facet>
+
+				</p:dataTable>
+			</p:panel>
+
+			<p:blockUI block="tableUnidadeEmpresarial" trigger="tableUnidadeEmpresarial">
+			        Carregando! Aguarde...<br />
+				<p:graphicImage library="img" name="loading.gif" />
+			</p:blockUI>
+
+		</h:form>
+
+		<!-- Dialog editar Unidade Empresarial-->
+		<p:dialog id="dialogEditarUnidadeEmpresarial" widgetVar="dialogEditarUnidadeEmpresarial"
+			header="Editar Unidade Empresarial" modal="true" appendTo="@(body)"
+			resizable="false" position="top" width="750" closable="false">
+			<h:form id="formEditarUnidadeEmpresarial">
+				<p:tabView>
+					<p:tab title="Dados básicos">
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="." style="color: white;"/>
+								<p:commandButton icon="ui-icon-search"
+									value="Preencher via CNPJ"
+									oncomplete="PF('dialog_procurar_cnpj').show();"
+									update=":formProcurarCnpj"/>
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Nome fantasia"/>
+								<p:inputText style="width: 500px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.nomeFantasia}"/>
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Telefone" />
+								<p:inputMask style="width: 244px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.telefone}"
+									mask="(99) 9999-9999" />
+							</h:panelGrid>
+							
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Celular" />
+								<p:inputMask style="width: 244px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.celular}"
+									mask="(99) 99999-9999" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="E-mail" />
+								<p:inputText style="width: 500px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.email}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Site" />
+								<p:inputText style="width: 500px; color: blue;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.site}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Situação" />
+								<p:selectOneMenu style="width: 125px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.situacao}">
+									<f:selectItems var="s" value="#{unidadeEmpresarialController.situacoes}"
+										itemLabel="#{s.situacao}" itemValue="#{s}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</h:panelGrid>
+					</p:tab>
+					
+					<p:tab title="Endereço" id="tabEndereco">
+						<h:panelGrid columns="3">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Cep" />
+								<p:inputMask mask="99999-999"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.CEP}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="." style="color: white;" />
+								<p:commandButton id="button1" icon="ui-icon-circle-zoomout"
+									update=":msgGlobal panelEndereco1 panelEndereco2 panelEndereco3"
+									actionListener="#{unidadeEmpresarialController.procurarCep}" />
+								<p:tooltip for="button1"
+									value="Cliquei para consultar o CEP automaticamente nos correios!"
+									position="top" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="." style="color: white;" />
+								<p:commandLink value="Não sabe o CEP ? Clique aqui!" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+						<h:panelGrid columns="2" id="panelEndereco1">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Logradouro" />
+								<p:inputText style="width: 270px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.logradouro}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Número" />
+								<p:inputText style="width: 250px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.numero}" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+						
+						<h:panelGrid columns="2" id="panelEndereco2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Complemento" />
+								<p:inputText style="width: 270px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.complemento}" />
+							</h:panelGrid>
+							
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Bairro" />
+								<p:inputText style="width: 250px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.bairro}" />
+							</h:panelGrid>
+						</h:panelGrid>
+						
+						<h:panelGrid columns="3" id="panelEndereco3">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Cidade" />
+								<p:inputText style="width: 270px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.cidade}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="UF" />
+								<p:selectOneMenu filter="true" filterMatchMode="startsWith"
+									converter="omnifaces.SelectItemsConverter"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.unidadeFederativa}">
+									<f:selectItems var="uf"
+										value="#{unidadeEmpresarialController.unidadesFederativa}"
+										itemLabel="#{uf.unidadeFederativa}" itemValue="#{uf}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+						</h:panelGrid>
+
+						<p:blockUI block="tabEndereco" trigger="button1">
+								        Carregando! Aguarde...<br />
+							<p:graphicImage library="img" name="loading.gif" />
+						</p:blockUI>
+					</p:tab>
+					
+				</p:tabView>
+				
+				<h:panelGrid id="panelBotoesUnidadeEmpresarial" columns="2">
+					<h:panelGrid columns="2">
+						<p:commandButton id="btnSalvarUnidadeEmpresarial" value="Salvar"
+							icon="ui-icon-check" action="#{unidadeEmpresarialController.salvar}"
+							update=":msgGlobal :formGeralUnidadeEmpresarial:tableUnidadeEmpresarial"/>
+						<p:commandButton value="Cancelar" icon="ui-icon-close"
+							oncomplete="PF('dialogEditarUnidadeEmpresarial').hide();"
+							actionListener="#{unidadeEmpresarialController.cancelar}"
+							update=":msgGlobal :formGeralUnidadeEmpresarial:tableUnidadeEmpresarial" />
+					</h:panelGrid>
+				</h:panelGrid>
+				<p:blockUI block="panelBotoesUnidadeEmpresarial" trigger="btnSalvarUnidadeEmpresarial" />
+			</h:form>
+		</p:dialog>
+
+
+		<!-- Dialog nova Unidade Empresarial -->
+		<p:dialog widgetVar="dialogNovoUnidadeEmpresarial" header="Novo cliente"
+			modal="true" appendTo="@(body)" resizable="false" position="top"
+			width="600" closable="false">
+			<h:form id="formNovoUnidadeEmpresarial">
+			
+			<p:tabView>
+					<p:tab title="Dados básicos">
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="." style="color: white;"/>
+								<p:commandButton icon="ui-icon-search"
+									value="Preencher via CNPJ"
+									oncomplete="PF('dialog_procurar_cnpj').show();"
+									update=":formProcurarCnpj"/>
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Nome fantasia"/>
+								<p:inputText style="width: 500px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.nomeFantasia}"/>
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Telefone" />
+								<p:inputMask style="width: 244px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.telefone}"
+									mask="(99) 9999-9999" />
+							</h:panelGrid>
+							
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Celular" />
+								<p:inputMask style="width: 244px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.celular}"
+									mask="(99) 99999-9999" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="E-mail" />
+								<p:inputText style="width: 500px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.email}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Site" />
+								<p:inputText style="width: 500px; color: blue;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.site}" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Situação" />
+								<p:selectOneMenu style="width: 125px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.situacao}">
+									<f:selectItems var="s" value="#{unidadeEmpresarialController.situacoes}"
+										itemLabel="#{s.situacao}" itemValue="#{s}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</h:panelGrid>
+					</p:tab>
+					
+					<p:tab title="Endereço" id="tabEndereco">
+						<h:panelGrid columns="3">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Cep" />
+								<p:inputMask mask="99999-999"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.CEP}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="." style="color: white;" />
+								<p:commandButton id="button1" icon="ui-icon-circle-zoomout"
+									update=":msgGlobal panelEndereco1 panelEndereco2 panelEndereco3"
+									actionListener="#{unidadeEmpresarialController.procurarCep}" />
+								<p:tooltip for="button1"
+									value="Cliquei para consultar o CEP automaticamente nos correios!"
+									position="top" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="." style="color: white;" />
+								<p:commandLink value="Não sabe o CEP ? Clique aqui!" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+						<h:panelGrid columns="2" id="panelEndereco1">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Logradouro" />
+								<p:inputText style="width: 270px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.logradouro}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Número" />
+								<p:inputText style="width: 250px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.numero}" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+						
+						<h:panelGrid columns="2" id="panelEndereco2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Complemento" />
+								<p:inputText style="width: 270px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.complemento}" />
+							</h:panelGrid>
+							
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Bairro" />
+								<p:inputText style="width: 250px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.bairro}" />
+							</h:panelGrid>
+						</h:panelGrid>
+						
+						<h:panelGrid columns="3" id="panelEndereco3">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Cidade" />
+								<p:inputText style="width: 270px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.cidade}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="UF" />
+								<p:selectOneMenu filter="true" filterMatchMode="startsWith"
+									converter="omnifaces.SelectItemsConverter"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.unidadeFederativa}">
+									<f:selectItems var="uf"
+										value="#{unidadeEmpresarialController.unidadesFederativa}"
+										itemLabel="#{uf.unidadeFederativa}" itemValue="#{uf}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+						</h:panelGrid>
+
+						<p:blockUI block="tabEndereco" trigger="button1">
+								        Carregando! Aguarde...<br />
+							<p:graphicImage library="img" name="loading.gif" />
+						</p:blockUI>
+					</p:tab>
+					
+				</p:tabView>
+			
+			
+				<h:panelGrid id="panelBotoesNovoUnidadeEmpresarial" columns="2">
+					<h:panelGrid columns="2">
+						<p:commandButton id="btnSalvarNovoUnidadeEmpresarial" value="Salvar"
+							icon="ui-icon-check" action="#{unidadeEmpresarialController.salvar}"
+							update=":msgGlobal :formGeralUnidadeEmpresarial:tableUnidadeEmpresarial"/>
+						<p:commandButton value="Cancelar" icon="ui-icon-close"
+							oncomplete="PF('dialogNovoUnidadeEmpresarial').hide();" />
+					</h:panelGrid>
+				</h:panelGrid>
+				<p:blockUI block="panelBotoesNovoUnidadeEmpresarial"
+					trigger="btnSalvarNovoUnidadeEmpresarial" />
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dialog_procurar_cnpj" minimizable="false"
+			draggable="false" resizable="false" header="Carregar Cnpj"
+			modal="true" appendTo="@(body)">
+			<h:form id="formProcurarCnpj">
+			
+				<p:panelGrid columns="1">
+					<p:outputLabel value="Cnpj" />
+					<p:inputMask mask="99.999.999/9999-99"
+						value="#{unidadeEmpresarialController.unidadeEmpresarial.cnpj}" />
+				</p:panelGrid>
+				
+				<p:panelGrid columns="2">
+					<p:commandButton id="btnCarregarCNPJ" value="Carregar"
+						icon="ui-icon-refresh"
+						actionListener="#{unidadeEmpresarialController.consultarCnpj}"
+						update=":msgGlobal :formNovoUnidadeEmpresarial :formEditarUnidadeEmpresarial" />
+					<p:commandButton value="Cancelar" icon="ui-icon-closethick"
+						oncomplete="PF('dialog_procurar_cnpj').hide();" />
+				</p:panelGrid>
+				
+				<p:blockUI block="formProcurarCnpj" trigger="btnCarregarCNPJ">
+			        Carregando! Aguarde...<br />
+					<p:graphicImage library="img" name="loading.gif" />
+				</p:blockUI>
+				
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>
+
+</html>
