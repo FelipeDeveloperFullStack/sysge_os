@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-04-01T14:28:15 -->
+<!-- 2017-04-08T17:43:06 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_nota_recebimento" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
@@ -231,11 +231,6 @@
 				<reportElement x="0" y="470" width="230" height="1" uuid="ed302cd5-8100-46a2-88de-00164ec5feff"/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="470" width="230" height="15" uuid="e9a0c92d-8cf6-4d7b-99bc-74401f0488c8"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[Felipe Miguel dos Santos]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="328" y="434" width="63" height="19" uuid="cbff101b-f64e-48a5-8587-516850bac91d"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
@@ -316,6 +311,11 @@
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="465" y="10" width="89" height="20" uuid="93191c6e-ed83-4040-9cf2-cae93d58b812"/>
 				<textFieldExpression><![CDATA[$P{data_entrada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="471" width="230" height="15" uuid="1afe3323-194c-4895-973c-57f4b601fa9c"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

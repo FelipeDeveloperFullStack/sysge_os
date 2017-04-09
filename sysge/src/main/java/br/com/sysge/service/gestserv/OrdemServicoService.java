@@ -22,6 +22,10 @@ import br.com.sysge.model.gestserv.ProdutoOrdemServico;
 import br.com.sysge.model.gestserv.ServicoOrdemServico;
 import br.com.sysge.service.estoque.ProdutoService;
 import br.com.sysge.service.global.ClienteService;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 
@@ -195,6 +199,22 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		
 		ReportFactory reportFactory = new ReportFactory("r_nota_recebimento.jasper", params, TiposRelatorio.PDF);
 		reportFactory.getReportStream();
+	}
+	
+	public void gerarOrdemServico(OrdemServico ordemServico, 
+								  List<ServicoOrdemServico> servicos, 
+								  List<ProdutoOrdemServico> produtos) throws JRException{
+		Map<String, Object> params = new HashMap<String, Object>();
+		//params.put("SUBREPORT_DIR", carregarSubReport("sub_servico.jasper"));
+		params.put("list_servicos", new JRBeanCollectionDataSource(servicos));
+		
+		ReportFactory reportFactory = new ReportFactory("r_ordem_servico.jasper", params, TiposRelatorio.PDF);
+		reportFactory.getReportStream();
+	}
+	
+	public JasperReport carregarSubReport(String subReporName) throws JRException{
+		return (JasperReport) JRLoader.loadObject(getClass().getClassLoader()
+				.getResourceAsStream("br/com/sysge/relatorios/" + subReporName));
 	}
 	
 }

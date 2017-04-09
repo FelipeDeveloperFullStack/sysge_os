@@ -107,7 +107,7 @@
 						<p:commandButton value="Imprimir nota de recebimento nº #{s.id}"
 							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarNotaRecebimento(s)}"/>
 						<p:commandButton value="Imprimir ordem de serviço nº #{s.id}"
-							icon="ui-icon-print" />
+							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarOrdemServico(s)}"/>
 					</p:rowExpansion>
 
 				</p:dataTable>

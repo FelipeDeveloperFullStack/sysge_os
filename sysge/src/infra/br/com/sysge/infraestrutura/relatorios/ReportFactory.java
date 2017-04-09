@@ -47,12 +47,10 @@ public class ReportFactory {
 
 		try {
 			
-			JasperReport jasperReport = (JasperReport) JRLoader
-					.loadObject(getClass().getClassLoader().getResourceAsStream("br/com/sysge/relatorios/" + reportName));
+			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(getClass().getClassLoader().getResourceAsStream("br/com/sysge/relatorios/" + reportName));
 			jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
-			JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(list);
 
-			JasperPrint print = JasperFillManager.fillReport(jasperReport, params, datasource);
+			JasperPrint print = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(list));
 			
 			JasperViewer view = new JasperViewer(print, false);
 			view.setVisible(true);

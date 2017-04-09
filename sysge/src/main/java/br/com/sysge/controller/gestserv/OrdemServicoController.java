@@ -41,6 +41,7 @@ import br.com.sysge.service.global.ClienteService;
 import br.com.sysge.service.rh.FuncionarioService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
+import net.sf.jasperreports.engine.JRException;
 
 @Named
 @ViewScoped
@@ -548,6 +549,18 @@ public class OrdemServicoController implements Serializable {
 		}finally {
 			ordemServico = new OrdemServico();
 		}
+	}
+	
+	public void gerarOrdemServico(OrdemServico ordemServico){
+			try {
+				ordemServicoService.gerarOrdemServico(ordemServico, 
+						ordemServicoService.procurarServicosOS(ordemServico.getId()), 
+						ordemServicoService.procurarProdutosOS(ordemServico.getId()));
+			} catch (JRException e) {
+				FacesUtil.mensagemErro(e.getMessage());
+			}finally {
+				ordemServico = new OrdemServico();
+			}
 	}
 	
 	public void setarTabIndex(int tabIndex) {
