@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-04-09T11:54:04 -->
+<!-- 2017-04-09T18:32:15 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_servico" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="154baed9-17d6-4d61-ad30-1333a4155f6d">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<queryString>
@@ -21,7 +21,7 @@
 					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ Nome]]></text>
 			</staticText>
@@ -33,14 +33,14 @@
 					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ Sub Total]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="-20" y="-20" width="100" height="19" uuid="93cec254-f027-4349-b0a5-03dd4c98acb1"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Serviços]]></text>
 			</staticText>
@@ -54,7 +54,9 @@
 				<box>
 					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
 				</box>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[" "+$F{nome}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤#,##0.00;¤-#,##0.00">
@@ -64,7 +66,9 @@
 				<box>
 					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
 				</box>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{subTotal}]]></textFieldExpression>
 			</textField>
 		</band>
