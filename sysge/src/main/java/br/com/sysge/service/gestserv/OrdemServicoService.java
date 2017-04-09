@@ -20,6 +20,7 @@ import br.com.sysge.model.financ.ParcelasPagamentoOs;
 import br.com.sysge.model.gestserv.OrdemServico;
 import br.com.sysge.model.gestserv.ProdutoOrdemServico;
 import br.com.sysge.model.gestserv.ServicoOrdemServico;
+import br.com.sysge.relatorios.to.ServicoTO;
 import br.com.sysge.service.estoque.ProdutoService;
 import br.com.sysge.service.global.ClienteService;
 import net.sf.jasperreports.engine.JRException;
@@ -206,10 +207,21 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 								  List<ProdutoOrdemServico> produtos) throws JRException{
 		Map<String, Object> params = new HashMap<String, Object>();
 		//params.put("SUBREPORT_DIR", carregarSubReport("sub_servico.jasper"));
-		params.put("list_servicos", new JRBeanCollectionDataSource(servicos));
+		params.put("list_servicos", setarServicoTo(servicos));
 		
 		ReportFactory reportFactory = new ReportFactory("r_ordem_servico.jasper", params, TiposRelatorio.PDF);
 		reportFactory.getReportStream();
+	}
+	
+	private List<ServicoTO> setarServicoTo(List<ServicoOrdemServico> servicos){
+		List<ServicoTO> tos = new ArrayList<ServicoTO>();
+		for(ServicoOrdemServico s : servicos){
+			ServicoTO to = new ServicoTO();
+			to.setNome(s.getServico().getNome());
+			to.setSubTotal(s.getSubTotal());
+			tos.add(to);
+		}
+		return tos;
 	}
 	
 	public JasperReport carregarSubReport(String subReporName) throws JRException{
