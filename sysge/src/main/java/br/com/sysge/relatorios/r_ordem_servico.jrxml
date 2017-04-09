@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-04-09T11:30:36 -->
+<!-- 2017-04-09T12:27:49 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_ordem_servico" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="net.sf.jasperreports.print.create.bookmarks" value="false"/>
@@ -69,10 +69,10 @@
 		<field name="subTotal" class="java.math.BigDecimal"/>
 	</subDataset>
 	<parameter name="list_servicos" class="java.util.List"/>
+	<parameter name="list_produtos" class="java.util.List"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<variable name="list_servicos" class="java.util.List"/>
 	<group name="Gruppo1">
 		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/15)]]></groupExpression>
 		<groupFooter>
@@ -325,10 +325,18 @@
 				</graphicElement>
 			</line>
 			<subreport>
-				<reportElement x="1" y="243" width="555" height="48" uuid="ec9ca08e-3aa3-4229-b3cb-7a995ef04fb8"/>
+				<reportElement x="1" y="243" width="555" height="97" uuid="ec9ca08e-3aa3-4229-b3cb-7a995ef04fb8"/>
 				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{list_servicos})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["br/com/sysge/relatorios/sub_servico.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="1" y="350" width="555" height="76" uuid="1f672694-e4ec-4126-aeb9-16c8f0a4903f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{list_produtos})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["br/com/sysge/relatorios/sub_produto.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</title>

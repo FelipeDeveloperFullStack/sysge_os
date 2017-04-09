@@ -9,7 +9,7 @@ public class ServicoTO implements Serializable{
 
 	private String nome;
 	
-	private BigDecimal subTotal;
+	private BigDecimal subTotal = BigDecimal.ZERO;
 
 	public String getNome() {
 		return nome;

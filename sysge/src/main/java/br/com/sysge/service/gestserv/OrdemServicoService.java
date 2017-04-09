@@ -20,13 +20,11 @@ import br.com.sysge.model.financ.ParcelasPagamentoOs;
 import br.com.sysge.model.gestserv.OrdemServico;
 import br.com.sysge.model.gestserv.ProdutoOrdemServico;
 import br.com.sysge.model.gestserv.ServicoOrdemServico;
+import br.com.sysge.relatorios.to.ProdutoTO;
 import br.com.sysge.relatorios.to.ServicoTO;
 import br.com.sysge.service.estoque.ProdutoService;
 import br.com.sysge.service.global.ClienteService;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
 
 public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 
@@ -206,8 +204,8 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 								  List<ServicoOrdemServico> servicos, 
 								  List<ProdutoOrdemServico> produtos) throws JRException{
 		Map<String, Object> params = new HashMap<String, Object>();
-		//params.put("SUBREPORT_DIR", carregarSubReport("sub_servico.jasper"));
 		params.put("list_servicos", setarServicoTo(servicos));
+		params.put("list_produtos", setarProdutoTo(produtos));
 		
 		ReportFactory reportFactory = new ReportFactory("r_ordem_servico.jasper", params, TiposRelatorio.PDF);
 		reportFactory.getReportStream();
@@ -223,10 +221,17 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		}
 		return tos;
 	}
-	
-	public JasperReport carregarSubReport(String subReporName) throws JRException{
-		return (JasperReport) JRLoader.loadObject(getClass().getClassLoader()
-				.getResourceAsStream("br/com/sysge/relatorios/" + subReporName));
+	private List<ProdutoTO> setarProdutoTo(List<ProdutoOrdemServico> produtos){
+		List<ProdutoTO> tos = new ArrayList<ProdutoTO>();
+		for(ProdutoOrdemServico p : produtos){
+			ProdutoTO to = new ProdutoTO();
+			to.setDescricaoProduto(p.getProduto().getDescricaoProduto());
+			to.setQuantidade(p.getQuantidade());
+			to.setValor(p.getValor());
+			to.setSubTotal(p.getSubTotal());
+			tos.add(to);
+		}
+		return tos;
 	}
 	
 }
