@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-04-09T18:28:48 -->
+<!-- 2017-04-10T22:10:49 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_ordem_servico" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="net.sf.jasperreports.print.create.bookmarks" value="false"/>
@@ -70,6 +70,9 @@
 	</subDataset>
 	<parameter name="list_servicos" class="java.util.List"/>
 	<parameter name="list_produtos" class="java.util.List"/>
+	<parameter name="subTotalServico" class="java.math.BigDecimal"/>
+	<parameter name="subTotalProduto" class="java.math.BigDecimal"/>
+	<parameter name="totalOS" class="java.math.BigDecimal"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -83,7 +86,7 @@
 		</groupFooter>
 	</group>
 	<title>
-		<band height="800" splitType="Stretch">
+		<band height="489" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
 				<reportElement x="0" y="86" width="230" height="25" uuid="57aed2b1-4f4e-40a3-a6ad-54dae8dd4c5a">
@@ -337,6 +340,80 @@
 				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{list_produtos})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["br/com/sysge/relatorios/sub_produto.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="321" width="80" height="12" uuid="03eb1a1d-ff5f-4d59-93f1-266f29371895"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Subtotal serviços]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="334" width="80" height="12" uuid="86eaf57c-81d0-4167-93e3-fb037fedb507"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Subtotal produtos]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="1" y="320" width="556" height="1" uuid="b8cb5a94-f32a-4ced-9dc0-d1d80f41bc54"/>
+				<graphicElement>
+					<pen lineStyle="Dotted" lineColor="#B3B3B3"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="1" y="333" width="556" height="1" uuid="b58d2600-d46e-4d53-8277-fcb7b172d4ce"/>
+				<graphicElement>
+					<pen lineStyle="Dotted" lineColor="#B3B3B3"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="1" y="346" width="556" height="1" uuid="5ba694cf-c083-4789-9214-d32cd075a459"/>
+				<graphicElement>
+					<pen lineStyle="Dotted" lineColor="#B3B3B3"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="347" width="80" height="12" uuid="d1a28393-fb73-4c78-a91a-593d84b1ba0b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="1" y="359" width="556" height="1" uuid="c650bb9c-c86c-4d0b-8a7d-237aab24dfaa"/>
+				<graphicElement>
+					<pen lineStyle="Dotted" lineColor="#B3B3B3"/>
+				</graphicElement>
+			</line>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement positionType="Float" x="455" y="321" width="100" height="12" uuid="de6a585b-7a72-4bd9-b49c-2695faad12bb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{subTotalServico}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement positionType="Float" x="455" y="334" width="100" height="12" uuid="ca4c111b-5392-4979-a135-a73a4f1167ff"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{subTotalProduto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement positionType="Float" x="455" y="347" width="100" height="12" uuid="2d7bd668-e2bf-44f2-8dfe-847462faf005">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalOS}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="363" width="555" height="36" uuid="79261ed8-f159-47f4-a579-98ad0aed5773"/>
+				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{list_produtos})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["br/com/sysge/relatorios/sub_pagamento.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</title>

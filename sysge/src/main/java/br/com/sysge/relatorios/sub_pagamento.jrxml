@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-04-10T22:09:56 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_pagamento" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1daf1101-08d4-416d-b033-b8fbbb99b914">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="formaPagamento" class="java.lang.String">
+		<fieldDescription><![CDATA[formaPagamento]]></fieldDescription>
+	</field>
+	<field name="parcelamento" class="java.lang.String">
+		<fieldDescription><![CDATA[parcelamento]]></fieldDescription>
+	</field>
+	<field name="valorCobrado" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorCobrado]]></fieldDescription>
+	</field>
+	<field name="desconto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[desconto]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.String">
+		<fieldDescription><![CDATA[numero]]></fieldDescription>
+	</field>
+	<field name="vencimento" class="java.util.Date">
+		<fieldDescription><![CDATA[vencimento]]></fieldDescription>
+	</field>
+	<field name="parcela" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[parcela]]></fieldDescription>
+	</field>
+	<field name="atendente" class="java.lang.String">
+		<fieldDescription><![CDATA[atendente]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="38" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="-20" y="-23" width="80" height="20" uuid="2d735fe5-73c4-4bfb-97f9-55c11eb16825"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pagamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-20" y="-3" width="80" height="20" uuid="72c65d7b-26ec-4201-81d5-b18eee352e1d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Forma de pagamento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="-3" width="56" height="20" uuid="0fa88931-6770-435e-892c-4ba4f63729c6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Parcelamento:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="18" width="560" height="1" uuid="8c6e606d-a07f-48ae-b2c1-e58f29640fee"/>
+				<graphicElement>
+					<pen lineColor="#B3B3B3"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="-20" y="19" width="51" height="19" backcolor="#F0F0F0" uuid="a47c9267-e0bb-4e61-a821-aa4029fd5fe7"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="31" y="19" width="120" height="19" backcolor="#F0F0F0" uuid="e26c0984-77d9-4f01-917a-9a8d832003e2"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parcela]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="151" y="19" width="120" height="19" backcolor="#F0F0F0" uuid="451b95b9-549a-4056-996d-59823ef7441d"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desconto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="271" y="19" width="119" height="19" backcolor="#F0F0F0" uuid="b58e9ff2-7fe9-477f-9087-46b1187da93a"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor cobrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="390" y="19" width="119" height="19" backcolor="#F0F0F0" uuid="e5c28c90-302f-4e49-a9df-e53f39b87eb5"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vencimento]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="62" y="-3" width="100" height="20" uuid="6b8ae869-7480-4f14-a9d2-ffd63667cf6d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{formaPagamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="428" y="-3" width="146" height="20" uuid="8d4c1450-ad3b-49bb-be32-edd52926cf69">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parcelamento}+" parcela(s)"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="-20" y="0" width="51" height="20" uuid="7015db22-a253-4272-8e5c-158767f77478"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="31" y="0" width="120" height="20" uuid="9ae0cb1b-e3f0-4edf-9f2d-09f747f5d36b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{parcela}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="151" y="0" width="120" height="20" uuid="fa2dc1cb-d990-47fa-947b-c44a0d36deee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{desconto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="271" y="0" width="119" height="20" uuid="a947c1b3-6d69-427c-be0a-e828cea6c703"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{valorCobrado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="390" y="0" width="119" height="20" uuid="91743dea-f400-4426-870d-b3af4e10b512"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{vencimento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="39">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="-20" y="2" width="51" height="20" uuid="c78a14de-22f0-492a-a7d8-c6d54ccbebf5">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Atendente:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="1" width="560" height="1" uuid="142ba2ac-4424-4b9c-be15-9a6dcaf72583"/>
+				<graphicElement>
+					<pen lineColor="#B3B3B3"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="31" y="2" width="249" height="20" uuid="c54239fe-9a1d-4934-8d5d-35a66d1731a7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{atendente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
