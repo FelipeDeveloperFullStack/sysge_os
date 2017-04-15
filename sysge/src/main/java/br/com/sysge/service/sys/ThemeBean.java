@@ -15,7 +15,7 @@ public class ThemeBean implements Serializable{
 	private GuessPreferences gp = new GuessPreferences();
 	private TreeMap<String, String> themes;
 	private String theme;
-    
+	
     @PostConstruct
     public void init() {
     	theme = gp.getTheme();
@@ -68,8 +68,6 @@ public class ThemeBean implements Serializable{
 	public void setThemes(TreeMap<String, String> themes) {
 		this.themes = themes;
 	}
-
-
 
 	public String getTheme() {
 		return theme;

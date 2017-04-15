@@ -54,6 +54,14 @@ public class ClienteService extends GenericDaoImpl<Cliente, Long> {
 			return cliente;
 		}
 	}
+	
+	public String getTipoDocumentoPessoa(Cliente cliente){
+		if(cliente.getTipoPessoa() == TipoPessoa.PESSOA_FISICA){
+			return cliente.getCpf();
+		}else{
+			return cliente.getCnpj();
+		}
+	}
 
 	public List<Cliente> procurarCliente(Cliente cliente) {
 		if (cliente.getNomeTemporario().trim().isEmpty() && cliente.getCnpj().trim().isEmpty() && cliente.getCpf().trim().isEmpty()) {

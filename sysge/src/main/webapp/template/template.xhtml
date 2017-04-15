@@ -43,7 +43,7 @@
 							<p:themeSwitcher id="advanced" style="width:165px" effect="fade"
 								value="#{guessPreferences.theme}">
 								<f:selectItem itemLabel="Escolha um tema" itemValue="" />
-								<f:selectItems value="#{themeBean.themes}"/>
+								<f:selectItems value="#{themeBean.themes}" actionListener=""/>
 								<p:column>
 									<h:outputText styleClass="ui-theme ui-theme-"
 										style="display-block" />

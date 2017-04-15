@@ -1,9 +1,12 @@
 package br.com.sysge.model.conf;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.sysge.infraestrutura.dao.GenericDomain;
+import br.com.sysge.model.global.UnidadeEmpresarial;
 
 @Entity
 @Table(name = "tbl_parametros")
@@ -16,7 +19,10 @@ public class Parametro extends GenericDomain{
 	private boolean mostrarListagemEstoqueNegativoTelaInicial;
 	
 	private boolean mostrarListagemOSTelaInicial;
-
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	private UnidadeEmpresarial unidadeEmpresarialPadrao;
+	
 	public boolean isPermitirQtdeNegativaEstoque() {
 		return permitirQtdeNegativaEstoque;
 	}
@@ -39,6 +45,14 @@ public class Parametro extends GenericDomain{
 
 	public void setMostrarListagemOSTelaInicial(boolean mostrarListagemOSTelaInicial) {
 		this.mostrarListagemOSTelaInicial = mostrarListagemOSTelaInicial;
+	}
+
+	public UnidadeEmpresarial getUnidadeEmpresarialPadrao() {
+		return unidadeEmpresarialPadrao == null ? new UnidadeEmpresarial() : this.unidadeEmpresarialPadrao;
+	}
+
+	public void setUnidadeEmpresarialPadrao(UnidadeEmpresarial unidadeEmpresarialPadrao) {
+		this.unidadeEmpresarialPadrao = unidadeEmpresarialPadrao;
 	}
 	
 	

@@ -16,13 +16,18 @@ import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.infraestrutura.decimal.ConverteNumeroExtensoReal;
 import br.com.sysge.infraestrutura.relatorios.ReportFactory;
 import br.com.sysge.infraestrutura.relatorios.TiposRelatorio;
+import br.com.sysge.model.conf.Parametro;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
 import br.com.sysge.model.gestserv.OrdemServico;
 import br.com.sysge.model.gestserv.ProdutoOrdemServico;
 import br.com.sysge.model.gestserv.ServicoOrdemServico;
+import br.com.sysge.model.global.UnidadeEmpresarial;
+import br.com.sysge.relatorios.to.PagamentoTO;
 import br.com.sysge.relatorios.to.ProdutoTO;
 import br.com.sysge.relatorios.to.ServicoTO;
+import br.com.sysge.service.conf.ParametroService;
 import br.com.sysge.service.estoque.ProdutoService;
+import br.com.sysge.service.financ.ParcelasPagamentoOsService;
 import br.com.sysge.service.global.ClienteService;
 import net.sf.jasperreports.engine.JRException;
 
@@ -45,7 +50,13 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	private ProdutoService produtoService;
 	
 	@Inject
+	private ParcelasPagamentoOsService parcelasPagamentoService;
+	
+	@Inject
 	private ClienteService clienteService;
+	
+	@Inject
+	private ParametroService parametroService;
 	
 	private static String NUMERO_RECIDO = "numero_recibo";
 	private static String VALOR_OS = "valor_os";
@@ -119,6 +130,14 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	
 	public List<ProdutoOrdemServico> procurarProdutosOS(long idOS){
 		return produtoOrdemServicoService.findByListProperty(idOS, "ordemServico.id");
+	}
+	
+	public List<ParcelasPagamentoOs> procurarPagamentoOS(long idOS){
+		return parcelasPagamentoService.findByListProperty(idOS, "ordemServico.id");
+	}
+	
+	public List<Parametro> listarParametros(long id){
+		return parametroService.findByListProperty(id, "unidadeEmpresarialPadrao.id");
 	}
 	
 	public List<OrdemServico> pesquisarPorNumeroEStatusOS(OrdemServico ordemServico){
@@ -202,10 +221,39 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	
 	public void gerarOrdemServico(OrdemServico ordemServico, 
 								  List<ServicoOrdemServico> servicos, 
-								  List<ProdutoOrdemServico> produtos) throws JRException{
+								  List<ProdutoOrdemServico> produtos,
+								  List<ParcelasPagamentoOs> pagamentos) throws JRException{
 		Map<String, Object> params = new HashMap<String, Object>();
+		sdf = new SimpleDateFormat("dd/MM/yyyy - hh:mm");
+		ordemServico.setCliente(clienteService.verificarTipoPessoa(ordemServico.getCliente()));
+		
 		params.put("list_servicos", setarServicoTo(servicos));
 		params.put("list_produtos", setarProdutoTo(produtos));
+		params.put("list_pagamentos", setarPagamentoTo(pagamentos));
+		params.put("subTotalServico", ordemServico.getTotalServico());
+		params.put("subTotalProduto", ordemServico.getTotalProduto());
+		params.put("totalOS", ordemServico.getTotal());
+		params.put(NUMERO_OS, String.valueOf(ordemServico.getId()));
+		params.put("data_hora", sdf.format(ordemServico.getDataEntrada()));
+		params.put("statusOS", ordemServico.getStatusOS().getStatusOS());
+		params.put("nomeCliente", ordemServico.getCliente().getNomeTemporario());
+		params.put("CPF_CNPJ", clienteService.getTipoDocumentoPessoa(ordemServico.getCliente()));
+		params.put("telefone", ordemServico.getCliente().getTelefone());
+		params.put("celular", ordemServico.getCliente().getCelular());
+		params.put("email", ordemServico.getCliente().getEmail());
+		params.put(ENDERECO, ordemServico.getCliente().getLogradouro());
+		params.put(BAIRRO, ordemServico.getCliente().getBairro());
+		params.put("cidade", ordemServico.getCliente().getCidade());
+		
+		for(Parametro p : parametroService.findAll()){
+			UnidadeEmpresarial u = p.getUnidadeEmpresarialPadrao();
+			params.put("razao_social_u", u.getRazaoSocial());
+			params.put("endereco_u", u.getLogradouro() + " " + u.getComplemento());
+			params.put("cidade_u", u.getCidade());
+			params.put("bairro_u", u.getBairro());
+			params.put("cep_u", u.getCEP());
+			params.put("telefones_u", u.getTelefone() + " | "+u.getCelular());
+		}
 		
 		ReportFactory reportFactory = new ReportFactory("r_ordem_servico.jasper", params, TiposRelatorio.PDF);
 		reportFactory.getReportStream();
@@ -229,6 +277,22 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			to.setQuantidade(p.getQuantidade());
 			to.setValor(p.getValor());
 			to.setSubTotal(p.getSubTotal());
+			tos.add(to);
+		}
+		return tos;
+	}
+	private List<PagamentoTO> setarPagamentoTo(List<ParcelasPagamentoOs> parcelas){
+		List<PagamentoTO> tos = new ArrayList<PagamentoTO>();
+		for(ParcelasPagamentoOs p : parcelas){
+			PagamentoTO to = new PagamentoTO();
+			to.setAtendente(p.getOrdemServico().getFuncionario().getNome());
+			to.setDesconto(p.getValorDesconto());
+			to.setFormaPagamento(p.getOrdemServico().getFormaPagamento().getFormaPagamento());
+			to.setNumero(String.valueOf(p.getNumero()));
+			to.setParcela(p.getValorParcela());
+			to.setParcelamento(p.getQuantidadeParcelas());
+			to.setValorCobrado(p.getValorCobrado());
+			to.setVencimento(p.getDataVencimento());
 			tos.add(to);
 		}
 		return tos;

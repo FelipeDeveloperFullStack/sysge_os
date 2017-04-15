@@ -51,8 +51,8 @@
 						<p:outputLabel value="#{u.id}" />
 					</p:column>
 
-					<p:column headerText="Nome fantasia">
-						<p:outputLabel value="#{u.nomeFantasia}" />
+					<p:column headerText="Razão Social">
+						<p:outputLabel value="#{u.razaoSocial}" />
 					</p:column>
 
 					<p:column headerText="Telefone Fixo" width="100"
@@ -112,6 +112,14 @@
 
 						<h:panelGrid columns="2">
 							<h:panelGrid columns="1">
+								<p:outputLabel value="Razão Social"/>
+								<p:inputText style="width: 500px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.razaoSocial}"/>
+							</h:panelGrid>
+						</h:panelGrid>
+						
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
 								<p:outputLabel value="Nome fantasia"/>
 								<p:inputText style="width: 500px;"
 									value="#{unidadeEmpresarialController.unidadeEmpresarial.nomeFantasia}"/>
@@ -158,6 +166,12 @@
 									<f:selectItems var="s" value="#{unidadeEmpresarialController.situacoes}"
 										itemLabel="#{s.situacao}" itemValue="#{s}" />
 								</p:selectOneMenu>
+							</h:panelGrid>
+							
+							<h:panelGrid columns="1">
+								<p:outputLabel value="CNPJ" />
+								<p:inputMask mask="99.999.999/9999-99" style="width: 244px; color: blue;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.cnpj}" />
 							</h:panelGrid>
 						</h:panelGrid>
 					</p:tab>
@@ -279,6 +293,14 @@
 									update=":formProcurarCnpj"/>
 							</h:panelGrid>
 						</h:panelGrid>
+						
+						<h:panelGrid columns="2">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Razão Social"/>
+								<p:inputText style="width: 500px;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.razaoSocial}"/>
+							</h:panelGrid>
+						</h:panelGrid>
 
 						<h:panelGrid columns="2">
 							<h:panelGrid columns="1">
@@ -322,12 +344,9 @@
 
 						<h:panelGrid columns="2">
 							<h:panelGrid columns="1">
-								<p:outputLabel value="Situação" />
-								<p:selectOneMenu style="width: 125px;"
-									value="#{unidadeEmpresarialController.unidadeEmpresarial.situacao}">
-									<f:selectItems var="s" value="#{unidadeEmpresarialController.situacoes}"
-										itemLabel="#{s.situacao}" itemValue="#{s}" />
-								</p:selectOneMenu>
+								<p:outputLabel value="CNPJ" />
+								<p:inputMask mask="99.999.999/9999-99" style="width: 244px; color: blue;"
+									value="#{unidadeEmpresarialController.unidadeEmpresarial.cnpj}" />
 							</h:panelGrid>
 						</h:panelGrid>
 					</p:tab>

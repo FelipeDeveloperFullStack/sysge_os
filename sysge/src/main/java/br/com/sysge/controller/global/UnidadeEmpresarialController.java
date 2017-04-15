@@ -86,6 +86,7 @@ public class UnidadeEmpresarialController implements Serializable{
 			fecharDialodDeProcurarCnpj();
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	

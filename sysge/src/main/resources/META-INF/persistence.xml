@@ -33,6 +33,7 @@
 		<class>br.com.sysge.model.global.Fornecedor</class>
 		<class>br.com.sysge.model.conf.Parametro</class>
 		<class>br.com.sysge.model.global.UnidadeEmpresarial</class>
+		<class>br.com.sysge.model.sys.UserTheme</class>
 		
 		<properties>
 		

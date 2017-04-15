@@ -13,7 +13,7 @@ public class GuessPreferences implements Serializable{
 
 	private static final long serialVersionUID = 2330138785773694068L;
 
-	private String  theme = "hot-sneaks";
+	private String theme = "hot-sneaks";
 	
 	public String getTheme(){
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -26,4 +26,5 @@ public class GuessPreferences implements Serializable{
 	public void setTheme(String theme){
 		this.theme = theme;
 	}
+	
 }

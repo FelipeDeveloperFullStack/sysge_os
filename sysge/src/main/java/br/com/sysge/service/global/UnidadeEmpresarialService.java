@@ -86,12 +86,19 @@ public class UnidadeEmpresarialService extends GenericDaoImpl<UnidadeEmpresarial
 			unidadeEmpresarial.setRazaoSocial(cnpjResource.getNome());
 			unidadeEmpresarial.setNumero(cnpjResource.getNumero());
 			unidadeEmpresarial.setTelefone(cnpjResource.getTelefone());
-			unidadeEmpresarial.setUnidadeFederativa(UnidadeFederativa.valueOf(cnpjResource.getUf()));
+			unidadeEmpresarial.setUnidadeFederativa(UnidadeFederativa.valueOf(verificarCnpjVazio(cnpjResource.getUf())));
 			
 			return unidadeEmpresarial;
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
+	}
+	
+	private String verificarCnpjVazio(String cnpj){
+		if(cnpj.isEmpty()){
+			return UnidadeFederativa.GO.toString();
+		}
+		return cnpj;
 	}
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-04-10T21:38:09 -->
+<!-- 2017-04-14T16:56:20 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_produto" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="154baed9-17d6-4d61-ad30-1333a4155f6d">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<queryString>
@@ -81,8 +81,12 @@
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
 				<reportElement x="-20" y="0" width="280" height="20" uuid="0be881b3-8bcd-4166-bf9d-8cd4bdae0cab"/>
-				<box>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
@@ -93,6 +97,10 @@
 				<reportElement x="260" y="0" width="82" height="20" uuid="a3f486f3-805a-4071-bf6a-e5ebfc95f783"/>
 				<box>
 					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
@@ -103,6 +111,10 @@
 				<reportElement x="342" y="0" width="98" height="20" uuid="607cd7b3-e10e-46a2-b1fa-fc7f02bb170a"/>
 				<box>
 					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
@@ -113,6 +125,10 @@
 				<reportElement x="440" y="0" width="95" height="20" uuid="9647f0ff-255d-4d07-94c1-35535446cb03"/>
 				<box>
 					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
 				</box>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>

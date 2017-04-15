@@ -1,6 +1,7 @@
 package br.com.sysge.controller.conf;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -8,7 +9,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.sysge.model.conf.Parametro;
+import br.com.sysge.model.global.UnidadeEmpresarial;
+import br.com.sysge.model.type.Situacao;
 import br.com.sysge.service.conf.ParametroService;
+import br.com.sysge.service.global.UnidadeEmpresarialService;
 import br.com.sysge.util.FacesUtil;
 
 @Named
@@ -21,6 +25,9 @@ public class ParametrosController implements Serializable{
 	private ParametroService parametroService;
 	
 	private Parametro parametro;
+	
+	@Inject
+	private UnidadeEmpresarialService unidadeEmpresarialService;
 	
 	@PostConstruct
 	public void init(){
@@ -42,6 +49,7 @@ public class ParametrosController implements Serializable{
 			this.parametro.setPermitirQtdeNegativaEstoque(p.isPermitirQtdeNegativaEstoque());
 			this.parametro.setMostrarListagemEstoqueNegativoTelaInicial(p.isMostrarListagemEstoqueNegativoTelaInicial());
 			this.parametro.setMostrarListagemOSTelaInicial(p.isMostrarListagemOSTelaInicial());
+			this.parametro.setUnidadeEmpresarialPadrao(p.getUnidadeEmpresarialPadrao());
 		}
 	}
 
@@ -53,6 +61,9 @@ public class ParametrosController implements Serializable{
 		this.parametro = parametro;
 	}
 	
+	public List<UnidadeEmpresarial> getUnidadesEmpresariais(){
+		return unidadeEmpresarialService.findBySituation(Situacao.ATIVO);
+	}
 	
 
 }
