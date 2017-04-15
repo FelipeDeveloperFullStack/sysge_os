@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-04-08T17:43:06 -->
+<!-- 2017-04-15T15:08:01 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_nota_recebimento" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
@@ -77,6 +77,13 @@
 	<parameter name="observacoes" class="java.lang.String"/>
 	<parameter name="data_entrada" class="java.util.Date"/>
 	<parameter name="uf" class="java.lang.String"/>
+	<parameter name="razao_social_u" class="java.lang.String"/>
+	<parameter name="endereco_u" class="java.lang.String"/>
+	<parameter name="cidade_u" class="java.lang.String"/>
+	<parameter name="bairro_u" class="java.lang.String"/>
+	<parameter name="cep_u" class="java.lang.String"/>
+	<parameter name="telefones_u" class="java.lang.String"/>
+	<parameter name="nome_fantasia_u" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -136,34 +143,12 @@
 				<text><![CDATA[Data de entrada:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="368" y="30" width="50" height="20" uuid="0b3f9342-da78-4cfa-9fc5-2301c4749678"/>
+				<reportElement x="378" y="30" width="40" height="20" uuid="0b3f9342-da78-4cfa-9fc5-2301c4749678"/>
 				<box rightPadding="4"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[OS Nº:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="95" y="0" width="210" height="25" uuid="e622555d-198b-4ccd-a4a1-c59c53304058">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement>
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[NovaTech Informática]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="95" y="55" width="273" height="15" uuid="b8cc42fd-b569-497d-834d-7e854040ad18"/>
-				<text><![CDATA[CNPJ: 11.654.987/0001-20]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="95" y="25" width="273" height="15" uuid="c226e44d-3bb5-4145-b0b3-903bf1d79fde"/>
-				<text><![CDATA[Rua C-159 Qd 265 Lt 19 nº 365 Jardim América]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="95" y="40" width="205" height="15" uuid="b96f7183-44f8-43ad-ba60-43d8fbf50b6e"/>
-				<text><![CDATA[(062) 3065-4456 | (062) 98456-4568]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="208" width="556" height="15" backcolor="#E8E8E8" uuid="5c398861-4b96-4526-9e5e-3614a2cd945d"/>
@@ -240,11 +225,6 @@
 			<line>
 				<reportElement x="327" y="470" width="230" height="1" uuid="ad2f2295-cca9-4781-b02f-d9e0cd72b677"/>
 			</line>
-			<staticText>
-				<reportElement x="327" y="470" width="230" height="15" uuid="78127fc0-b655-45c7-9b5f-5a431b279665"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[Notatech informática]]></text>
-			</staticText>
 			<textField>
 				<reportElement x="70" y="136" width="192" height="15" uuid="cc497806-c4a4-4eb5-a254-b1a748e4db5d"/>
 				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
@@ -316,6 +296,36 @@
 				<reportElement x="0" y="471" width="230" height="15" uuid="1afe3323-194c-4895-973c-57f4b601fa9c"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="95" y="55" width="283" height="15" uuid="90d4bc3e-22f7-4dad-98f2-9c4bd0cff4db">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{telefones_u}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="95" y="40" width="283" height="15" uuid="de30e7e1-72be-4364-91d6-e6ab2586858e"/>
+				<textFieldExpression><![CDATA[$P{cidade_u}+ "," +$P{bairro_u}+ "," +$P{cep_u}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="95" y="25" width="283" height="15" uuid="8718c44e-d752-49a8-983b-49bcbc320646"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{endereco_u}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="95" y="1" width="284" height="24" uuid="a503850b-cfa0-41f3-8ba5-63120db505e7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{razao_social_u}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="327" y="471" width="229" height="15" uuid="70c565b0-9544-46bb-8309-7de85fa3059e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{nome_fantasia_u}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

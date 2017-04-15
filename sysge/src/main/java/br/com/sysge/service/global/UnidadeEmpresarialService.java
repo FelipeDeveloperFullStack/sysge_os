@@ -36,11 +36,11 @@ public class UnidadeEmpresarialService extends GenericDaoImpl<UnidadeEmpresarial
 	}
 	
 	public List<UnidadeEmpresarial> pesquisarUnidadeEmpresarial(UnidadeEmpresarial unidadeEmpresarial){
-		if(unidadeEmpresarial.getNomeFantasia().trim().isEmpty()){
+		if(unidadeEmpresarial.getRazaoSocial().trim().isEmpty()){
 			return super.findBySituation(unidadeEmpresarial.getSituacao());
 		}else{
-			return super.findByParametersForSituation(unidadeEmpresarial.getNomeFantasia(), 
-					unidadeEmpresarial.getSituacao(), "nomeFantasia", "LIKE", "%", "%");
+			return super.findByParametersForSituation(unidadeEmpresarial.getRazaoSocial(), 
+					unidadeEmpresarial.getSituacao(), "razaoSocial", "LIKE", "%", "%");
 		}
 	}
 	

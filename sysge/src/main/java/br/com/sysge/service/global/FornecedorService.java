@@ -29,7 +29,7 @@ public class FornecedorService extends GenericDaoImpl<Fornecedor, Long> {
 		if (fornecedor.getNomeFantasia().trim().isEmpty() && fornecedor.getCnpj().trim().isEmpty()) {
 			return super.findBySituation(fornecedor.getSituacao());
 		} else if (!fornecedor.getNomeFantasia().trim().isEmpty()) {
-			return super.findByParametersForSituation(fornecedor.getNomeFantasia().toUpperCase(), fornecedor.getSituacao(),
+			return super.findByParametersForSituation(fornecedor.getNomeFantasia(), fornecedor.getSituacao(),
 					"nomeFantasia", "LIKE", "%", "%");
 		} else {
 			return super.findByParametersForSituation(fornecedor.getCnpj(), fornecedor.getSituacao(),
@@ -67,10 +67,8 @@ public class FornecedorService extends GenericDaoImpl<Fornecedor, Long> {
 
 	private Fornecedor consistirFornecedor(Fornecedor fornecedor) {
 		if (fornecedor.getId() == null) {
-			fornecedor.setNomeFantasia(fornecedor.getNomeFantasia().toUpperCase());
+			/*fornecedor.setNomeFantasia(fornecedor.getNomeFantasia().toUpperCase());*/
 			fornecedor.setSituacao(Situacao.ATIVO);
-		}else{
-			fornecedor.setNomeFantasia(fornecedor.getNomeFantasia().toUpperCase());
 		}
 		return fornecedor;
 	}

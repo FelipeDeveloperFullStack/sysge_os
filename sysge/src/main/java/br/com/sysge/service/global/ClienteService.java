@@ -69,7 +69,7 @@ public class ClienteService extends GenericDaoImpl<Cliente, Long> {
 		} else {
 			if(cliente.getTipoPessoa() == TipoPessoa.PESSOA_FISICA){
 				if(!cliente.getNomeDaPessoaFisica().toUpperCase().trim().isEmpty()){
-					return super.findByParametersForSituation(cliente.getNomeDaPessoaFisica().toUpperCase(), cliente.getTipoPessoa(),
+					return super.findByParametersForSituation(cliente.getNomeDaPessoaFisica(), cliente.getTipoPessoa(),
 							cliente.getSituacao(), "nomeDaPessoaFisica", "LIKE", "%", "%");
 				}else{
 					return super.findByParametersForSituation(cliente.getCpf(), cliente.getSituacao(),
@@ -77,7 +77,7 @@ public class ClienteService extends GenericDaoImpl<Cliente, Long> {
 				}
 			}else{
 				if(!cliente.getNomeFantasia().toUpperCase().trim().isEmpty()){
-					return super.findByParametersForSituation(cliente.getNomeFantasia().toUpperCase(), cliente.getTipoPessoa(),
+					return super.findByParametersForSituation(cliente.getNomeFantasia(), cliente.getTipoPessoa(),
 							cliente.getSituacao(), "nomeFantasia", "LIKE", "%", "%");
 				}else{
 					return super.findByParametersForSituation(cliente.getCnpj(), cliente.getSituacao(),
@@ -118,14 +118,10 @@ public class ClienteService extends GenericDaoImpl<Cliente, Long> {
 
 	private Cliente consistirCliente(Cliente cliente) {
 		if (cliente.getId() == null) {
-			cliente.setNomeDaPessoaFisica(cliente.getNomeDaPessoaFisica().toUpperCase());
+			/*cliente.setNomeDaPessoaFisica(cliente.getNomeDaPessoaFisica().toUpperCase());
 			cliente.setNomeFantasia(cliente.getNomeFantasia().toUpperCase());
-			cliente.setNomeTemporario(cliente.getNomeTemporario().toUpperCase());
+			cliente.setNomeTemporario(cliente.getNomeTemporario().toUpperCase());*/
 			cliente.setSituacao(Situacao.ATIVO);
-		}else{
-			cliente.setNomeDaPessoaFisica(cliente.getNomeDaPessoaFisica().toUpperCase());
-			cliente.setNomeFantasia(cliente.getNomeFantasia().toUpperCase());
-			cliente.setNomeTemporario(cliente.getNomeTemporario().toUpperCase());
 		}
 		return cliente;
 	}

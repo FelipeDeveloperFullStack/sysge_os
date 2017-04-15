@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-04-14T16:57:56 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_servico" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="154baed9-17d6-4d61-ad30-1333a4155f6d">
+<!-- 2017-04-15T16:33:00 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_servico" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="154baed9-17d6-4d61-ad30-1333a4155f6d">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<queryString>
 		<![CDATA[]]>
@@ -49,7 +49,7 @@
 	<detail>
 		<band height="22" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="-20" y="0" width="280" height="22" uuid="2eda34ff-e070-46a4-b982-bb08656afc85"/>
 				<box>
 					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#E0E0E0"/>
@@ -63,7 +63,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[" "+$F{nome}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤#,##0.00;¤-#,##0.00">
+			<textField pattern="¤#,##0.00;¤-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="260" y="0" width="275" height="22" uuid="4ddb594b-42dc-4b88-aa78-fb1fd432bd1a">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>

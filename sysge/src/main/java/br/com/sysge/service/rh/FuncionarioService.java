@@ -24,11 +24,10 @@ public class FuncionarioService extends GenericDaoImpl<Funcionario, Long>{
 	
 	private Funcionario consistirFuncionario(Funcionario funcionario){
 		if(funcionario.getId() == null){
-			funcionario.setNome(funcionario.getNome().toUpperCase());
+			//funcionario.setNome(funcionario.getNome().toUpperCase());
 			funcionario.setSituacao(Situacao.ATIVO);
-		}else{
-			funcionario.setNome(funcionario.getNome().toUpperCase());
 		}
+		//funcionario.setNome(funcionario.getNome().toUpperCase());
 		return funcionario;
 	}
 	
@@ -36,7 +35,7 @@ public class FuncionarioService extends GenericDaoImpl<Funcionario, Long>{
 			if(funcionario.getNome().trim().isEmpty()){
 				return super.findBySituation(funcionario.getSituacao());
 			}else{
-				return super.findByParametersForSituation(funcionario.getNome().toUpperCase(), 
+				return super.findByParametersForSituation(funcionario.getNome(), 
 						funcionario.getSituacao(), "nome", "LIKE", "%", "%");
 			}
 	}

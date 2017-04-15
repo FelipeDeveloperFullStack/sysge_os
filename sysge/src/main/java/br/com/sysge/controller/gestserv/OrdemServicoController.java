@@ -384,8 +384,12 @@ public class OrdemServicoController implements Serializable {
 	}
 	
 	private void salvarOrdemServico(){
+		if(ordemServico.getStatusOS() == StatusOS.FINALIZADO){
+			ordemServico.setDataSaida(Calendar.getInstance().getTime());
+			ordemServico.setHoraSaida(Calendar.getInstance().getTime());
+		}
 		salvarOS();
-		RequestContextUtil.execute("PF('dialog_opcoes').show();");
+		//RequestContextUtil.execute("PF('dialog_opcoes').show();");
 		fecharDialogs();
 	}
 	

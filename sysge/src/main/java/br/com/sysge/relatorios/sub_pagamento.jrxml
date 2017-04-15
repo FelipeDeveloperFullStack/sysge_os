@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-04-14T16:59:17 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_pagamento" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1daf1101-08d4-416d-b033-b8fbbb99b914">
+<!-- 2017-04-15T17:21:24 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_pagamento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1daf1101-08d4-416d-b033-b8fbbb99b914">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<queryString>
 		<![CDATA[]]>
@@ -29,6 +29,12 @@
 	</field>
 	<field name="parcela" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[parcela]]></fieldDescription>
+	</field>
+	<field name="cliente" class="java.lang.String">
+		<fieldDescription><![CDATA[cliente]]></fieldDescription>
+	</field>
+	<field name="nomeFantasiaUnidadeEmpresarial" class="java.lang.String">
+		<fieldDescription><![CDATA[nomeFantasiaUnidadeEmpresarial]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -209,7 +215,7 @@
 		</band>
 	</detail>
 	<summary>
-		<band height="39">
+		<band height="95">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
 				<reportElement x="-20" y="2" width="51" height="20" uuid="c78a14de-22f0-492a-a7d8-c6d54ccbebf5">
@@ -226,6 +232,59 @@
 				</reportElement>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{atendente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="-19" y="29" width="555" height="12" uuid="a4b1d37a-77c8-4b3d-b082-73412c4a874f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Declaro estar recebendo materiais constantes nesta ordem de serviço exatamente como entreguei para orçamento.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="-19" y="41" width="212" height="12" uuid="dfa14626-9d66-40a7-b321-0dbe70f678f4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Assinatura do cliente]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="-18" y="72" width="212" height="1" uuid="c63ce871-b67b-43d7-a616-c26304be243d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="320" y="41" width="216" height="12" uuid="59293a64-ec47-47b9-8e77-3718c37f418b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Assinatura ou carimbo da empresa]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="321" y="72" width="215" height="1" uuid="49f36a94-1122-459b-94e0-7d5410b0a026"/>
+			</line>
+			<textField>
+				<reportElement x="-18" y="73" width="212" height="12" uuid="4aeca4b4-52de-447c-91c0-67ffdbe3a7a8">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="73" width="212" height="12" uuid="bec1eaf9-9dba-4175-925f-9b481fa680ab">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeFantasiaUnidadeEmpresarial}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

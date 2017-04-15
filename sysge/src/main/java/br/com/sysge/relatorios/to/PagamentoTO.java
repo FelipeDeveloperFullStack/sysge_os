@@ -23,6 +23,10 @@ public class PagamentoTO implements Serializable{
 	private String atendente;
 	
 	private Date vencimento;
+	
+	private String cliente;
+	
+	private String nomeFantasiaUnidadeEmpresarial;
 
 	public String getFormaPagamento() {
 		return formaPagamento;
@@ -86,6 +90,22 @@ public class PagamentoTO implements Serializable{
 
 	public void setAtendente(String atendente) {
 		this.atendente = atendente;
+	}
+
+	public String getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(String cliente) {
+		this.cliente = cliente;
+	}
+
+	public String getNomeFantasiaUnidadeEmpresarial() {
+		return nomeFantasiaUnidadeEmpresarial;
+	}
+
+	public void setNomeFantasiaUnidadeEmpresarial(String nomeFantasiaUnidadeEmpresarial) {
+		this.nomeFantasiaUnidadeEmpresarial = nomeFantasiaUnidadeEmpresarial;
 	}
 	
 	

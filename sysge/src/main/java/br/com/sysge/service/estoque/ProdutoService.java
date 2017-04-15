@@ -40,10 +40,8 @@ public class ProdutoService extends GenericDaoImpl<Produto, Long>{
 	
 	private Produto consistirProduto(Produto produto){
 		if(produto.getId() == null){
-			produto.setDescricaoProduto(produto.getDescricaoProduto().toUpperCase());
+			//produto.setDescricaoProduto(produto.getDescricaoProduto().toUpperCase());
 			produto.setSituacao(Situacao.ATIVO);
-		}else{
-			produto.setDescricaoProduto(produto.getDescricaoProduto().toUpperCase());
 		}
 		return produto;
 	}
@@ -53,7 +51,7 @@ public class ProdutoService extends GenericDaoImpl<Produto, Long>{
 			if(produto.getDescricaoProduto().trim().isEmpty()){
 				return super.findBySituation(produto.getSituacao());
 			}else{
-				return super.findByParametersForSituation(produto.getDescricaoProduto().toUpperCase(), 
+				return super.findByParametersForSituation(produto.getDescricaoProduto(), 
 						produto.getSituacao(), "descricaoProduto", "LIKE", "%", "%"); 
 			}
 		} catch (RuntimeException e) {

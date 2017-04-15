@@ -176,14 +176,20 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	     params.put(NUMERO_RECIDO, String.valueOf(c.get(Calendar.YEAR)) + String.valueOf(parcela.getOrdemServico().getId()) + String.valueOf(parcela.getNumero()));
 	     params.put(VALOR_OS, df.format(parcela.getOrdemServico().getTotal()));
 	     params.put(VALOR_PARCELA, df.format(parcela.getValorCobrado()));
-	     params.put(RAZAO_SOCIAL_UNIDADE_EMPRESARIAL, "NovaTech Informática");
-	     params.put(TELEFONE_UNIDADE_EMPRESARIAL, "(62) 3545-9877");
 	     params.put(NOME_CLIENTE, parcela.getOrdemServico().getCliente().getNomeTemporario());
 	     params.put(DOCUMENTO, String.valueOf((parcela.getOrdemServico().getCliente().getCpf() == null ? "" : parcela.getOrdemServico().getCliente().getCpf()) 
 	    		 		       + "" + (parcela.getOrdemServico().getCliente().getCnpj() == null ? "" : parcela.getOrdemServico().getCliente().getCnpj())));
 	     params.put(NUMERO_PARCELA, String.valueOf(parcela.getNumero()+ "º"));
 	     params.put(NUMERO_OS, String.valueOf(parcela.getOrdemServico().getId()));
 	     params.put(NUMERO_EXTENSO, converteNumeroExtensoReal.converterNumeroParaExtensoReal(parcela.getValorCobrado()));
+	     
+	     	//Unidade Empresarial
+			for(Parametro p : parametroService.findAll()){
+				UnidadeEmpresarial u = p.getUnidadeEmpresarialPadrao();
+				 params.put(RAZAO_SOCIAL_UNIDADE_EMPRESARIAL, u.getNomeFantasia());
+			     params.put(TELEFONE_UNIDADE_EMPRESARIAL, u.getTelefone());
+			}
+	     
 	     
 	     ReportFactory reportFactory = new ReportFactory("r_comprovante_pagamento.jasper", params, TiposRelatorio.PDF);
 	     reportFactory.getReportStream();
@@ -215,6 +221,18 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		params.put(NUMERO_OS, String.valueOf(ordemServico.getId()));
 		params.put(DATA_ENTRADA, ordemServico.getDataEntrada());
 		
+				//Unidade Empresarial
+				for(Parametro p : parametroService.findAll()){
+					UnidadeEmpresarial u = p.getUnidadeEmpresarialPadrao();
+					params.put("razao_social_u", u.getRazaoSocial());
+					params.put("endereco_u", u.getLogradouro() + " " + u.getComplemento());
+					params.put("cidade_u", u.getCidade());
+					params.put("bairro_u", u.getBairro());
+					params.put("cep_u", u.getCEP());
+					params.put("telefones_u", u.getTelefone() + " | "+u.getCelular());
+					params.put("nome_fantasia_u", u.getNomeFantasia());
+				}
+		
 		ReportFactory reportFactory = new ReportFactory("r_nota_recebimento.jasper", params, TiposRelatorio.PDF);
 		reportFactory.getReportStream();
 	}
@@ -235,6 +253,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		params.put("totalOS", ordemServico.getTotal());
 		params.put(NUMERO_OS, String.valueOf(ordemServico.getId()));
 		params.put("data_hora", sdf.format(ordemServico.getDataEntrada()));
+		params.put("data_hora_saida", verificarDataSaida(ordemServico.getDataSaida(), sdf));
 		params.put("statusOS", ordemServico.getStatusOS().getStatusOS());
 		params.put("nomeCliente", ordemServico.getCliente().getNomeTemporario());
 		params.put("CPF_CNPJ", clienteService.getTipoDocumentoPessoa(ordemServico.getCliente()));
@@ -245,6 +264,14 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		params.put(BAIRRO, ordemServico.getCliente().getBairro());
 		params.put("cidade", ordemServico.getCliente().getCidade());
 		
+		params.put(MARCA, ordemServico.getMarca());
+		params.put(MODELO, ordemServico.getModelo());
+		params.put(ACESSORIOS, ordemServico.getAcessorios());
+		params.put(SINTOMAS, ordemServico.getDefeito());
+		params.put(NUMERO_SERIE, String.valueOf(ordemServico.getNumeroSerie()));
+		params.put(NUMERO_PATRIMONIO, String.valueOf(ordemServico.getNumeroPatrimonio()));
+		
+		//Unidade Empresarial
 		for(Parametro p : parametroService.findAll()){
 			UnidadeEmpresarial u = p.getUnidadeEmpresarialPadrao();
 			params.put("razao_social_u", u.getRazaoSocial());
@@ -259,32 +286,61 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		reportFactory.getReportStream();
 	}
 	
+	private String verificarDataSaida(Date dataSaida, SimpleDateFormat sdf){
+		if(dataSaida == null){
+			return "";
+		}else{
+			return sdf.format(dataSaida);
+		}
+	}
+	
 	private List<ServicoTO> setarServicoTo(List<ServicoOrdemServico> servicos){
 		List<ServicoTO> tos = new ArrayList<ServicoTO>();
-		for(ServicoOrdemServico s : servicos){
+		if(servicos.isEmpty()){
 			ServicoTO to = new ServicoTO();
-			to.setNome(s.getServico().getNome());
-			to.setSubTotal(s.getSubTotal());
+			to.setNome("Nenhum servico informado!");
+			to.setSubTotal(null);
 			tos.add(to);
+			return tos;
+		}else{
+			for(ServicoOrdemServico s : servicos){
+				ServicoTO to = new ServicoTO();
+				to.setNome(s.getServico().getNome());
+				to.setSubTotal(s.getSubTotal());
+				tos.add(to);
+			}
+			return tos;
 		}
-		return tos;
 	}
 	private List<ProdutoTO> setarProdutoTo(List<ProdutoOrdemServico> produtos){
 		List<ProdutoTO> tos = new ArrayList<ProdutoTO>();
-		for(ProdutoOrdemServico p : produtos){
+		if(produtos.isEmpty()){
 			ProdutoTO to = new ProdutoTO();
-			to.setDescricaoProduto(p.getProduto().getDescricaoProduto());
-			to.setQuantidade(p.getQuantidade());
-			to.setValor(p.getValor());
-			to.setSubTotal(p.getSubTotal());
+			to.setDescricaoProduto("Nenhum produto informado!");
+			to.setQuantidade(null);
+			to.setValor(null);
+			to.setSubTotal(null);
 			tos.add(to);
+			return tos;
+		}else{
+			for(ProdutoOrdemServico p : produtos){
+				ProdutoTO to = new ProdutoTO();
+				to.setDescricaoProduto(p.getProduto().getDescricaoProduto());
+				to.setQuantidade(p.getQuantidade());
+				to.setValor(p.getValor());
+				to.setSubTotal(p.getSubTotal());
+				tos.add(to);
+			}
+			return tos;
 		}
-		return tos;
+		
 	}
 	private List<PagamentoTO> setarPagamentoTo(List<ParcelasPagamentoOs> parcelas){
 		List<PagamentoTO> tos = new ArrayList<PagamentoTO>();
 		for(ParcelasPagamentoOs p : parcelas){
 			PagamentoTO to = new PagamentoTO();
+			p.getOrdemServico().setCliente(clienteService.verificarTipoPessoa(p.getOrdemServico().getCliente()));
+			
 			to.setAtendente(p.getOrdemServico().getFuncionario().getNome());
 			to.setDesconto(p.getValorDesconto());
 			to.setFormaPagamento(p.getOrdemServico().getFormaPagamento().getFormaPagamento());
@@ -293,6 +349,13 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			to.setParcelamento(p.getQuantidadeParcelas());
 			to.setValorCobrado(p.getValorCobrado());
 			to.setVencimento(p.getDataVencimento());
+			to.setCliente(p.getOrdemServico().getCliente().getNomeTemporario());
+			
+			//Unidade Empresarial
+			for(Parametro pm : parametroService.findAll()){
+				UnidadeEmpresarial u = pm.getUnidadeEmpresarialPadrao();
+				to.setNomeFantasiaUnidadeEmpresarial(u.getNomeFantasia());
+			}
 			tos.add(to);
 		}
 		return tos;
