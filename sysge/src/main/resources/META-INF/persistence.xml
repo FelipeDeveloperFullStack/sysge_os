@@ -22,8 +22,6 @@
 		<class>br.com.sysge.model.gestserv.OrdemServico</class>
 		
 		<class>br.com.sysge.model.global.Cliente</class>
-		
-		<class>br.com.sysge.model.financ.ResumoCaixa</class>
 		<class>br.com.sysge.model.estoque.Produto</class>
 		<class>br.com.sysge.model.gestserv.ServicoOrdemServico</class>
 		<class>br.com.sysge.model.gestserv.ServicoOrdemServicoId</class>
@@ -34,6 +32,9 @@
 		<class>br.com.sysge.model.conf.Parametro</class>
 		<class>br.com.sysge.model.global.UnidadeEmpresarial</class>
 		<class>br.com.sysge.model.sys.UserTheme</class>
+		<class>br.com.sysge.model.financ.LancamentoReceita</class>
+		<class>br.com.sysge.model.financ.MovimentoFinanceiro</class>
+		<class>br.com.sysge.model.financ.LancamentoDespesa</class>
 		
 		<properties>
 		

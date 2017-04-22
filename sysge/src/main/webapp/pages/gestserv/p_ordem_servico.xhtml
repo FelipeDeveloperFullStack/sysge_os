@@ -857,10 +857,11 @@
 							</p:column>
 							<p:column style="text-align:center;">
 								<p:commandButton id="btn_pago" icon="ui-icon-check"
-									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
+									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" 
+									oncomplete="PF('dialog_confirmar_pagamento').show();"/>
 									
 								<p:commandButton id="btn_boleto" icon="ui-icon-bookmark"
-									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
+									disabled="true"/>
 									
 								<p:commandButton id="btn_comprovante" icon="ui-icon-print"
 									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" ajax="false"
@@ -1068,6 +1069,32 @@
 			</h:form>
 		
 		</p:dialog>
+		
+		<p:dialog header="Confirmação de pagamento" closable="true" draggable="true"
+			resizable="false" maximizable="false" widgetVar="dialog_confirmar_pagamento"
+			modal="true" appendTo="@(body)" position="top">
+			
+			<h:form>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Parcela"/>
+					<p:outputLabel value="1 de 2"/>
+					
+					<p:outputLabel value="Vencimento"/>
+					<p:outputLabel value="22/04/2017"/>
+					
+					<p:outputLabel value="Data pagamento"/>
+					<p:calendar showOn="button"/>
+				</p:panelGrid>
+				
+				<p:separator/>
+				
+				<p:panelGrid columns="2">
+					<p:commandButton value="Confirmar pagamento" icon="ui-icon-check"/>
+					<p:commandButton value="Cancelar" icon="ui-icon-closethick"/>
+				</p:panelGrid>
+			</h:form>
+			
+		</p:dialog>	
 
 	</ui:define>
 </ui:composition>

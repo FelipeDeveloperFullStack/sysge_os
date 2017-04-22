@@ -33,6 +33,7 @@ import br.com.sysge.model.type.TipoDesconto;
 import br.com.sysge.service.conf.ParametroService;
 import br.com.sysge.service.estoque.ProdutoService;
 import br.com.sysge.service.financ.CondicaoPagamentoService;
+import br.com.sysge.service.financ.MovimentoFinanceiroService;
 import br.com.sysge.service.financ.ParcelasPagamentoOsService;
 import br.com.sysge.service.gestserv.OrdemServicoService;
 import br.com.sysge.service.gestserv.ProdutoOrdemServicoService;
@@ -117,6 +118,9 @@ public class OrdemServicoController implements Serializable {
 	
 	@Inject
 	private ParametroService parametroService;
+	
+	@Inject
+	private MovimentoFinanceiroService movimentoFinanceiroService;
 	
 	private static final String PAGE_CLIENTE = "/pages_framework/p_cliente.xhtml";
 	private static final String PAGE_SERVICO = "/pages_framework/p_servicos.xhtml";
@@ -366,6 +370,9 @@ public class OrdemServicoController implements Serializable {
 				for(ParcelasPagamentoOs p : parcelas){
 					somaValorParcela = somaValorParcela.add(p.getValorParcela());
 				}
+				
+				salvarMovimentoFinanceiro(ordemServico, parcelas);
+				
 				if(somaValorParcela != BigDecimal.ZERO){
 					if(ordemServico.getTotal().doubleValue() != somaValorParcela.doubleValue()){
 						RequestContextUtil.execute("PF('dialog_confirmacao_valor_parcelas').show();");
@@ -380,6 +387,12 @@ public class OrdemServicoController implements Serializable {
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			FacesUtil.mensagemErro(e.getMessage());
+		}
+	}
+	
+	public void salvarMovimentoFinanceiro(OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelasPagamentoOs){
+		for(ParcelasPagamentoOs p : parcelasPagamentoOs){
+			movimentoFinanceiroService.salvarMovimentoFinanceiro(ordemServico, p);
 		}
 	}
 	

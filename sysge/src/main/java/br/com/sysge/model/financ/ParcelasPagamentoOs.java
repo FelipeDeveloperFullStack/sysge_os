@@ -38,12 +38,15 @@ public class ParcelasPagamentoOs extends GenericDomain{
 	private Date dataVencimento;
 	
 	@Enumerated(EnumType.STRING)
-	private Pago pago;
+	private Pago pago = Pago.NAO;
 	
 	@Enumerated(EnumType.STRING)
 	private FormaPagamento formaPagamento;
 	
 	private String quantidadeParcelas;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	private LancamentoReceita lancamentoReceita;
 
 	public long getNumero() {
 		return numero;
@@ -116,6 +119,14 @@ public class ParcelasPagamentoOs extends GenericDomain{
 
 	public void setFormaPagamento(FormaPagamento formaPagamento) {
 		this.formaPagamento = formaPagamento;
+	}
+
+	public LancamentoReceita getLancamentoReceita() {
+		return lancamentoReceita == null ? new LancamentoReceita() : this.lancamentoReceita;
+	}
+
+	public void setLancamentoReceita(LancamentoReceita lancamentoReceita) {
+		this.lancamentoReceita = lancamentoReceita == null ? new LancamentoReceita() : lancamentoReceita;
 	}
 	
 	

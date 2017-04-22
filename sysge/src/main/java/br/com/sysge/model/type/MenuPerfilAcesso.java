@@ -15,7 +15,7 @@ public enum MenuPerfilAcesso {
 	//FINANCEIRO("Financeiro"),
 		//CADASTROS("Cadastros"),
 		//CAIXA("Caixa"),
-			LANCAMENTO_CAIXA("Lançamento de caixa"),
+			LANCAMENTO_FINANCEIRO("Lançamento financeiro"),
 		//BANCO("Banco"),
 			//LANCAMENTO_BANCO("Lançamento de banco"),
 		CONDICAO_PAGAMENTO("Condição de pagamento"),		

@@ -110,7 +110,7 @@ public class LoginController implements Serializable {
 	private static final String PAGE_DASHBOARD = "/pages/sys/p_dashboard.xhtml" + FACES_REDIRECT;
 
 	// Financeiro
-	private static final String PAGE_LANCAMENTO_CAIXA = "/pages/financ/p_lancamento_caixa.xhtml" + FACES_REDIRECT;
+	private static final String PAGE_LANCAMENTO_FINANCEIRO = "/pages/financ/p_lancamento_financeiro.xhtml" + FACES_REDIRECT;
 	private static final String PAGE_CONDICAO_PAGAMENTO = "/pages/financ/p_condicao_pagamento.xhtml" + FACES_REDIRECT;
 
 	// Configuração
@@ -286,9 +286,9 @@ public class LoginController implements Serializable {
 				menuItemFornecedor.setOutcome(PAGE_FORNECEDOR);
 				menuItemFornecedor.setIcon(ICON_MENU);
 			}
-			if (menu.getMenu().equals(MenuSistema.LANCAMENTO_CAIXA.getMenu())) {
-				menuItemLancamentoCaixa = new DefaultMenuItem(MenuSistema.LANCAMENTO_CAIXA.getMenu());
-				menuItemLancamentoCaixa.setOutcome(PAGE_LANCAMENTO_CAIXA);
+			if (menu.getMenu().equals(MenuSistema.LANCAMENTO_FINANCEIRO.getMenu())) {
+				menuItemLancamentoCaixa = new DefaultMenuItem(MenuSistema.LANCAMENTO_FINANCEIRO.getMenu());
+				menuItemLancamentoCaixa.setOutcome(PAGE_LANCAMENTO_FINANCEIRO);
 				menuItemLancamentoCaixa.setIcon(ICON_MENU);
 			}
 			if(menu.getMenu().equals(MenuSistema.CONDICAO_PAGAMENTO.getMenu())){

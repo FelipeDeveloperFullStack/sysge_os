@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-04-15T17:21:24 -->
+<!-- 2017-04-20T22:14:16 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_pagamento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1daf1101-08d4-416d-b033-b8fbbb99b914">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<queryString>
@@ -119,7 +119,7 @@
 				</textElement>
 				<text><![CDATA[Vencimento]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="62" y="-3" width="100" height="20" uuid="6b8ae869-7480-4f14-a9d2-ffd63667cf6d">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -128,7 +128,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{formaPagamento}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="428" y="-3" width="146" height="20" uuid="8d4c1450-ad3b-49bb-be32-edd52926cf69">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -226,7 +226,7 @@
 				</textElement>
 				<text><![CDATA[Atendente:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="34" y="2" width="249" height="20" uuid="c54239fe-9a1d-4934-8d5d-35a66d1731a7">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -268,7 +268,7 @@
 			<line>
 				<reportElement positionType="Float" x="321" y="72" width="215" height="1" uuid="49f36a94-1122-459b-94e0-7d5410b0a026"/>
 			</line>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="-18" y="73" width="212" height="12" uuid="4aeca4b4-52de-447c-91c0-67ffdbe3a7a8">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -277,7 +277,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="321" y="73" width="212" height="12" uuid="bec1eaf9-9dba-4175-925f-9b481fa680ab">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>

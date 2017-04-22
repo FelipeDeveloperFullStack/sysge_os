@@ -43,13 +43,16 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 			parcelas = new ArrayList<ParcelasPagamentoOs>();
 			String condicaoPagamento = ordemServico.getCondicaoPagamento().getDescricao();
 			if(condicaoPagamento.equals(A_VISTA)){
+				
 				parcelasPagamentoOs = new ParcelasPagamentoOs();
+				
 				parcelasPagamentoOs.setNumero(1L);
 				parcelasPagamentoOs.setOrdemServico(ordemServico);
 				parcelasPagamentoOs.setQuantidadeParcelas(String.valueOf(1L));
 				parcelasPagamentoOs.setValorParcela(ordemServico.getTotal());
 				parcelasPagamentoOs.setValorCobrado(ordemServico.getTotal());
 				parcelasPagamentoOs.setDataVencimento(DateUtil.asDate(LocalDate.now()));
+				
 				parcelas.add(parcelasPagamentoOs);
 				return parcelas;
 			}else{
