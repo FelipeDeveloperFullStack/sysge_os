@@ -858,7 +858,8 @@
 							<p:column style="text-align:center;">
 								<p:commandButton id="btn_pago" icon="ui-icon-check"
 									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" 
-									oncomplete="PF('dialog_confirmar_pagamento').show();"/>
+									actionListener="#{ordemServicoController.setarConfirmacaoPagamento(p)}"
+									update=":msgGlobal :form_confirm_pagamento"/>
 									
 								<p:commandButton id="btn_boleto" icon="ui-icon-bookmark"
 									disabled="true"/>
@@ -1074,23 +1075,26 @@
 			resizable="false" maximizable="false" widgetVar="dialog_confirmar_pagamento"
 			modal="true" appendTo="@(body)" position="top">
 			
-			<h:form>
+			<h:form id="form_confirm_pagamento">
 				<p:panelGrid columns="2">
 					<p:outputLabel value="Parcela"/>
-					<p:outputLabel value="1 de 2"/>
+					<p:outputLabel value="#{ordemServicoController.parcela.numero} de #{ordemServicoController.parcela.quantidadeParcelas}"/>
 					
 					<p:outputLabel value="Vencimento"/>
-					<p:outputLabel value="22/04/2017"/>
+					<p:outputLabel value="#{ordemServicoController.parcela.dataVencimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"
+								timeZone="GMT-2" type="both" />
+					</p:outputLabel>
 					
 					<p:outputLabel value="Data pagamento"/>
-					<p:calendar showOn="button"/>
+					<p:calendar showOn="button" value="#{ordemServicoController.parcela.dataPagamento}" pattern="dd/MM/yyyy" mask="true"/>
 				</p:panelGrid>
 				
 				<p:separator/>
 				
 				<p:panelGrid columns="2">
-					<p:commandButton value="Confirmar pagamento" icon="ui-icon-check"/>
-					<p:commandButton value="Cancelar" icon="ui-icon-closethick"/>
+					<p:commandButton value="Confirmar pagamento" icon="ui-icon-check" actionListener="#{ordemServicoController.confirmarPagamentoParcela}"/>
+					<p:commandButton value="Cancelar" icon="ui-icon-closethick" oncomplete="PF('dialog_confirmar_pagamento').hide();"/>
 				</p:panelGrid>
 			</h:form>
 			

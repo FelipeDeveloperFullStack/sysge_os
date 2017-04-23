@@ -37,8 +37,11 @@ public class ParcelasPagamentoOs extends GenericDomain{
 	@Temporal(TemporalType.DATE)
 	private Date dataVencimento;
 	
+	@Temporal(TemporalType.DATE)
+	private Date dataPagamento;
+	
 	@Enumerated(EnumType.STRING)
-	private Pago pago = Pago.NAO;
+	private Pago pago;
 	
 	@Enumerated(EnumType.STRING)
 	private FormaPagamento formaPagamento;
@@ -127,6 +130,14 @@ public class ParcelasPagamentoOs extends GenericDomain{
 
 	public void setLancamentoReceita(LancamentoReceita lancamentoReceita) {
 		this.lancamentoReceita = lancamentoReceita == null ? new LancamentoReceita() : lancamentoReceita;
+	}
+
+	public Date getDataPagamento() {
+		return dataPagamento;
+	}
+
+	public void setDataPagamento(Date dataPagamento) {
+		this.dataPagamento = dataPagamento;
 	}
 	
 	

@@ -8,6 +8,7 @@ import java.util.List;
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
 import br.com.sysge.model.gestserv.OrdemServico;
+import br.com.sysge.model.type.Pago;
 import br.com.sysge.util.DateUtil;
 
 public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamentoOs, Long>{
@@ -77,6 +78,11 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 			parcelas.add(parcelasPagamentoOs);
 		}
 		return parcelas;
+	}
+	
+	public void salvarMovimentoReceitaParcela(ParcelasPagamentoOs parcela){
+		parcela.setPago(Pago.SIM);
+		super.save(parcela);
 	}
 
 }

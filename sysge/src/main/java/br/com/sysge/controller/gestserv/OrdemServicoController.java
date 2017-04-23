@@ -60,6 +60,8 @@ public class OrdemServicoController implements Serializable {
 	
 	private ParcelasPagamentoOs parcelasPagamentoOs;
 	
+	private ParcelasPagamentoOs parcela;
+	
 	private Servico servico;
 	
 	private Produto produto;;
@@ -129,6 +131,23 @@ public class OrdemServicoController implements Serializable {
 	@PostConstruct
 	public void init() {
 		novaOrdemServico();
+	}
+	
+	public void setarConfirmacaoPagamento(ParcelasPagamentoOs parcela){
+		this.parcela = parcela;
+		RequestContextUtil.execute("PF('dialog_confirmar_pagamento').show();");
+	}
+	
+	public void confirmarPagamentoParcela(){
+		try {
+			parcelasPagamentoOsService.salvarMovimentoReceitaParcela(parcela);
+			RequestContextUtil.execute("PF('dialog_confirmar_pagamento').hide();");
+		} catch (Exception e) {
+			FacesUtil.mensagemErro(e.getMessage());
+		}finally {
+			this.parcela = new ParcelasPagamentoOs();
+		}
+		
 	}
 	
 	public void obterPageCliente(){
@@ -392,7 +411,7 @@ public class OrdemServicoController implements Serializable {
 	
 	public void salvarMovimentoFinanceiro(OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelasPagamentoOs){
 		for(ParcelasPagamentoOs p : parcelasPagamentoOs){
-			movimentoFinanceiroService.salvarMovimentoFinanceiro(ordemServico, p);
+			movimentoFinanceiroService.salvarMovimentoFinanceiroOS(ordemServico, p);
 		}
 	}
 	
@@ -748,6 +767,14 @@ public class OrdemServicoController implements Serializable {
 
 	public void setQuantidadeAdicionada(Long quantidadeAdicionada) {
 		this.quantidadeAdicionada = quantidadeAdicionada;
+	}
+
+	public ParcelasPagamentoOs getParcela() {
+		return parcela == null ? new ParcelasPagamentoOs() : this.parcela;
+	}
+
+	public void setParcela(ParcelasPagamentoOs parcela) {
+		this.parcela = parcela;
 	}
 
 }
