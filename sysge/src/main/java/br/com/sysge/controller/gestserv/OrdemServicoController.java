@@ -42,7 +42,7 @@ import br.com.sysge.service.global.ClienteService;
 import br.com.sysge.service.rh.FuncionarioService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
-import net.sf.jasperreports.engine.JRException;
+/*import net.sf.jasperreports.engine.JRException;*/
 
 @Named
 @ViewScoped
@@ -127,6 +127,7 @@ public class OrdemServicoController implements Serializable {
 	private static final String PAGE_CLIENTE = "/pages_framework/p_cliente.xhtml";
 	private static final String PAGE_SERVICO = "/pages_framework/p_servicos.xhtml";
 	private static final String PAGE_PRODUTO = "/pages_framework/p_produto.xhtml";
+	private static final String MSG_PAGAMENTO_REALIZADO = "Não é possível gerar as parcelas, pois já existe um pagamento realizado!";
 	
 	@PostConstruct
 	public void init() {
@@ -173,13 +174,18 @@ public class OrdemServicoController implements Serializable {
 	}
 	
 	public void servicoSelecionado(SelectEvent event){
-		this.servico = (Servico) event.getObject();
-		if(servicoOrdemServicoService.verificarSeExisteServicoNaTabela(listaServicos, servico)){
-			FacesUtil.mensagemWarn("Já existe um serviço '"+this.servico.getNome() +
-					"' na lista, por favor escolha outro serviço!");
+		if(getVerificarSeExistePagamentoRealizado()){
+			FacesUtil.mensagemWarn("Não é possível adicionar o serviço, "
+					+ "pois já existe um pagamento realizado na(s) parcela(s) da ordem de serviço!");
 		}else{
-			somarTotalServico(this.servico.getValor());
-			adicionarServico();
+			this.servico = (Servico) event.getObject();
+			if(servicoOrdemServicoService.verificarSeExisteServicoNaTabela(listaServicos, servico)){
+				FacesUtil.mensagemWarn("Já existe um serviço '"+this.servico.getNome() +
+						"' na lista, por favor escolha outro serviço!");
+			}else{
+				somarTotalServico(this.servico.getValor());
+				adicionarServico();
+			}
 		}
 	}
 	public void obterPageProduto(){
@@ -192,18 +198,23 @@ public class OrdemServicoController implements Serializable {
 	}
 	
 	public void produtoSelecionado(SelectEvent event){
-		this.produto = (Produto) event.getObject();
-		if(parametroService.verificarParametroEstoqueNegativo(this.produto)){
-			FacesUtil.mensagemWarn("O produto '"+this.produto.getDescricaoProduto()+"' "
-					+ "se encontra com estoque igual a "+this.produto.getQuantidadeEstoque()+", não é permitido adicionar o produto, "
-					+ "para permitir essa ação desmarque o parâmetro do sistema.");
+		if(getVerificarSeExistePagamentoRealizado()){
+			FacesUtil.mensagemWarn("Não é possível adicionar o produto, "
+					+ "pois já existe um pagamento realizado na(s) parcela(s) da ordem de serviço!");
 		}else{
-			if(produtoOrdemServicoService.verificarSeExisteProdutoNaTabela(listaProdutos, produto)){
-				FacesUtil.mensagemWarn("Já existe um produto '"+this.produto.getDescricaoProduto() +
-						"' na lista, por favor escolha outro produto!");
+			this.produto = (Produto) event.getObject();
+			if(parametroService.verificarParametroEstoqueNegativo(this.produto)){
+				FacesUtil.mensagemWarn("O produto '"+this.produto.getDescricaoProduto()+"' "
+						+ "se encontra com estoque igual a "+this.produto.getQuantidadeEstoque()+", não é permitido adicionar o produto, "
+						+ "para permitir essa ação desmarque o parâmetro do sistema.");
 			}else{
-				somarTotalProduto(this.produto.getValorVenda());
-				adicionarProduto();
+				if(produtoOrdemServicoService.verificarSeExisteProdutoNaTabela(listaProdutos, produto)){
+					FacesUtil.mensagemWarn("Já existe um produto '"+this.produto.getDescricaoProduto() +
+							"' na lista, por favor escolha outro produto!");
+				}else{
+					somarTotalProduto(this.produto.getValorVenda());
+					adicionarProduto();
+				}
 			}
 		}
 	}
@@ -218,7 +229,11 @@ public class OrdemServicoController implements Serializable {
 	
 	public void gerarParcelas(){
 		try {
-			parcelas = parcelasPagamentoOsService.gerarParcelas(ordemServico, parcelas, parcelasPagamentoOs);
+			if(getVerificarSeExistePagamentoRealizado()){
+				FacesUtil.mensagemWarn(MSG_PAGAMENTO_REALIZADO);
+			}else{
+				parcelas = parcelasPagamentoOsService.gerarParcelas(ordemServico, parcelas, parcelasPagamentoOs);
+			}
 		} catch (RuntimeException e) {
 			FacesUtil.mensagemWarn(e.getMessage());
 		}
@@ -252,6 +267,10 @@ public class OrdemServicoController implements Serializable {
 		} catch (RuntimeException e) {
 			FacesUtil.mensagemWarn(e.getMessage());
 		}
+	}
+	
+	public boolean getVerificarSeExistePagamentoRealizado(){
+		return parcelasPagamentoOsService.verificarSeExistePagamentoRealizado(ordemServico);
 	}
 	
 	public void adicionarServico(){
@@ -588,7 +607,7 @@ public class OrdemServicoController implements Serializable {
 	}
 	
 	public void gerarOrdemServico(OrdemServico ordemServico){
-			try {
+			/*try {
 				ordemServicoService.gerarOrdemServico(ordemServico, 
 						ordemServicoService.procurarServicosOS(ordemServico.getId()), 
 						ordemServicoService.procurarProdutosOS(ordemServico.getId()),
@@ -597,7 +616,7 @@ public class OrdemServicoController implements Serializable {
 				FacesUtil.mensagemErro(e.getMessage());
 			}finally {
 				ordemServico = new OrdemServico();
-			}
+			}*/
 	}
 	
 	public void setarTabIndex(int tabIndex) {

@@ -814,7 +814,7 @@
 								<p:commandButton value="Gerar parcelas" icon="ui-icon-tag"
 									actionListener="#{ordemServicoController.gerarParcelas}"
 									update=":msgGlobal tableParcelas"
-									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
+									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}"/>
 							</h:panelGrid>
 
 						</h:panelGrid>
@@ -857,9 +857,10 @@
 							</p:column>
 							<p:column style="text-align:center;">
 								<p:commandButton id="btn_pago" icon="ui-icon-check"
-									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" 
+									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO' || p.pago == 'SIM'}" 
 									actionListener="#{ordemServicoController.setarConfirmacaoPagamento(p)}"
-									update=":msgGlobal :form_confirm_pagamento"/>
+									update=":msgGlobal :form_confirm_pagamento"
+									rendered="#{p.pago != null}"/>
 									
 								<p:commandButton id="btn_boleto" icon="ui-icon-bookmark"
 									disabled="true"/>

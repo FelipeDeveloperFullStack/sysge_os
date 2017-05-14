@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/*
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -12,7 +12,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
+import net.sf.jasperreports.view.JasperViewer;*/
 
 public class ReportFactory {
 
@@ -45,7 +45,7 @@ public class ReportFactory {
 
 	public void getReportStream() {
 
-		try {
+		/*try {
 			
 			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(getClass().getClassLoader().getResourceAsStream("br/com/sysge/relatorios/" + reportName));
 			jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
@@ -57,7 +57,7 @@ public class ReportFactory {
 			
 		} catch (JRException ex) {
 			Logger.getLogger(ReportFactory.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		}*/
 
 	}
 	

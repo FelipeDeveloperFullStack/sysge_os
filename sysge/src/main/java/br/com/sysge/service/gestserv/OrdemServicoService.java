@@ -29,7 +29,7 @@ import br.com.sysge.service.conf.ParametroService;
 import br.com.sysge.service.estoque.ProdutoService;
 import br.com.sysge.service.financ.ParcelasPagamentoOsService;
 import br.com.sysge.service.global.ClienteService;
-import net.sf.jasperreports.engine.JRException;
+/*import net.sf.jasperreports.engine.JRException;*/
 
 public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 
@@ -240,7 +240,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	public void gerarOrdemServico(OrdemServico ordemServico, 
 								  List<ServicoOrdemServico> servicos, 
 								  List<ProdutoOrdemServico> produtos,
-								  List<ParcelasPagamentoOs> pagamentos) throws JRException{
+								  List<ParcelasPagamentoOs> pagamentos){
 		Map<String, Object> params = new HashMap<String, Object>();
 		sdf = new SimpleDateFormat("dd/MM/yyyy - hh:mm");
 		ordemServico.setCliente(clienteService.verificarTipoPessoa(ordemServico.getCliente()));

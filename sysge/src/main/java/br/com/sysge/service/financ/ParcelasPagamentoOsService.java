@@ -25,6 +25,9 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 			}
 		}
 		for(ParcelasPagamentoOs p : parcelas){
+			if(p.getPago() == null){
+				p.setPago(Pago.NAO);
+			}
 			p.setOrdemServico(ordemServico);
 			super.save(p);
 		}
@@ -32,6 +35,18 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 	
 	public List<ParcelasPagamentoOs> procurarParcelasPorOS(long idOS){
 		return super.findByListProperty(idOS, "ordemServico.id");
+	}
+	
+	public boolean verificarSeExistePagamentoRealizado(OrdemServico ordemServico){
+		if(ordemServico.getId() != null){
+			List<ParcelasPagamentoOs> listaParcelas = procurarParcelasPorOS(ordemServico.getId());
+			for(ParcelasPagamentoOs p : listaParcelas){
+				if(p.getPago() == Pago.SIM){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public List<ParcelasPagamentoOs> gerarParcelas(OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelas, ParcelasPagamentoOs parcelasPagamentoOs){
