@@ -127,7 +127,7 @@ public class OrdemServicoController implements Serializable {
 	private static final String PAGE_CLIENTE = "/pages_framework/p_cliente.xhtml";
 	private static final String PAGE_SERVICO = "/pages_framework/p_servicos.xhtml";
 	private static final String PAGE_PRODUTO = "/pages_framework/p_produto.xhtml";
-	private static final String MSG_PAGAMENTO_REALIZADO = "Não é possível gerar as parcelas, pois já existe um pagamento realizado!";
+	private static final String MSG_PAGAMENTO_REALIZADO = "Não é possível gerar o parcelamento, pois já existe parcela(s) recebida(s)!";
 	
 	@PostConstruct
 	public void init() {
@@ -176,7 +176,7 @@ public class OrdemServicoController implements Serializable {
 	public void servicoSelecionado(SelectEvent event){
 		if(getVerificarSeExistePagamentoRealizado()){
 			FacesUtil.mensagemWarn("Não é possível adicionar o serviço, "
-					+ "pois já existe um pagamento realizado na(s) parcela(s) da ordem de serviço!");
+					+ "pois já existe uma parcela recebida na ordem de serviço!");
 		}else{
 			this.servico = (Servico) event.getObject();
 			if(servicoOrdemServicoService.verificarSeExisteServicoNaTabela(listaServicos, servico)){
@@ -200,7 +200,7 @@ public class OrdemServicoController implements Serializable {
 	public void produtoSelecionado(SelectEvent event){
 		if(getVerificarSeExistePagamentoRealizado()){
 			FacesUtil.mensagemWarn("Não é possível adicionar o produto, "
-					+ "pois já existe um pagamento realizado na(s) parcela(s) da ordem de serviço!");
+					+ "pois já existe uma parcela recebida na ordem de serviço!!");
 		}else{
 			this.produto = (Produto) event.getObject();
 			if(parametroService.verificarParametroEstoqueNegativo(this.produto)){
@@ -271,6 +271,9 @@ public class OrdemServicoController implements Serializable {
 	
 	public boolean getVerificarSeExistePagamentoRealizado(){
 		return parcelasPagamentoOsService.verificarSeExistePagamentoRealizado(ordemServico);
+	}
+	public boolean getVerificarSeExistePagamentoNAORealizado(){
+		return parcelasPagamentoOsService.verificarSeExistePagamentoNAORealizado(ordemServico);
 	}
 	
 	public void adicionarServico(){
@@ -402,7 +405,12 @@ public class OrdemServicoController implements Serializable {
 	public void salvar(){
 		try {
 			if(ordemServico.getStatusOS() == StatusOS.CANCELADO){
-				RequestContextUtil.execute("PF('dialog_motivo_cancelamento').show();");
+				if(getVerificarSeExistePagamentoNAORealizado()){
+					FacesUtil.mensagemWarn("Não é possível cancelar a ordem de serviço, "
+							+ "pois ainda existe parcelas para ser recebido!!");
+				}else{
+					RequestContextUtil.execute("PF('dialog_motivo_cancelamento').show();");
+				}
 			}else{
 				BigDecimal somaValorParcela = BigDecimal.ZERO;
 				for(ParcelasPagamentoOs p : parcelas){
@@ -436,12 +444,20 @@ public class OrdemServicoController implements Serializable {
 	
 	private void salvarOrdemServico(){
 		if(ordemServico.getStatusOS() == StatusOS.FINALIZADO){
-			ordemServico.setDataSaida(Calendar.getInstance().getTime());
-			ordemServico.setHoraSaida(Calendar.getInstance().getTime());
+			if(getVerificarSeExistePagamentoNAORealizado()){
+				FacesUtil.mensagemWarn("Não é possível finalizar a ordem de serviço, "
+						+ "pois ainda existe parcelas para ser recebido!");
+			}else{
+				ordemServico.setDataSaida(Calendar.getInstance().getTime());
+				ordemServico.setHoraSaida(Calendar.getInstance().getTime());
+				salvarOS();
+				fecharDialogs();
+			}
+		}else{
+			salvarOS();
+			//RequestContextUtil.execute("PF('dialog_opcoes').show();");
+			fecharDialogs();
 		}
-		salvarOS();
-		//RequestContextUtil.execute("PF('dialog_opcoes').show();");
-		fecharDialogs();
 	}
 	
 	public void confirmarSalvamentoOS(){

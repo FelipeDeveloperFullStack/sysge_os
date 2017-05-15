@@ -48,6 +48,22 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 		}
 		return false;
 	}
+	public boolean verificarSeExistePagamentoNAORealizado(OrdemServico ordemServico){
+		int contNao = 0;
+		if(ordemServico.getId() != null){
+			List<ParcelasPagamentoOs> listaParcelas = procurarParcelasPorOS(ordemServico.getId());
+			for(ParcelasPagamentoOs p : listaParcelas){
+				if(p.getPago() == Pago.NAO){
+					contNao++;
+				}
+			}
+			if(contNao >= 1){
+				return true;
+			}
+			
+		}
+		return false;
+	}
 	
 	public List<ParcelasPagamentoOs> gerarParcelas(OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelas, ParcelasPagamentoOs parcelasPagamentoOs){
 		if(ordemServico.getCondicaoPagamento() == null){
