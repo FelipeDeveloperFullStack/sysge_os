@@ -13,68 +13,68 @@
 	<ui:define name="conteudo">
 		<h:form>
 			<p:panel header="MOVIMENTO FINANCEIRO">
-				<h:panelGrid columns="4">
-
-					<h:panelGrid columns="1">
-						<p:outputLabel value="Conta Caixa" />
-						<p:selectOneMenu>
-							<f:selectItem itemLabel="CONTA CAIXA" itemValue="1" />
-						</p:selectOneMenu>
-					</h:panelGrid>
+				<h:panelGrid columns="6">
 
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Data Movimento" />
-						<p:calendar pattern="dd/MM/yyyy" mask="true" />
+						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{movimentoFinanceiroController.dataMovimento}"/>
 					</h:panelGrid>
 
 					<h:panelGrid columns="1">
 						<h:outputLabel value="." style="color: white;" />
-						<p:commandButton value="Pesquisar" icon="ui-icon-search" />
+						<p:commandButton value="Pesquisar" icon="ui-icon-search" 
+										actionListener="#{movimentoFinanceiroController.pesquisar}"
+										update="tableMovimentoCaixa resumo_financeiro"/>
 					</h:panelGrid>
-				</h:panelGrid>
-
-				<h:panelGrid columns="2">
-					<h:panelGrid columns="2">
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="." style="color: white;" />
 						<p:commandButton value="Receita" icon="ui-icon-arrowthick-1-n" />
-						<p:commandButton value="Despesa" icon="ui-icon-arrowthick-1-s" />
 					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<h:outputLabel value="." style="color: white;" />
+						<p:commandButton value="Despesa" icon="ui-icon-arrowthick-1-s" />
+					</h:panelGrid>	
 				</h:panelGrid>
 			</p:panel>
 
 
-			<p:dataTable id="tableMovimentoCaixa" var="movCaixa" 
-				emptyMessage="Nenhum movimento encontrado!">
+			<p:dataTable id="tableMovimentoCaixa" var="mov" 
+				emptyMessage="Nenhum movimento encontrado!"
+				value="#{movimentoFinanceiroController.lancamentoFinanceiros}">
 
-				<p:column headerText="Tipo">
-					<p:outputLabel />
-				</p:column>
-				<p:column headerText="Dia">
-					<p:outputLabel />
-				</p:column>
 				<p:column headerText="Título">
-					<p:outputLabel />
+					<p:outputLabel value="#{mov.titulo}"/>
 				</p:column>
+				
 				<p:column headerText="Cadastro">
-					<p:outputLabel />
+					<p:outputLabel value="#{mov.cliente.nomeDaPessoaFisica}"/>
 				</p:column>
-				<p:column headerText="Categoria">
-					<p:outputLabel />
+				
+				<p:column headerText="Categoria" width="175" style="text-align:center;">
+					<p:outputLabel value="#{mov.categoriaLancamentoReceita.tipo}"/>
 				</p:column>
-				<p:column headerText="Valor">
-					<p:outputLabel />
+				
+				<p:column headerText="Valor" width="75" style="text-align:center;">
+					<p:outputLabel value="#{mov.valor}">
+						<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+					</p:outputLabel>
 				</p:column>
-				<p:column headerText="Pago">
-					<p:outputLabel />
+				
+				<p:column headerText="Pago" width="60" style="text-align:center;">
+					<p:outputLabel value="#{mov.statusRecebimentoReceita.status}"/>
 				</p:column>
-				<p:column headerText="Ações">
-					<p:outputLabel />
+				
+				<p:column headerText="Ações" width="110">
+					<p:commandButton icon="ui-icon-search"/> 
+					<p:commandButton icon="ui-icon-print"/> 
+					<p:commandButton icon="ui-icon-bookmark"/> 
 				</p:column>
-				<p:column>
-
-				</p:column>
+				
 			</p:dataTable>
 
-			<p:panel header="RESUMO FINANCEIRO">
+			<p:panel header="RESUMO FINANCEIRO" id="resumo_financeiro">
 				<div class="ui-g">
 						<div class="ui-g-10">
 							<p:outputLabel value="Total Receitas"/>

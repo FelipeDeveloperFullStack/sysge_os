@@ -734,7 +734,7 @@
 
 					</p:tab>
 
-					<p:tab title="Pagamento">
+					<p:tab title="Pagamento" id="pagamento">
 
 						<p:fieldset>
 							<h:panelGrid columns="4" id="panel_2_pagamento">
@@ -1094,7 +1094,9 @@
 				<p:separator/>
 				
 				<p:panelGrid columns="2">
-					<p:commandButton value="Confirmar pagamento" icon="ui-icon-check" actionListener="#{ordemServicoController.confirmarPagamentoParcela}"/>
+					<p:commandButton value="Confirmar pagamento" icon="ui-icon-check" 
+									 actionListener="#{ordemServicoController.confirmarPagamentoParcela}"
+									 update=":msgGlobal :formEditarOrdemServico:tabViewEditarOS:tableParcelas"/>
 					<p:commandButton value="Cancelar" icon="ui-icon-closethick" oncomplete="PF('dialog_confirmar_pagamento').hide();"/>
 				</p:panelGrid>
 			</h:form>

@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import javax.inject.Inject;
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
-import br.com.sysge.model.financ.LancamentoReceita;
+import br.com.sysge.model.financ.LancamentoFinanceiro;
 import br.com.sysge.model.financ.MovimentoFinanceiro;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
 import br.com.sysge.model.financ.type.CategoriaLancamentoReceita;
@@ -22,7 +22,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Inject
-	private LancamentoReceitaService lancamentoReceitaService;
+	private LancamentoFinanceiroService lancamentoReceitaService;
 	
 	public void salvarMovimentoFinanceiroOS(OrdemServico ordemServico, ParcelasPagamentoOs parcelasPagamentoOs){
 		
@@ -39,7 +39,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		
 	}
 	
-	private void salvarMovimentoOS(OrdemServico ordemServico, ParcelasPagamentoOs parcelasPagamentoOs, String condicaoPagamento, LancamentoReceita lancamentoReceita){
+	private void salvarMovimentoOS(OrdemServico ordemServico, ParcelasPagamentoOs parcelasPagamentoOs, String condicaoPagamento, LancamentoFinanceiro lancamentoReceita){
 	    
 		lancamentoReceita.setCategoriaLancamentoReceita(CategoriaLancamentoReceita.ORDEM_SERVICO);
 		lancamentoReceita.setCliente(ordemServico.getCliente());
@@ -71,7 +71,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	}*/
 	
 	private MovimentoFinanceiro calcularMovimentoReceita
-			(LancamentoReceita lancamentoReceita, ParcelasPagamentoOs parcelasPagamentoOs){
+			(LancamentoFinanceiro lancamentoReceita, ParcelasPagamentoOs parcelasPagamentoOs){
 		parcelasPagamentoOs.setLancamentoReceita(lancamentoReceita);
 		lancamentoReceita.setMovimentoFinanceiro(lancamentoReceita.getMovimentoFinanceiro());
 		

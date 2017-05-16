@@ -14,16 +14,19 @@ import javax.persistence.TemporalType;
 
 import br.com.sysge.infraestrutura.dao.GenericDomain;
 import br.com.sysge.model.financ.type.CategoriaLancamentoDespesa;
+import br.com.sysge.model.financ.type.CategoriaLancamentoReceita;
 import br.com.sysge.model.financ.type.StatusFinanceiro;
+import br.com.sysge.model.financ.type.TipoLancamento;
 import br.com.sysge.model.financ.type.TipoLancamentoFinanceiro;
+import br.com.sysge.model.global.Cliente;
 import br.com.sysge.model.global.Fornecedor;
 import br.com.sysge.model.type.FormaPagamento;
 
 @Entity
-@Table(name = "tbl_lancamento_despesa")
-public class LancamentoDespesa extends GenericDomain{
+@Table(name = "tbl_lancamento_receita")
+public class LancamentoFinanceiro extends GenericDomain{
 	
-	private static final long serialVersionUID = 7781024947784479993L;
+	private static final long serialVersionUID = -4992132456364102520L;
 
 	@Enumerated(EnumType.STRING)
 	private TipoLancamentoFinanceiro tipoLancamentoFinanceiro;
@@ -38,7 +41,13 @@ public class LancamentoDespesa extends GenericDomain{
 	private BigDecimal valor;
 	
 	@Enumerated(EnumType.STRING)
+	private CategoriaLancamentoReceita categoriaLancamentoReceita;
+	
+	@Enumerated(EnumType.STRING)
 	private CategoriaLancamentoDespesa categoriaLancamentoDespesa;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	private Cliente cliente;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	private Fornecedor fornecedor;
@@ -48,6 +57,9 @@ public class LancamentoDespesa extends GenericDomain{
 	
 	@Enumerated(EnumType.STRING)
 	private StatusFinanceiro statusRecebimentoReceita;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoLancamento tipoLancamento;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	private MovimentoFinanceiro movimentoFinanceiro;
@@ -92,20 +104,20 @@ public class LancamentoDespesa extends GenericDomain{
 		this.valor = valor;
 	}
 
-	public CategoriaLancamentoDespesa getCategoriaLancamentoDespesa() {
-		return categoriaLancamentoDespesa;
+	public CategoriaLancamentoReceita getCategoriaLancamentoReceita() {
+		return categoriaLancamentoReceita;
 	}
 
-	public void setCategoriaLancamentoDespesa(CategoriaLancamentoDespesa categoriaLancamentoDespesa) {
-		this.categoriaLancamentoDespesa = categoriaLancamentoDespesa;
+	public void setCategoriaLancamentoReceita(CategoriaLancamentoReceita categoriaLancamentoReceita) {
+		this.categoriaLancamentoReceita = categoriaLancamentoReceita;
 	}
 
-	public Fornecedor getFornecedor() {
-		return fornecedor == null ? new Fornecedor() : fornecedor;
+	public Cliente getCliente() {
+		return cliente == null ? new Cliente() : cliente;
 	}
 
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public FormaPagamento getFormaPagamento() {
@@ -129,9 +141,32 @@ public class LancamentoDespesa extends GenericDomain{
 	}
 
 	public void setMovimentoFinanceiro(MovimentoFinanceiro movimentoFinanceiro) {
-		this.movimentoFinanceiro = movimentoFinanceiro;
+		this.movimentoFinanceiro = movimentoFinanceiro == null ? new MovimentoFinanceiro() : movimentoFinanceiro;
+	}
+
+	public Fornecedor getFornecedor() {
+		return fornecedor == null ? new Fornecedor() : this.fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
+	}
+
+	public TipoLancamento getTipoLancamento() {
+		return tipoLancamento;
+	}
+
+	public void setTipoLancamento(TipoLancamento tipoLancamento) {
+		this.tipoLancamento = tipoLancamento;
+	}
+
+	public CategoriaLancamentoDespesa getCategoriaLancamentoDespesa() {
+		return categoriaLancamentoDespesa;
+	}
+
+	public void setCategoriaLancamentoDespesa(CategoriaLancamentoDespesa categoriaLancamentoDespesa) {
+		this.categoriaLancamentoDespesa = categoriaLancamentoDespesa;
 	}
 	
 	
-
 }

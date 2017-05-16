@@ -49,7 +49,7 @@ public class ParcelasPagamentoOs extends GenericDomain{
 	private String quantidadeParcelas;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	private LancamentoReceita lancamentoReceita;
+	private LancamentoFinanceiro lancamentoReceita;
 
 	public long getNumero() {
 		return numero;
@@ -124,12 +124,12 @@ public class ParcelasPagamentoOs extends GenericDomain{
 		this.formaPagamento = formaPagamento;
 	}
 
-	public LancamentoReceita getLancamentoReceita() {
-		return lancamentoReceita == null ? new LancamentoReceita() : this.lancamentoReceita;
+	public LancamentoFinanceiro getLancamentoReceita() {
+		return lancamentoReceita == null ? new LancamentoFinanceiro() : this.lancamentoReceita;
 	}
 
-	public void setLancamentoReceita(LancamentoReceita lancamentoReceita) {
-		this.lancamentoReceita = lancamentoReceita == null ? new LancamentoReceita() : lancamentoReceita;
+	public void setLancamentoReceita(LancamentoFinanceiro lancamentoReceita) {
+		this.lancamentoReceita = lancamentoReceita == null ? new LancamentoFinanceiro() : lancamentoReceita;
 	}
 
 	public Date getDataPagamento() {

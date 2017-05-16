@@ -318,6 +318,19 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			throw new NoResultException(e.getMessage());
 		}
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<E> findByData(String atributoClasse, Date data) {
+		try {
+			Query query = manager.createQuery
+					("SELECT b FROM "+entityClass.getSimpleName() + " b "
+							+ "WHERE b."+atributoClasse+" = :data");
+			query.setParameter("data", data);
+			return query.getResultList();
+		} catch (NoResultException e) {
+			throw new NoResultException(e.getMessage());
+		}
+	}
 
 	@Override
 	public void removeByObject(E object) {

@@ -112,6 +112,9 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 	}
 	
 	public void salvarMovimentoReceitaParcela(ParcelasPagamentoOs parcela){
+		if(parcela.getDataPagamento() == null){
+			throw new RuntimeException("A data de pagamento é obrigatória!");
+		}
 		parcela.setPago(Pago.SIM);
 		super.save(parcela);
 	}
