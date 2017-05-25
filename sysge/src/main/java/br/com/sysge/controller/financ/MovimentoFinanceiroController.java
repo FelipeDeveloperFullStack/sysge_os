@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.sysge.model.financ.LancamentoFinanceiro;
+import br.com.sysge.model.financ.type.StatusFinanceiro;
 import br.com.sysge.service.financ.LancamentoFinanceiroService;
 import br.com.sysge.service.financ.MovimentoFinanceiroService;
 import br.com.sysge.util.FacesUtil;
@@ -38,6 +39,28 @@ public class MovimentoFinanceiroController implements Serializable {
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}
+	}
+	
+	public void setarDadosFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
+		this.lancamentoFinanceiro = lancamentoFinanceiro;
+	}
+	
+	public void atualizarStatusFinanceiroTituto(LancamentoFinanceiro lancamentoFinanceiro){
+		if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
+			this.lancamentoFinanceiro = lancamentoFinanceiro;
+			this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PENDENTE);
+			lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
+			lancamentoFinanceiros = obterTitulosPelaDataMovimento(this.lancamentoFinanceiro.getDataLancamento());
+		}else{
+			this.lancamentoFinanceiro = lancamentoFinanceiro;
+			this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PAGO);
+			lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
+			lancamentoFinanceiros = obterTitulosPelaDataMovimento(this.lancamentoFinanceiro.getDataLancamento());
+		}
+	}
+	
+	private List<LancamentoFinanceiro> obterTitulosPelaDataMovimento(Date dataMovimento){
+		return lancamentoFinanceiroService.obterLancamentoFinanceiroPorData(dataMovimento);
 	}
 
 	public List<LancamentoFinanceiro> getLancamentoFinanceiros() {

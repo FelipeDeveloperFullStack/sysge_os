@@ -176,7 +176,7 @@
 		</dependency>
 
 
-		<!-- <dependency>
+		 <dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>6.4.0</version>
@@ -186,7 +186,7 @@
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
 			<version>5.5.11</version>
-		</dependency> -->
+		</dependency> 
 
 	</dependencies>
 

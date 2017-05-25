@@ -17,127 +17,241 @@
 
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Data Movimento" />
-						<p:calendar pattern="dd/MM/yyyy" mask="true" value="#{movimentoFinanceiroController.dataMovimento}"/>
+						<p:calendar pattern="dd/MM/yyyy" mask="true"
+							value="#{movimentoFinanceiroController.dataMovimento}" />
 					</h:panelGrid>
 
 					<h:panelGrid columns="1">
 						<h:outputLabel value="." style="color: white;" />
-						<p:commandButton value="Pesquisar" icon="ui-icon-search" 
-										actionListener="#{movimentoFinanceiroController.pesquisar}"
-										update="tableMovimentoCaixa resumo_financeiro"/>
+						<p:commandButton value="Pesquisar" icon="ui-icon-search"
+							actionListener="#{movimentoFinanceiroController.pesquisar}"
+							update="tableMovimentoCaixa resumo_financeiro" />
 					</h:panelGrid>
-					
+
 					<h:panelGrid columns="1">
 						<h:outputLabel value="." style="color: white;" />
 						<p:commandButton value="Receita" icon="ui-icon-arrowthick-1-n" />
 					</h:panelGrid>
-					
+
 					<h:panelGrid columns="1">
 						<h:outputLabel value="." style="color: white;" />
 						<p:commandButton value="Despesa" icon="ui-icon-arrowthick-1-s" />
-					</h:panelGrid>	
+					</h:panelGrid>
 				</h:panelGrid>
 			</p:panel>
 
 
-			<p:dataTable id="tableMovimentoCaixa" var="mov" 
+			<p:dataTable id="tableMovimentoCaixa" var="mov"
 				emptyMessage="Nenhum movimento encontrado!"
 				value="#{movimentoFinanceiroController.lancamentoFinanceiros}">
 
 				<p:column headerText="Título">
-					<p:outputLabel value="#{mov.titulo}"/>
+					<p:outputLabel value="#{mov.titulo}" />
 				</p:column>
-				
+
 				<p:column headerText="Cadastro">
-					<p:outputLabel value="#{mov.cliente.nomeDaPessoaFisica}"/>
+					<p:outputLabel value="#{mov.cliente.nomeDaPessoaFisica}" />
 				</p:column>
-				
-				<p:column headerText="Categoria" width="175" style="text-align:center;">
-					<p:outputLabel value="#{mov.categoriaLancamentoReceita.tipo}"/>
+
+				<p:column headerText="Categoria" width="175"
+					style="text-align:center;">
+					<p:outputLabel value="#{mov.categoriaLancamentoReceita.tipo}" />
 				</p:column>
-				
+
 				<p:column headerText="Valor" width="75" style="text-align:center;">
 					<p:outputLabel value="#{mov.valor}">
 						<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 					</p:outputLabel>
 				</p:column>
-				
-				<p:column headerText="Pago" width="60" style="text-align:center;">
-					<p:outputLabel value="#{mov.statusRecebimentoReceita.status}"/>
+
+				<p:column headerText="Status" width="107" style="text-align:center;">
+					<p:commandButton value="#{mov.statusRecebimentoReceita.status}" icon="ui-icon-circle-check" rendered="#{mov.statusRecebimentoReceita.status == 'Pago'}"
+									  actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}" update="tableMovimentoCaixa">
+						 <p:confirm header="Confirmação" message="Deseja realmente mudar o status do título do valor de #{mov.valor} para pendente?" icon="ui-icon-alert" />
+					</p:commandButton>
+					
+					<p:commandButton value="#{mov.statusRecebimentoReceita.status}" icon="ui-icon-circle-minus" rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}" 
+									 actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}"  update="tableMovimentoCaixa">
+						 <p:confirm header="Confirmação" message="Deseja confirmar o pagamento do título para essa data?" icon="ui-icon-alert" />
+					</p:commandButton>
+					
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+				        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				    </p:confirmDialog>
 				</p:column>
-				
+
 				<p:column headerText="Ações" width="110">
-					<p:commandButton icon="ui-icon-search"/> 
-					<p:commandButton icon="ui-icon-print"/> 
-					<p:commandButton icon="ui-icon-bookmark"/> 
+					<p:commandButton icon="ui-icon-search" id="btnVisualizar"
+						oncomplete="PF('dialog_dados_titulo').show();"
+						actionListener="#{movimentoFinanceiroController.setarDadosFinanceiro(mov)}"
+						update=":msgGlobal :visualizar_dados" />
+					<p:commandButton icon="ui-icon-print" id="btnEmitir"/>
+					<p:commandButton icon="ui-icon-bookmark" id="btnRecibo" />
+					<p:tooltip value="Cliquei aqui para visualizar os dados financeiros do título!" for="btnVisualizar"
+						position="left" />
+					<p:tooltip value="Cliquei aqui para emitir o boleto!" for="btnEmitir"
+						position="left" />
+					<p:tooltip value="Cliquei aqui para gerar o recibo de pagamento!" for="btnRecibo"
+						position="left" />
 				</p:column>
-				
+
 			</p:dataTable>
 
 			<p:panel header="RESUMO FINANCEIRO" id="resumo_financeiro">
 				<div class="ui-g">
-						<div class="ui-g-10">
-							<p:outputLabel value="Total Receitas"/>
-						</div>
-						
-						<div class="ui-g-2">
-							<p:outputLabel value="R$: 250,00"/>
-						</div>
-				</div>	
-				<p:separator/>
+					<div class="ui-g-10">
+						<p:outputLabel value="Total Receitas" />
+					</div>
+
+					<div class="ui-g-2">
+						<p:outputLabel value="R$: 250,00" />
+					</div>
+				</div>
+				<p:separator />
 				<div class="ui-g">
-						<div class="ui-g-10">
-							<p:outputLabel value="Total Despesas"/>
-						</div>
-						
-						<div class="ui-g-2">
-							<p:outputLabel value="R$: 0,00"/>
-						</div>
-				</div>	
-				<p:separator/>
+					<div class="ui-g-10">
+						<p:outputLabel value="Total Despesas" />
+					</div>
+
+					<div class="ui-g-2">
+						<p:outputLabel value="R$: 0,00" />
+					</div>
+				</div>
+				<p:separator />
 				<div class="ui-g">
-						<div class="ui-g-10">
-							<p:outputLabel value="Total Recebido"/>
-						</div>
-						
-						<div class="ui-g-2">
-							<p:outputLabel value="R$: 0,00"/>
-						</div>
-				</div>	
-				<p:separator/>
+					<div class="ui-g-10">
+						<p:outputLabel value="Total Recebido" />
+					</div>
+
+					<div class="ui-g-2">
+						<p:outputLabel value="R$: 0,00" />
+					</div>
+				</div>
+				<p:separator />
 				<div class="ui-g">
-						<div class="ui-g-10">
-							<p:outputLabel value="Total Pago"/>
-						</div>
-						
-						<div class="ui-g-2">
-							<p:outputLabel value="R$: 0,00"/>
-						</div>
-				</div>	
-				<p:separator/>
+					<div class="ui-g-10">
+						<p:outputLabel value="Total Pago" />
+					</div>
+
+					<div class="ui-g-2">
+						<p:outputLabel value="R$: 0,00" />
+					</div>
+				</div>
+				<p:separator />
 				<div class="ui-g">
-						<div class="ui-g-10">
-							<p:outputLabel value="Salgo Anterior"/>
-						</div>
-						
-						<div class="ui-g-2">
-							<p:outputLabel value="R$: 0,00"/>
-						</div>
-				</div>	
-				<p:separator/>
+					<div class="ui-g-10">
+						<p:outputLabel value="Salgo Anterior" />
+					</div>
+
+					<div class="ui-g-2">
+						<p:outputLabel value="R$: 0,00" />
+					</div>
+				</div>
+				<p:separator />
 				<div class="ui-g">
-						<div class="ui-g-10">
-							<p:outputLabel value="Salgo Atual"/>
-						</div>
-						
-						<div class="ui-g-2">
-							<p:outputLabel value="R$: 0,00"/>
-						</div>
-				</div>	
-				<p:separator/>
+					<div class="ui-g-10">
+						<p:outputLabel value="Salgo Atual" />
+					</div>
+
+					<div class="ui-g-2">
+						<p:outputLabel value="R$: 0,00" />
+					</div>
+				</div>
+				<p:separator />
 			</p:panel>
 
 		</h:form>
+
+		<p:dialog header="Dados do título" closable="true" draggable="true"
+			resizable="false" maximizable="false" widgetVar="dialog_dados_titulo"
+			modal="true" appendTo="@(body)" position="top">
+			<h:form id="visualizar_dados">
+
+				<p:panelGrid columns="2">
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Título" styleClass="texto_negrito" />
+						<p:outputLabel
+							value="#{movimentoFinanceiroController.lancamentoFinanceiro.titulo}" />
+					</p:panelGrid>
+				</p:panelGrid>
+
+				<p:separator />
+
+				<p:panelGrid columns="2">
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Descrição" styleClass="texto_negrito" />
+						<p:outputLabel
+							value="#{movimentoFinanceiroController.lancamentoFinanceiro.descricao}" />
+					</p:panelGrid>
+				</p:panelGrid>
+
+				<p:separator />
+
+				<p:panelGrid columns="3">
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Data" styleClass="texto_negrito" />
+						<p:outputLabel
+							value="#{movimentoFinanceiroController.lancamentoFinanceiro.dataLancamento}">
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"
+								timeZone="GMT-2" type="both" />
+						</p:outputLabel>
+					</p:panelGrid>
+
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Valor" styleClass="texto_negrito" />
+						<p:outputLabel
+							value="#{movimentoFinanceiroController.lancamentoFinanceiro.valor}">
+							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+						</p:outputLabel>
+					</p:panelGrid>
+
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Status" styleClass="texto_negrito" />
+						<p:outputLabel
+							value="#{movimentoFinanceiroController.lancamentoFinanceiro.statusRecebimentoReceita.status}"
+							style="color: blue;" />
+					</p:panelGrid>
+				</p:panelGrid>
+
+				<p:separator />
+
+				<p:panelGrid columns="2">
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Categoria" styleClass="texto_negrito" />
+						<p:outputLabel
+							value="#{movimentoFinanceiroController.lancamentoFinanceiro.categoriaLancamentoReceita.tipo}" />
+					</p:panelGrid>
+
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Cadastro" styleClass="texto_negrito" />
+						<p:outputLabel
+							value="#{movimentoFinanceiroController.lancamentoFinanceiro.cliente.nomeDaPessoaFisica}" />
+					</p:panelGrid>
+				</p:panelGrid>
+
+				<p:separator />
+
+				<p:panelGrid columns="2">
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Forma de pagamento"
+							styleClass="texto_negrito" />
+						<p:outputLabel
+							value="#{movimentoFinanceiroController.lancamentoFinanceiro.formaPagamento.formaPagamento}" />
+					</p:panelGrid>
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+					<p:panelGrid columns="1">
+						<p:commandButton icon="ui-icon-closethick" value="Fechar"
+							oncomplete="PF('dialog_dados_titulo').hide();" />
+					</p:panelGrid>
+				</p:panelGrid>
+
+
+
+			</h:form>
+		</p:dialog>
 
 	</ui:define>
 </ui:composition>
