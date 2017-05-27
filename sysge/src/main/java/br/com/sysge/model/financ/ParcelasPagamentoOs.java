@@ -13,9 +13,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import br.com.sysge.infraestrutura.dao.GenericDomain;
+import br.com.sysge.model.financ.type.StatusFinanceiro;
 import br.com.sysge.model.gestserv.OrdemServico;
 import br.com.sysge.model.type.FormaPagamento;
-import br.com.sysge.model.type.Pago;
 
 @Entity
 @Table(name = "tbl_parcelas_pagamento_os")
@@ -41,7 +41,7 @@ public class ParcelasPagamentoOs extends GenericDomain{
 	private Date dataPagamento;
 	
 	@Enumerated(EnumType.STRING)
-	private Pago pago;
+	private StatusFinanceiro statusFinanceiro;
 	
 	@Enumerated(EnumType.STRING)
 	private FormaPagamento formaPagamento;
@@ -91,12 +91,12 @@ public class ParcelasPagamentoOs extends GenericDomain{
 		this.dataVencimento = dataVencimento;
 	}
 
-	public Pago getPago() {
-		return pago;
+	public StatusFinanceiro getStatusFinanceiro() {
+		return statusFinanceiro;
 	}
 
-	public void setPago(Pago pago) {
-		this.pago = pago;
+	public void setStatusFinanceiro(StatusFinanceiro statusFinanceiro) {
+		this.statusFinanceiro = statusFinanceiro;
 	}
 
 

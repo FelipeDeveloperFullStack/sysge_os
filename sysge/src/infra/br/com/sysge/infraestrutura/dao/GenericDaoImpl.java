@@ -361,6 +361,22 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 						+ " WHERE p."+attributeClass+" = "+object+"");
 		return (E) query.getSingleResult();
 	}
+
+	public EntityManager getEntityManager() {
+		return manager;
+	}
+
+	public void setManager(EntityManager entityManager) {
+		this.manager = entityManager;
+	}
+
+	public Class<E> getEntityClass() {
+		return entityClass;
+	}
+
+	public void setEntityClass(Class<E> entityClass) {
+		this.entityClass = entityClass;
+	}
 	
 	
 }

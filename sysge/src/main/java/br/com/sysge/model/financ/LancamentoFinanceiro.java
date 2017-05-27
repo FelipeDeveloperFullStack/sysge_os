@@ -23,7 +23,7 @@ import br.com.sysge.model.global.Fornecedor;
 import br.com.sysge.model.type.FormaPagamento;
 
 @Entity
-@Table(name = "tbl_lancamento_receita")
+@Table(name = "tbl_lancamento_financeiro")
 public class LancamentoFinanceiro extends GenericDomain{
 	
 	private static final long serialVersionUID = -4992132456364102520L;

@@ -18,6 +18,7 @@ import br.com.sysge.controller.sys.TemplateViewPage;
 import br.com.sysge.model.estoque.Produto;
 import br.com.sysge.model.financ.CondicaoPagamento;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
+import br.com.sysge.model.financ.type.StatusFinanceiro;
 import br.com.sysge.model.gestserv.OrdemServico;
 import br.com.sysge.model.gestserv.ProdutoOrdemServico;
 import br.com.sysge.model.gestserv.Servico;
@@ -26,7 +27,6 @@ import br.com.sysge.model.global.Cliente;
 import br.com.sysge.model.rh.Funcionario;
 import br.com.sysge.model.type.FormaPagamento;
 import br.com.sysge.model.type.Garantia;
-import br.com.sysge.model.type.Pago;
 import br.com.sysge.model.type.Situacao;
 import br.com.sysge.model.type.StatusOS;
 import br.com.sysge.model.type.TipoDesconto;
@@ -643,8 +643,8 @@ public class OrdemServicoController implements Serializable {
 		return StatusOS.values();
 	}
 
-	public Pago[] getPagos() {
-		return Pago.values();
+	public StatusFinanceiro[] getStatusFinanceiros() {
+		return StatusFinanceiro.values();
 	}
 
 	public Garantia[] getGarantia() {

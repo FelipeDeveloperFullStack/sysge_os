@@ -12,7 +12,6 @@ import br.com.sysge.model.financ.type.CategoriaLancamentoReceita;
 import br.com.sysge.model.financ.type.StatusFinanceiro;
 import br.com.sysge.model.financ.type.TipoLancamentoFinanceiro;
 import br.com.sysge.model.gestserv.OrdemServico;
-import br.com.sysge.model.type.Pago;
 
 public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinanceiro, Long>{
 	
@@ -48,7 +47,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		lancamentoReceita.setFormaPagamento(ordemServico.getFormaPagamento());
 		lancamentoReceita.setMovimentoFinanceiro(parcelasPagamentoOs.getLancamentoReceita().getMovimentoFinanceiro());
 		
-		if(parcelasPagamentoOs.getPago() == Pago.SIM){
+		if(parcelasPagamentoOs.getStatusFinanceiro() == StatusFinanceiro.PAGO){
 			lancamentoReceita.setStatusRecebimentoReceita(StatusFinanceiro.PAGO);
 			lancamentoReceita.setDataLancamento(parcelasPagamentoOs.getDataPagamento());
 		}else{
@@ -75,7 +74,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		parcelasPagamentoOs.setLancamentoReceita(lancamentoReceita);
 		lancamentoReceita.setMovimentoFinanceiro(lancamentoReceita.getMovimentoFinanceiro());
 		
-		if(parcelasPagamentoOs.getPago() == Pago.SIM){
+		if(parcelasPagamentoOs.getStatusFinanceiro() == StatusFinanceiro.PAGO){
 			lancamentoReceita.getMovimentoFinanceiro().setTotalRecebido
 				(lancamentoReceita.getMovimentoFinanceiro().getTotalRecebido().add
 						(parcelasPagamentoOs.getValorCobrado()));

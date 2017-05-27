@@ -163,7 +163,7 @@
 
 		</h:form>
 
-		<p:dialog header="Dados do título" closable="true" draggable="true"
+		<p:dialog header="Dados do título financeiro" closable="true" draggable="true"
 			resizable="false" maximizable="false" widgetVar="dialog_dados_titulo"
 			modal="true" appendTo="@(body)" position="top">
 			<h:form id="visualizar_dados">
@@ -190,7 +190,7 @@
 
 				<p:panelGrid columns="3">
 					<p:panelGrid columns="1">
-						<p:outputLabel value="Data" styleClass="texto_negrito" />
+						<p:outputLabel value="Data do título" styleClass="texto_negrito" />
 						<p:outputLabel
 							value="#{movimentoFinanceiroController.lancamentoFinanceiro.dataLancamento}">
 							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"

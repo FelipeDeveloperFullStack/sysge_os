@@ -857,10 +857,10 @@
 							</p:column>
 							<p:column style="text-align:center;">
 								<p:commandButton id="btn_pago" icon="ui-icon-check"
-									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO' || p.pago == 'SIM'}" 
+									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO' || p.statusFinanceiro == 'PAGO'}" 
 									actionListener="#{ordemServicoController.setarConfirmacaoPagamento(p)}"
 									update=":msgGlobal :form_confirm_pagamento"
-									rendered="#{p.pago != null}"/>
+									rendered="#{p.statusFinanceiro != null}"/>
 									
 								<p:commandButton id="btn_boleto" icon="ui-icon-bookmark"
 									disabled="true"/>

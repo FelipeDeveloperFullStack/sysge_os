@@ -15,11 +15,11 @@ import javax.persistence.TemporalType;
 
 import br.com.sysge.infraestrutura.dao.GenericDomain;
 import br.com.sysge.model.financ.CondicaoPagamento;
+import br.com.sysge.model.financ.type.StatusFinanceiro;
 import br.com.sysge.model.global.Cliente;
 import br.com.sysge.model.rh.Funcionario;
 import br.com.sysge.model.type.FormaPagamento;
 import br.com.sysge.model.type.Garantia;
-import br.com.sysge.model.type.Pago;
 import br.com.sysge.model.type.StatusOS;
 import br.com.sysge.model.type.TipoDesconto;
 
@@ -73,7 +73,7 @@ public class OrdemServico extends GenericDomain {
 	private CondicaoPagamento condicaoPagamento;
 
 	@Enumerated(EnumType.STRING)
-	private Pago pago;
+	private StatusFinanceiro statusFinanceiro;
 
 	private BigDecimal valorPago = BigDecimal.ZERO;
 
@@ -225,12 +225,12 @@ public class OrdemServico extends GenericDomain {
 		this.formaPagamento = formaPagamento;
 	}
 
-	public Pago getPago() {
-		return pago;
+	public StatusFinanceiro getStatusFinanceiro() {
+		return statusFinanceiro;
 	}
 
-	public void setPago(Pago pago) {
-		this.pago = pago;
+	public void setStatusFinanceiro(StatusFinanceiro statusFinanceiro) {
+		this.statusFinanceiro = statusFinanceiro;
 	}
 
 	public BigDecimal getValorPago() {

@@ -5,10 +5,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
+import br.com.sysge.model.financ.LancamentoFinanceiro;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
+import br.com.sysge.model.financ.type.StatusFinanceiro;
 import br.com.sysge.model.gestserv.OrdemServico;
-import br.com.sysge.model.type.Pago;
 import br.com.sysge.util.DateUtil;
 
 public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamentoOs, Long>{
@@ -25,8 +28,8 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 			}
 		}
 		for(ParcelasPagamentoOs p : parcelas){
-			if(p.getPago() == null){
-				p.setPago(Pago.NAO);
+			if(p.getStatusFinanceiro() == null){
+				p.setStatusFinanceiro(StatusFinanceiro.PENDENTE);
 			}
 			p.setOrdemServico(ordemServico);
 			super.save(p);
@@ -41,7 +44,7 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 		if(ordemServico.getId() != null){
 			List<ParcelasPagamentoOs> listaParcelas = procurarParcelasPorOS(ordemServico.getId());
 			for(ParcelasPagamentoOs p : listaParcelas){
-				if(p.getPago() == Pago.SIM){
+				if(p.getStatusFinanceiro() == StatusFinanceiro.PAGO){
 					return true;
 				}
 			}
@@ -53,7 +56,7 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 		if(ordemServico.getId() != null){
 			List<ParcelasPagamentoOs> listaParcelas = procurarParcelasPorOS(ordemServico.getId());
 			for(ParcelasPagamentoOs p : listaParcelas){
-				if(p.getPago() == Pago.NAO){
+				if(p.getStatusFinanceiro() == StatusFinanceiro.PENDENTE){
 					contNao++;
 				}
 			}
@@ -115,8 +118,15 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 		if(parcela.getDataPagamento() == null){
 			throw new RuntimeException("A data de pagamento é obrigatória!");
 		}
-		parcela.setPago(Pago.SIM);
+		parcela.setStatusFinanceiro(StatusFinanceiro.PAGO);
 		super.save(parcela);
+	}
+	
+	public ParcelasPagamentoOs obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
+		Query query = getEntityManager().createQuery("SELECT o FROM "+getEntityClass().getSimpleName()+" o "+ 
+				" WHERE o.lancamentoReceita = :lancamentoFinanceiro");
+		query.setParameter("lancamentoFinanceiro", lancamentoFinanceiro);
+		return (ParcelasPagamentoOs) query.getSingleResult();
 	}
 
 }
