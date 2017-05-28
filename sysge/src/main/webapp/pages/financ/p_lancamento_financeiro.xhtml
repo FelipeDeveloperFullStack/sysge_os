@@ -11,7 +11,7 @@
 
 <ui:composition template="/template/template.xhtml">
 	<ui:define name="conteudo">
-		<h:form>
+		<h:form id="formLancamentoFinanceiro">
 			<p:panel header="MOVIMENTO FINANCEIRO">
 				<h:panelGrid columns="6">
 
@@ -28,38 +28,34 @@
 							update="tableMovimentoCaixa resumo_financeiro" />
 					</h:panelGrid>
 
-					<h:panelGrid columns="1">
-						<h:outputLabel value="." style="color: white;" />
-						<p:commandButton value="Receita" icon="ui-icon-arrowthick-1-n" />
-					</h:panelGrid>
-
-					<h:panelGrid columns="1">
-						<h:outputLabel value="." style="color: white;" />
-						<p:commandButton value="Despesa" icon="ui-icon-arrowthick-1-s" />
-					</h:panelGrid>
 				</h:panelGrid>
 			</p:panel>
 
 
 			<p:dataTable id="tableMovimentoCaixa" var="mov"
 				emptyMessage="Nenhum movimento encontrado!"
-				value="#{movimentoFinanceiroController.lancamentoFinanceiros}">
+				value="#{movimentoFinanceiroController.lancamentoFinanceiros}"
+				rows="8" paginator="true" paginatorPosition="bottom">
 
 				<p:column headerText="Título">
 					<p:outputLabel value="#{mov.titulo}" />
 				</p:column>
 
 				<p:column headerText="Cadastro">
-					<p:outputLabel value="#{mov.cliente.nomeDaPessoaFisica}" />
+					<p:outputLabel value="#{mov.cliente.nomeDaPessoaFisica}#{mov.cliente.nomeFantasia}" 
+								   rendered="#{mov.tipoLancamento == 'RECEITA'}"/>
+					<p:outputLabel value="#{mov.fornecedor.nomeFantasia}" 
+								   rendered="#{mov.tipoLancamento == 'DESPESA'}"/>
 				</p:column>
 
 				<p:column headerText="Categoria" width="175"
 					style="text-align:center;">
-					<p:outputLabel value="#{mov.categoriaLancamentoReceita.tipo}" />
+					<p:outputLabel value="#{mov.categoriaLancamentoReceita.tipo}" rendered="#{mov.tipoLancamento == 'RECEITA'}"/>
+					<p:outputLabel value="#{mov.categoriaLancamentoDespesa.tipo}" rendered="#{mov.tipoLancamento == 'DESPESA'}"/>
 				</p:column>
 
 				<p:column headerText="Valor" width="75" style="text-align:center;">
-					<p:outputLabel value="#{mov.valor}">
+					<p:outputLabel value="#{mov.valor}" styleClass="#{movimentoFinanceiroController.mudarCorValorMovimento(mov)}">
 						<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 					</p:outputLabel>
 				</p:column>
@@ -95,6 +91,17 @@
 					<p:tooltip value="Cliquei aqui para gerar o recibo de pagamento!" for="btnRecibo"
 						position="left" />
 				</p:column>
+				
+				<f:facet name="header">
+					<p:commandButton value="Receita" icon="ui-icon-arrowthick-1-n" 
+										 oncomplete="PF('dialog_lancamento_receita').show();"
+										 actionListener="#{movimentoFinanceiroController.novoLancamento}"
+										 update=":msgGlobal :formReceita"/>
+					<p:commandButton value="Despesa" icon="ui-icon-arrowthick-1-s"
+									 oncomplete="PF('dialog_lancamento_despesa').show();"
+									 actionListener="#{movimentoFinanceiroController.novoLancamento}"
+									 update=":msgGlobal :formDespesa"/>					 
+				</f:facet>
 
 			</p:dataTable>
 
@@ -219,14 +226,25 @@
 				<p:panelGrid columns="2">
 					<p:panelGrid columns="1">
 						<p:outputLabel value="Categoria" styleClass="texto_negrito" />
-						<p:outputLabel
+						<p:outputLabel rendered="#{movimentoFinanceiroController.lancamentoFinanceiro.tipoLancamento == 'RECEITA'}"
 							value="#{movimentoFinanceiroController.lancamentoFinanceiro.categoriaLancamentoReceita.tipo}" />
+						
+						<p:outputLabel rendered="#{movimentoFinanceiroController.lancamentoFinanceiro.tipoLancamento == 'DESPESA'}"
+							value="#{movimentoFinanceiroController.lancamentoFinanceiro.categoriaLancamentoDespesa.tipo}" />
 					</p:panelGrid>
 
-					<p:panelGrid columns="1">
+					<p:panelGrid columns="1" rendered="#{movimentoFinanceiroController.lancamentoFinanceiro.tipoLancamento == 'RECEITA'}">
 						<p:outputLabel value="Cadastro" styleClass="texto_negrito" />
-						<p:outputLabel
-							value="#{movimentoFinanceiroController.lancamentoFinanceiro.cliente.nomeDaPessoaFisica}" />
+						<p:outputLabel rendered="#{movimentoFinanceiroController.lancamentoFinanceiro.cliente.tipoPessoa == 'PESSOA_FISICA'}"
+							value="#{movimentoFinanceiroController.lancamentoFinanceiro.cliente.nomeDaPessoaFisica}"/>
+						
+						<p:outputLabel rendered="#{movimentoFinanceiroController.lancamentoFinanceiro.cliente.tipoPessoa == 'PESSOA_JURIDICA'}" 
+									value="#{movimentoFinanceiroController.lancamentoFinanceiro.cliente.nomeFantasia}" />
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1" rendered="#{movimentoFinanceiroController.lancamentoFinanceiro.tipoLancamento == 'DESPESA'}">
+						<p:outputLabel value="Cadastro" styleClass="texto_negrito" />
+						<p:outputLabel value="#{movimentoFinanceiroController.lancamentoFinanceiro.fornecedor.nomeFantasia}"/>
 					</p:panelGrid>
 				</p:panelGrid>
 
@@ -239,6 +257,13 @@
 						<p:outputLabel
 							value="#{movimentoFinanceiroController.lancamentoFinanceiro.formaPagamento.formaPagamento}" />
 					</p:panelGrid>
+					
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Tipo lançamento"
+							styleClass="texto_negrito" />
+						<p:outputLabel
+							value="#{movimentoFinanceiroController.lancamentoFinanceiro.tipoLancamento.tipoLancamento}" />	
+					</p:panelGrid>
 				</p:panelGrid>
 
 				<p:panelGrid columns="2">
@@ -248,6 +273,200 @@
 					</p:panelGrid>
 				</p:panelGrid>
 
+
+
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog>
+			<h:form>
+			</h:form>
+		</p:dialog>
+		
+		
+		<p:dialog widgetVar="dialog_lancamento_receita" header="Lançamento receita"
+			modal="true" appendTo="@(body)" resizable="false" position="top"
+			closable="false">
+			<h:form id="formReceita">
+
+				<p:tabView id="tabViewNovoUsuario">
+					<p:tab title="Receita" id="tabNovoUsuario">
+
+						<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Data"/>
+						<p:calendar showOn="button" pattern="dd/MM/yyyy" value="#{movimentoFinanceiroController.lancamentoFinanceiro.dataLancamento}"/>
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Título"/>
+						<p:inputText style="width: 430px;" value="#{movimentoFinanceiroController.lancamentoFinanceiro.titulo}"/>
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Descrição"/>
+						<p:inputTextarea style="width: 430px;" value="#{movimentoFinanceiroController.lancamentoFinanceiro.descricao}"/>
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Valor"/>
+						<p:inputNumber symbol="R$ " 
+                               decimalSeparator="," thousandSeparator="." value="#{movimentoFinanceiroController.lancamentoFinanceiro.valor}"/>
+					</h:panelGrid>
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Categoria"/>
+						<p:selectOneMenu value="#{movimentoFinanceiroController.lancamentoFinanceiro.categoriaLancamentoReceita}">
+							<f:selectItems var="item" itemValue="#{item}" itemLabel="#{item.tipo}" value="#{movimentoFinanceiroController.categoriasLancamentoReceita}"/>
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+								<p:outputLabel value="Cliente" />
+								<p:selectOneMenu style="width: 410px;"
+									value="#{movimentoFinanceiroController.lancamentoFinanceiro.cliente}"
+									converter="omnifaces.SelectItemsConverter" filter="true"
+									filterMatchMode="startsWith">
+									<f:selectItems var="c"
+										value="#{movimentoFinanceiroController.clientes}"
+										itemLabel="#{c.nomeDaPessoaFisica}#{c.nomeFantasia}" itemValue="#{c}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Forma de pagamento"/>
+						<p:selectOneMenu style="width: 160px;" value="#{movimentoFinanceiroController.lancamentoFinanceiro.formaPagamento}">
+							<f:selectItems var="f" itemValue="#{f}" itemLabel="#{f.formaPagamento}" value="#{movimentoFinanceiroController.formasPagamento}"/>
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Status"/>
+						<p:selectOneMenu style="width: 160px;" value="#{movimentoFinanceiroController.lancamentoFinanceiro.statusRecebimentoReceita}">
+							<f:selectItems var="s" itemValue="#{s}" itemLabel="#{s.status}" value="#{movimentoFinanceiroController.statusFinanceiro}"/>
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</h:panelGrid>
+
+						<h:panelGrid columns="2" >
+							<h:panelGrid columns="2">
+								<h:form id="form">
+									<p:commandButton value="Salvar"
+										icon="ui-icon-check"
+										actionListener="#{movimentoFinanceiroController.salvarLancamento}"
+										update=":msgGlobal">
+									</p:commandButton>
+									<p:commandButton value="Cancelar" icon="ui-icon-close"
+										oncomplete="PF('dialog_lancamento_receita').hide();"/>
+								</h:form>
+							</h:panelGrid>
+						</h:panelGrid>
+						
+
+					</p:tab>
+				</p:tabView>
+
+
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog widgetVar="dialog_lancamento_despesa" header="Lançamento despesa"
+			modal="true" appendTo="@(body)" resizable="false" position="top"
+			closable="false">
+			<h:form id="formDespesa">
+
+				<p:tabView>
+					<p:tab title="Despesa">
+
+						<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Data"/>
+						<p:calendar showOn="button" pattern="dd/MM/yyyy" value="#{movimentoFinanceiroController.lancamentoFinanceiro.dataLancamento}"/>
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Título"/>
+						<p:inputText style="width: 430px;" value="#{movimentoFinanceiroController.lancamentoFinanceiro.titulo}"/>
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Descrição"/>
+						<p:inputTextarea style="width: 430px;" value="#{movimentoFinanceiroController.lancamentoFinanceiro.descricao}"/>
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Valor"/>
+						<p:inputNumber symbol="R$ " 
+                               decimalSeparator="," thousandSeparator="." value="#{movimentoFinanceiroController.lancamentoFinanceiro.valor}"/>
+					</h:panelGrid>
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Categoria"/>
+						<p:selectOneMenu value="#{movimentoFinanceiroController.lancamentoFinanceiro.categoriaLancamentoDespesa}">
+							<f:selectItems var="item" itemValue="#{item}" itemLabel="#{item.tipo}" value="#{movimentoFinanceiroController.categoriasLancamentoDespesa}"/>
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+								<p:outputLabel value="Fornecedor" />
+								<p:selectOneMenu style="width: 410px;"
+									value="#{movimentoFinanceiroController.lancamentoFinanceiro.fornecedor}"
+									converter="omnifaces.SelectItemsConverter" filter="true"
+									filterMatchMode="startsWith">
+									<f:selectItems var="c"
+										value="#{movimentoFinanceiroController.fornecedores}"
+										itemLabel="#{c.nomeFantasia}" itemValue="#{c}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Forma de pagamento"/>
+						<p:selectOneMenu style="width: 160px;" value="#{movimentoFinanceiroController.lancamentoFinanceiro.formaPagamento}">
+							<f:selectItems var="f" itemValue="#{f}" itemLabel="#{f.formaPagamento}" value="#{movimentoFinanceiroController.formasPagamento}"/>
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<h:panelGrid columns="1">
+						<h:outputLabel value="Status"/>
+						<p:selectOneMenu style="width: 160px;" value="#{movimentoFinanceiroController.lancamentoFinanceiro.statusRecebimentoReceita}">
+							<f:selectItems var="s" itemValue="#{s}" itemLabel="#{s.status}" value="#{movimentoFinanceiroController.statusFinanceiro}"/>
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</h:panelGrid>
+
+						<h:panelGrid columns="2" >
+							<h:panelGrid columns="2">
+								<h:form id="form">
+									<p:commandButton value="Salvar"
+										icon="ui-icon-check"
+										actionListener="#{movimentoFinanceiroController.salvarLancamento}"
+										update=":msgGlobal">
+									</p:commandButton>
+									<p:commandButton value="Cancelar" icon="ui-icon-close"
+										oncomplete="PF('dialog_lancamento_despesa').hide();"/>
+								</h:form>
+							</h:panelGrid>
+						</h:panelGrid>
+						
+
+					</p:tab>
+				</p:tabView>
 
 
 			</h:form>

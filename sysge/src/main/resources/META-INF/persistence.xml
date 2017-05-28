@@ -5,7 +5,6 @@
 	
 	<persistence-unit name="sysge-unit" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider> 
-		
 		<class>br.com.sysge.infraestrutura.dao.GenericDomain</class>
 		
 		<class>br.com.sysge.model.conf.Usuario</class>
