@@ -20,7 +20,7 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 	
 	private static final String A_VISTA = "À Vista";
 	
-	public void salvar(OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelas){
+	public List<ParcelasPagamentoOs> salvar(OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelas){
 		List<ParcelasPagamentoOs> listaParcelas = procurarParcelasPorOS(ordemServico.getId());
 		if(!listaParcelas.isEmpty()){
 			for(ParcelasPagamentoOs p : listaParcelas){
@@ -32,8 +32,10 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 				p.setStatusFinanceiro(StatusFinanceiro.PENDENTE);
 			}
 			p.setOrdemServico(ordemServico);
-			super.save(p);
+			p = super.save(p);
+			listaParcelas.add(p);
 		}
+		return listaParcelas;
 	}
 	
 	public List<ParcelasPagamentoOs> procurarParcelasPorOS(long idOS){

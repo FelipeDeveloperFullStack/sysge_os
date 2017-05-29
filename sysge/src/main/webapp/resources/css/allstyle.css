@@ -42,6 +42,16 @@
 	left: 75px;
 }
 
+.texto_negrito_vermelho {
+	font-weight: bold;
+	color: red;
+}
+
+.texto_negrito_azul {
+	font-weight: bold;
+	color: blue;
+}
+
 .texto_negrito {
 	font-weight: bold;
 }

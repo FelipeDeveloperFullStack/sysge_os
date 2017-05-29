@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.sysge.model.financ.LancamentoFinanceiro;
+import br.com.sysge.model.financ.MovimentoFinanceiro;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
 import br.com.sysge.model.financ.type.CategoriaLancamentoDespesa;
 import br.com.sysge.model.financ.type.CategoriaLancamentoReceita;
@@ -52,6 +53,8 @@ public class MovimentoFinanceiroController implements Serializable {
 	private Date dataLancamentoReceita = new Date();
 	
 	private Date dataLancamentoDespesa = new Date();
+	
+	private MovimentoFinanceiro movimentoFinanceiro;
 	
 	@Inject
 	private ClienteService clienteService;
@@ -102,6 +105,8 @@ public class MovimentoFinanceiroController implements Serializable {
 			movimentoFinanceiroService.salvarMovimentoReceita(lancamentoFinanceiro);
 			RequestContextUtil.execute("PF('dialog_lancamento_receita').hide();");
 			RequestContextUtil.execute("PF('dialog_lancamento_despesa').hide();");
+			this.lancamentoFinanceiros = lancamentoFinanceiroService.obterLancamentoFinanceiroPorData(lancamentoFinanceiro.getDataLancamento());
+			this.movimentoFinanceiro = movimentoFinanceiroService.getMovimentoFinanceiro();
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}
@@ -110,6 +115,7 @@ public class MovimentoFinanceiroController implements Serializable {
 	public void pesquisar(){
 		try {
 			lancamentoFinanceiros = lancamentoFinanceiroService.obterLancamentoFinanceiroPorData(dataMovimento);
+			this.movimentoFinanceiro = movimentoFinanceiroService.getMovimentoFinanceiro();
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}
@@ -187,6 +193,14 @@ public class MovimentoFinanceiroController implements Serializable {
 
 	public void setDataLancamentoDespesa(Date dataLancamentoDespesa) {
 		this.dataLancamentoDespesa = dataLancamentoDespesa;
+	}
+
+	public MovimentoFinanceiro getMovimentoFinanceiro() {
+		return movimentoFinanceiro;
+	}
+
+	public void setMovimentoFinanceiro(MovimentoFinanceiro movimentoFinanceiro) {
+		this.movimentoFinanceiro = movimentoFinanceiro;
 	}
 	
 	

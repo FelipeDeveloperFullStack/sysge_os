@@ -417,8 +417,6 @@ public class OrdemServicoController implements Serializable {
 					somaValorParcela = somaValorParcela.add(p.getValorParcela());
 				}
 				
-				salvarMovimentoFinanceiro(ordemServico, parcelas);
-				
 				if(somaValorParcela != BigDecimal.ZERO){
 					if(ordemServico.getTotal().doubleValue() != somaValorParcela.doubleValue()){
 						RequestContextUtil.execute("PF('dialog_confirmacao_valor_parcelas').show();");
@@ -473,7 +471,8 @@ public class OrdemServicoController implements Serializable {
 			ordemServicoService.consistirProduto(listaProdutos, ordemServico);
 		}else{
 			ordemServico = ordemServicoService.salvar(ordemServico);
-			parcelasPagamentoOsService.salvar(ordemServico, parcelas);
+			parcelas = parcelasPagamentoOsService.salvar(ordemServico, parcelas);
+			salvarMovimentoFinanceiro(ordemServico, parcelas);
 			
 			List<ProdutoOrdemServico> listaProdutoOS = produtoOrdemServicoService.findByListProperty(ordemServico.getId(), "ordemServico.id");
 			

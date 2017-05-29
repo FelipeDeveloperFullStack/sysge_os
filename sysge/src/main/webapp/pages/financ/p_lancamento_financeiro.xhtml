@@ -106,65 +106,44 @@
 			</p:dataTable>
 
 			<p:panel header="RESUMO FINANCEIRO" id="resumo_financeiro">
-				<div class="ui-g">
-					<div class="ui-g-10">
-						<p:outputLabel value="Total Receitas" />
-					</div>
-
-					<div class="ui-g-2">
-						<p:outputLabel value="R$: 250,00" />
-					</div>
-				</div>
-				<p:separator />
-				<div class="ui-g">
-					<div class="ui-g-10">
-						<p:outputLabel value="Total Despesas" />
-					</div>
-
-					<div class="ui-g-2">
-						<p:outputLabel value="R$: 0,00" />
-					</div>
-				</div>
-				<p:separator />
-				<div class="ui-g">
-					<div class="ui-g-10">
-						<p:outputLabel value="Total Recebido" />
-					</div>
-
-					<div class="ui-g-2">
-						<p:outputLabel value="R$: 0,00" />
-					</div>
-				</div>
-				<p:separator />
-				<div class="ui-g">
-					<div class="ui-g-10">
-						<p:outputLabel value="Total Pago" />
-					</div>
-
-					<div class="ui-g-2">
-						<p:outputLabel value="R$: 0,00" />
-					</div>
-				</div>
-				<p:separator />
-				<div class="ui-g">
-					<div class="ui-g-10">
-						<p:outputLabel value="Salgo Anterior" />
-					</div>
-
-					<div class="ui-g-2">
-						<p:outputLabel value="R$: 0,00" />
-					</div>
-				</div>
-				<p:separator />
-				<div class="ui-g">
-					<div class="ui-g-10">
-						<p:outputLabel value="Salgo Atual" />
-					</div>
-
-					<div class="ui-g-2">
-						<p:outputLabel value="R$: 0,00" />
-					</div>
-				</div>
+			
+				<p:panelGrid columns="7">
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Total Receitas" styleClass="texto_negrito_azul"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalReceita}" styleClass="texto_negrito_azul"/>
+					</p:panelGrid>
+				
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Total Despesas" styleClass="texto_negrito_vermelho"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalDespesa}" styleClass="texto_negrito_vermelho"/>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Total Recebido" styleClass="texto_negrito_azul"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalRecebido}" styleClass="texto_negrito_azul"/>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Total Pago" styleClass="texto_negrito_vermelho"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalPago}" styleClass="texto_negrito_vermelho"/>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Salgo Operacional" styleClass="texto_negrito"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoOperacional}" styleClass="texto_negrito"/>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Salgo Anterior" styleClass="texto_negrito"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAnterior}" styleClass="texto_negrito"/>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Salgo Atual" styleClass="texto_negrito"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAtual}" styleClass="texto_negrito"/>
+					</p:panelGrid>
+					
+				</p:panelGrid>
 				<p:separator />
 			</p:panel>
 
@@ -362,7 +341,7 @@
 									<p:commandButton value="Salvar"
 										icon="ui-icon-check"
 										actionListener="#{movimentoFinanceiroController.salvarLancamento}"
-										update=":msgGlobal">
+										update=":msgGlobal :formLancamentoFinanceiro:tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
 									</p:commandButton>
 									<p:commandButton value="Cancelar" icon="ui-icon-close"
 										oncomplete="PF('dialog_lancamento_receita').hide();"/>
@@ -456,7 +435,7 @@
 									<p:commandButton value="Salvar"
 										icon="ui-icon-check"
 										actionListener="#{movimentoFinanceiroController.salvarLancamento}"
-										update=":msgGlobal">
+										update=":msgGlobal :formLancamentoFinanceiro:tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
 									</p:commandButton>
 									<p:commandButton value="Cancelar" icon="ui-icon-close"
 										oncomplete="PF('dialog_lancamento_despesa').hide();"/>
