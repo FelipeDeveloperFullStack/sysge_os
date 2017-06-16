@@ -94,6 +94,36 @@
 
 					</p:dataTable>
 				</p:panel>
+				
+				<p:panel id="contasPagarEReceberPorData"
+					header="Contas a pagar e Contas a receber" style="width: 415px;" rendered="#{dashboardController.parametro.mostrarContaPagarReceber}">
+					<p:dataTable emptyMessage="Nenhum registro encontrado!" var="p"
+						value="#{movimentoFinanceiroController.contasPagarReceber}" paginator="true"
+						paginatorPosition="bottom" rows="6">
+
+						<p:column headerText="Data">
+							<p:outputLabel value="#{p.dataMovimento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"
+									timeZone="GMT-3" type="both" />
+							</p:outputLabel>
+						</p:column>
+
+						<p:column headerText="R$ A pagar" width="75"
+							style="text-align:center;">
+							<p:outputLabel value="#{p.totalDespesa}" style="color: blue;">
+								<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+							</p:outputLabel>
+						</p:column>
+						
+						<p:column headerText="R$ A receber" width="100"
+							style="text-align:center;">
+							<p:outputLabel value="#{p.totalReceita}" style="color: red;">
+								<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+							</p:outputLabel>
+						</p:column>
+
+					</p:dataTable>
+				</p:panel>	
 
 			</p:dashboard>
 		</h:form>

@@ -35,6 +35,7 @@ public class DashboardController implements Serializable{
 	    
 	    column1.addWidget("osAbertas");
 	    column1.addWidget("produtoEstoqMinimo");
+	    column1.addWidget("contasPagarEReceberPorData");
 	    
 	    model.addColumn(column1);
 	    
@@ -45,6 +46,7 @@ public class DashboardController implements Serializable{
 		for(Parametro p : parametroService.findAll()){
 			parametro.setMostrarListagemEstoqueNegativoTelaInicial(p.isMostrarListagemEstoqueNegativoTelaInicial());
 			parametro.setMostrarListagemOSTelaInicial(p.isMostrarListagemOSTelaInicial());
+			parametro.setMostrarContaPagarReceber(p.isMostrarContaPagarReceber());
 		}
 	}
 

@@ -37,6 +37,13 @@
 				<p:separator/>
 				
 				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+        			<p:selectBooleanCheckbox value="#{parametrosController.parametro.mostrarContaPagarReceber}"/>
+					<h:outputText value="Mostrar contas a pagar e contas a receber na tela inicial?" />
+				</h:panelGrid>
+				
+				<p:separator/>
+				
+				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
         			<p:outputLabel value="Empresa padrão"/>
 					<p:selectOneMenu converter="omnifaces.SelectItemsConverter"
 									value="#{parametrosController.parametro.unidadeEmpresarialPadrao}">

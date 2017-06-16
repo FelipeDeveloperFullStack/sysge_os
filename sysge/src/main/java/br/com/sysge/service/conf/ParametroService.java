@@ -28,6 +28,7 @@ public class ParametroService extends GenericDaoImpl<Parametro, Long>{
 					p.setMostrarListagemEstoqueNegativoTelaInicial(parametro.isMostrarListagemEstoqueNegativoTelaInicial());
 					p.setMostrarListagemOSTelaInicial(parametro.isMostrarListagemOSTelaInicial());
 					p.setUnidadeEmpresarialPadrao(parametro.getUnidadeEmpresarialPadrao());
+					p.setMostrarContaPagarReceber(parametro.isMostrarContaPagarReceber());
 					super.save(p);
 				}
 			}

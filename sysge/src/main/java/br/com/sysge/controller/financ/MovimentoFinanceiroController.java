@@ -100,13 +100,17 @@ public class MovimentoFinanceiroController implements Serializable {
 		}
 	}
 	
+	public List<MovimentoFinanceiro> getContasPagarReceber(){
+		return movimentoFinanceiroService.listarContasPagarReceber();
+	}
+	
 	public void salvarLancamento(){
 		try {
 			movimentoFinanceiroService.salvarMovimentoReceita(lancamentoFinanceiro);
 			RequestContextUtil.execute("PF('dialog_lancamento_receita').hide();");
 			RequestContextUtil.execute("PF('dialog_lancamento_despesa').hide();");
 			this.lancamentoFinanceiros = lancamentoFinanceiroService.obterLancamentoFinanceiroPorData(lancamentoFinanceiro.getDataLancamento());
-			this.movimentoFinanceiro = movimentoFinanceiroService.getMovimentoFinanceiro();
+			this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(lancamentoFinanceiro.getDataLancamento());
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}
@@ -115,7 +119,7 @@ public class MovimentoFinanceiroController implements Serializable {
 	public void pesquisar(){
 		try {
 			lancamentoFinanceiros = lancamentoFinanceiroService.obterLancamentoFinanceiroPorData(dataMovimento);
-			this.movimentoFinanceiro = movimentoFinanceiroService.getMovimentoFinanceiro();
+			this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(dataMovimento);
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}
@@ -131,13 +135,19 @@ public class MovimentoFinanceiroController implements Serializable {
 			this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PENDENTE);
 			obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(this.lancamentoFinanceiro);
 			lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
+			
+			movimentoFinanceiroService.salvarMovimentoReceita(lancamentoFinanceiro);
 			lancamentoFinanceiros = obterTitulosPelaDataMovimento(this.lancamentoFinanceiro.getDataLancamento());
+			this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(dataMovimento);
 		}else{
 			this.lancamentoFinanceiro = lancamentoFinanceiro;
 			this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PAGO);
 			obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(this.lancamentoFinanceiro);
 			lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
+			
+			movimentoFinanceiroService.salvarMovimentoReceita(lancamentoFinanceiro);
 			lancamentoFinanceiros = obterTitulosPelaDataMovimento(this.lancamentoFinanceiro.getDataLancamento());
+			this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(dataMovimento);
 		}
 	}
 	

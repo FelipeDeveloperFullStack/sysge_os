@@ -50,6 +50,7 @@ public class ParametrosController implements Serializable{
 			this.parametro.setMostrarListagemEstoqueNegativoTelaInicial(p.isMostrarListagemEstoqueNegativoTelaInicial());
 			this.parametro.setMostrarListagemOSTelaInicial(p.isMostrarListagemOSTelaInicial());
 			this.parametro.setUnidadeEmpresarialPadrao(p.getUnidadeEmpresarialPadrao());
+			this.parametro.setMostrarContaPagarReceber(p.isMostrarContaPagarReceber());
 		}
 	}
 

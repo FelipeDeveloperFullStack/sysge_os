@@ -20,6 +20,8 @@ public class Parametro extends GenericDomain{
 	
 	private boolean mostrarListagemOSTelaInicial;
 	
+	private boolean mostrarContaPagarReceber;
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	private UnidadeEmpresarial unidadeEmpresarialPadrao;
 	
@@ -53,6 +55,14 @@ public class Parametro extends GenericDomain{
 
 	public void setUnidadeEmpresarialPadrao(UnidadeEmpresarial unidadeEmpresarialPadrao) {
 		this.unidadeEmpresarialPadrao = unidadeEmpresarialPadrao;
+	}
+
+	public boolean isMostrarContaPagarReceber() {
+		return mostrarContaPagarReceber;
+	}
+
+	public void setMostrarContaPagarReceber(boolean mostrarContaPagarReceber) {
+		this.mostrarContaPagarReceber = mostrarContaPagarReceber;
 	}
 	
 	

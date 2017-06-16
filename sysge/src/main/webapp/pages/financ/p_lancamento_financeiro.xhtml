@@ -62,12 +62,12 @@
 
 				<p:column headerText="Status" width="107" style="text-align:center;">
 					<p:commandButton value="#{mov.statusRecebimentoReceita.status}" icon="ui-icon-circle-check" rendered="#{mov.statusRecebimentoReceita.status == 'Pago'}"
-									  actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}" update="tableMovimentoCaixa">
+									  actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}" update="tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
 						 <p:confirm header="Confirmação" message="Deseja realmente mudar o status do título do valor de #{mov.valor} para pendente?" icon="ui-icon-alert" />
 					</p:commandButton>
 					
 					<p:commandButton value="#{mov.statusRecebimentoReceita.status}" icon="ui-icon-circle-minus" rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}" 
-									 actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}"  update="tableMovimentoCaixa">
+									 actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}"  update="tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
 						 <p:confirm header="Confirmação" message="Deseja confirmar o pagamento do título para essa data?" icon="ui-icon-alert" />
 					</p:commandButton>
 					
@@ -109,12 +109,12 @@
 			
 				<p:panelGrid columns="7">
 					<p:panelGrid columns="1">
-						<p:outputLabel value="Total Receitas" styleClass="texto_negrito_azul"/>
+						<p:outputLabel value="Total a receber" styleClass="texto_negrito_azul"/>
 						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalReceita}" styleClass="texto_negrito_azul"/>
 					</p:panelGrid>
 				
 					<p:panelGrid columns="1">
-						<p:outputLabel value="Total Despesas" styleClass="texto_negrito_vermelho"/>
+						<p:outputLabel value="Total a pagar" styleClass="texto_negrito_vermelho"/>
 						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalDespesa}" styleClass="texto_negrito_vermelho"/>
 					</p:panelGrid>
 					
@@ -129,12 +129,12 @@
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1">
-						<p:outputLabel value="Salgo Operacional" styleClass="texto_negrito"/>
+						<p:outputLabel value="Salgo do dia" styleClass="texto_negrito"/>
 						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoOperacional}" styleClass="texto_negrito"/>
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1">
-						<p:outputLabel value="Salgo Anterior" styleClass="texto_negrito"/>
+						<p:outputLabel value="Salgo do dia Anterior" styleClass="texto_negrito"/>
 						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAnterior}" styleClass="texto_negrito"/>
 					</p:panelGrid>
 					
