@@ -16,6 +16,7 @@ import br.com.sysge.infraestrutura.dao.GenericDomain;
 import br.com.sysge.model.financ.type.CategoriaLancamentoDespesa;
 import br.com.sysge.model.financ.type.CategoriaLancamentoReceita;
 import br.com.sysge.model.financ.type.StatusFinanceiro;
+import br.com.sysge.model.financ.type.TipoAtualizacaoMovimento;
 import br.com.sysge.model.financ.type.TipoLancamento;
 import br.com.sysge.model.financ.type.TipoLancamentoFinanceiro;
 import br.com.sysge.model.global.Cliente;
@@ -39,6 +40,9 @@ public class LancamentoFinanceiro extends GenericDomain{
 	private String descricao;
 	
 	private BigDecimal valor;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoAtualizacaoMovimento tipoAtualizacaoMovimento;
 	
 	@Enumerated(EnumType.STRING)
 	private CategoriaLancamentoReceita categoriaLancamentoReceita;
@@ -166,6 +170,14 @@ public class LancamentoFinanceiro extends GenericDomain{
 
 	public void setCategoriaLancamentoDespesa(CategoriaLancamentoDespesa categoriaLancamentoDespesa) {
 		this.categoriaLancamentoDespesa = categoriaLancamentoDespesa;
+	}
+
+	public TipoAtualizacaoMovimento getTipoAtualizacaoMovimento() {
+		return tipoAtualizacaoMovimento;
+	}
+
+	public void setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento tipoAtualizacaoMovimento) {
+		this.tipoAtualizacaoMovimento = tipoAtualizacaoMovimento;
 	}
 	
 	

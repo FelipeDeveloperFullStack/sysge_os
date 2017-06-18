@@ -68,7 +68,7 @@
 					
 					<p:commandButton value="#{mov.statusRecebimentoReceita.status}" icon="ui-icon-circle-minus" rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}" 
 									 actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}"  update="tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
-						 <p:confirm header="Confirmação" message="Deseja confirmar o pagamento do título para essa data?" icon="ui-icon-alert" />
+						 <p:confirm header="Confirmação" message="Deseja confirmar o recebimento do título para essa data?" icon="ui-icon-alert" />
 					</p:commandButton>
 					
 					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
@@ -129,17 +129,17 @@
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1">
-						<p:outputLabel value="Salgo do dia" styleClass="texto_negrito"/>
+						<p:outputLabel value="Saldo do dia" styleClass="texto_negrito"/>
 						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoOperacional}" styleClass="texto_negrito"/>
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1">
-						<p:outputLabel value="Salgo do dia Anterior" styleClass="texto_negrito"/>
+						<p:outputLabel value="Saldo do movimento Anterior" styleClass="texto_negrito"/>
 						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAnterior}" styleClass="texto_negrito"/>
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1">
-						<p:outputLabel value="Salgo Atual" styleClass="texto_negrito"/>
+						<p:outputLabel value="Saldo Atual" styleClass="texto_negrito"/>
 						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAtual}" styleClass="texto_negrito"/>
 					</p:panelGrid>
 					
@@ -274,7 +274,7 @@
 						<h:panelGrid columns="2">
 					<h:panelGrid columns="1">
 						<h:outputLabel value="Data"/>
-						<p:calendar showOn="button" pattern="dd/MM/yyyy" value="#{movimentoFinanceiroController.lancamentoFinanceiro.dataLancamento}"/>
+						<p:calendar showOn="button" pattern="dd/MM/yyyy" mask="true" value="#{movimentoFinanceiroController.lancamentoFinanceiro.dataLancamento}"/>
 					</h:panelGrid>
 				</h:panelGrid>
 				
@@ -368,7 +368,7 @@
 						<h:panelGrid columns="2">
 					<h:panelGrid columns="1">
 						<h:outputLabel value="Data"/>
-						<p:calendar showOn="button" pattern="dd/MM/yyyy" value="#{movimentoFinanceiroController.lancamentoFinanceiro.dataLancamento}"/>
+						<p:calendar showOn="button" pattern="dd/MM/yyyy" mask="true" value="#{movimentoFinanceiroController.lancamentoFinanceiro.dataLancamento}"/>
 					</h:panelGrid>
 				</h:panelGrid>
 				

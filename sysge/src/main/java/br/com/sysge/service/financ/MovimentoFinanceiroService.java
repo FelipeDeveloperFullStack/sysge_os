@@ -16,6 +16,7 @@ import br.com.sysge.model.financ.MovimentoFinanceiro;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
 import br.com.sysge.model.financ.type.CategoriaLancamentoReceita;
 import br.com.sysge.model.financ.type.StatusFinanceiro;
+import br.com.sysge.model.financ.type.TipoAtualizacaoMovimento;
 import br.com.sysge.model.financ.type.TipoLancamento;
 import br.com.sysge.model.financ.type.TipoLancamentoFinanceiro;
 import br.com.sysge.model.gestserv.OrdemServico;
@@ -29,7 +30,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Inject
-	private LancamentoFinanceiroService lancamentoReceitaService;
+	private LancamentoFinanceiroService lancamentoFinanceiroService;
 	
 	private MovimentoFinanceiro movimentoFinanceiro;
 	
@@ -73,7 +74,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			lancamentoReceita.setTitulo("Ordem Serviço nº "+ordemServico.getId()+ " - "+parcelasPagamentoOs.getNumero()+"º parcela");
 		}
 		lancamentoReceita.setValor(parcelasPagamentoOs.getValorCobrado());
-		lancamentoReceita = lancamentoReceitaService.save(lancamentoReceita);
+		lancamentoReceita = lancamentoFinanceiroService.save(lancamentoReceita);
 		parcelasPagamentoOs.setLancamentoReceita(lancamentoReceita);
 	}
 	
@@ -206,19 +207,35 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		if(lancamentoReceita.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
 			if(lancamentoReceita.getTipoLancamento() == TipoLancamento.RECEITA){
 				lancamentoReceita.getMovimentoFinanceiro().setTotalRecebido(somarTotalRecebido(lancamentoReceita, lancamentoReceita.getValor(), buscarMovimentoFinanceiroByData(lancamentoReceita.getDataLancamento())));
-				lancamentoReceita.getMovimentoFinanceiro().setTotalReceita(lancamentoReceita.getMovimentoFinanceiro().getTotalReceita().subtract(lancamentoReceita.getValor()));
+				if(lancamentoReceita.getTipoAtualizacaoMovimento() == TipoAtualizacaoMovimento.ATUALIZADO_P_RECEBIDO){
+					lancamentoReceita.getMovimentoFinanceiro().setTotalReceita(
+							lancamentoReceita.getMovimentoFinanceiro().getTotalReceita().signum() == 0 ? BigDecimal.ZERO :
+								lancamentoReceita.getMovimentoFinanceiro().getTotalReceita().subtract(lancamentoReceita.getValor()));
+				}
 			}else{
 				lancamentoReceita.getMovimentoFinanceiro().setTotalPago(somarTotalPago(lancamentoReceita, lancamentoReceita.getValor(), buscarMovimentoFinanceiroByData(lancamentoReceita.getDataLancamento())));
-				lancamentoReceita.getMovimentoFinanceiro().setTotalDespesa(lancamentoReceita.getMovimentoFinanceiro().getTotalDespesa().subtract(lancamentoReceita.getValor()));
+				if(lancamentoReceita.getTipoAtualizacaoMovimento() == TipoAtualizacaoMovimento.ATUALIZADO_P_PAGO){
+					lancamentoReceita.getMovimentoFinanceiro().setTotalDespesa(
+							lancamentoReceita.getMovimentoFinanceiro().getTotalDespesa().signum() == 0 ? BigDecimal.ZERO : 
+								lancamentoReceita.getMovimentoFinanceiro().getTotalDespesa().subtract(lancamentoReceita.getValor()));
+				}
 			}
 			lancamentoReceita.getMovimentoFinanceiro().setDataMovimento(lancamentoReceita.getDataLancamento());
 		}else{
 			if(lancamentoReceita.getTipoLancamento() == TipoLancamento.RECEITA){
 				lancamentoReceita.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoReceita, lancamentoReceita.getValor(), buscarMovimentoFinanceiroByData(lancamentoReceita.getDataLancamento())));
-				lancamentoReceita.getMovimentoFinanceiro().setTotalRecebido(lancamentoReceita.getMovimentoFinanceiro().getTotalRecebido().subtract(lancamentoReceita.getValor()));
+				if(lancamentoReceita.getTipoAtualizacaoMovimento() == TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER){
+					lancamentoReceita.getMovimentoFinanceiro().setTotalRecebido(
+							lancamentoReceita.getMovimentoFinanceiro().getTotalRecebido().signum() == 0 ? BigDecimal.ZERO : 
+								lancamentoReceita.getMovimentoFinanceiro().getTotalRecebido().subtract(lancamentoReceita.getValor()));
+				}
 			}else{
 				lancamentoReceita.getMovimentoFinanceiro().setTotalDespesa(somarTotalDespesa(lancamentoReceita, lancamentoReceita.getValor(), buscarMovimentoFinanceiroByData(lancamentoReceita.getDataLancamento())));
-				lancamentoReceita.getMovimentoFinanceiro().setTotalPago(lancamentoReceita.getMovimentoFinanceiro().getTotalPago().subtract(lancamentoReceita.getValor()));
+				if(lancamentoReceita.getTipoAtualizacaoMovimento() == TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_PAGAR){
+					lancamentoReceita.getMovimentoFinanceiro().setTotalPago(
+							lancamentoReceita.getMovimentoFinanceiro().getTotalPago().signum() == 0 ? BigDecimal.ZERO :
+								lancamentoReceita.getMovimentoFinanceiro().getTotalPago().subtract(lancamentoReceita.getValor()));
+				}
 			}
 			lancamentoReceita.getMovimentoFinanceiro().setDataMovimento(lancamentoReceita.getDataLancamento());
 		}
@@ -234,7 +251,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			lancamentoReceita.getMovimentoFinanceiro().setTotalSaldoAnterior(obterSaldoDiaAnterior(lancamentoReceita.getMovimentoFinanceiro().getDataMovimento()));
 			
 			lancamentoReceita.setMovimentoFinanceiro(super.save(lancamentoReceita.getMovimentoFinanceiro()));
-			lancamentoReceitaService.save(lancamentoReceita);
+			lancamentoFinanceiroService.save(lancamentoReceita);
 			
 			this.movimentoFinanceiro = lancamentoReceita.getMovimentoFinanceiro();
 		
@@ -263,11 +280,18 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	
 	private BigDecimal obterSaldoDiaAnterior(Date dataMov){
 		LocalDate dataMovimento = DateUtil.asLocalDate(dataMov);
-		LocalDate dataMovimentoDiaAnterior = dataMovimento.minusDays(1);
+		List<MovimentoFinanceiro> movList = super.findAll();
+		LocalDate dataMovimentoDiaAnterior = null;
 		BigDecimal saldoAnterior = BigDecimal.ZERO;
-		
-		for(MovimentoFinanceiro m : buscarMovimentoFinanceiroPorData(DateUtil.asDate(dataMovimentoDiaAnterior))){
-			saldoAnterior = m.getTotalSaldoOperacional();
+		for(int i = 0; i < 1825; i++){
+			dataMovimentoDiaAnterior = dataMovimento.minusDays(i+1);
+			for(MovimentoFinanceiro mov2 : movList){
+				if(mov2.getDataMovimento().compareTo(DateUtil.asDate(dataMovimentoDiaAnterior)) == 0){
+					for(MovimentoFinanceiro m : buscarMovimentoFinanceiroPorData(DateUtil.asDate(dataMovimentoDiaAnterior))){
+						return m.getTotalSaldoOperacional();
+					}
+				}
+			}
 		}
 		
 		return saldoAnterior;
@@ -297,8 +321,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	public List<MovimentoFinanceiro> listarContasPagarReceber(){
 		List<MovimentoFinanceiro> movs = new ArrayList<MovimentoFinanceiro>();
 		for(MovimentoFinanceiro mov : super.findAll()){
-			if(mov.getTotalReceita().equals(BigDecimal.ZERO) && mov.getTotalDespesa().equals(BigDecimal.ZERO)){
-			}else{
+			if(mov.getTotalReceita().signum() != 0 || mov.getTotalDespesa().signum() != 0){
 				movs.add(mov);
 			}
 		}

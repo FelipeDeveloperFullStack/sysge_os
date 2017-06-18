@@ -11,7 +11,7 @@ import javax.persistence.TemporalType;
 import br.com.sysge.infraestrutura.dao.GenericDomain;
 
 @Entity
-@Table(name = "movimento_financeiro")
+@Table(name = "tbl_movimento_financeiro")
 public class MovimentoFinanceiro extends GenericDomain{
 
 	private static final long serialVersionUID = 5840204305542662751L;

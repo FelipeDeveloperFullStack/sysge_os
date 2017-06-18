@@ -15,6 +15,7 @@ import br.com.sysge.model.financ.ParcelasPagamentoOs;
 import br.com.sysge.model.financ.type.CategoriaLancamentoDespesa;
 import br.com.sysge.model.financ.type.CategoriaLancamentoReceita;
 import br.com.sysge.model.financ.type.StatusFinanceiro;
+import br.com.sysge.model.financ.type.TipoAtualizacaoMovimento;
 import br.com.sysge.model.financ.type.TipoLancamento;
 import br.com.sysge.model.global.Cliente;
 import br.com.sysge.model.global.Fornecedor;
@@ -133,6 +134,11 @@ public class MovimentoFinanceiroController implements Serializable {
 		if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
 			this.lancamentoFinanceiro = lancamentoFinanceiro;
 			this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PENDENTE);
+			if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.DESPESA){
+				this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_PAGAR);
+			}else{
+				this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER);
+			}
 			obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(this.lancamentoFinanceiro);
 			lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
 			
@@ -142,6 +148,11 @@ public class MovimentoFinanceiroController implements Serializable {
 		}else{
 			this.lancamentoFinanceiro = lancamentoFinanceiro;
 			this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PAGO);
+			if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.DESPESA){
+				this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_PAGO);
+			}else{
+				this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_RECEBIDO);
+			}
 			obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(this.lancamentoFinanceiro);
 			lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
 			
