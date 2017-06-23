@@ -171,27 +171,27 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		if(parcelasPagamentoOs.getStatusFinanceiro() == StatusFinanceiro.PAGO){
 			if(lancamentoReceita.getTipoLancamento() == TipoLancamento.RECEITA){
 				lancamentoReceita.getMovimentoFinanceiro().setTotalRecebido(somarTotalRecebido(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento())));
-				lancamentoReceita.getMovimentoFinanceiro().setTotalReceita(
+				/*lancamentoReceita.getMovimentoFinanceiro().setTotalReceita(
 						lancamentoReceita.getMovimentoFinanceiro().getTotalReceita().signum() == 0 ? BigDecimal.ZERO :
-							lancamentoReceita.getMovimentoFinanceiro().getTotalReceita().subtract(parcelasPagamentoOs.getValorCobrado()));
+							lancamentoReceita.getMovimentoFinanceiro().getTotalReceita().subtract(parcelasPagamentoOs.getValorCobrado()));*/
 			}else{
 				lancamentoReceita.getMovimentoFinanceiro().setTotalPago(somarTotalPago(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento())));
-				lancamentoReceita.getMovimentoFinanceiro().setTotalDespesa(
+				/*lancamentoReceita.getMovimentoFinanceiro().setTotalDespesa(
 						lancamentoReceita.getMovimentoFinanceiro().getTotalDespesa().signum() == 0 ? BigDecimal.ZERO : 
-							lancamentoReceita.getMovimentoFinanceiro().getTotalDespesa().subtract(parcelasPagamentoOs.getValorCobrado()));
+							lancamentoReceita.getMovimentoFinanceiro().getTotalDespesa().subtract(parcelasPagamentoOs.getValorCobrado()));*/
 			}
 			lancamentoReceita.getMovimentoFinanceiro().setDataMovimento(parcelasPagamentoOs.getDataPagamento());
 		}else{
 			if(lancamentoReceita.getTipoLancamento() == TipoLancamento.RECEITA){
 				lancamentoReceita.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
-				lancamentoReceita.getMovimentoFinanceiro().setTotalRecebido(
+				/*lancamentoReceita.getMovimentoFinanceiro().setTotalRecebido(
 						lancamentoReceita.getMovimentoFinanceiro().getTotalRecebido().signum() == 0 ? BigDecimal.ZERO : 
-							lancamentoReceita.getMovimentoFinanceiro().getTotalRecebido().subtract(parcelasPagamentoOs.getValorCobrado()));
+							lancamentoReceita.getMovimentoFinanceiro().getTotalRecebido().subtract(parcelasPagamentoOs.getValorCobrado()));*/
 			}else{
 				lancamentoReceita.getMovimentoFinanceiro().setTotalDespesa(somarTotalDespesa(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
-				lancamentoReceita.getMovimentoFinanceiro().setTotalPago(
+				/*lancamentoReceita.getMovimentoFinanceiro().setTotalPago(
 						lancamentoReceita.getMovimentoFinanceiro().getTotalPago().signum() == 0 ? BigDecimal.ZERO :
-							lancamentoReceita.getMovimentoFinanceiro().getTotalPago().subtract(parcelasPagamentoOs.getValorCobrado()));
+							lancamentoReceita.getMovimentoFinanceiro().getTotalPago().subtract(parcelasPagamentoOs.getValorCobrado()));*/
 			}
 			lancamentoReceita.getMovimentoFinanceiro().setDataMovimento(parcelasPagamentoOs.getDataVencimento());
 		}
