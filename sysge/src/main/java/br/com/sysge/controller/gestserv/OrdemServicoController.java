@@ -64,7 +64,9 @@ public class OrdemServicoController implements Serializable {
 	
 	private Servico servico;
 	
-	private Produto produto;;
+	private Produto produto;
+	
+	private String pesquisaCliente = "";
 	
 	private List<OrdemServico> ordensServicos;
 	
@@ -132,6 +134,20 @@ public class OrdemServicoController implements Serializable {
 	@PostConstruct
 	public void init() {
 		novaOrdemServico();
+	}
+	
+	public void pesquisarCliente() {
+		clientes = clienteService.findByParametersForSituation(pesquisaCliente, 
+				Situacao.ATIVO, "nomeDaPessoaFisica", "LIKE", "", "%"); 
+		
+		if (clientes.isEmpty()) {
+			clientes = clienteService.findByParametersForSituation(pesquisaCliente, 
+					Situacao.ATIVO, "telefone", "LIKE", "", "%"); 
+		}
+	}
+	
+	public void selecionarCliente(Cliente cliente){
+		ordemServico.setCliente(clienteService.verificarTipoPessoa(clienteService.findById(cliente.getId())));
 	}
 	
 	public void setarConfirmacaoPagamento(ParcelasPagamentoOs parcela){
@@ -809,6 +825,14 @@ public class OrdemServicoController implements Serializable {
 
 	public void setParcela(ParcelasPagamentoOs parcela) {
 		this.parcela = parcela;
+	}
+
+	public String getPesquisaCliente() {
+		return pesquisaCliente;
+	}
+
+	public void setPesquisaCliente(String pesquisaCliente) {
+		this.pesquisaCliente = pesquisaCliente;
 	}
 
 }

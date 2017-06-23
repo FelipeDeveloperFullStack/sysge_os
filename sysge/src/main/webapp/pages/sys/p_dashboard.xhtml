@@ -111,14 +111,14 @@
 						<p:column headerText="R$ A pagar" width="75"
 							style="text-align:center;">
 							<p:outputLabel value="#{p.totalDespesa}" style="color: red;">
-								<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+								<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 							</p:outputLabel>
 						</p:column>
 						
 						<p:column headerText="R$ A receber" width="100"
 							style="text-align:center;">
 							<p:outputLabel value="#{p.totalReceita}" style="color: blue;">
-								<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+								<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 							</p:outputLabel>
 						</p:column>
 

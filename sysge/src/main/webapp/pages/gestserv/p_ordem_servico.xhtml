@@ -11,6 +11,28 @@
 
 <ui:composition template="/template/template.xhtml">
 	<ui:define name="conteudo">
+	
+	<script>
+			function clienteKeyUp(){
+				PF('dialogCliente').show();
+				var clienteInput = document.getElementById("formEditarOrdemServico:tabViewEditarOS:txtCliente");
+				var clientePopUpInput = document.getElementById("pesquisaCliente:inputPesquisaCliente");
+				
+				clientePopUpInput.value = clienteInput.value;
+				clienteInput.value = "";
+				document.getElementById("pesquisaCliente:pesquisaClienteButton").click();
+			}
+			function clienteNovoKeyUp(){
+				PF('dialogCliente').show();
+				var clienteNovoInput = document.getElementById("formNovaOrdemServico:tabViewNovaOS:txtCliente");
+				var clientePopUpInput = document.getElementById("pesquisaCliente:inputPesquisaCliente");
+				
+				clientePopUpInput.value = clienteNovoInput.value;
+				clienteNovoInput.value = "";
+				document.getElementById("pesquisaCliente:pesquisaClienteButton").click();
+			}
+		</script>	
+	
 		<h:form id="formGeralServico">
 			<p:panel header="Listagem de ordens de serviços">
 
@@ -164,7 +186,7 @@
 								<p:outputLabel value="Cliente" />
 								<p:inputText id="txtCliente"
 									value="#{ordemServicoController.ordemServico.cliente.nomeTemporario}"
-									style="width: 350px;" />
+									style="width: 350px;" placeholder="Digite o nome de um cliente"/>
 							</h:panelGrid>
 							<h:panelGrid columns="1">
 								<p:outputLabel value="." style="color: white;" />
@@ -286,12 +308,12 @@
 							</p:column>
 							<p:column headerText="Valor" width="120" style="text-align:center;">
 								<h:outputLabel value="#{s.servico.valor}" style="color: blue;">
-									<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 								</h:outputLabel>
 							</p:column>
 							<p:column headerText="Subtotal" width="120" style="text-align:center;">
 								<h:outputLabel id="txtTotalServico" value="#{s.subTotal}" style="color: blue;">
-									<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 								</h:outputLabel>
 							</p:column>
 							<p:column width="30">
@@ -345,12 +367,12 @@
 							</p:column>
 							<p:column headerText="Valor" width="120" style="text-align:center;">
 								<h:outputLabel value="#{p.produto.valorVenda}" style="color: blue;">
-									<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 								</h:outputLabel>
 							</p:column>
 							<p:column headerText="Subtotal" width="120" style="text-align:center;">
 								<h:outputLabel id="txtTotalServico" value="#{p.subTotal}" style="color: blue;">
-									<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 								</h:outputLabel>
 							</p:column>
 							<p:column width="30">
@@ -469,7 +491,7 @@
 								<p:outputLabel value="Cliente" />
 								<p:inputText id="txtCliente"
 									value="#{ordemServicoController.ordemServico.cliente.nomeTemporario}"
-									style="width: 350px;" />
+									style="width: 350px;" placeholder="Digite o nome de um cliente"/>
 							</h:panelGrid>
 							<h:panelGrid columns="1">
 								<p:outputLabel value="." style="color: white;" />
@@ -591,13 +613,13 @@
 							</p:column> -->
 							<!-- <p:column headerText="Valor" width="120">
 								<h:outputLabel value="#{s.servico.valor}" style="color: blue;">
-									<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 								</h:outputLabel>
 							</p:column> -->
 							<p:column headerText="Valor" width="120">
 								<h:outputLabel id="txtTotalServico" value="#{s.subTotal}"
 									style="color: blue;">
-									<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 								</h:outputLabel>
 							</p:column>
 							<p:column width="30">
@@ -674,7 +696,7 @@
 								style="text-align:center;">
 								<h:outputLabel value="#{p.produto.valorVenda}"
 									style="color: blue;">
-									<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 								</h:outputLabel>
 							</p:column>
 							
@@ -682,7 +704,7 @@
 								style="text-align:center;">
 								<h:outputLabel id="txtTotalServico" value="#{p.subTotal}"
 									style="color: blue;">
-									<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 								</h:outputLabel>
 							</p:column>
 
@@ -830,7 +852,7 @@
 							<p:column headerText="Parcela" style="text-align:center;"
 								width="100">
 								<h:outputLabel value="#{p.valorParcela}">
-									<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 								</h:outputLabel>
 							</p:column>
 							<p:column headerText="Desconto" style="text-align:center;"
@@ -846,7 +868,7 @@
 								width="100">
 								<h:outputLabel id="txtValorCobradoParcela"
 									value="#{p.valorCobrado}">
-									<f:convertNumber pattern="###,###.00" locale="pt_BR" />
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
 								</h:outputLabel>
 							</p:column>
 							<p:column headerText="Vencimento" style="text-align:center;">
@@ -1102,6 +1124,73 @@
 			</h:form>
 			
 		</p:dialog>	
+		
+		
+		<p:dialog widgetVar="dialogCliente" header="Cliente" modal="true"
+			resizable="false" position="center" appendTo="@(body)" height="500"
+			width="700" closable="false">
+			<h:form id="pesquisaCliente">
+
+				<h:panelGrid columns="3">
+					<p:outputLabel value="Pesquisa" />
+					<p:inputText value="#{ordemServicoController.pesquisaCliente}"
+						id="inputPesquisaCliente">
+						<p:ajax event="keyup" update="tableClientes"
+							process="@this,inputPesquisaCliente"
+							listener="#{ordemServicoController.pesquisarCliente}" />
+					</p:inputText>
+					<p:commandButton icon="ui-icon-search"
+						id="pesquisaClienteButton"
+						process="@this,inputPesquisaCliente" update="tableClientes"
+						actionListener="#{ordemServicoController.pesquisarCliente}" />
+				</h:panelGrid>
+
+
+				<p:dataTable id="tableClientes" var="c" paginator="true"
+					paginatorPosition="bottom" value="#{ordemServicoController.clientes}"
+					emptyMessage="Nenhum registro encontrado!" rows="8"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+						{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+					<p:column headerText="Código" width="30" style="text-align:center;">
+						<p:outputLabel value="#{c.id}" />
+					</p:column>
+					
+					<p:column headerText="Nome" width="30" style="text-align:center;">
+						<p:outputLabel value="#{c.nomeDaPessoaFisica}" />
+					</p:column>
+
+					<p:column headerText="Telefone" width="75"
+						style="text-align:center;">
+						<p:outputLabel value="#{c.telefone}" />
+					</p:column>
+					
+					<p:column headerText="Endereço" width="75"
+						style="text-align:center;">
+						<p:outputLabel value="#{c.logradouro}"/>
+						<p:outputLabel value=", "/> 
+						<p:outputLabel value="#{c.bairro}"/>
+					</p:column>
+
+					<p:column width="30" style="text-align:center;">
+						<p:commandButton icon="ui-icon-circle-plus"
+							update=":formEditarOrdemServico:tabViewEditarOS:txtCliente :formNovaOrdemServico:tabViewNovaOS:txtCliente"
+							actionListener="#{ordemServicoController.selecionarCliente(c)}"
+							oncomplete="PF('dialogCliente').hide()" />
+					</p:column>
+
+				</p:dataTable>
+				
+				<h:panelGrid columns="2">
+
+					<p:commandButton icon="ui-icon-close" value="Cancelar"
+						oncomplete="PF('dialogCliente').hide()"
+						update=":formEditarOrdemServico:tabViewEditarOS:txtCliente"/>
+
+				</h:panelGrid>
+				
+			</h:form>
+		</p:dialog>
 		
 	</ui:define>
 </ui:composition>
