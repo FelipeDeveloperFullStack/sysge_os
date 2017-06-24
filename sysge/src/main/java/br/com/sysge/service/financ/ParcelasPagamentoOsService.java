@@ -5,8 +5,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.Query;
 
+import br.com.sysge.controller.financ.MovimentoFinanceiroController;
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.financ.LancamentoFinanceiro;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
@@ -19,6 +21,9 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 	private static final long serialVersionUID = 8977519177977425704L;
 	
 	private static final String A_VISTA = "À Vista";
+	
+	@Inject
+	private MovimentoFinanceiroController movimentoFinanceiroController;
 	
 	public List<ParcelasPagamentoOs> salvar(OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelas){
 		List<ParcelasPagamentoOs> listaParcelas = procurarParcelasPorOS(ordemServico.getId());
@@ -121,7 +126,8 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 			throw new RuntimeException("A data de pagamento é obrigatória!");
 		}
 		parcela.setStatusFinanceiro(StatusFinanceiro.PAGO);
-		super.save(parcela);
+		parcela = super.save(parcela);
+		movimentoFinanceiroController.atualizarStatusFinanceiroTituto(parcela.getLancamentoReceita());
 	}
 	
 	public ParcelasPagamentoOs obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){

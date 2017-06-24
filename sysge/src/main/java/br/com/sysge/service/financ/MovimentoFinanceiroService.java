@@ -32,21 +32,20 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	@Inject
 	private LancamentoFinanceiroService lancamentoFinanceiroService;
 	
+	@Inject
+	private ParcelasPagamentoOsService parcelasPagamentoOsService;
+	
 	private MovimentoFinanceiro movimentoFinanceiro;
 	
 	public void salvarMovimentoFinanceiroOS(OrdemServico ordemServico, ParcelasPagamentoOs parcelasPagamentoOs){
 		
-		String condicaoPagamento = ordemServico.getCondicaoPagamento().getDescricao();
-		
-		//Setando o movimento financeiro 
-		parcelasPagamentoOs.getLancamentoReceita().setMovimentoFinanceiro
-			(calcularMovimentoParcelasPagamentoOS(parcelasPagamentoOs.getLancamentoReceita(), parcelasPagamentoOs));
-		
-		if(condicaoPagamento.equals(A_VISTA)){
-			salvarMovimentoOS(ordemServico, parcelasPagamentoOs, condicaoPagamento, parcelasPagamentoOs.getLancamentoReceita());
-		}else{
-			salvarMovimentoOS(ordemServico, parcelasPagamentoOs, condicaoPagamento, parcelasPagamentoOs.getLancamentoReceita());
+		parcelasPagamentoOs.setLancamentoReceita(parcelasPagamentoOs.getLancamentoReceita());
+		if(parcelasPagamentoOs.getLancamentoReceita().getId() != null){
+			parcelasPagamentoOs.setLancamentoReceita(lancamentoFinanceiroService.findById(parcelasPagamentoOs.getLancamentoReceita().getId()));
 		}
+		
+		parcelasPagamentoOs.getLancamentoReceita().setMovimentoFinanceiro
+			(calcularMovimentoParcelasPagamentoOS(ordemServico,parcelasPagamentoOs.getLancamentoReceita(), parcelasPagamentoOs));
 		
 	}
 	
@@ -153,45 +152,49 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	}
 	
 	private MovimentoFinanceiro calcularMovimentoParcelasPagamentoOS
-			(LancamentoFinanceiro lancamentoReceita, ParcelasPagamentoOs parcelasPagamentoOs){
+			(OrdemServico ordemServico,LancamentoFinanceiro lancamentoReceita, ParcelasPagamentoOs parcelasPagamentoOs){
 		
 			if(lancamentoReceita.getCategoriaLancamentoDespesa() != null){
 				lancamentoReceita.setTipoLancamento(TipoLancamento.DESPESA);
 			}else{
 				lancamentoReceita.setTipoLancamento(TipoLancamento.RECEITA);
 			}
-		
-			lancamentoReceita.setMovimentoFinanceiro(lancamentoReceita.getMovimentoFinanceiro());
 			
-			lancamentoReceita.setMovimentoFinanceiro(setarMovimentoFinanceiroParcelaOS(parcelasPagamentoOs.getDataVencimento() == null ? parcelasPagamentoOs.getDataPagamento() : parcelasPagamentoOs.getDataVencimento()));
-		
+			if(buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento()).isEmpty()){
+				lancamentoReceita.setMovimentoFinanceiro(new MovimentoFinanceiro());
+			}else{
+				lancamentoReceita.setMovimentoFinanceiro(lancamentoReceita.getMovimentoFinanceiro());
+				lancamentoReceita.setMovimentoFinanceiro(setarMovimentoFinanceiroParcelaOS(parcelasPagamentoOs.getDataVencimento() == null 
+						? parcelasPagamentoOs.getDataPagamento() : parcelasPagamentoOs.getDataVencimento()));
+			}
+			
 			parcelasPagamentoOs.setLancamentoReceita(lancamentoReceita);
 			
 		
 		if(parcelasPagamentoOs.getStatusFinanceiro() == StatusFinanceiro.PAGO){
 			if(lancamentoReceita.getTipoLancamento() == TipoLancamento.RECEITA){
-				lancamentoReceita.getMovimentoFinanceiro().setTotalRecebido(somarTotalRecebido(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento())));
-				/*lancamentoReceita.getMovimentoFinanceiro().setTotalReceita(
-						lancamentoReceita.getMovimentoFinanceiro().getTotalReceita().signum() == 0 ? BigDecimal.ZERO :
-							lancamentoReceita.getMovimentoFinanceiro().getTotalReceita().subtract(parcelasPagamentoOs.getValorCobrado()));*/
+				if(lancamentoReceita.getTipoAtualizacaoMovimento() != TipoAtualizacaoMovimento.ATUALIZADO_P_RECEBIDO){
+					lancamentoReceita.getMovimentoFinanceiro().setTotalRecebido(somarTotalRecebido(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento())));
+				}
 			}else{
-				lancamentoReceita.getMovimentoFinanceiro().setTotalPago(somarTotalPago(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento())));
-				/*lancamentoReceita.getMovimentoFinanceiro().setTotalDespesa(
-						lancamentoReceita.getMovimentoFinanceiro().getTotalDespesa().signum() == 0 ? BigDecimal.ZERO : 
-							lancamentoReceita.getMovimentoFinanceiro().getTotalDespesa().subtract(parcelasPagamentoOs.getValorCobrado()));*/
+				if(lancamentoReceita.getTipoAtualizacaoMovimento() != TipoAtualizacaoMovimento.ATUALIZADO_P_PAGO){
+					lancamentoReceita.getMovimentoFinanceiro().setTotalPago(somarTotalPago(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento())));
+				}
 			}
 			lancamentoReceita.getMovimentoFinanceiro().setDataMovimento(parcelasPagamentoOs.getDataPagamento());
 		}else{
 			if(lancamentoReceita.getTipoLancamento() == TipoLancamento.RECEITA){
-				lancamentoReceita.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
-				/*lancamentoReceita.getMovimentoFinanceiro().setTotalRecebido(
-						lancamentoReceita.getMovimentoFinanceiro().getTotalRecebido().signum() == 0 ? BigDecimal.ZERO : 
-							lancamentoReceita.getMovimentoFinanceiro().getTotalRecebido().subtract(parcelasPagamentoOs.getValorCobrado()));*/
+				if(lancamentoReceita.getTipoAtualizacaoMovimento() == null){
+					lancamentoReceita.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
+				}else{
+					if(lancamentoReceita.getTipoAtualizacaoMovimento() != TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER){
+						lancamentoReceita.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
+					}
+				}
 			}else{
-				lancamentoReceita.getMovimentoFinanceiro().setTotalDespesa(somarTotalDespesa(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
-				/*lancamentoReceita.getMovimentoFinanceiro().setTotalPago(
-						lancamentoReceita.getMovimentoFinanceiro().getTotalPago().signum() == 0 ? BigDecimal.ZERO :
-							lancamentoReceita.getMovimentoFinanceiro().getTotalPago().subtract(parcelasPagamentoOs.getValorCobrado()));*/
+				if(lancamentoReceita.getTipoAtualizacaoMovimento() != TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_PAGAR){
+					lancamentoReceita.getMovimentoFinanceiro().setTotalDespesa(somarTotalDespesa(lancamentoReceita, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
+				}
 			}
 			lancamentoReceita.getMovimentoFinanceiro().setDataMovimento(parcelasPagamentoOs.getDataVencimento());
 		}
@@ -205,7 +208,15 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			lancamentoReceita.getMovimentoFinanceiro().setTotalSaldoAnterior(obterSaldoDiaAnterior(parcelasPagamentoOs.getDataPagamento() == null ? parcelasPagamentoOs.getDataVencimento() : parcelasPagamentoOs.getDataPagamento()));
 			
 			lancamentoReceita.setMovimentoFinanceiro(super.save(lancamentoReceita.getMovimentoFinanceiro()));
-			lancamentoFinanceiroService.save(lancamentoReceita);
+			lancamentoReceita = lancamentoFinanceiroService.save(lancamentoReceita);
+			
+			String condicaoPagamento = ordemServico.getCondicaoPagamento().getDescricao();
+			if(condicaoPagamento.equals(A_VISTA)){
+				salvarMovimentoOS(ordemServico, parcelasPagamentoOs, condicaoPagamento, parcelasPagamentoOs.getLancamentoReceita());
+			}else{
+				salvarMovimentoOS(ordemServico, parcelasPagamentoOs, condicaoPagamento, parcelasPagamentoOs.getLancamentoReceita());
+			}
+			
 			this.movimentoFinanceiro = lancamentoReceita.getMovimentoFinanceiro();
 			
 		return lancamentoReceita.getMovimentoFinanceiro();

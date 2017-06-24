@@ -110,37 +110,51 @@
 				<p:panelGrid columns="7">
 					<p:panelGrid columns="1">
 						<p:outputLabel value="Total a receber" styleClass="texto_negrito_azul"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalReceita}" styleClass="texto_negrito_azul"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalReceita}" styleClass="texto_negrito_azul">
+							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+						</p:outputLabel>
 					</p:panelGrid>
 				
 					<p:panelGrid columns="1">
 						<p:outputLabel value="Total a pagar" styleClass="texto_negrito_vermelho"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalDespesa}" styleClass="texto_negrito_vermelho"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalDespesa}" styleClass="texto_negrito_vermelho">
+							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+						</p:outputLabel>
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1">
 						<p:outputLabel value="Total Recebido" styleClass="texto_negrito_azul"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalRecebido}" styleClass="texto_negrito_azul"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalRecebido}" styleClass="texto_negrito_azul">
+							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+						</p:outputLabel>
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1">
 						<p:outputLabel value="Total Pago" styleClass="texto_negrito_vermelho"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalPago}" styleClass="texto_negrito_vermelho"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalPago}" styleClass="texto_negrito_vermelho">
+							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+						</p:outputLabel>
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1">
 						<p:outputLabel value="Saldo do dia" styleClass="texto_negrito"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoOperacional}" styleClass="texto_negrito"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoOperacional}" styleClass="texto_negrito">
+							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+						</p:outputLabel>
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1">
 						<p:outputLabel value="Saldo do movimento Anterior" styleClass="texto_negrito"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAnterior}" styleClass="texto_negrito"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAnterior}" styleClass="texto_negrito">
+							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+						</p:outputLabel>
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1">
 						<p:outputLabel value="Saldo Atual" styleClass="texto_negrito"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAtual}" styleClass="texto_negrito"/>
+						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAtual}" styleClass="texto_negrito">
+							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+						</p:outputLabel>
 					</p:panelGrid>
 					
 				</p:panelGrid>

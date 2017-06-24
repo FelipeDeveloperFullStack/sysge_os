@@ -141,8 +141,11 @@ public class MovimentoFinanceiroController implements Serializable {
 			}
 			obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(this.lancamentoFinanceiro);
 			lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
-			
-			movimentoFinanceiroService.salvarMovimentoReceita(lancamentoFinanceiro);
+			if(lancamentoFinanceiro.getCategoriaLancamentoReceita() == CategoriaLancamentoReceita.ORDEM_SERVICO){
+				movimentoFinanceiroService.salvarMovimentoReceita(lancamentoFinanceiro);
+			}else{
+				movimentoFinanceiroService.salvarMovimentoReceita(lancamentoFinanceiro);
+			}
 			lancamentoFinanceiros = obterTitulosPelaDataMovimento(this.lancamentoFinanceiro.getDataLancamento());
 			this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(dataMovimento);
 		}else{
