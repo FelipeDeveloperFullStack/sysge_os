@@ -160,8 +160,10 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 				lancamentoReceita.setTipoLancamento(TipoLancamento.RECEITA);
 			}
 			
-			if(buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento()).isEmpty()){
-				lancamentoReceita.setMovimentoFinanceiro(new MovimentoFinanceiro());
+			if(parcelasPagamentoOs.getDataPagamento() != null){
+				if(buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento()).isEmpty()){
+					lancamentoReceita.setMovimentoFinanceiro(new MovimentoFinanceiro());
+				}
 			}else{
 				lancamentoReceita.setMovimentoFinanceiro(lancamentoReceita.getMovimentoFinanceiro());
 				lancamentoReceita.setMovimentoFinanceiro(setarMovimentoFinanceiroParcelaOS(parcelasPagamentoOs.getDataVencimento() == null 
