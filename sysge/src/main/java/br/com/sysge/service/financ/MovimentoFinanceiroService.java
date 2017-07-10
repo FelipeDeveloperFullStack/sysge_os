@@ -236,6 +236,10 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			parcelasPagamentoOs.setLancamentoReceita(lancamentoFinanceiro);
 			
 		
+			if(parcelasPagamentoOs.getDataPagamento() != null){
+				verificarSeExisteMovimento(parcelasPagamentoOs.getDataVencimento(), lancamentoFinanceiro);
+			}
+			
 		if(parcelasPagamentoOs.getStatusFinanceiro() == StatusFinanceiro.PAGO){
 			if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.RECEITA){
 				if(lancamentoFinanceiro.getTipoAtualizacaoMovimento() != TipoAtualizacaoMovimento.ATUALIZADO_P_RECEBIDO){
@@ -264,9 +268,6 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			lancamentoFinanceiro.getMovimentoFinanceiro().setDataMovimento(parcelasPagamentoOs.getDataVencimento());
 		}
 		
-			if(parcelasPagamentoOs.getDataPagamento() != null){
-				verificarSeExisteMovimento(parcelasPagamentoOs.getDataVencimento(), lancamentoFinanceiro);// Se não existe irá excluir o movimento
-			}
 			
 			lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoOperacional(somarTotalSaldoOperacional(lancamentoFinanceiro, buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento() == null ? parcelasPagamentoOs.getDataVencimento() : parcelasPagamentoOs.getDataPagamento())));
 			
@@ -297,12 +298,9 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			mov.setTotalRecebido(subtratirTotalRecebido(lancamentoFinanceiro, 
 					lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
 			
-			mov.setTotalSaldoAnterior(
-					obterSaldoMovimentoAnterior(lancamentoFinanceiro.getMovimentoFinanceiro().getDataMovimento()));
+			mov.setTotalSaldoAnterior(obterSaldoMovimentoAnterior(mov.getDataMovimento()));
 			
-			mov.setTotalSaldoOperacional(
-					somarTotalSaldoOperacional(lancamentoFinanceiro, 
-							buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
+			mov.setTotalSaldoOperacional(somarTotalSaldoOperacional(lancamentoFinanceiro, buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
 			
 			mov.setTotalSaldoAtual(obterSaldoAtual());
 			
