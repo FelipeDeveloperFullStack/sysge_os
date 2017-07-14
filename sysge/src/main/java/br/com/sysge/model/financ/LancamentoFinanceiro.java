@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+
 import br.com.sysge.infraestrutura.dao.GenericDomain;
 import br.com.sysge.model.financ.type.CategoriaLancamentoDespesa;
 import br.com.sysge.model.financ.type.CategoriaLancamentoReceita;
