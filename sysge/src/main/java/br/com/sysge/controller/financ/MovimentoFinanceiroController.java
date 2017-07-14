@@ -9,6 +9,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+
 import br.com.sysge.model.financ.LancamentoFinanceiro;
 import br.com.sysge.model.financ.MovimentoFinanceiro;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
@@ -112,6 +113,17 @@ public class MovimentoFinanceiroController implements Serializable {
 			RequestContextUtil.execute("PF('dialog_lancamento_despesa').hide();");
 			this.lancamentoFinanceiros = lancamentoFinanceiroService.obterLancamentoFinanceiroPorData(lancamentoFinanceiro.getDataLancamento());
 			this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(lancamentoFinanceiro.getDataLancamento());
+		} catch (Exception e) {
+			FacesUtil.mensagemErro(e.getMessage());
+		}
+	}
+	
+	public void excluirLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
+		try {
+			movimentoFinanceiroService.excluirLancamentoFinanceiro(lancamentoFinanceiro);
+			this.lancamentoFinanceiros = lancamentoFinanceiroService.obterLancamentoFinanceiroPorData(lancamentoFinanceiro.getDataLancamento());
+			this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(lancamentoFinanceiro.getDataLancamento());
+			FacesUtil.mensagemInfo("Título financeiro excluído com sucesso!");
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}
@@ -226,7 +238,5 @@ public class MovimentoFinanceiroController implements Serializable {
 	public void setMovimentoFinanceiro(MovimentoFinanceiro movimentoFinanceiro) {
 		this.movimentoFinanceiro = movimentoFinanceiro;
 	}
-	
-	
 
 }

@@ -181,5 +181,35 @@ public class LancamentoFinanceiro extends GenericDomain{
 		this.tipoAtualizacaoMovimento = tipoAtualizacaoMovimento;
 	}
 	
+	public void consistirFornecedor(LancamentoFinanceiro lancamentoReceita){
+		if(lancamentoReceita.getTipoLancamento() == TipoLancamento.DESPESA){
+			if(lancamentoReceita.getFornecedor().equals(null)){
+				throw new RuntimeException("O fornecedor é obrigatório");
+			}
+		}
+	}
+	public void consistirCliente(LancamentoFinanceiro lancamentoReceita){
+		if(lancamentoReceita.getTipoLancamento() == TipoLancamento.RECEITA){
+			if(lancamentoReceita.getCliente().equals(null)){
+				throw new RuntimeException("O cliente é obrigatório");
+			}
+		}
+	}
+	public void consistirData(LancamentoFinanceiro lancamentoReceita){
+		if(lancamentoReceita.getDataLancamento() == null){
+			throw new RuntimeException("A data do movimento é obrigatório");
+		}
+	}
+	public void consistirTitulo(LancamentoFinanceiro lancamentoReceita){
+		if(lancamentoReceita.getTitulo().isEmpty()){
+			throw new RuntimeException("A descrição do título é obrigatório");
+		}
+	}
+	public void consistirValor(LancamentoFinanceiro lancamentoReceita){
+		if(lancamentoReceita.getValor() == null){
+			throw new RuntimeException("O valor do lançamento é obrigatório");
+		}
+	}
+	
 	
 }

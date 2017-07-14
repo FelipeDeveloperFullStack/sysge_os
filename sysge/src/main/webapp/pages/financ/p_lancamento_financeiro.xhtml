@@ -36,6 +36,10 @@
 				emptyMessage="Nenhum movimento encontrado!"
 				value="#{movimentoFinanceiroController.lancamentoFinanceiros}"
 				rows="12" paginator="true" paginatorPosition="bottom">
+				
+				<p:column style="width:16px">
+					<p:rowToggler />
+				</p:column>
 
 				<p:column headerText="Título">
 					<p:outputLabel value="#{mov.titulo}" />
@@ -77,20 +81,19 @@
 				    </p:confirmDialog>
 				</p:column>
 
-				<p:column headerText="Ações" width="110">
+				<p:column headerText="Ações" width="75">
 					<p:commandButton icon="ui-icon-search" id="btnVisualizar"
 						oncomplete="PF('dialog_dados_titulo').show();"
 						actionListener="#{movimentoFinanceiroController.setarDadosFinanceiro(mov)}"
 						update=":msgGlobal :visualizar_dados" />
-					<p:commandButton icon="ui-icon-print" id="btnEmitir"/>
-					<p:commandButton icon="ui-icon-bookmark" id="btnRecibo" />
+					<p:commandButton icon="ui-icon-trash" id="btnExcluir" update=":msgGlobal tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro" 
+					       rendered="#{mov.categoriaLancamentoReceita != 'ORDEM_SERVICO'}" actionListener="#{movimentoFinanceiroController.excluirLancamentoFinanceiro(mov)}"/>
 					<p:tooltip value="Cliquei aqui para visualizar os dados financeiros do título!" for="btnVisualizar"
 						position="left" />
-					<p:tooltip value="Cliquei aqui para emitir o boleto!" for="btnEmitir"
-						position="left" />
-					<p:tooltip value="Cliquei aqui para gerar o recibo de pagamento!" for="btnRecibo"
+					<p:tooltip value="Cliquei aqui para excluir o título financeiro" for="btnExcluir"
 						position="left" />
 				</p:column>
+				
 				
 				<f:facet name="header">
 					<p:commandButton value="Receita" icon="ui-icon-arrowthick-1-n" 
@@ -102,6 +105,13 @@
 									 actionListener="#{movimentoFinanceiroController.novoLancamento}"
 									 update=":msgGlobal :formDespesa"/>					 
 				</f:facet>
+				
+				<p:rowExpansion>
+						<p:commandButton value="Emitir boleto"
+							icon="ui-icon-print" rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}"/>
+						<p:commandButton value="Imprimir recibo de pagamento!"
+							icon="ui-icon-bookmark" rendered="#{mov.statusRecebimentoReceita.status == 'Pago'}"/>
+			    </p:rowExpansion>
 
 			</p:dataTable>
 

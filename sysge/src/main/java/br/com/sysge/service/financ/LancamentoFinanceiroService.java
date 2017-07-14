@@ -13,5 +13,6 @@ public class LancamentoFinanceiroService extends GenericDaoImpl<LancamentoFinanc
 	public List<LancamentoFinanceiro> obterLancamentoFinanceiroPorData(Date dataMovimento){
 		return super.findByData("dataLancamento",dataMovimento);
 	}
+	
 
 }
