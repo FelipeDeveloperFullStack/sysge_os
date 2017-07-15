@@ -80,6 +80,7 @@ public class LoginController implements Serializable {
 	private DefaultMenuItem menuItemOrdemServico;
 	private DefaultMenuItem menuItemCliente;
 	private DefaultMenuItem menuItemUnidadeEmpresarial;
+	private DefaultMenuItem menuItemAgenda;
 	private DefaultMenuItem menuItemFornecedor;
 	private DefaultMenuItem menuItemBackup;
 	private DefaultMenuItem menuItemFormaPagamento;
@@ -132,6 +133,7 @@ public class LoginController implements Serializable {
 	private static final String PAGE_CLIENTE = "/pages/global/p_cliente.xhtml" + FACES_REDIRECT;
 	private static final String PAGE_FORNECEDOR = "/pages/global/p_fornecedor.xhtml" + FACES_REDIRECT;
 	private static final String PAGE_UNIDADE_EMPRESARIAL = "/pages/global/p_unidadeEmpresarial.xhtml" + FACES_REDIRECT;
+	private static final String PAGE_AGENDA = "/pages/global/p_agenda.xhtml" + FACES_REDIRECT;
 
 	// Icone
 	private static final String ICON_MENU = "ui-icon-newwin";
@@ -171,6 +173,7 @@ public class LoginController implements Serializable {
 		menuItemOrdemServico = null;
 		menuItemFormaPagamento = null;
 		menuItemProduto = null;
+		menuItemAgenda = null;
 	}
 
 	public String autenticarLogin() {
@@ -281,6 +284,11 @@ public class LoginController implements Serializable {
 				menuItemUnidadeEmpresarial.setOutcome(PAGE_UNIDADE_EMPRESARIAL);
 				menuItemUnidadeEmpresarial.setIcon(ICON_MENU);
 			}
+			if (menu.getMenu().equals(MenuSistema.AGENDA.getMenu())) {
+				menuItemAgenda = new DefaultMenuItem(MenuSistema.AGENDA.getMenu());
+				menuItemAgenda.setOutcome(PAGE_AGENDA);
+				menuItemAgenda.setIcon(ICON_MENU);
+			}
 			if (menu.getMenu().equals(MenuSistema.FORNECEDOR.getMenu())) {
 				menuItemFornecedor = new DefaultMenuItem(MenuSistema.FORNECEDOR.getMenu());
 				menuItemFornecedor.setOutcome(PAGE_FORNECEDOR);
@@ -371,7 +379,8 @@ public class LoginController implements Serializable {
 		}
 			
 		
-		if (menuItemCliente != null || menuItemFornecedor != null || menuItemUnidadeEmpresarial != null) {
+		if (menuItemCliente != null || menuItemFornecedor != null || menuItemUnidadeEmpresarial != null 
+				|| menuItemAgenda != null) {
 			menuGlobal = new DefaultSubMenu(MenuSistema.GLOBAL.getMenu());
 			menuModel.addElement(menuGlobal);
 			subMenuCadastroGl = new DefaultSubMenu(MenuSistema.CADASTROS_GL.getMenu());
@@ -384,6 +393,9 @@ public class LoginController implements Serializable {
 			}
 			if(menuItemUnidadeEmpresarial != null){
 				subMenuCadastroGl.addElement(menuItemUnidadeEmpresarial);
+			}
+			if(menuItemAgenda != null){
+				subMenuCadastroGl.addElement(menuItemAgenda);
 			}
 		}
 		

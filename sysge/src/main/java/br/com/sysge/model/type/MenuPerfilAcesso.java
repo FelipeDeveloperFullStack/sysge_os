@@ -27,6 +27,7 @@ public enum MenuPerfilAcesso {
 			CLIENTE("Cliente"),
 			FORNECEDOR("Fornecedor"),
 			UNIDADE_EMPRESARIAL("Unidade Empresarial"),
+			AGENDA("Agenda"),
 	//CONFIGURACAO("Configuracao"),
 		USUARIO("Usuário"),
 		PERFIL_ACESSO("Perfil de acesso"),
