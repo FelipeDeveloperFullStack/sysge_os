@@ -2,11 +2,12 @@ package br.com.sysge.service.financ;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.Query;
+
+import com.ibm.icu.text.SimpleDateFormat;
 
 import br.com.sysge.controller.financ.MovimentoFinanceiroController;
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
@@ -82,25 +83,38 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 		if(ordemServico.getTotal() == BigDecimal.ZERO){
 			throw new RuntimeException("Não é possível gerar as parcelas, pois o valor total está igual a R$: 0,00");
 		}
-			parcelas = new ArrayList<ParcelasPagamentoOs>();
+
+			verificarLancamentoFinanceiroParcela(parcelas);
+		
 			String condicaoPagamento = ordemServico.getCondicaoPagamento().getDescricao();
 			if(condicaoPagamento.equals(A_VISTA)){
 				
-				parcelasPagamentoOs = new ParcelasPagamentoOs();
+				if(parcelas.isEmpty()){
+					parcelasPagamentoOs = new ParcelasPagamentoOs();
+					parcelasPagamentoOs.setNumero(1L);
+					parcelasPagamentoOs.setOrdemServico(ordemServico);
+					parcelasPagamentoOs.setQuantidadeParcelas(String.valueOf(1L));
+					parcelasPagamentoOs.setValorParcela(ordemServico.getTotal());
+					parcelasPagamentoOs.setValorCobrado(ordemServico.getTotal());
+					parcelasPagamentoOs.setDataVencimento(DateUtil.asDate(LocalDate.now()));
+					parcelas.add(parcelasPagamentoOs);
+					return parcelas;
+				}else{
+					return parcelas;
+				}
 				
-				parcelasPagamentoOs.setNumero(1L);
-				parcelasPagamentoOs.setOrdemServico(ordemServico);
-				parcelasPagamentoOs.setQuantidadeParcelas(String.valueOf(1L));
-				parcelasPagamentoOs.setValorParcela(ordemServico.getTotal());
-				parcelasPagamentoOs.setValorCobrado(ordemServico.getTotal());
-				parcelasPagamentoOs.setDataVencimento(DateUtil.asDate(LocalDate.now()));
-				
-				parcelas.add(parcelasPagamentoOs);
-				return parcelas;
 			}else{
 				return percorrerListaCondicaoPagamento(condicaoPagamento, ordemServico, parcelas, parcelasPagamentoOs);
 			}
 		
+	}
+	
+	private void verificarLancamentoFinanceiroParcela(List<ParcelasPagamentoOs> parcelas){
+		for(ParcelasPagamentoOs p : parcelas){
+			if(p.getStatusFinanceiro() == StatusFinanceiro.PENDENTE){
+				throw new RuntimeException("É preciso excluir o(s) titulo(s) financeiro(s) pendente para gerar a(s) nova(s) parcela(s)!");
+			}
+		}
 	}
 	
 	private List<ParcelasPagamentoOs> percorrerListaCondicaoPagamento(String condicaoPagamento, OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelas, ParcelasPagamentoOs parcelasPagamentoOs){

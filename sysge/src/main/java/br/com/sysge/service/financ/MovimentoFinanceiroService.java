@@ -323,6 +323,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	
 	public void excluirLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
 		if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.RECEITA){
+			
 			if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
 				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalRecebido(subtratirTotalRecebido(lancamentoFinanceiro, 
 						lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
@@ -506,6 +507,17 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			return super.save(mov);
 		}
 		return movimentoFinanceiro;
+	}
+	
+	public boolean isHabilitarBotao(LancamentoFinanceiro lancamentoFinanceiro){
+		if(lancamentoFinanceiro.getCategoriaLancamentoReceita() == CategoriaLancamentoReceita.ORDEM_SERVICO){
+			if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PENDENTE){
+				return true;
+			}
+		}else{
+			return true;
+		}
+		return false;
 	}
 
 }

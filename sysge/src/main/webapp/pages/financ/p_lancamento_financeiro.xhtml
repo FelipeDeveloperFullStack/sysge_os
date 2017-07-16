@@ -38,7 +38,7 @@
 				rows="12" paginator="true" paginatorPosition="bottom">
 				
 				<p:column style="width:16px">
-					<p:rowToggler rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}"/>
+					<p:rowToggler rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}{mov.tipoLancamento.tipoLancamento == 'Receita'}"/>
 				</p:column>
 
 				<p:column headerText="Título">
@@ -87,7 +87,7 @@
 						actionListener="#{movimentoFinanceiroController.setarDadosFinanceiro(mov)}"
 						update=":msgGlobal :visualizar_dados" />
 					<p:commandButton icon="ui-icon-trash" id="btnExcluir" update=":msgGlobal tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro" 
-					       rendered="#{mov.categoriaLancamentoReceita != 'ORDEM_SERVICO'}" actionListener="#{movimentoFinanceiroController.excluirLancamentoFinanceiro(mov)}"/>
+					       rendered="#{movimentoFinanceiroController.isHabilitarBotao(mov)}" actionListener="#{movimentoFinanceiroController.excluirLancamentoFinanceiro(mov)}"/>
 					<p:tooltip value="Cliquei aqui para visualizar os dados financeiros do título!" for="btnVisualizar"
 						position="left" />
 					<p:tooltip value="Cliquei aqui para excluir o título financeiro" for="btnExcluir"

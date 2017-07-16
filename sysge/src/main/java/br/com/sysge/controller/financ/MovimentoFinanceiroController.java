@@ -102,6 +102,10 @@ public class MovimentoFinanceiroController implements Serializable {
 		}
 	}
 	
+	public boolean isHabilitarBotao(LancamentoFinanceiro lancamentoFinanceiro){
+		return movimentoFinanceiroService.isHabilitarBotao(lancamentoFinanceiro);
+	}
+	
 	public List<MovimentoFinanceiro> getContasPagarReceber(){
 		return movimentoFinanceiroService.listarContasPagarReceber();
 	}
