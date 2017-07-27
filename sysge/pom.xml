@@ -73,11 +73,11 @@
 			<!-- <scope>compile</scope> -->  <!-- dependência será empacotada no war -->
 		</dependency>
 
-		<!-- <dependency> <groupId>org.primefaces.themes</groupId> <artifactId>all-themes</artifactId> 
-			<version>1.0.10</version> </dependency> -->
-
-		<!-- <dependency> <groupId>org.primefaces.themes</groupId> <artifactId>bootstrap</artifactId> 
-			<version>1.0.10</version> </dependency> -->
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>all-themes</artifactId>
+			<version>1.0.10</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>

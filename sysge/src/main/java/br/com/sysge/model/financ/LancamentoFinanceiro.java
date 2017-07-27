@@ -1,6 +1,7 @@
 package br.com.sysge.model.financ;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -34,7 +35,7 @@ public class LancamentoFinanceiro extends GenericDomain{
 	private TipoLancamentoFinanceiro tipoLancamentoFinanceiro;
 
 	@Temporal(TemporalType.DATE)
-	private Date dataLancamento;
+	private Date dataLancamento = new Date();
 	
 	private String titulo;
 	

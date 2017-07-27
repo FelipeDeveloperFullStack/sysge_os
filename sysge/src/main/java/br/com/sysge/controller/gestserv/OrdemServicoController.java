@@ -487,7 +487,7 @@ public class OrdemServicoController implements Serializable {
 			ordemServicoService.consistirProduto(listaProdutos, ordemServico);
 		}else{
 			ordemServico = ordemServicoService.salvar(ordemServico);
-			salvarMovimentoFinanceiro(ordemServico, parcelas);
+			//salvarMovimentoFinanceiro(ordemServico, parcelas);
 			parcelas = parcelasPagamentoOsService.salvar(ordemServico, parcelas);
 			
 			List<ProdutoOrdemServico> listaProdutoOS = produtoOrdemServicoService.findByListProperty(ordemServico.getId(), "ordemServico.id");
