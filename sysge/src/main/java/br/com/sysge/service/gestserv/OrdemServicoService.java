@@ -97,6 +97,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			if (ordemServico.getCliente().getNomeTemporario().isEmpty()) {
 				throw new RuntimeException("O nome do cliente é obrigatório!");
 			}
+			ordemServico.setNumero(ordemServico.getId());
 			return super.save(ordemServico);
 		} catch (RuntimeException e) {
 			throw new RuntimeException(e.getMessage());
@@ -142,18 +143,18 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	
 	public List<OrdemServico> pesquisarPorNumeroEStatusOS(OrdemServico ordemServico){
 		List<OrdemServico> listaOS = new ArrayList<OrdemServico>();
-		if(ordemServico.getId() == null){
+		if(ordemServico.getNumero() == null){
 			listaOS = super.findByStatusOs(ordemServico.getStatusOS());
 		}else{
-			listaOS = super.findByNumeroStatusOS(ordemServico.getId(), ordemServico.getStatusOS());
+			listaOS = super.findByNumeroStatusOS(ordemServico.getNumero(), ordemServico.getStatusOS());
 		}
 		if(listaOS.isEmpty()){
-			if(ordemServico.getId() == null){
+			if(ordemServico.getNumero() == null){
 			throw new RuntimeException("Nenhuma ordem de servico de status '"+ordemServico.getStatusOS().getStatusOS()+"' encontrada, "
 						+ "verifique e tente novamente!");
 			}else{
 				throw new RuntimeException("Nenhuma ordem de servico de nº "
-						+ ""+ordemServico.getId()+ " "
+						+ ""+ordemServico.getNumero()+ " "
 						+ "e status '"+ordemServico.getStatusOS().getStatusOS()+"' encontrada, "
 						+ "verifique e tente novamente!");
 			}

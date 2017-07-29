@@ -30,6 +30,8 @@ public class OrdemServico extends GenericDomain {
 	private static final long serialVersionUID = -520625131525167597L;
 	
 	private boolean gerouReceitaFinanceiro;
+	
+	private Long numero;
 
 	@Temporal(TemporalType.DATE)
 	private Date dataEntrada = Calendar.getInstance().getTime();
@@ -338,6 +340,14 @@ public class OrdemServico extends GenericDomain {
 
 	public void setCondicaoPagamento(CondicaoPagamento condicaoPagamento) {
 		this.condicaoPagamento = condicaoPagamento;
+	}
+
+	public Long getNumero() {
+		return numero;
+	}
+
+	public void setNumero(Long numero) {
+		this.numero = numero;
 	}
 	
 	

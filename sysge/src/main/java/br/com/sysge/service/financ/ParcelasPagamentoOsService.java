@@ -2,6 +2,7 @@ package br.com.sysge.service.financ;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -84,29 +85,43 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 			throw new RuntimeException("Não é possível gerar as parcelas, pois o valor total está igual a R$: 0,00");
 		}
 
-			verificarLancamentoFinanceiroParcela(parcelas);
+			//verificarLancamentoFinanceiroParcela(parcelas); Voltar esse método quando arrumar o financeiro para a OS
 		
 			String condicaoPagamento = ordemServico.getCondicaoPagamento().getDescricao();
 			if(condicaoPagamento.equals(A_VISTA)){
 				
 				if(parcelas.isEmpty()){
-					parcelasPagamentoOs = new ParcelasPagamentoOs();
-					parcelasPagamentoOs.setNumero(1L);
-					parcelasPagamentoOs.setOrdemServico(ordemServico);
-					parcelasPagamentoOs.setQuantidadeParcelas(String.valueOf(1L));
-					parcelasPagamentoOs.setValorParcela(ordemServico.getTotal());
-					parcelasPagamentoOs.setValorCobrado(ordemServico.getTotal());
-					parcelasPagamentoOs.setDataVencimento(DateUtil.asDate(LocalDate.now()));
-					parcelas.add(parcelasPagamentoOs);
-					return parcelas;
+					return setarParcelas(parcelasPagamentoOs, ordemServico, parcelas);
 				}else{
+					if(parcelas.size() > 1){
+						parcelas.removeAll(parcelas);
+						return setarParcelas(parcelasPagamentoOs, ordemServico, parcelas);
+					}
+					for(ParcelasPagamentoOs parcela : parcelas){
+						parcela.setQuantidadeParcelas(String.valueOf(1L));
+						parcela.setValorParcela(ordemServico.getTotal());
+						parcela.setValorCobrado(ordemServico.getTotal());
+						parcela.setDataVencimento(DateUtil.asDate(LocalDate.now()));
+					}
 					return parcelas;
 				}
 				
 			}else{
-				return percorrerListaCondicaoPagamento(condicaoPagamento, ordemServico, parcelas, parcelasPagamentoOs);
+				return percorrerListaCondicaoPagamento(condicaoPagamento, ordemServico, new ArrayList<ParcelasPagamentoOs>(), parcelasPagamentoOs);
 			}
 		
+	}
+	
+	private List<ParcelasPagamentoOs> setarParcelas(ParcelasPagamentoOs parcelasPagamentoOs, OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelas){
+		parcelasPagamentoOs = new ParcelasPagamentoOs();
+		parcelasPagamentoOs.setNumero(1L);
+		parcelasPagamentoOs.setOrdemServico(ordemServico);
+		parcelasPagamentoOs.setQuantidadeParcelas(String.valueOf(1L));
+		parcelasPagamentoOs.setValorParcela(ordemServico.getTotal());
+		parcelasPagamentoOs.setValorCobrado(ordemServico.getTotal());
+		parcelasPagamentoOs.setDataVencimento(DateUtil.asDate(LocalDate.now()));
+		parcelas.add(parcelasPagamentoOs);
+		return parcelas;
 	}
 	
 	private void verificarLancamentoFinanceiroParcela(List<ParcelasPagamentoOs> parcelas){

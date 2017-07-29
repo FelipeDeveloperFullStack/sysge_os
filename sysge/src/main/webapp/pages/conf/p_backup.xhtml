@@ -16,7 +16,7 @@
 			<p:tabView id="tabView">
 					<p:tab title="Backup">
 						<h:panelGrid columns="6">
-							<h:panelGrid columns="1">
+							<!-- <h:panelGrid columns="1">
 								<p:outputLabel value="Data inicial"/>
 								<p:calendar locale="pt"/>
 							</h:panelGrid>
@@ -32,7 +32,7 @@
 												 actionListener="#{backupController.pesquisarPorData}" 
 												 update="idFormBackup:tabView:tabela"
 												 icon="ui-icon-search"/>
-							</h:panelGrid>
+							</h:panelGrid> -->
 							
 							<h:panelGrid columns="1">
 								<p:outputLabel value="." style="color: white;"/>
@@ -90,16 +90,16 @@
 							</p:panelGrid>
 						</p:panelGrid>	
 						
-						<p:panelGrid columns="2">
+						<!-- <p:panelGrid columns="2">
 							<p:panelGrid columns="2">
 								<p:outputLabel value="Definir agendamento automátivo?"/>
 								<p:selectBooleanCheckbox value="#{backupController.configuracaoBackup.automatico}">
 									<p:ajax event="change" process="@this" />
 								</p:selectBooleanCheckbox>
 							</p:panelGrid>
-						</p:panelGrid>	
+						</p:panelGrid> -->	
 						
-						<p:panelGrid columns="2">
+						<!-- <p:panelGrid columns="2">
 							<p:panelGrid columns="1">
 								<p:outputLabel value="Horário para backup automático"/>
 								<p:calendar locale="pt" pattern="HH:mm" timeOnly="true" style="width: 35px;" placeholder="Tempo" value="#{backupController.configuracaoBackup.tempoBackupAutomatico}"/>
@@ -111,14 +111,14 @@
 								<p:outputLabel value="Responsável"/>
 								<p:inputText style="width: 500px;" placeholder="Responsável" value="#{backupController.configuracaoBackup.responsavel}"/>
 							</p:panelGrid>
-						</p:panelGrid>	
+						</p:panelGrid> -->	
 						
-						<p:panelGrid columns="2">
+						<!-- <p:panelGrid columns="2">
 							<p:panelGrid columns="1">
 								<p:outputLabel value="E-mail"/>
 								<p:inputText style="width: 500px;" placeholder="E-mail" value="#{backupController.configuracaoBackup.email}"/>
 							</p:panelGrid>
-						</p:panelGrid>	
+						</p:panelGrid>	 -->
 						
 						<p:panelGrid columns="2">
 							<p:panelGrid columns="1">
