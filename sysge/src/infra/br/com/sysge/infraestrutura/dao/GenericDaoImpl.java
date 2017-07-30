@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -38,7 +39,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	private CriteriaQuery<E> criteria;
 
 	@Inject
-	//@PersistenceContext
+	@PersistenceContext
 	private EntityManager manager;
 	
 	private EntityTransaction tx;

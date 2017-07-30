@@ -280,6 +280,7 @@ public class OrdemServicoController implements Serializable {
 		try {
 			ordensServicos = new ArrayList<OrdemServico>();
 			ordensServicos = ordemServicoService.pesquisarPorNumeroEStatusOS(ordemServico);
+			System.out.println(ordensServicos);
 		} catch (RuntimeException e) {
 			FacesUtil.mensagemWarn(e.getMessage());
 		}
