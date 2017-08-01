@@ -60,10 +60,14 @@ public class EmailFactory {
 				emails[i] = new InternetAddress(toAddr);
 				i++;
 			}
+			
+			
 			msg.setRecipients(Message.RecipientType.TO, emails);
 			msg.setSentDate(new Date());
 			msg.setSubject(assunto);
 			msg.setText(conteudo);
+			
+			
 			//enviando anexo
 			DataSource fds = new FileDataSource("C:\\data\\Contrato.pdf");
 			mbp.setDisposition(Part.ATTACHMENT);
@@ -72,6 +76,8 @@ public class EmailFactory {
             Multipart mp = new MimeMultipart();   
 			mp.addBodyPart(mbp);
 			msg.setContent(mp);
+			
+			
 			// enviando mensagem
 			Transport.send(msg);
 			
@@ -87,13 +93,20 @@ public class EmailFactory {
 	}
 	private static Properties getProps() {
 		Properties props = new Properties();		
-		props.put("mail.transport.protocol", "smtp");
+	/*	props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.host", "smtp.live.com");
         props.put("mail.smtp.socketFactory.port", "587");
         props.put("mail.smtp.socketFactory.fallback", "false");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.port", "587");*/
+		
+		props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class",
+                "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
   
         
         logger.info("Processando as propriedades!");
@@ -102,7 +115,7 @@ public class EmailFactory {
 }
 class SMTPAuthenticator extends javax.mail.Authenticator {
 	public PasswordAuthentication getPasswordAuthentication() {
-	return new PasswordAuthentication ("felipe.miguel.santos@hotmail.com", "senha1717");
+	return new PasswordAuthentication ("felipeanalista3@gmail.com", "fmds1701");
 	}
 }
 
