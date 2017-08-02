@@ -80,7 +80,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			consistEntityTransactional(tx);
 			throw e;
 		}finally{
-			manager.flush();
+			
 		}
 	}
 
@@ -96,7 +96,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			consistEntityTransactional(tx);
 			throw e;
 		}finally{
-			manager.flush();
+			
 		}
 	}
 
