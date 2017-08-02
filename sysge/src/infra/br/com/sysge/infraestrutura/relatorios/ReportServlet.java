@@ -1,9 +1,12 @@
 package br.com.sysge.infraestrutura.relatorios;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.PDFRenderer;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -46,13 +52,22 @@ public class ReportServlet extends HttpServlet {
 			jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
 			
 			JasperPrint print = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(list));
-			
 			try {
 				byte[] bytes = JasperExportManager.exportReportToPdf((JasperPrint) print);
 				response.setContentLength(bytes.length);                   
 				ouputStream = response.getOutputStream();  
 				ouputStream.write(bytes, 0, bytes.length);               
 				ouputStream.flush();
+				
+				
+				PDDocument document = PDDocument.load(bytes);
+				PDFRenderer pdfRenderer = new PDFRenderer(document);
+				BufferedImage image = pdfRenderer.renderImage(0);
+				File diretorio = new File("C:\\IMAGENS_SYSGE");
+				diretorio.mkdir();
+				ImageIO.write(image, "JPG", new File("C:\\IMAGENS_SYSGE\\OS.jpg"));
+				document.close();
+				
 			} catch (JRException e) {
 				e.printStackTrace();
 			}finally {

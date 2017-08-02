@@ -59,20 +59,29 @@ public class ConfigHotmail implements Serializable{
 			 
             Message message = new MimeMessage(getSession(configurarHotmail()));
             message.setFrom(new InternetAddress(remetente)); //Remetente
-
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario)); //Destinatário(s)
             message.setSubject(assunto);//Assunto
             
+            Multipart multipart = new MimeMultipart("related");
+            
+            // 1º parte- html
             BodyPart messageBodyPart = new MimeBodyPart();
-            
-            messageBodyPart.setContent(mensagem, "text/html");
-            
-            Multipart multipart = new MimeMultipart();
-
+            String htmlText = "<img src=\"cid:image\">";
+            messageBodyPart.setContent(mensagem+htmlText, "text/html");
             multipart.addBodyPart(messageBodyPart);
             
+            // 2º parte - a imagem
             messageBodyPart = new MimeBodyPart();
-            String filename = "C:\\backup_sysge\\backup_28-07-17-01-23-06.sql";
+            DataSource dataSource = new FileDataSource("C:\\IMAGENS_SYSGE\\OS.jpg");
+            messageBodyPart.setDataHandler(new DataHandler(dataSource));
+            messageBodyPart.setHeader("Content-ID","<image>");
+            
+            multipart.addBodyPart(messageBodyPart);
+            message.setContent(multipart);
+            
+            //Anexo
+            messageBodyPart = new MimeBodyPart();
+            String filename = "C:\\data\\Recovery.txt";
             DataSource source = new FileDataSource(filename);
             messageBodyPart.setDataHandler(new DataHandler(source));
             messageBodyPart.setFileName(filename);
@@ -80,11 +89,6 @@ public class ConfigHotmail implements Serializable{
 
             message.setContent(multipart);
             
-           /* DataSource ax = new FileDataSource("C:\\data\\Recovery.txt");
-            message.setDataHandler(new DataHandler(ax));
-            message.setFileName(ax.getName());*/
-            
-            /**Método para enviar a mensagem criada*/
             Transport.send(message);
             retorno = true;
             
