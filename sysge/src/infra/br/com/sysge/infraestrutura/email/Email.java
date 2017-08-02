@@ -9,6 +9,8 @@ public class Email implements Serializable{
 
 	private ArrayList<String> destinatarios;
 	
+	private String nomeDestinatario;
+	
 	private String assunto;
 	
 	private String mensagem;
@@ -35,6 +37,14 @@ public class Email implements Serializable{
 
 	public void setMensagem(String mensagem) {
 		this.mensagem = mensagem;
+	}
+
+	public String getNomeDestinatario() {
+		return nomeDestinatario;
+	}
+
+	public void setNomeDestinatario(String nomeDestinatario) {
+		this.nomeDestinatario = nomeDestinatario;
 	}
 	
 	

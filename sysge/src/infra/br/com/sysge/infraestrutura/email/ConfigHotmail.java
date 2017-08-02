@@ -56,7 +56,8 @@ public class ConfigHotmail implements Serializable{
             Message message = new MimeMessage(getSession(configurarHotmail()));
             message.setFrom(new InternetAddress("felipe.miguel.santos@hotmail.com")); //Remetente
 
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("felipeanalista3@gmail.com, felipe.miguel.santos@hotmail.com")); //Destinatário(s)
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("felipeanalista3@gmail.com, "
+            		+ "felipe.miguel.santos@hotmail.com")); //Destinatário(s)
             message.setSubject("Enviando email com JavaMail");//Assunto
             message.setText("Enviei este email utilizando JavaMail com minha conta Hotmail!");
             

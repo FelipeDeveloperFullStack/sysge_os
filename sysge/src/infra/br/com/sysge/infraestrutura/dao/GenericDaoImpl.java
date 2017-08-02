@@ -79,6 +79,8 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 		} catch (RuntimeException e) {
 			consistEntityTransactional(tx);
 			throw e;
+		}finally{
+			manager.flush();
 		}
 	}
 
@@ -93,12 +95,15 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 		} catch (RuntimeException e) {
 			consistEntityTransactional(tx);
 			throw e;
+		}finally{
+			manager.flush();
 		}
 	}
 
 	@Override
 	public List<E> findAll() {
 		try {
+			manager.clear();
 			CriteriaQuery<E> criteria = manager.getCriteriaBuilder().createQuery(entityClass);
 			criteria.from(entityClass);
 			return manager.createQuery(criteria).getResultList();
@@ -111,6 +116,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@Override
 	public List<E> findByDate(Date dataInicial, Date dataFinal, String atributoData){
 		try {
+			manager.clear();
 			TypedQuery<E> query = (TypedQuery<E>) manager.createQuery(""
 					+ "SELECT b FROM "+entityClass.getSimpleName()+" b "
 					+ "WHERE b."+atributoData+" >= "+dataInicial+" OR b.dataBackup <= "+dataFinal+"");
@@ -123,6 +129,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@Override
 	public E findById(I id) {
 		try {
+			manager.clear();
 			return manager.find(entityClass, id);
 		} catch (RuntimeException e) {
 			throw e;
@@ -133,6 +140,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@Override
 	public List<E> findAllByIdWithNativeQuery(I id, String table, String column){
 		try {
+			manager.clear();
 			TypedQuery<E> query = (TypedQuery<E>) manager.createNativeQuery(
 					"SELECT * FROM "+table+" t "
 				  + "WHERE t."+column+ " = "+id, entityClass);
@@ -145,6 +153,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@Override
 	public List<E> findAllByIdWithNativeQuery(I id, boolean valueBoolean, String table, String columnID, String columnBoolean){
 		try {
+			manager.clear();
 			TypedQuery<E> query = (TypedQuery<E>) manager.createNativeQuery(
 					"SELECT * FROM "+table+" t "
 							+ "WHERE t."+columnID+ " = "+id + " AND t."+columnBoolean+ " = "+valueBoolean, entityClass);
@@ -174,6 +183,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@Override
 	public List<E> findByParametersForSituation(Object value, Situacao situation, 
 			String attributeClass, String condition, String paramLikeLeft, String paramLikeRight) {
+		manager.clear();
 		Query query = manager.createQuery(""
 				+ "SELECT e FROM "+entityClass.getSimpleName()+" e "
 				+ "WHERE e."+attributeClass+" "+condition+" '"+paramLikeLeft+""+value+""+paramLikeRight+"' "
@@ -185,6 +195,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@Override
 	public List<E> findByParametersForSituation(Object value, Categoria categoria, Situacao situation, 
 			String attributeClass, String condition, String paramLikeLeft, String paramLikeRight) {
+		manager.clear();
 		Query query = manager.createQuery(""
 				+ "SELECT e FROM "+entityClass.getSimpleName()+" e "
 				+ "WHERE e."+attributeClass+" "+condition+" '"+paramLikeLeft+""+value+""+paramLikeRight+"' "
@@ -197,6 +208,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@SuppressWarnings("unchecked")
 	public List<E> findByParametersForSituation(Object value, TipoPessoa tipoPessoa, Situacao situation, 
 			String attributeClass, String condition, String paramLikeLeft, String paramLikeRight) {
+		manager.clear();
 		Query query = manager.createQuery(""
 				+ "SELECT e FROM "+entityClass.getSimpleName()+" e "
 				+ "WHERE e."+attributeClass+" "+condition+" '"+paramLikeLeft+""+value+""+paramLikeRight+"' "
@@ -207,6 +219,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	
 	@Override
 	public List<E> findBySituation(Situacao situacao) {
+		manager.clear();
 		builder = manager.getCriteriaBuilder();
 		criteria = builder.createQuery(entityClass);
 		Root<E> root = criteria.from(entityClass);
@@ -218,6 +231,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	
 	@Override
 	public List<E> findByStatusOs(StatusOS statusOs) {
+		manager.clear();
 		builder = manager.getCriteriaBuilder();
 		criteria = builder.createQuery(entityClass);
 		Root<E> root = criteria.from(entityClass);
@@ -230,6 +244,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findByStatusOs(StatusOS statusOS1, StatusOS statusOS2){
+		manager.clear();
 		Query query = manager.createQuery
 				("SELECT os FROM "+entityClass.getSimpleName()+ " os "
 				+ "WHERE os.statusOS = :status1 OR os.statusOS = :status2");
@@ -242,6 +257,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findBySituationAndTipoPessoa(Situacao situacao, TipoPessoa tipoPessoa) {
+		manager.clear();
 		Query query = manager.createQuery(""
 				+ "SELECT sc FROM "+entityClass.getSimpleName()+ " sc "
 				+ "WHERE sc.situacao = '"+situacao  +"' "
@@ -252,6 +268,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findBySituationAndCategoriaAndTipoPessoa(Situacao situacao, Categoria categoria, TipoPessoa tipoPessoa){
+		manager.clear();
 		Query query = manager.createQuery(""
 				+ "SELECT sc FROM "+entityClass.getSimpleName()+ " sc "
 				+ "WHERE sc.situacao = '"+situacao  +"' "
@@ -264,6 +281,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public E findUserAndPassword(String usuario, String senha, Situacao situacao){
+		manager.clear();
 		try {
 			Query query = manager.createQuery(
 					  "SELECT us FROM Usuario us "
@@ -282,6 +300,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findByNumeroStatusOS(long numero, StatusOS statusOS) {
+		manager.clear();
 		try {
 			Query query = manager.createQuery
 					("SELECT os FROM "+entityClass.getSimpleName() + " os "
@@ -295,6 +314,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findByDataEntradaOs(Date dataInicial, Date dataFinal) {
+		manager.clear();
 		try {
 			Query query = manager.createQuery
 					("SELECT os FROM "+entityClass.getSimpleName() + " os "
@@ -309,6 +329,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public E findByData(Date data, String atributoClasse) {
+		manager.clear();
 		try {
 			Query query = manager.createQuery
 					("SELECT os FROM "+entityClass.getSimpleName() + " os "
@@ -322,6 +343,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findByData(String atributoClasse, Date data) {
+		manager.clear();
 		try {
 			Query query = manager.createQuery
 					("SELECT b FROM "+entityClass.getSimpleName() + " b "
@@ -349,6 +371,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findByListProperty(Object object, String attributeClass) {
+		manager.clear();
 		Query query = manager.createQuery
 			  ("SELECT p FROM "+entityClass.getSimpleName() + " p "
 			  + " WHERE p."+attributeClass+" = "+object+"");
@@ -357,6 +380,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	
 	@SuppressWarnings("unchecked")
 	public E findByProperty(Object object, String attributeClass) {
+		manager.clear();
 		Query query = manager.createQuery
 				("SELECT p FROM "+entityClass.getSimpleName() + " p "
 						+ " WHERE p."+attributeClass+" = "+object+"");
