@@ -935,7 +935,8 @@
 						<p:commandButton value="Enviar por E-mail"
 							icon="ui-icon-mail-closed"
 							oncomplete="PF('dialog_envio_email').show();"
-							disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
+							disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" 
+							update=":formEmail"/>
 
 						<p:outputLabel value=" OBS:" styleClass="texto_negrito"
 							rendered="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
@@ -1034,44 +1035,46 @@
 		<p:dialog header="Envio de email" closable="true" draggable="true"
 			resizable="false" maximizable="false" widgetVar="dialog_envio_email"
 			modal="true" appendTo="@(body)" position="top">
-			<h:form>
+			<h:form id="formEmail">
 				<p:fieldset>
 
 					<p:panelGrid columns="1">
-						<h:panelGrid columns="1">
-							<p:outputLabel value="Nome destinatário" />
-							<p:inputText style="width: 400px;" />
-						</h:panelGrid>
 
 						<h:panelGrid columns="1">
 							<p:outputLabel value="E-mail destinatário" />
-							<p:inputText style="width: 400px;" />
+							<p:inputText style="width: 400px;" value="#{emailOSController.email.emailDestinatario}"/>
 						</h:panelGrid>
 
 						<h:panelGrid columns="1">
 							<p:outputLabel value="De" />
-							<p:inputText style="width: 400px;" />
+							<p:inputText style="width: 400px;" value="#{emailOSController.email.remetente}"/>
 						</h:panelGrid>
 
 						<h:panelGrid columns="1">
 							<p:outputLabel value="Assunto" />
-							<p:inputText style="width: 400px;" />
+							<p:inputText style="width: 400px;" value="#{emailOSController.email.assunto}"/>
 						</h:panelGrid>
 
 						<h:panelGrid columns="1">
 							<p:outputLabel value="Mensagem" />
-							<p:editor id="editor" widgetVar="editorWidget" width="400" />
+							<p:editor id="editor" widgetVar="editorWidget" width="400" value="#{emailOSController.email.mensagem}"/>
 						</h:panelGrid>
 
-						<h:panelGrid columns="2">
-							<p:commandButton value="Enviar" icon="ui-icon-extlink" />
+						<h:panelGrid columns="2" id="btn_enviar_email_panel">
+							<p:commandButton value="Enviar" icon="ui-icon-extlink" actionListener="#{emailOSController.enviarEmail}" 
+							update=":msgGlobal" id="btn_enviar_email"/>
 							<p:commandButton value="Cancelar" icon="ui-icon-close"
 								oncomplete="PF('dialog_envio_email').hide();" />
 						</h:panelGrid>
+						
 					</p:panelGrid>
-
-
 				</p:fieldset>
+				
+					<p:blockUI block="formEmail"
+								trigger="btn_enviar_email">
+								        Carregando! Aguarde...<br />
+								<p:graphicImage library="img" name="loading.gif" />
+					</p:blockUI>
 			</h:form>
 		</p:dialog>
 		

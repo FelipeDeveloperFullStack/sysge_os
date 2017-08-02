@@ -6,13 +6,17 @@ import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 public class ConfigHotmail implements Serializable{
 	
@@ -44,26 +48,41 @@ public class ConfigHotmail implements Serializable{
                 });
     
         /** Ativa Debug para sessão */
-        session.setDebug(true);
+        //session.setDebug(true);
         
         return session;
 	}
 	
-	public boolean enviarEmailHotmail(){
+	public boolean enviarEmailHotmail(String remetente, String destinatario, String assunto, String mensagem){
 		boolean retorno = false; 
 		 try {
 			 
             Message message = new MimeMessage(getSession(configurarHotmail()));
-            message.setFrom(new InternetAddress("felipe.miguel.santos@hotmail.com")); //Remetente
+            message.setFrom(new InternetAddress(remetente)); //Remetente
 
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("felipeanalista3@gmail.com, "
-            		+ "felipe.miguel.santos@hotmail.com")); //Destinatário(s)
-            message.setSubject("Enviando email com JavaMail");//Assunto
-            message.setText("Enviei este email utilizando JavaMail com minha conta Hotmail!");
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario)); //Destinatário(s)
+            message.setSubject(assunto);//Assunto
             
-            DataSource ax = new FileDataSource("C:\\backup_sysge\\backup_14-03-17-08-04-56.sql");
+            BodyPart messageBodyPart = new MimeBodyPart();
+            
+            messageBodyPart.setContent(mensagem, "text/html");
+            
+            Multipart multipart = new MimeMultipart();
+
+            multipart.addBodyPart(messageBodyPart);
+            
+            messageBodyPart = new MimeBodyPart();
+            String filename = "C:\\data\\Recovery.txt";
+            DataSource source = new FileDataSource(filename);
+            messageBodyPart.setDataHandler(new DataHandler(source));
+            messageBodyPart.setFileName(filename);
+            multipart.addBodyPart(messageBodyPart);
+
+            message.setContent(multipart);
+            
+           /* DataSource ax = new FileDataSource("C:\\data\\Recovery.txt");
             message.setDataHandler(new DataHandler(ax));
-            message.setFileName(ax.getName());
+            message.setFileName(ax.getName());*/
             
             /**Método para enviar a mensagem criada*/
             Transport.send(message);
