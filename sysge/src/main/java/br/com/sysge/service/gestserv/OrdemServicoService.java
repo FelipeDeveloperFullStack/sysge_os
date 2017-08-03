@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.infraestrutura.decimal.ConverteNumeroExtensoReal;
 import br.com.sysge.infraestrutura.relatorios.ReportFactory;
@@ -88,6 +89,11 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	private static String OBSERVACOES = "observacoes";
 	
 	private SimpleDateFormat sdf;
+	private boolean enviaEmail;
+	
+	public void isEnviarEmail(boolean enviaEmail){
+		this.enviaEmail = enviaEmail;
+	}
 	
 	public OrdemServico salvar(OrdemServico ordemServico) {
 		try {
@@ -284,7 +290,13 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		}
 		
 		ReportFactory reportFactory = new ReportFactory("r_ordem_servico.jasper", params, TiposRelatorio.PDF);
-		reportFactory.getReportStream();
+		if(enviaEmail){
+			reportFactory.exportarPDF();
+			reportFactory.gerarImagemOS();
+			enviaEmail = false;
+		}else{
+			reportFactory.getReportStream();
+		}
 	}
 	
 	private String verificarDataSaida(Date dataSaida, SimpleDateFormat sdf){

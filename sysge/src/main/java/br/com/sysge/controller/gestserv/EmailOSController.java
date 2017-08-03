@@ -25,7 +25,6 @@ public class EmailOSController implements Serializable{
 	
 	private Hotmail hotmail;
 	
-	
 	public void novoEmail(){
 		this.email = new Email();
 		this.email.setRemetente(getUsuario().getFuncionario().getEmail());
@@ -52,15 +51,19 @@ public class EmailOSController implements Serializable{
 		this.email = email;
 	}
 	
-	public void enviarEmail(){
+	public void enviarEmail(long numeroOS){
 		
 		try {
 			this.hotmail = new Hotmail();
+			consistirEmailDestinatario();
+			consistirRemetente();
+			consistirAssunto();
 			hotmail.enviarEmail(
 					email.getRemetente(), 
 					email.getEmailDestinatario(), 
 					email.getAssunto(),
-					email.getMensagem());
+					email.getMensagem(),
+					numeroOS);
 			FacesUtil.mensagemInfo("Email enviado com sucesso");
 			RequestContextUtil.execute("PF('dialog_envio_email').hide();");
 			
@@ -69,6 +72,24 @@ public class EmailOSController implements Serializable{
 		}
 		
 		
+	}
+	
+	private void consistirEmailDestinatario(){
+		if(email.getEmailDestinatario().isEmpty()){
+			throw new RuntimeException("O email do destinatário é obrigatório!");
+		}
+	}
+	
+	private void consistirRemetente(){
+		if(email.getRemetente().isEmpty()){
+			throw new RuntimeException("O email do remetente é obrigatório!");
+		}
+	}
+	
+	private void consistirAssunto(){
+		if(email.getAssunto().isEmpty()){
+			throw new RuntimeException("O assunto do email é obrigatório!");
+		}
 	}
 	
 

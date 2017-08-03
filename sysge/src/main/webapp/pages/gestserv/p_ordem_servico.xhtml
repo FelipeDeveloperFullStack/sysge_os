@@ -126,9 +126,9 @@
 					</f:facet>
 
 					<p:rowExpansion>
-						<p:commandButton value="Imprimir nota de recebimento nº #{s.id}"
+						<p:commandButton id="btn_nota_recebimento" value="Imprimir nota de recebimento nº #{s.id}"
 							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarNotaRecebimento(s)}"/>
-						<p:commandButton value="Imprimir ordem de serviço nº #{s.id}"
+						<p:commandButton id="btn_os" value="Imprimir ordem de serviço nº #{s.id}"
 							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarOrdemServico(s)}"/>
 					</p:rowExpansion>
 				</p:dataTable>
@@ -1061,7 +1061,7 @@
 						</h:panelGrid>
 
 						<h:panelGrid columns="2" id="btn_enviar_email_panel">
-							<p:commandButton value="Enviar" icon="ui-icon-extlink" actionListener="#{emailOSController.enviarEmail}" 
+							<p:commandButton value="Enviar" icon="ui-icon-extlink" actionListener="#{ordemServicoController.enviarEmail}" 
 							update=":msgGlobal" id="btn_enviar_email"/>
 							<p:commandButton value="Cancelar" icon="ui-icon-close"
 								oncomplete="PF('dialog_envio_email').hide();" />

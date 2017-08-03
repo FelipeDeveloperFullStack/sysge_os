@@ -3,14 +3,10 @@ package br.com.sysge.infraestrutura.relatorios;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpSession;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -30,10 +26,10 @@ public class ReportFactory {
 	
 	private Map<String, Object> params;
 	
-	private static final String PDF_PATH_WINDOWS = "C:/IMAGENS_SYSGE/ORDEM_SERVICO.pdf";
-	private static final String PDF_PATH_JAVA = "C:\\IMAGENS_SYSGE\\ORDEM_SERVICO.pdf";
-	private static final String PDF_PATH_JAVA_IMG = "C:\\IMAGENS_SYSGE\\ORDEM_SERVICO.jpg";
-	private static final String DIRETORIO = "C:\\IMAGENS_SYSGE";
+	private static final String PDF_PATH_WINDOWS = "C:/SYSGE_WEB/DOCUMENTO.pdf";
+	private static final String PDF_PATH_JAVA = "C:\\SYSGE_WEB\\DOCUMENTO.pdf";
+	private static final String PDF_PATH_JAVA_IMG = "C:\\SYSGE_WEB\\DOCUMENTO.jpg";
+	private static final String DIRETORIO = "C:\\SYSGE_WEB";
 	
 	@SuppressWarnings("unused")
 	private TiposRelatorio tipoRelatorio;
@@ -58,7 +54,7 @@ public class ReportFactory {
 		this.tipoRelatorio = tipoRelatorio;
 	}
 	
-	private void redirect(String page){
+	/*private void redirect(String page){
 		try {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			ExternalContext ec = fc.getExternalContext();
@@ -66,7 +62,7 @@ public class ReportFactory {
 		} catch (IOException e) {
 			throw new RuntimeException(e.getMessage());
 		}
-	}
+	}*/
 	
 	public void gerarImagemOS(){
 		try {
@@ -77,21 +73,33 @@ public class ReportFactory {
 			BufferedImage image = pdfRenderer.renderImage(0);
 			criarDiretorio();
 			ImageIO.write(image, "JPG", new File(PDF_PATH_JAVA_IMG));
-			
+			document.close();
 		} catch (JRException | IOException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
 	
-	public void gerarPDF(){
+	private void gerarPDF(){
 		try {
 			criarDiretorio();
-			JasperExportManager.exportReportToPdfFile(gerarJasperReport(), PDF_PATH_JAVA);
+			exportar();
 			Runtime.getRuntime().exec("cmd /c start "+PDF_PATH_WINDOWS);
-			File file = new File(PDF_PATH_JAVA);
+			File file = new File(PDF_PATH_WINDOWS);
 			file.deleteOnExit();
-			
-		} catch (JRException | IOException e) {
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+	
+	public void exportarPDF(){
+		criarDiretorio();
+		exportar();
+	}
+	
+	private void exportar(){
+		try {
+			JasperExportManager.exportReportToPdfFile(gerarJasperReport(), PDF_PATH_JAVA);
+		} catch (JRException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 	}

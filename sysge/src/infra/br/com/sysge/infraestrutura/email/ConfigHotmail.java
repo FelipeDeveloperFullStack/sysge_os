@@ -53,7 +53,7 @@ public class ConfigHotmail implements Serializable{
         return session;
 	}
 	
-	public boolean enviarEmailHotmail(String remetente, String destinatario, String assunto, String mensagem){
+	public boolean enviarEmailHotmail(String remetente, String destinatario, String assunto, String mensagem, long numeroOS){
 		boolean retorno = false; 
 		 try {
 			 
@@ -72,7 +72,7 @@ public class ConfigHotmail implements Serializable{
             
             // 2º parte - a imagem
             messageBodyPart = new MimeBodyPart();
-            DataSource dataSource = new FileDataSource("C:\\IMAGENS_SYSGE\\OS.jpg");
+            DataSource dataSource = new FileDataSource("C:\\SYSGE_WEB\\DOCUMENTO.jpg");
             messageBodyPart.setDataHandler(new DataHandler(dataSource));
             messageBodyPart.setHeader("Content-ID","<image>");
             
@@ -81,10 +81,10 @@ public class ConfigHotmail implements Serializable{
             
             //Anexo
             messageBodyPart = new MimeBodyPart();
-            String filename = "C:\\data\\Recovery.txt";
+            String filename = "C:\\SYSGE_WEB\\DOCUMENTO.pdf";
             DataSource source = new FileDataSource(filename);
             messageBodyPart.setDataHandler(new DataHandler(source));
-            messageBodyPart.setFileName(filename);
+            messageBodyPart.setFileName("OS_Nº"+numeroOS+".pdf");
             multipart.addBodyPart(messageBodyPart);
 
             message.setContent(multipart);

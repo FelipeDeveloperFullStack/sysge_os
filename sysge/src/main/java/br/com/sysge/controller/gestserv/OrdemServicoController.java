@@ -126,6 +126,9 @@ public class OrdemServicoController implements Serializable {
 	@Inject
 	private MovimentoFinanceiroService movimentoFinanceiroService;
 	
+	@Inject
+	private EmailOSController emailOSController;
+	
 	private static final String PAGE_CLIENTE = "/pages_framework/p_cliente.xhtml";
 	private static final String PAGE_SERVICO = "/pages_framework/p_servicos.xhtml";
 	private static final String PAGE_PRODUTO = "/pages_framework/p_produto.xhtml";
@@ -640,13 +643,27 @@ public class OrdemServicoController implements Serializable {
 	
 	public void gerarOrdemServico(OrdemServico ordemServico){
 			try {
-				ordemServicoService.gerarOrdemServico(ordemServico, 
-				ordemServicoService.procurarServicosOS(ordemServico.getId()), 
-				ordemServicoService.procurarProdutosOS(ordemServico.getId()),
-				ordemServicoService.procurarPagamentoOS(ordemServico.getId()));
+				gerarOS(ordemServico);
 			}finally {
 				ordemServico = new OrdemServico();
 			}
+	}
+	
+	public void enviarEmail(){
+			ordemServicoService.isEnviarEmail(true);
+			ordemServicoService.gerarOrdemServico(ordemServico, 
+					ordemServicoService.procurarServicosOS(ordemServico.getId()), 
+					ordemServicoService.procurarProdutosOS(ordemServico.getId()),
+					ordemServicoService.procurarPagamentoOS(ordemServico.getId()));
+			emailOSController.enviarEmail(ordemServico.getId());
+		
+	}
+	
+	private void gerarOS(OrdemServico ordemServico){
+		ordemServicoService.gerarOrdemServico(ordemServico, 
+				ordemServicoService.procurarServicosOS(ordemServico.getId()), 
+				ordemServicoService.procurarProdutosOS(ordemServico.getId()),
+				ordemServicoService.procurarPagamentoOS(ordemServico.getId()));
 	}
 	
 	public void setarTabIndex(int tabIndex) {
