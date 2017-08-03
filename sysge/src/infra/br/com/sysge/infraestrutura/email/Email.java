@@ -2,13 +2,6 @@ package br.com.sysge.infraestrutura.email;
 
 import java.io.Serializable;
 
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
-
-import br.com.sysge.model.conf.Usuario;
-import br.com.sysge.service.conf.UsuarioService;
-
 public class Email implements Serializable{
 	
 	private static final long serialVersionUID = -2034232074129693662L;
@@ -19,23 +12,8 @@ public class Email implements Serializable{
 	
 	private String mensagem;
 	
-	@SuppressWarnings("unused")
 	private String remetente;
 	
-	@Inject
-	private UsuarioService usuarioService;
-	
-	private Usuario getSessionUsuario(){
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-		Usuario usuario = (Usuario) session.getAttribute("usuario");
-		return usuario;
-	}
-	
-	private Usuario getUsuario(){
-		return usuarioService.findById(getSessionUsuario().getId());
-	}
-
-
 	public String getAssunto() {
 		return assunto;
 	}
@@ -62,7 +40,7 @@ public class Email implements Serializable{
 
 
 	public String getRemetente() {
-		return getUsuario().getFuncionario().getEmail();
+		return remetente;
 	}
 
 

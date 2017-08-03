@@ -72,7 +72,7 @@ public class ConfigHotmail implements Serializable{
             multipart.addBodyPart(messageBodyPart);
             
             messageBodyPart = new MimeBodyPart();
-            String filename = "C:\\data\\Recovery.txt";
+            String filename = "C:\\backup_sysge\\backup_28-07-17-01-23-06.sql";
             DataSource source = new FileDataSource(filename);
             messageBodyPart.setDataHandler(new DataHandler(source));
             messageBodyPart.setFileName(filename);

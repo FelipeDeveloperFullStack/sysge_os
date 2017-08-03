@@ -936,7 +936,7 @@
 							icon="ui-icon-mail-closed"
 							oncomplete="PF('dialog_envio_email').show();"
 							disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" 
-							update=":formEmail"/>
+							update=":formEmail" actionListener="#{emailOSController.novoEmail}"/>
 
 						<p:outputLabel value=" OBS:" styleClass="texto_negrito"
 							rendered="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
@@ -1047,7 +1047,7 @@
 
 						<h:panelGrid columns="1">
 							<p:outputLabel value="De" />
-							<p:inputText style="width: 400px;" value="#{emailOSController.email.remetente}"/>
+							<p:inputText style="width: 400px;" value="#{emailOSController.email.remetente}" readonly="true"/>
 						</h:panelGrid>
 
 						<h:panelGrid columns="1">
