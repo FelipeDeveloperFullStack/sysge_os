@@ -1,8 +1,11 @@
 package br.com.sysge.infraestrutura.relatorios;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.primefaces.model.StreamedContent;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -20,11 +24,15 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
 
-public class ReportFactory {
+public class ReportFactory implements Serializable{
+
+	private static final long serialVersionUID = 8776151879565515146L;
 
 	private String reportName;
 	
 	private Map<String, Object> params;
+	
+	private InputStream inputStream;
 	
 	private static final String PDF_PATH_WINDOWS = "C:/SYSGE_WEB/DOCUMENTO.pdf";
 	private static final String PDF_PATH_JAVA = "C:\\SYSGE_WEB\\DOCUMENTO.pdf";
@@ -35,6 +43,8 @@ public class ReportFactory {
 	private TiposRelatorio tipoRelatorio;
 	
 	private List<?> list;
+	
+	private PDFView pdfView;
 
 	public ReportFactory(String ReportName, Map<String, Object> params, TiposRelatorio tipoRelatorio, List<?> list) {
 		this.reportName = ReportName;
@@ -106,9 +116,7 @@ public class ReportFactory {
 	
 	private JasperPrint gerarJasperReport(){
 		try {
-			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(getClass().getClassLoader().getResourceAsStream("br/com/sysge/relatorios/" + reportName));
-			jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
-			return JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(list));
+			return JasperFillManager.fillReport(getArquivoJRXMLCompilado(), params, new JRBeanCollectionDataSource(list));
 		} catch (JRException e) {
 			throw new RuntimeException(e.getMessage());
 		}
@@ -117,6 +125,32 @@ public class ReportFactory {
 	private void criarDiretorio(){
 		File diretorio = new File(DIRETORIO);
 		diretorio.mkdir();
+	}
+	
+	private JasperReport getArquivoJRXMLCompilado(){
+		try {
+			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(getClass().getClassLoader().getResourceAsStream("br/com/sysge/relatorios/" + reportName));
+			jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
+			return jasperReport;
+		} catch (JRException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+	
+	public StreamedContent gerarPDFView(String nomeArquivo){
+		
+		try {
+			byte[] bytes = JasperExportManager.exportReportToPdf(gerarJasperReport());
+			inputStream = new ByteArrayInputStream(bytes);
+			inputStream.read();
+			
+			pdfView = new PDFView();
+			pdfView.gerar(inputStream, nomeArquivo);
+			return pdfView.getContent();
+			
+		} catch (JRException | IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	public void getReportStream() {
@@ -145,5 +179,7 @@ public class ReportFactory {
 		}*/
 
 	}
+	
+	
 	
 }

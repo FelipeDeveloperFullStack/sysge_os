@@ -3,7 +3,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:px="http://primefaces.org/ui/extensions">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -33,7 +34,14 @@
 			}
 		</script>	
 	
+			<p:dialog widgetVar="pdfViewNotaRecebimento">
+				   <h:panelGrid >
+				      <px:documentViewer  value="#{ordemServicoController.pdfView}" download="extensions-rocks.pdf" height="900" width="900" url=""/>
+				   </h:panelGrid>
+		    </p:dialog> 
+		    
 		<h:form id="formGeralServico">
+		
 			<p:panel header="Listagem de ordens de serviços">
 
 				<h:panelGrid columns="6" id="panelPesquisa">
@@ -127,7 +135,7 @@
 
 					<p:rowExpansion>
 						<p:commandButton id="btn_nota_recebimento" value="Imprimir nota de recebimento nº #{s.id}"
-							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarNotaRecebimento(s)}"/>
+							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarNotaRecebimento(s)}" update=":msgGlobal"/>
 						<p:commandButton id="btn_os" value="Imprimir ordem de serviço nº #{s.id}"
 							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarOrdemServico(s)}"/>
 					</p:rowExpansion>

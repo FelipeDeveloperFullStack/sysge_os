@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.primefaces.model.StreamedContent;
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.infraestrutura.decimal.ConverteNumeroExtensoReal;
@@ -204,7 +205,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	     reportFactory.getReportStream();
 	}
 	
-	public void gerarNotaRecebimento(OrdemServico ordemServico){
+	public StreamedContent gerarNotaRecebimento(OrdemServico ordemServico){
 		Map<String, Object> params = new HashMap<String, Object>();
 		
 		ordemServico.setCliente(clienteService.verificarTipoPessoa(ordemServico.getCliente()));
@@ -243,7 +244,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 				}
 		
 		ReportFactory reportFactory = new ReportFactory("r_nota_recebimento.jasper", params, TiposRelatorio.PDF);
-		reportFactory.getReportStream();
+		return reportFactory.gerarPDFView("Nota de recebimento.pdf");
 	}
 	
 	public void gerarOrdemServico(OrdemServico ordemServico, 

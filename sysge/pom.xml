@@ -33,6 +33,15 @@
 			<version>2.0.7</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.primefaces.extensions/primefaces-extensions -->
+		<dependency>
+			<groupId>org.primefaces.extensions</groupId>
+			<artifactId>primefaces-extensions</artifactId>
+			<version>6.0.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
