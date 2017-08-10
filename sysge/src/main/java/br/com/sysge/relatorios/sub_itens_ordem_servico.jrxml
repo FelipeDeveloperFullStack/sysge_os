@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_itens_ordem_servico" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="32e8fb8d-cf83-411b-8c3a-dd2e99a75066">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="dados" class="java.lang.String">
+		<fieldDescription><![CDATA[dados]]></fieldDescription>
+	</field>
+	<field name="descricao" class="java.lang.String">
+		<fieldDescription><![CDATA[descricao]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="-20" y="0" width="180" height="15" uuid="d89d06be-0da8-4d2f-bca3-29fba232199b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="-20" y="0" width="280" height="15" uuid="100483b5-e48f-4f87-8678-d569b928f9ec">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5" lineColor="#B8B8B8"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#B8B8B8"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#B8B8B8"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#B8B8B8"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#B8B8B8"/>
+				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "+$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="0" width="275" height="15" uuid="b53c86d7-3953-40cd-8af8-5406c3a2e31d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5" lineColor="#B8B8B8"/>
+				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "+$F{dados}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

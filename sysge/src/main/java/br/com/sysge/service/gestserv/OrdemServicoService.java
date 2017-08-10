@@ -23,6 +23,7 @@ import br.com.sysge.model.gestserv.OrdemServico;
 import br.com.sysge.model.gestserv.ProdutoOrdemServico;
 import br.com.sysge.model.gestserv.ServicoOrdemServico;
 import br.com.sysge.model.global.UnidadeEmpresarial;
+import br.com.sysge.relatorios.to.ItemOrdemServicoTO;
 import br.com.sysge.relatorios.to.PagamentoTO;
 import br.com.sysge.relatorios.to.ProdutoTO;
 import br.com.sysge.relatorios.to.ServicoTO;
@@ -83,6 +84,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	private static String MODELO = "modelo";
 	private static String ACESSORIOS = "acessorios";
 	private static String SINTOMAS = "sintomas";
+	private static String RELATORIO_TECNICO = "relatorio_tecnico";
 	private static String NUMERO_SERIE = "numero_serie";
 	private static String NUMERO_PATRIMONIO = "numero_patrimonio";
 	private static String DATA_ENTRADA = "data_entrada";
@@ -254,6 +256,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		
 		params.put("list_servicos", setarServicoTo(servicos));
 		params.put("list_produtos", setarProdutoTo(produtos));
+		params.put("list_item_ordem_servico", setarItemOrdemServicoTo(servicos, produtos));
 		params.put("list_pagamentos", setarPagamentoTo(pagamentos));
 		params.put("subTotalServico", ordemServico.getTotalServico());
 		params.put("subTotalProduto", ordemServico.getTotalProduto());
@@ -275,6 +278,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		params.put(MODELO, ordemServico.getModelo());
 		params.put(ACESSORIOS, ordemServico.getAcessorios());
 		params.put(SINTOMAS, ordemServico.getDefeito());
+		params.put(RELATORIO_TECNICO, ordemServico.getLaudoTecnico());
 		params.put(NUMERO_SERIE, String.valueOf(ordemServico.getNumeroSerie()));
 		params.put(NUMERO_PATRIMONIO, String.valueOf(ordemServico.getNumeroPatrimonio()));
 		
@@ -307,6 +311,38 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		}
 	}
 	
+	private List<ItemOrdemServicoTO> setarItemOrdemServicoTo(List<ServicoOrdemServico> servicos, List<ProdutoOrdemServico> produtos){
+		List<ItemOrdemServicoTO> tos = new ArrayList<ItemOrdemServicoTO>();
+		if(servicos.isEmpty()){
+			ItemOrdemServicoTO to = new ItemOrdemServicoTO();
+			to.setDescricao("Nenhum serviço informado!");
+			to.setDados("");
+			tos.add(to);
+		}else{
+			for(ServicoOrdemServico s : servicos){
+				ItemOrdemServicoTO to = new ItemOrdemServicoTO();
+				to.setDescricao(s.getServico().getNome());
+				to.setDados("Valor: "+s.getSubTotal().toString());
+				tos.add(to);
+			}
+		}
+		
+		if(produtos.isEmpty()){
+			ItemOrdemServicoTO to = new ItemOrdemServicoTO();
+			to.setDescricao("Nenhum produto informado!");
+			to.setDados("");
+			tos.add(to);
+		}else{
+			for(ProdutoOrdemServico p : produtos){
+				ItemOrdemServicoTO to = new ItemOrdemServicoTO();
+				to.setDescricao(p.getProduto().getDescricaoProduto());
+				to.setDados("Qtde: "+p.getQuantidade().toString()+ "   Valor: "+p.getValor()+"   SubTotal: "+p.getSubTotal());
+				tos.add(to);
+			}
+		}
+		return tos;
+	}
+	
 	private List<ServicoTO> setarServicoTo(List<ServicoOrdemServico> servicos){
 		List<ServicoTO> tos = new ArrayList<ServicoTO>();
 		if(servicos.isEmpty()){
@@ -324,6 +360,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			}
 			return tos;
 		}
+		
 	}
 	private List<ProdutoTO> setarProdutoTo(List<ProdutoOrdemServico> produtos){
 		List<ProdutoTO> tos = new ArrayList<ProdutoTO>();
