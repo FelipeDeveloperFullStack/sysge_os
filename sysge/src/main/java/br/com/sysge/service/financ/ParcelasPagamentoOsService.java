@@ -8,7 +8,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.Query;
 
-import com.ibm.icu.text.SimpleDateFormat;
 
 import br.com.sysge.controller.financ.MovimentoFinanceiroController;
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
@@ -85,7 +84,7 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 			throw new RuntimeException("Não é possível gerar as parcelas, pois o valor total está igual a R$: 0,00");
 		}
 
-			//verificarLancamentoFinanceiroParcela(parcelas); Voltar esse método quando arrumar o financeiro para a OS
+			verificarLancamentoFinanceiroParcela(parcelas); //Voltar esse método quando arrumar o financeiro para a OS
 		
 			String condicaoPagamento = ordemServico.getCondicaoPagamento().getDescricao();
 			if(condicaoPagamento.equals(A_VISTA)){
@@ -156,7 +155,7 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 		}
 		parcela.setStatusFinanceiro(StatusFinanceiro.PAGO);
 		parcela = super.save(parcela);
-		//movimentoFinanceiroController.atualizarStatusFinanceiroTituto(parcela.getLancamentoReceita());
+		movimentoFinanceiroController.atualizarStatusFinanceiroTituto(parcela.getLancamentoReceita());
 	}
 	
 	public ParcelasPagamentoOs obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){

@@ -9,7 +9,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-
+import br.com.sysge.model.financ.AuditoriaFinanceiro;
 import br.com.sysge.model.financ.LancamentoFinanceiro;
 import br.com.sysge.model.financ.MovimentoFinanceiro;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
@@ -29,6 +29,7 @@ import br.com.sysge.service.global.ClienteService;
 import br.com.sysge.service.global.FornecedorService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
+import br.com.sysge.util.UsuarioSession;
 
 
 @Named
@@ -57,6 +58,8 @@ public class MovimentoFinanceiroController implements Serializable {
 	private Date dataLancamentoDespesa = new Date();
 	
 	private MovimentoFinanceiro movimentoFinanceiro;
+	
+	private AuditoriaFinanceiro auditoriaFinanceiro;
 	
 	@Inject
 	private ClienteService clienteService;
@@ -94,6 +97,10 @@ public class MovimentoFinanceiroController implements Serializable {
 		this.lancamentoFinanceiro = new LancamentoFinanceiro();
 	}
 	
+	public void novaAuditoria(){
+		this.auditoriaFinanceiro = new AuditoriaFinanceiro();
+	}
+	
 	public String mudarCorValorMovimento(LancamentoFinanceiro lancamentoFinanceiro){
 		if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.DESPESA){
 			return "cor_vermelho";
@@ -124,10 +131,32 @@ public class MovimentoFinanceiroController implements Serializable {
 	
 	public void excluirLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
 		try {
-			movimentoFinanceiroService.excluirLancamentoFinanceiro(lancamentoFinanceiro);
-			this.lancamentoFinanceiros = lancamentoFinanceiroService.obterLancamentoFinanceiroPorData(lancamentoFinanceiro.getDataLancamento());
-			this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(lancamentoFinanceiro.getDataLancamento());
+			novaAuditoria();
+			RequestContextUtil.execute("PF('dialog_justificativa').show();");
+			this.lancamentoFinanceiro = lancamentoFinanceiro;
+		} catch (Exception e) {
+			FacesUtil.mensagemErro(e.getMessage());
+		}
+	}
+	
+	public void excluirLancamentoFinanceiro(){
+		try {
+			this.auditoriaFinanceiro.setTituloFinanceiro(this.lancamentoFinanceiro.getTitulo());
+			this.auditoriaFinanceiro.setValor(this.lancamentoFinanceiro.getValor());
+			this.auditoriaFinanceiro.setCategoria(this.lancamentoFinanceiro.getCategoriaLancamentoDespesa() == null ? this.lancamentoFinanceiro.getCategoriaLancamentoReceita().getTipo() : this.lancamentoFinanceiro.getCategoriaLancamentoDespesa().getTipo());
+		    this.auditoriaFinanceiro.setUsuario(UsuarioSession.getSessionUsuario());
+		    this.auditoriaFinanceiro.setData(new Date());
+		    this.auditoriaFinanceiro.setHora(new Date());
+		    
+			movimentoFinanceiroService.setarAuditoriaFinanceiro(auditoriaFinanceiro);
+			movimentoFinanceiroService.consistirAuditoria();
+			movimentoFinanceiroService.excluirLancamentoFinanceiro(this.lancamentoFinanceiro);
+			
+			this.lancamentoFinanceiros = lancamentoFinanceiroService.obterLancamentoFinanceiroPorData(this.lancamentoFinanceiro.getDataLancamento());
+			this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(this.lancamentoFinanceiro.getDataLancamento());
+			
 			FacesUtil.mensagemInfo("Título financeiro excluído com sucesso!");
+			RequestContextUtil.execute("PF('dialog_justificativa').hide();");
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}
@@ -241,6 +270,14 @@ public class MovimentoFinanceiroController implements Serializable {
 
 	public void setMovimentoFinanceiro(MovimentoFinanceiro movimentoFinanceiro) {
 		this.movimentoFinanceiro = movimentoFinanceiro;
+	}
+
+	public AuditoriaFinanceiro getAuditoriaFinanceiro() {
+		return auditoriaFinanceiro;
+	}
+
+	public void setAuditoriaFinanceiro(AuditoriaFinanceiro auditoriaFinanceiro) {
+		this.auditoriaFinanceiro = auditoriaFinanceiro;
 	}
 
 }

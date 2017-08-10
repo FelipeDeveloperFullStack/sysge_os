@@ -1,7 +1,6 @@
 package br.com.sysge.model.financ;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Entity;

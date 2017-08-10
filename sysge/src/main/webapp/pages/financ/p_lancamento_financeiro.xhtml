@@ -112,6 +112,8 @@
 			    </p:rowExpansion>
 
 			</p:dataTable>
+			
+			
 
 			<p:panel header="RESUMO FINANCEIRO" id="resumo_financeiro">
 			
@@ -472,6 +474,37 @@
 
 			</h:form>
 		</p:dialog>
+		
+		
+		<p:dialog widgetVar="dialog_justificativa" modal="true" appendTo="@(body)" minimizable="false" 
+					  resizable="false" closable="false" maximizable="false" header="Justificativa">
+				<h:form>
+					<p:panelGrid columns="2">
+						<p:panelGrid columns="1">
+							<p:outputLabel styleClass="texto_negrito" value="Informe abaixo uma justificativa para a exclusão do título financeiro."/>
+							<p:inputTextarea rows="8" cols="45" 
+											 autoResize="false" 
+											 value="#{movimentoFinanceiroController.auditoriaFinanceiro.justificativa}"/>
+						</p:panelGrid>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="2">
+						<p:panelGrid columns="1">
+							<p:outputLabel value="Senha"/>	
+							<p:password value="#{movimentoFinanceiroController.auditoriaFinanceiro.senha}" redisplay="true" />
+						</p:panelGrid>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="2">
+						<p:panelGrid columns="2">
+							<p:commandButton icon="ui-icon-check" value="Confirmar" actionListener="#{movimentoFinanceiroController.excluirLancamentoFinanceiro}" 
+							update=":msgGlobal :formLancamentoFinanceiro:tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro"/>
+							<p:commandButton icon="ui-icon-closethick" value="Cancelar" oncomplete="PF('dialog_justificativa').hide();"/>
+						</p:panelGrid>
+					</p:panelGrid>
+				</h:form>
+			
+			</p:dialog>
 
 	</ui:define>
 </ui:composition>

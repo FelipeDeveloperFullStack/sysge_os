@@ -4,17 +4,14 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.Query;
 
-import org.jfree.date.DateUtilities;
-import org.primefaces.util.DateUtils;
-
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
+import br.com.sysge.model.financ.AuditoriaFinanceiro;
 import br.com.sysge.model.financ.LancamentoFinanceiro;
 import br.com.sysge.model.financ.MovimentoFinanceiro;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
@@ -25,12 +22,14 @@ import br.com.sysge.model.financ.type.TipoLancamento;
 import br.com.sysge.model.financ.type.TipoLancamentoFinanceiro;
 import br.com.sysge.model.gestserv.OrdemServico;
 import br.com.sysge.util.DateUtil;
+import br.com.sysge.util.UsuarioSession;
 
 public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinanceiro, Long>{
 	
 	private static final long serialVersionUID = 3150386706435445711L;
 	
 	private static final String A_VISTA = "À Vista";
+	
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@Inject
@@ -39,6 +38,11 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	@SuppressWarnings("unused")
 	@Inject
 	private ParcelasPagamentoOsService parcelasPagamentoOsService;
+	
+	@Inject
+	private AuditoriaFinanceiroService auditoriaFinanceiroService;
+	
+	private AuditoriaFinanceiro auditoriaFinanceiro;
 	
 	private MovimentoFinanceiro movimentoFinanceiro;
 	
@@ -321,6 +325,23 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		lancamentoFinanceiro.consistirValor(lancamentoFinanceiro);
 	}
 	
+	public void setarAuditoriaFinanceiro(AuditoriaFinanceiro auditoriaFinanceiro){
+		this.auditoriaFinanceiro = auditoriaFinanceiro;
+	}
+	
+	public void consistirAuditoria(){
+		auditoriaFinanceiroService.consistir(this.auditoriaFinanceiro);
+	}
+	
+	private void logAuditoria(){
+			this.auditoriaFinanceiro.setMensagem("O usuário "+UsuarioSession.getSessionUsuario().getNomeUsuario()+" realizou a exclusão do título financeiro "
+					+ this.auditoriaFinanceiro.getTituloFinanceiro()+" no valor de R$: "+this.auditoriaFinanceiro.getValor()+" na categoria "
+					+ this.auditoriaFinanceiro.getCategoria()+" no dia "
+					+ new SimpleDateFormat("dd/MM/yyyy").format(this.auditoriaFinanceiro.getData())+" "
+							+ "as "+new SimpleDateFormat("HH:mm:ss").format(this.auditoriaFinanceiro.getHora()));
+			auditoriaFinanceiroService.save(this.auditoriaFinanceiro);
+	}
+	
 	public void excluirLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
 		if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.RECEITA){
 			
@@ -359,7 +380,10 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		super.save(lancamentoFinanceiro.getMovimentoFinanceiro());
 
 		lancamentoFinanceiroService.remove(lancamentoFinanceiro.getId());
+		
+		logAuditoria();
 	}
+	
 	
 	public MovimentoFinanceiro salvarMovimentoReceita(LancamentoFinanceiro lancamentoFinanceiro){
 		
