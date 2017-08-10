@@ -86,7 +86,7 @@
 						oncomplete="PF('dialog_dados_titulo').show();"
 						actionListener="#{movimentoFinanceiroController.setarDadosFinanceiro(mov)}"
 						update=":msgGlobal :visualizar_dados" />
-					<p:commandButton icon="ui-icon-trash" id="btnExcluir" update=":msgGlobal tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro" 
+					<p:commandButton icon="ui-icon-trash" id="btnExcluir" update=":msgGlobal tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro :form_dialog_justificativa" 
 					       rendered="#{movimentoFinanceiroController.isHabilitarBotao(mov)}" actionListener="#{movimentoFinanceiroController.excluirLancamentoFinanceiro(mov)}"/>
 					<p:tooltip value="Cliquei aqui para visualizar os dados financeiros do título!" for="btnVisualizar"
 						position="left" />
@@ -478,11 +478,11 @@
 		
 		<p:dialog widgetVar="dialog_justificativa" modal="true" appendTo="@(body)" minimizable="false" 
 					  resizable="false" closable="false" maximizable="false" header="Justificativa">
-				<h:form>
+				<h:form id="form_dialog_justificativa">
 					<p:panelGrid columns="2">
 						<p:panelGrid columns="1">
 							<p:outputLabel styleClass="texto_negrito" value="Informe abaixo uma justificativa para a exclusão do título financeiro."/>
-							<p:inputTextarea rows="8" cols="45" 
+							<p:inputTextarea rows="5" cols="60"  
 											 autoResize="false" 
 											 value="#{movimentoFinanceiroController.auditoriaFinanceiro.justificativa}"/>
 						</p:panelGrid>

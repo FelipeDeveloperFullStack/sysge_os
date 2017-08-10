@@ -84,6 +84,7 @@ public class LoginController implements Serializable {
 	private DefaultMenuItem menuItemFornecedor;
 	private DefaultMenuItem menuItemBackup;
 	private DefaultMenuItem menuItemFormaPagamento;
+	private DefaultMenuItem menuItemAuditoriaFinanceiro;
 	private DefaultMenuItem menuItemProduto;
 	
 	private DualListModel<PanelMenu> menus;
@@ -113,6 +114,7 @@ public class LoginController implements Serializable {
 	// Financeiro
 	private static final String PAGE_LANCAMENTO_FINANCEIRO = "/pages/financ/p_lancamento_financeiro.xhtml" + FACES_REDIRECT;
 	private static final String PAGE_CONDICAO_PAGAMENTO = "/pages/financ/p_condicao_pagamento.xhtml" + FACES_REDIRECT;
+	private static final String PAGE_AUDITORIA_FINANCEIRO = "/pages/financ/p_auditoriaFinanceiro.xhtml" + FACES_REDIRECT;
 
 	// Configuração
 	private static final String PAGE_USUARIO = "/pages/conf/p_usuario.xhtml" + FACES_REDIRECT;
@@ -174,6 +176,7 @@ public class LoginController implements Serializable {
 		menuItemFormaPagamento = null;
 		menuItemProduto = null;
 		menuItemAgenda = null;
+		menuItemAuditoriaFinanceiro = null;
 	}
 
 	public String autenticarLogin() {
@@ -304,6 +307,11 @@ public class LoginController implements Serializable {
 				menuItemFormaPagamento.setOutcome(PAGE_CONDICAO_PAGAMENTO);
 				menuItemFormaPagamento.setIcon(ICON_MENU);
 			}
+			if(menu.getMenu().equals(MenuSistema.AUDITORIA_FINANCEIRO.getMenu())){
+				menuItemAuditoriaFinanceiro = new DefaultMenuItem(MenuSistema.AUDITORIA_FINANCEIRO.getMenu());
+				menuItemAuditoriaFinanceiro.setOutcome(PAGE_AUDITORIA_FINANCEIRO);
+				menuItemAuditoriaFinanceiro.setIcon(ICON_MENU);
+			}
 			if (menu.getMenu().equals(MenuSistema.USUARIO.getMenu())) {
 				menuItemUsuario = new DefaultMenuItem(MenuSistema.USUARIO.getMenu());
 				menuItemUsuario.setOutcome(PAGE_USUARIO);
@@ -365,7 +373,7 @@ public class LoginController implements Serializable {
 			subMenuCadastroRH.addElement(menuItemFuncionario);
 		}
 
-		if (menuItemLancamentoCaixa != null || menuItemFormaPagamento != null) {
+		if (menuItemLancamentoCaixa != null || menuItemFormaPagamento != null || menuItemAuditoriaFinanceiro != null) {
 			menuFinanceiro = new DefaultSubMenu(MenuSistema.FINANCEIRO.getMenu());
 			menuModel.addElement(menuFinanceiro);
 			if(menuItemLancamentoCaixa != null){
@@ -375,6 +383,9 @@ public class LoginController implements Serializable {
 			}
 			if(menuItemFormaPagamento != null){
 				menuFinanceiro.addElement(menuItemFormaPagamento);
+			}
+			if(menuItemAuditoriaFinanceiro != null){
+				menuFinanceiro.addElement(menuItemAuditoriaFinanceiro);
 			}
 		}
 			

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<f:metadata>
+		<f:event listener="#{auditoriaFinanceiroController.listar}" type="preRenderView"/>
+	</f:metadata>	
+	
+	</h:head>
+	
+	<ui:composition template="/template/template.xhtml">
+	
+	
+		<ui:define name="conteudo">
+			<h:form id="formAuditoria">
+				<p:panel header="Auditoria">
+					<p:dataTable emptyMessage="Nenhum registro encontrado!" value="#{auditoriaFinanceiroController.auditorias}" var="a" paginatorPosition="bottom" paginator="true" rows="15">
+						<p:column>
+							<p:outputLabel value="#{a.mensagem}"/>
+						</p:column>
+						<p:column width="40">
+							<p:commandButton icon="ui-icon-search" actionListener="#{auditoriaFinanceiroController.setarAuditoria(a)}" update=":msgGlobal :form_detalhe"/>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+			
+				<p:dialog header="Detalhes" appendTo="@(body)" modal="true" widgetVar="detalhe_auditoria"
+						  minimizable="false" maximizable="false" resizable="false" position="top">
+					<h:form id="form_detalhe">
+					
+						<p:panelGrid columns="2">
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Usuário" styleClass="texto_negrito"/>
+								<p:outputLabel value="#{auditoriaFinanceiroController.auditoriaFinanceiro.usuario.nomeUsuario}"/>
+							</p:panelGrid>
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Funcionário" styleClass="texto_negrito"/>
+								<p:outputLabel value="#{auditoriaFinanceiroController.auditoriaFinanceiro.usuario.funcionario.nome}"/>
+							</p:panelGrid>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="2">
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Título Financeiro" styleClass="texto_negrito"/>
+								<p:outputLabel value="#{auditoriaFinanceiroController.auditoriaFinanceiro.tituloFinanceiro}"/>
+							</p:panelGrid>
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Categoria" styleClass="texto_negrito"/>
+								<p:outputLabel value="#{auditoriaFinanceiroController.auditoriaFinanceiro.categoria}"/>
+							</p:panelGrid>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="3">
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Valor" styleClass="texto_negrito"/>
+								<p:outputLabel value="#{auditoriaFinanceiroController.auditoriaFinanceiro.valor}">
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+								</p:outputLabel>
+							</p:panelGrid>
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Data" styleClass="texto_negrito"/>
+								<p:outputLabel value="#{auditoriaFinanceiroController.auditoriaFinanceiro.data}">
+									<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"
+									timeZone="GMT-2" type="both" />
+								</p:outputLabel>
+							</p:panelGrid>
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Hora" styleClass="texto_negrito"/>
+								<p:outputLabel value="#{auditoriaFinanceiroController.auditoriaFinanceiro.hora}">
+									<f:convertDateTime pattern="HH:mm:ss" locale="pt_BR"
+								timeZone="GMT-2" type="both" />
+								</p:outputLabel>
+							</p:panelGrid>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="2">
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Justificativa" styleClass="texto_negrito"/>
+								<p:inputTextarea value="#{auditoriaFinanceiroController.auditoriaFinanceiro.justificativa}" 
+								                 readonly="true" rows="5" cols="50"/>
+							</p:panelGrid>
+						</p:panelGrid>
+						
+					</h:form>
+				</p:dialog>
+		</ui:define>
+	</ui:composition>
+	
+</html>
