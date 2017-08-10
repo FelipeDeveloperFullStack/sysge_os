@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import net.sf.jasperreports.engine.JRException;
@@ -44,8 +45,6 @@ public class ReportFactory implements Serializable{
 	
 	private List<?> list;
 	
-	private PDFView pdfView;
-
 	public ReportFactory(String ReportName, Map<String, Object> params, TiposRelatorio tipoRelatorio, List<?> list) {
 		this.reportName = ReportName;
 		this.params = params;
@@ -144,13 +143,15 @@ public class ReportFactory implements Serializable{
 			inputStream = new ByteArrayInputStream(bytes);
 			inputStream.read();
 			
-			pdfView = new PDFView();
-			pdfView.gerar(inputStream, nomeArquivo);
-			return pdfView.getContent();
+			return gerar(inputStream, nomeArquivo);
 			
 		} catch (JRException | IOException e) {
 			throw new RuntimeException(e.getMessage());
 		}
+	}
+	
+	public StreamedContent gerar(InputStream arquivo, String nomeArquivo){
+		return new DefaultStreamedContent(arquivo, "application/pdf" ,nomeArquivo);
 	}
 
 	public void getReportStream() {

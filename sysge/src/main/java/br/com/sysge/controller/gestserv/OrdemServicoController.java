@@ -15,7 +15,6 @@ import javax.inject.Named;
 import org.primefaces.event.SelectEvent;
 
 import br.com.sysge.controller.sys.TemplateViewPage;
-import br.com.sysge.infraestrutura.relatorios.PDFView;
 import br.com.sysge.model.estoque.Produto;
 import br.com.sysge.model.financ.CondicaoPagamento;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
@@ -43,7 +42,6 @@ import br.com.sysge.service.global.ClienteService;
 import br.com.sysge.service.rh.FuncionarioService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
-/*import net.sf.jasperreports.engine.JRException;*/
 
 @Named
 @ViewScoped
@@ -56,8 +54,6 @@ public class OrdemServicoController implements Serializable {
 	private ProdutoOrdemServico produtoOrdemServico;
 
 	private OrdemServico ordemServico;
-	
-	private PDFView pdfView;
 	
 	private Long quantidadeAdicionada = 0L;
 	
@@ -140,7 +136,6 @@ public class OrdemServicoController implements Serializable {
 	@PostConstruct
 	public void init() {
 		novaOrdemServico();
-		pdfView = new PDFView();
 	}
 	
 	public void pesquisarCliente() {
@@ -637,8 +632,8 @@ public class OrdemServicoController implements Serializable {
 	
 	public void gerarNotaRecebimento(OrdemServico ordemServico){
 		try {
-			pdfView.setContent(ordemServicoService.gerarNotaRecebimento(ordemServico));
-			RequestContextUtil.execute("PF('pdfViewNotaRecebimento').show();");
+			ordemServicoService.gerarNotaRecebimento(ordemServico);
+			//RequestContextUtil.execute("PF('pdfViewNotaRecebimento').show();");
 		} catch (RuntimeException e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}finally {
@@ -854,14 +849,6 @@ public class OrdemServicoController implements Serializable {
 
 	public void setPesquisaCliente(String pesquisaCliente) {
 		this.pesquisaCliente = pesquisaCliente;
-	}
-
-	public PDFView getPdfView() {
-		return pdfView;
-	}
-
-	public void setPdfView(PDFView pdfView) {
-		this.pdfView = pdfView;
 	}
 
 }
