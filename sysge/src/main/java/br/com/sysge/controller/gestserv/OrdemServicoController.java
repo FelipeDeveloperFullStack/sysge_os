@@ -623,6 +623,7 @@ public class OrdemServicoController implements Serializable {
 	public void gerarComprovantePagamento(ParcelasPagamentoOs parcelasPagamentoOs){
 		try {
 			ordemServicoService.gerarComprovantePagamento(parcelasPagamentoOs);
+			RequestContextUtil.execute("PF('pdfComprovantePagamento').show();");
 		} catch (FileNotFoundException e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}finally {
@@ -633,7 +634,7 @@ public class OrdemServicoController implements Serializable {
 	public void gerarNotaRecebimento(OrdemServico ordemServico){
 		try {
 			ordemServicoService.gerarNotaRecebimento(ordemServico);
-			//RequestContextUtil.execute("PF('pdfViewNotaRecebimento').show();");
+			RequestContextUtil.execute("PF('pdfViewNotaRecebimento').show();");
 		} catch (RuntimeException e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}finally {
@@ -644,6 +645,7 @@ public class OrdemServicoController implements Serializable {
 	public void gerarOrdemServico(OrdemServico ordemServico){
 			try {
 				gerarOS(ordemServico);
+				RequestContextUtil.execute("PF('pdfViewOrdemServico').show();");
 			}finally {
 				ordemServico = new OrdemServico();
 			}

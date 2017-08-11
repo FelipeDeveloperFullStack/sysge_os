@@ -9,7 +9,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -136,14 +138,17 @@ public class ReportFactory implements Serializable{
 		}
 	}
 	
-	public StreamedContent gerarPDFView(String nomeArquivo){
+	public void gerarPDFView(String nomeArquivo){
 		
 		try {
 			byte[] bytes = JasperExportManager.exportReportToPdf(gerarJasperReport());
 			inputStream = new ByteArrayInputStream(bytes);
 			inputStream.read();
 			
-			return gerar(inputStream, nomeArquivo);
+			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+			session.setAttribute("documentoPDF", bytes);
+			
+			//return gerar(inputStream, nomeArquivo);
 			
 		} catch (JRException | IOException e) {
 			throw new RuntimeException(e.getMessage());

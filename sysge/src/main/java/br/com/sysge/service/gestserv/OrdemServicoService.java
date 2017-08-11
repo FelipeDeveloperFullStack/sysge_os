@@ -12,8 +12,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.primefaces.model.StreamedContent;
-
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.infraestrutura.decimal.ConverteNumeroExtensoReal;
 import br.com.sysge.infraestrutura.relatorios.ReportFactory;
@@ -202,10 +200,10 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	     
 	     
 	     ReportFactory reportFactory = new ReportFactory("r_comprovante_pagamento.jasper", params, TiposRelatorio.PDF);
-	     reportFactory.getReportStream();
+	     reportFactory.gerarPDFView("Comprovante de pagamento.pdf");
 	}
 	
-	public StreamedContent gerarNotaRecebimento(OrdemServico ordemServico){
+	public void gerarNotaRecebimento(OrdemServico ordemServico){
 		Map<String, Object> params = new HashMap<String, Object>();
 		
 		ordemServico.setCliente(clienteService.verificarTipoPessoa(ordemServico.getCliente()));
@@ -244,7 +242,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 				}
 		
 		ReportFactory reportFactory = new ReportFactory("r_nota_recebimento.jasper", params, TiposRelatorio.PDF);
-		return reportFactory.gerarPDFView("Nota de recebimento.pdf");
+		reportFactory.gerarPDFView("Nota de recebimento.pdf");
 	}
 	
 	public void gerarOrdemServico(OrdemServico ordemServico, 
@@ -295,12 +293,14 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		}
 		
 		ReportFactory reportFactory = new ReportFactory("r_ordem_servico.jasper", params, TiposRelatorio.PDF);
+		
+		//Envio de email
 		if(enviaEmail){
 			reportFactory.exportarPDF();
 			reportFactory.gerarImagemOS();
 			enviaEmail = false;
 		}else{
-			reportFactory.getReportStream();
+			reportFactory.gerarPDFView("Ordem de servico.pdf");
 		}
 	}
 	
@@ -316,7 +316,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		List<ItemOrdemServicoTO> tos = new ArrayList<ItemOrdemServicoTO>();
 		if(servicos.isEmpty()){
 			ItemOrdemServicoTO to = new ItemOrdemServicoTO();
-			to.setDescricao("Nenhum serviço informado!");
+			to.setDescricao("");
 			to.setDados("");
 			tos.add(to);
 		}else{
@@ -330,7 +330,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		
 		if(produtos.isEmpty()){
 			ItemOrdemServicoTO to = new ItemOrdemServicoTO();
-			to.setDescricao("Nenhum produto informado!");
+			to.setDescricao("");
 			to.setDados("");
 			tos.add(to);
 		}else{

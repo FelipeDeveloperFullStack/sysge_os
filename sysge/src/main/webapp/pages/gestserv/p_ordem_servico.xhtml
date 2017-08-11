@@ -34,14 +34,38 @@
 			}
 		</script>	
 	
-			<p:dialog widgetVar="pdfViewNotaRecebimento">
-				<h:form id="form_pdf_view">
+			<!-- Nova de recebimento -->
+			<p:dialog widgetVar="pdfViewNotaRecebimento" width="900" height="800" resizable="false" 
+			          minimizable="false" header="Nota de recebimento" position="top" modal="true" appendTo="@(body)">
+				<p:commandButton value="Fechar" oncomplete="PF('pdfViewNotaRecebimento').hide();" icon="ui-icon-closethick"/>
+				<h:form id="form_pdf_nota_recebimento_view">
 				   <h:panelGrid >
-				      <px:documentViewer  value="#{pDFView.content}" 
-				       height="900" width="900"/>
-				   	  <!-- <p:media value="#{ordemServicoController.content}" width="100%"
-                        height="300px" player="pdf">
-                      </p:media> -->	
+				   	   <p:media value="/PDF" width="900" height="800px" player="pdf"/>
+				   </h:panelGrid>
+				</h:form>
+				
+		    </p:dialog>
+		    
+		     
+			<!-- Ordem de serviço -->
+			<p:dialog widgetVar="pdfViewOrdemServico" width="900" height="800" resizable="false" 
+			          minimizable="false" header="Ordem de serviço" position="top" modal="true" appendTo="@(body)">
+				<p:commandButton value="Fechar" oncomplete="PF('pdfViewOrdemServico').hide();" icon="ui-icon-closethick"/>
+				<h:form id="form_pdf_ordem_servico_view">
+				   <h:panelGrid >
+				   	   <p:media value="/PDF" width="900" height="800px" player="pdf"/>
+				   </h:panelGrid>
+				</h:form>
+		    </p:dialog> 
+		    
+		    
+			<!-- Comprovante de pagamento -->
+			<p:dialog widgetVar="pdfComprovantePagamento" width="900" height="800" resizable="false" 
+			          minimizable="false" header="Comprovante de pagamento" position="top" modal="true" appendTo="@(body)">
+				<p:commandButton value="Fechar" oncomplete="PF('pdfComprovantePagamento').hide();" icon="ui-icon-closethick"/>
+				<h:form id="form_pdf_comprovante_pagamento_view">
+				   <h:panelGrid >
+				   	   <p:media value="/PDF" width="900" height="800px" player="pdf"/>
 				   </h:panelGrid>
 				</h:form>
 		    </p:dialog> 
@@ -141,12 +165,13 @@
 
 					<p:rowExpansion>
 						<p:commandButton id="btn_nota_recebimento" value="Imprimir nota de recebimento nº #{s.id}"
-							icon="ui-icon-print" actionListener="#{pDFView.gerarNotaRecebimento(s)}" update=":msgGlobal form_pdf_view" oncomplete="PF('pdfViewNotaRecebimento').show();"/>
+							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarNotaRecebimento(s)}" update=":msgGlobal form_pdf_nota_recebimento_view"/>
 						<p:commandButton id="btn_os" value="Imprimir ordem de serviço nº #{s.id}"
-							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarOrdemServico(s)}"/>
+							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarOrdemServico(s)}" update=":msgGlobal form_pdf_ordem_servico_view"/>
 					</p:rowExpansion>
 				</p:dataTable>
 			</p:panel>
+			
 
 			<p:blockUI block="tableServico" trigger="tableServico">
 			        Carregando! Aguarde...<br />
@@ -902,7 +927,7 @@
 									
 								<p:commandButton id="btn_comprovante" icon="ui-icon-print"
 									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}"
-									actionListener="#{ordemServicoController.gerarComprovantePagamento(p)}">
+									actionListener="#{ordemServicoController.gerarComprovantePagamento(p)}" update=":msgGlobal :form_pdf_comprovante_pagamento_view">
 								</p:commandButton>	
 
 								<p:tooltip for="btn_pago" position="left" value="Pago ?" />
