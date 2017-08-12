@@ -99,6 +99,9 @@
 	<parameter name="data_hora_saida" class="java.lang.String"/>
 	<parameter name="relatorio_tecnico" class="java.lang.String"/>
 	<parameter name="list_item_ordem_servico" class="java.util.List"/>
+	<parameter name="show_subreport" class="java.lang.Boolean"/>
+	<parameter name="nomeFantasiaUnidadeEmpresarial" class="java.lang.String"/>
+	<parameter name="atendente" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -112,10 +115,10 @@
 		</groupFooter>
 	</group>
 	<title>
-		<band height="486" splitType="Stretch">
+		<band height="311" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<rectangle>
-				<reportElement x="0" y="131" width="554" height="108" uuid="0585183e-3a33-4705-8e31-49062c2cc91d"/>
+				<reportElement x="0" y="131" width="555" height="108" uuid="0585183e-3a33-4705-8e31-49062c2cc91d"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Solid" lineColor="#B5B5B5"/>
 				</graphicElement>
@@ -156,7 +159,9 @@
 				</graphicElement>
 			</line>
 			<subreport>
-				<reportElement positionType="Float" x="0" y="264" width="555" height="36" uuid="79261ed8-f159-47f4-a579-98ad0aed5773"/>
+				<reportElement positionType="Float" x="0" y="264" width="555" height="36" uuid="79261ed8-f159-47f4-a579-98ad0aed5773">
+					<printWhenExpression><![CDATA[$P{show_subreport} == true]]></printWhenExpression>
+				</reportElement>
 				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{list_pagamentos})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["br/com/sysge/relatorios/sub_pagamento.jasper"]]></subreportExpression>
@@ -340,12 +345,21 @@
 			</textField>
 			<line>
 				<reportElement x="0" y="202" width="553" height="1" uuid="9d7af7b9-1900-4988-90e0-cb8f3c4fb05f"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#D1CDCD"/>
+				</graphicElement>
 			</line>
 			<line>
 				<reportElement x="0" y="215" width="553" height="1" uuid="172d067f-801b-4aaf-b0c0-003e196b3adc"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#D1CDCD"/>
+				</graphicElement>
 			</line>
 			<line>
 				<reportElement x="0" y="228" width="553" height="1" uuid="343f1509-d163-4f20-94e0-c1471e3aa7a8"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#D1CDCD"/>
+				</graphicElement>
 			</line>
 			<subreport>
 				<reportElement x="0" y="225" width="554" height="33" uuid="2f433685-37e4-4582-8b5e-3ef937d919cf"/>
@@ -353,6 +367,95 @@
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{list_item_ordem_servico})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["br/com/sysge/relatorios/sub_itens_ordem_servico.jasper"]]></subreportExpression>
 			</subreport>
+			<image vAlign="Middle">
+				<reportElement x="0" y="1" width="80" height="79" uuid="791f1b4c-765b-414a-949c-f9365f7722bd"/>
+				<imageExpression><![CDATA["br/com/sysge/relatorios/img/logo.jpeg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
+	<summary>
+		<band height="134">
+			<rectangle>
+				<reportElement x="0" y="39" width="555" height="30" uuid="a38cce24-bea8-48b1-8797-6cfca54a0860"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Solid" lineColor="#D1CDCD"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="-1" y="72" width="555" height="12" uuid="150ad2f2-e737-4328-89c2-0fb35ba43250">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Declaro estar recebendo materiais constantes nesta ordem de serviço exatamente como entreguei para orçamento.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="166" y="84" width="212" height="12" uuid="745faf45-b2bc-4e53-8b52-0109c318105e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Assinatura do cliente]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="167" y="115" width="212" height="1" uuid="40e910ff-08a5-4195-ac7e-f4de8240832a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="167" y="116" width="212" height="12" uuid="8d79e828-ca5d-40a6-92c6-08eca1fe8701">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeCliente}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="11" width="305" height="20" uuid="e7c34bc7-d9e0-4af9-82e2-c0e16d0ac143">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$P{atendente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="-10" width="151" height="20" uuid="69c0100c-f398-4583-b986-2a5742c0389e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Atendimento técnico feito por:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="305" y="-10" width="250" height="20" uuid="fa7c35ad-ada3-4035-ab61-05185d5d0f60">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[____________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="305" y="11" width="250" height="20" uuid="cd2d9a3f-f6c1-4b35-9e58-52b44c175797">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Assinatura do técnico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="40" width="48" height="8" uuid="d92dcad5-e979-4165-82e6-d689e78f6a82">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observação:]]></text>
+			</staticText>
+		</band>
+	</summary>
 </jasperReport>

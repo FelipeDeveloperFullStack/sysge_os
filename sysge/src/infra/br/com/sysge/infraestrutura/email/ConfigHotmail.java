@@ -66,17 +66,18 @@ public class ConfigHotmail implements Serializable{
             
             // 1º parte- html
             BodyPart messageBodyPart = new MimeBodyPart();
-            String htmlText = "<img src=\"cid:image\">";
-            messageBodyPart.setContent(mensagem+htmlText, "text/html");
+            //String htmlText = "<img src=\"cid:image\">";
+            messageBodyPart.setContent(mensagem, "text/html");
             multipart.addBodyPart(messageBodyPart);
             
             // 2º parte - a imagem
-            messageBodyPart = new MimeBodyPart();
+           /* messageBodyPart = new MimeBodyPart();
             DataSource dataSource = new FileDataSource("C:\\SYSGE_WEB\\DOCUMENTO.jpg");
             messageBodyPart.setDataHandler(new DataHandler(dataSource));
             messageBodyPart.setHeader("Content-ID","<image>");
             
-            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(messageBodyPart);*/
+            
             message.setContent(multipart);
             
             //Anexo

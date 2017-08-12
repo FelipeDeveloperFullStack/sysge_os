@@ -5,16 +5,41 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="dados" class="java.lang.String">
-		<fieldDescription><![CDATA[dados]]></fieldDescription>
-	</field>
 	<field name="descricao" class="java.lang.String">
 		<fieldDescription><![CDATA[descricao]]></fieldDescription>
 	</field>
+	<field name="valor" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valor]]></fieldDescription>
+	</field>
+	<field name="quantidade" class="java.lang.String">
+		<fieldDescription><![CDATA[quantidade]]></fieldDescription>
+	</field>
+	<field name="total" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[total]]></fieldDescription>
+	</field>
 	<columnHeader>
 		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
-				<reportElement x="-20" y="0" width="180" height="15" uuid="d89d06be-0da8-4d2f-bca3-29fba232199b">
+				<reportElement x="-20" y="0" width="40" height="15" uuid="d89d06be-0da8-4d2f-bca3-29fba232199b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quant	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="0" width="68" height="15" uuid="c094f8cc-e3d3-47b0-8e47-26d574195b67">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="110" height="15" uuid="1bf7e76d-665a-4d69-90b4-15131bae9156">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Bottom">
@@ -28,16 +53,16 @@
 		<band height="15" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement x="-20" y="0" width="280" height="15" uuid="100483b5-e48f-4f87-8678-d569b928f9ec">
+				<reportElement x="100" y="0" width="450" height="15" uuid="100483b5-e48f-4f87-8678-d569b928f9ec">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5" lineColor="#B8B8B8"/>
-					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#B8B8B8"/>
-					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#B8B8B8"/>
-					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#B8B8B8"/>
-					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#B8B8B8"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#B8B8B8"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#B8B8B8"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#B8B8B8"/>
 				</box>
 				<textElement>
 					<font size="9"/>
@@ -45,17 +70,55 @@
 				<textFieldExpression><![CDATA[" "+$F{descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="260" y="0" width="275" height="15" uuid="b53c86d7-3953-40cd-8af8-5406c3a2e31d">
+				<reportElement x="-20" y="0" width="42" height="15" uuid="254a6a9b-66df-49a9-a9c7-647a49402404">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5" lineColor="#B8B8B8"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#B8B8B8"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#B8B8B8"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#B8B8B8"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[" "+$F{dados}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" "+$F{quantidade}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;#,##0.00">
+				<reportElement x="22" y="0" width="78" height="15" uuid="fbd890ce-f64f-40a3-a50b-4425e12345ee">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5" lineColor="#B8B8B8"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#BFBFBF"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#B8B8B8"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#BFBFBF"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#B8B8B8"/>
+				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ $F{valor}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
+	<summary>
+		<band height="23">
+			<staticText>
+				<reportElement x="-20" y="0" width="30" height="20" uuid="b7eae99d-839a-4ae2-950b-30e706e968dc"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total: ]]></text>
+			</staticText>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="10" y="0" width="120" height="20" uuid="07325cef-e384-4e13-8e4d-7e86c3f59467"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
 </jasperReport>

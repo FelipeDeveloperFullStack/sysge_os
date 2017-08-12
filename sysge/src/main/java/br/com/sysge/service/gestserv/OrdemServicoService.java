@@ -1,6 +1,7 @@
 package br.com.sysge.service.gestserv;
 
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,8 +25,6 @@ import br.com.sysge.model.gestserv.ServicoOrdemServico;
 import br.com.sysge.model.global.UnidadeEmpresarial;
 import br.com.sysge.relatorios.to.ItemOrdemServicoTO;
 import br.com.sysge.relatorios.to.PagamentoTO;
-import br.com.sysge.relatorios.to.ProdutoTO;
-import br.com.sysge.relatorios.to.ServicoTO;
 import br.com.sysge.service.conf.ParametroService;
 import br.com.sysge.service.estoque.ProdutoService;
 import br.com.sysge.service.financ.ParcelasPagamentoOsService;
@@ -249,14 +248,17 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 								  List<ServicoOrdemServico> servicos, 
 								  List<ProdutoOrdemServico> produtos,
 								  List<ParcelasPagamentoOs> pagamentos){
+		
 		Map<String, Object> params = new HashMap<String, Object>();
+		
 		sdf = new SimpleDateFormat("dd/MM/yyyy - hh:mm");
+		
+		List<PagamentoTO> listaPagamentos = setarPagamentoTo(pagamentos);
+		
 		ordemServico.setCliente(clienteService.verificarTipoPessoa(ordemServico.getCliente()));
 		
-		params.put("list_servicos", setarServicoTo(servicos));
-		params.put("list_produtos", setarProdutoTo(produtos));
-		params.put("list_item_ordem_servico", setarItemOrdemServicoTo(servicos, produtos));
-		params.put("list_pagamentos", setarPagamentoTo(pagamentos));
+		params.put("list_item_ordem_servico", setarItemOrdemServicoTo(servicos, produtos, ordemServico.getTotal()));
+		params.put("list_pagamentos", listaPagamentos);
 		params.put("subTotalServico", ordemServico.getTotalServico());
 		params.put("subTotalProduto", ordemServico.getTotalProduto());
 		params.put("totalOS", ordemServico.getTotal());
@@ -272,6 +274,9 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		params.put(ENDERECO, ordemServico.getCliente().getLogradouro());
 		params.put(BAIRRO, ordemServico.getCliente().getBairro());
 		params.put("cidade", ordemServico.getCliente().getCidade());
+		params.put("atendente", ordemServico.getFuncionario().getNome());
+		
+		params.put("show_subreport", !listaPagamentos.isEmpty());
 		
 		params.put(MARCA, ordemServico.getMarca());
 		params.put(MODELO, ordemServico.getModelo());
@@ -285,6 +290,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		for(Parametro p : parametroService.findAll()){
 			UnidadeEmpresarial u = p.getUnidadeEmpresarialPadrao();
 			params.put("razao_social_u", u.getRazaoSocial());
+			params.put("nomeFantasiaUnidadeEmpresarial", u.getNomeFantasia());
 			params.put("endereco_u", u.getLogradouro() + " " + u.getComplemento());
 			params.put("cidade_u", u.getCidade());
 			params.put("bairro_u", u.getBairro());
@@ -297,7 +303,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		//Envio de email
 		if(enviaEmail){
 			reportFactory.exportarPDF();
-			reportFactory.gerarImagemOS();
+			//reportFactory.gerarImagemOS();
 			enviaEmail = false;
 		}else{
 			reportFactory.gerarPDFView("Ordem de servico.pdf");
@@ -312,80 +318,32 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		}
 	}
 	
-	private List<ItemOrdemServicoTO> setarItemOrdemServicoTo(List<ServicoOrdemServico> servicos, List<ProdutoOrdemServico> produtos){
+	private List<ItemOrdemServicoTO> setarItemOrdemServicoTo(List<ServicoOrdemServico> servicos, List<ProdutoOrdemServico> produtos, BigDecimal total){
 		List<ItemOrdemServicoTO> tos = new ArrayList<ItemOrdemServicoTO>();
-		if(servicos.isEmpty()){
-			ItemOrdemServicoTO to = new ItemOrdemServicoTO();
-			to.setDescricao("");
-			to.setDados("");
-			tos.add(to);
-		}else{
+		if(!servicos.isEmpty()){
 			for(ServicoOrdemServico s : servicos){
 				ItemOrdemServicoTO to = new ItemOrdemServicoTO();
 				to.setDescricao(s.getServico().getNome());
-				to.setDados("Valor: "+s.getSubTotal().toString());
+				to.setValor(s.getSubTotal());
+				to.setQuantidade("");
+				to.setTotal(total);
 				tos.add(to);
 			}
 		}
 		
-		if(produtos.isEmpty()){
-			ItemOrdemServicoTO to = new ItemOrdemServicoTO();
-			to.setDescricao("");
-			to.setDados("");
-			tos.add(to);
-		}else{
+		if(!produtos.isEmpty()){
 			for(ProdutoOrdemServico p : produtos){
 				ItemOrdemServicoTO to = new ItemOrdemServicoTO();
 				to.setDescricao(p.getProduto().getDescricaoProduto());
-				to.setDados("Qtde: "+p.getQuantidade().toString()+ "   Valor: "+p.getValor()+"   SubTotal: "+p.getSubTotal());
+				to.setQuantidade(p.getQuantidade().toString());
+				to.setValor(p.getSubTotal());
+				to.setTotal(total);
 				tos.add(to);
 			}
 		}
 		return tos;
 	}
 	
-	private List<ServicoTO> setarServicoTo(List<ServicoOrdemServico> servicos){
-		List<ServicoTO> tos = new ArrayList<ServicoTO>();
-		if(servicos.isEmpty()){
-			ServicoTO to = new ServicoTO();
-			to.setNome("Nenhum servico informado!");
-			to.setSubTotal(null);
-			tos.add(to);
-			return tos;
-		}else{
-			for(ServicoOrdemServico s : servicos){
-				ServicoTO to = new ServicoTO();
-				to.setNome(s.getServico().getNome());
-				to.setSubTotal(s.getSubTotal());
-				tos.add(to);
-			}
-			return tos;
-		}
-		
-	}
-	private List<ProdutoTO> setarProdutoTo(List<ProdutoOrdemServico> produtos){
-		List<ProdutoTO> tos = new ArrayList<ProdutoTO>();
-		if(produtos.isEmpty()){
-			ProdutoTO to = new ProdutoTO();
-			to.setDescricaoProduto("Nenhum produto informado!");
-			to.setQuantidade(null);
-			to.setValor(null);
-			to.setSubTotal(null);
-			tos.add(to);
-			return tos;
-		}else{
-			for(ProdutoOrdemServico p : produtos){
-				ProdutoTO to = new ProdutoTO();
-				to.setDescricaoProduto(p.getProduto().getDescricaoProduto());
-				to.setQuantidade(p.getQuantidade());
-				to.setValor(p.getValor());
-				to.setSubTotal(p.getSubTotal());
-				tos.add(to);
-			}
-			return tos;
-		}
-		
-	}
 	private List<PagamentoTO> setarPagamentoTo(List<ParcelasPagamentoOs> parcelas){
 		List<PagamentoTO> tos = new ArrayList<PagamentoTO>();
 		for(ParcelasPagamentoOs p : parcelas){
