@@ -23,6 +23,8 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 	
 	private static final String A_VISTA = "À Vista";
 	
+	private static final String CONDICAO_PAGAMENTO = "A condição de pagamento é obrigatório!";
+	
 	@Inject
 	private MovimentoFinanceiroController movimentoFinanceiroController;
 	
@@ -78,7 +80,7 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 	
 	public List<ParcelasPagamentoOs> gerarParcelas(OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelas, ParcelasPagamentoOs parcelasPagamentoOs){
 		if(ordemServico.getCondicaoPagamento() == null){
-			throw new RuntimeException("A condição de pagamento é obrigatório!");
+			throw new RuntimeException(CONDICAO_PAGAMENTO);
 		}
 		if(ordemServico.getTotal() == BigDecimal.ZERO){
 			throw new RuntimeException("Não é possível gerar as parcelas, pois o valor total está igual a R$: 0,00");
@@ -87,6 +89,10 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 			verificarLancamentoFinanceiroParcela(parcelas); //Voltar esse método quando arrumar o financeiro para a OS
 		
 			String condicaoPagamento = ordemServico.getCondicaoPagamento().getDescricao();
+			if(condicaoPagamento == null){
+				throw new RuntimeException(CONDICAO_PAGAMENTO);
+			}
+			
 			if(condicaoPagamento.equals(A_VISTA)){
 				
 				if(parcelas.isEmpty()){
