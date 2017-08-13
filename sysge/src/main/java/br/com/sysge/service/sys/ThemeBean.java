@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
-@ManagedBean
+
+@Named
 @SessionScoped
 public class ThemeBean implements Serializable{
 

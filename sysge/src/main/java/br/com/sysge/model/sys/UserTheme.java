@@ -1,6 +1,8 @@
 package br.com.sysge.model.sys;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.sysge.infraestrutura.dao.GenericDomain;
@@ -12,6 +14,7 @@ public class UserTheme extends GenericDomain{
 
 	private static final long serialVersionUID = 7494296711335569249L;
 	
+	@OneToOne(fetch = FetchType.EAGER)
 	private Usuario usuario;
 	
 	private String theme;

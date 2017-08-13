@@ -3,17 +3,17 @@ package br.com.sysge.service.sys;
 import java.io.Serializable;
 import java.util.Map;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 
-@ManagedBean
+@Named
 @SessionScoped
 public class GuessPreferences implements Serializable{
 
 	private static final long serialVersionUID = 2330138785773694068L;
 
-	private String theme = "hot-sneaks";
+	private String theme = "humanity";
 	
 	public String getTheme(){
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();

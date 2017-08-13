@@ -52,12 +52,28 @@
 								</p:column>
 								<p:ajax listener="#{themeBean.saveTheme}"/>
 							</p:themeSwitcher>
+							
+							<p:spacer width="40" height="20"/> 
+							
+							<p:outputLabel value="Último acesso:" />
+							<p:outputLabel value="#{loginController.usuario.ultimoAcesso}"
+								styleClass="texto_negrito">
+								<f:convertDateTime pattern="dd/MM HH:mm" locale="pt_BR"
+									timeZone="GMT-3" type="both" />	
+							</p:outputLabel>	
+							
+							<p:spacer width="40" height="20"/>
+							
+							<p:outputLabel value="Perfil:" />
+							<p:outputLabel
+								value="#{loginController.usuario.perfilAcesso.perfilAcesso}"
+								styleClass="texto_negrito" />
 						</h:form>
 					</f:facet>
 				</p:toolbar>
 			</p:layoutUnit>
 
-			<p:layoutUnit id="menu" position="west" size="250"
+		<!-- 	<p:layoutUnit id="menu" position="west" size="250"
 				header="MENU DE ACESSO" collapsible="true">
 				<h:form>
 
@@ -82,8 +98,14 @@
 
 					<p:panelMenu style="width:240px"
 						model="#{loginController.menuModel}" />
+						
+					
 				</h:form>
 
+			</p:layoutUnit> -->
+			
+			<p:layoutUnit position="north">
+					<p:menubar model="#{loginController.menuModel}"/>	
 			</p:layoutUnit>
 
 			<p:layoutUnit position="center">
