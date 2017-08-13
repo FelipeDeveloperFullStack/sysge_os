@@ -152,14 +152,8 @@
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Nº OS:]]></text>
 			</staticText>
-			<line>
-				<reportElement positionType="Float" x="1" y="260" width="556" height="1" uuid="c650bb9c-c86c-4d0b-8a7d-237aab24dfaa"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineStyle="Dotted" lineColor="#B3B3B3"/>
-				</graphicElement>
-			</line>
 			<subreport>
-				<reportElement positionType="Float" x="0" y="264" width="555" height="36" uuid="79261ed8-f159-47f4-a579-98ad0aed5773">
+				<reportElement positionType="Float" x="0" y="259" width="555" height="36" uuid="79261ed8-f159-47f4-a579-98ad0aed5773">
 					<printWhenExpression><![CDATA[$P{show_subreport} == true]]></printWhenExpression>
 				</reportElement>
 				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
@@ -374,15 +368,15 @@
 		</band>
 	</title>
 	<summary>
-		<band height="134">
+		<band height="108">
 			<rectangle>
-				<reportElement x="0" y="39" width="555" height="30" uuid="a38cce24-bea8-48b1-8797-6cfca54a0860"/>
+				<reportElement x="0" y="7" width="555" height="30" uuid="a38cce24-bea8-48b1-8797-6cfca54a0860"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Solid" lineColor="#D1CDCD"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement positionType="Float" x="-1" y="72" width="555" height="12" uuid="150ad2f2-e737-4328-89c2-0fb35ba43250">
+				<reportElement positionType="Float" x="-1" y="40" width="555" height="12" uuid="150ad2f2-e737-4328-89c2-0fb35ba43250">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement>
@@ -391,7 +385,7 @@
 				<text><![CDATA[Declaro estar recebendo materiais constantes nesta ordem de serviço exatamente como entreguei para orçamento.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="166" y="84" width="212" height="12" uuid="745faf45-b2bc-4e53-8b52-0109c318105e">
+				<reportElement positionType="Float" x="166" y="52" width="212" height="12" uuid="745faf45-b2bc-4e53-8b52-0109c318105e">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -400,12 +394,12 @@
 				<text><![CDATA[Assinatura do cliente]]></text>
 			</staticText>
 			<line>
-				<reportElement positionType="Float" x="167" y="115" width="212" height="1" uuid="40e910ff-08a5-4195-ac7e-f4de8240832a">
+				<reportElement positionType="Float" x="167" y="83" width="212" height="1" uuid="40e910ff-08a5-4195-ac7e-f4de8240832a">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="167" y="116" width="212" height="12" uuid="8d79e828-ca5d-40a6-92c6-08eca1fe8701">
+				<reportElement x="167" y="84" width="212" height="12" uuid="8d79e828-ca5d-40a6-92c6-08eca1fe8701">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -414,14 +408,14 @@
 				<textFieldExpression><![CDATA[$P{nomeCliente}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="11" width="305" height="20" uuid="e7c34bc7-d9e0-4af9-82e2-c0e16d0ac143">
+				<reportElement x="0" y="-11" width="305" height="20" uuid="e7c34bc7-d9e0-4af9-82e2-c0e16d0ac143">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Top"/>
 				<textFieldExpression><![CDATA[$P{atendente}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="-10" width="151" height="20" uuid="69c0100c-f398-4583-b986-2a5742c0389e">
+				<reportElement x="0" y="-32" width="151" height="20" uuid="69c0100c-f398-4583-b986-2a5742c0389e">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Bottom">
@@ -430,7 +424,7 @@
 				<text><![CDATA[Atendimento técnico feito por:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="305" y="-10" width="250" height="20" uuid="fa7c35ad-ada3-4035-ab61-05185d5d0f60">
+				<reportElement x="305" y="-32" width="250" height="20" uuid="fa7c35ad-ada3-4035-ab61-05185d5d0f60">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Bottom">
@@ -439,7 +433,7 @@
 				<text><![CDATA[____________________________________________]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="305" y="11" width="250" height="20" uuid="cd2d9a3f-f6c1-4b35-9e58-52b44c175797">
+				<reportElement x="305" y="-11" width="250" height="20" uuid="cd2d9a3f-f6c1-4b35-9e58-52b44c175797">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Top">
@@ -448,7 +442,7 @@
 				<text><![CDATA[Assinatura do técnico]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="40" width="48" height="8" uuid="d92dcad5-e979-4165-82e6-d689e78f6a82">
+				<reportElement x="1" y="8" width="48" height="8" uuid="d92dcad5-e979-4165-82e6-d689e78f6a82">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
