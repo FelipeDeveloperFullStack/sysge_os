@@ -337,6 +337,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 				to.setDescricao(p.getProduto().getDescricaoProduto());
 				to.setQuantidade(p.getQuantidade().toString());
 				to.setValor(p.getSubTotal());
+				to.setValorUnit(p.getValor());
 				to.setTotal(total);
 				tos.add(to);
 			}

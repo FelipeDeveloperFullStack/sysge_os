@@ -13,54 +13,78 @@
 
 	<ui:define name="conteudo">
 		<h:form id="formParametros">
-			<p:panel header="Parâmetros do sistema">
-			
-				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-        			<p:selectBooleanCheckbox value="#{parametrosController.parametro.permitirQtdeNegativaEstoque}"/>
-					<h:outputText value="Não permitir quantidade negativa em estoque" />
-				</h:panelGrid>
-				
-				<p:separator/>
-				
-				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-        			<p:selectBooleanCheckbox value="#{parametrosController.parametro.mostrarListagemEstoqueNegativoTelaInicial}"/>
-					<h:outputText value="Mostrar listagem de estoque mínimo na tela inicial" />
-				</h:panelGrid>
-				
-				<p:separator/>
-				
-				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-        			<p:selectBooleanCheckbox value="#{parametrosController.parametro.mostrarListagemOSTelaInicial}"/>
-					<h:outputText value="Mostrar listagem de O.S em 'Andamento' e 'Aberta' na tela inicial" />
-				</h:panelGrid>
-				
-				<p:separator/>
-				
-				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-        			<p:selectBooleanCheckbox value="#{parametrosController.parametro.mostrarContaPagarReceber}"/>
-					<h:outputText value="Mostrar contas a pagar e contas a receber na tela inicial" />
-				</h:panelGrid>
-				
-				<p:separator/>
-				
-				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-        			<p:outputLabel value="Empresa padrão"/>
-					<p:selectOneMenu converter="omnifaces.SelectItemsConverter"
-									value="#{parametrosController.parametro.unidadeEmpresarialPadrao}">
-									<f:selectItems var="unid"
-										value="#{parametrosController.unidadesEmpresariais}"
-										itemLabel="#{unid.razaoSocial}" itemValue="#{unid}" />
-					</p:selectOneMenu>
-				</h:panelGrid>
-				
-				<p:separator/>
-				
-				<h:panelGrid>
-					<p:commandButton value="Salvar" icon="ui-icon-disk" 
-									 actionListener="#{parametrosController.salvar}"
-									 update=":msgGlobal"/>
-				</h:panelGrid>
-			</p:panel>
+			<p:tabView>
+				<p:tab title="Parâmetros do sistema">
+					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+						<p:selectBooleanCheckbox
+							value="#{parametrosController.parametro.permitirQtdeNegativaEstoque}" />
+						<h:outputText value="Não permitir quantidade negativa em estoque" />
+					</h:panelGrid>
+
+					<p:separator />
+
+					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+						<p:selectBooleanCheckbox
+							value="#{parametrosController.parametro.mostrarListagemEstoqueNegativoTelaInicial}" />
+						<h:outputText
+							value="Mostrar listagem de estoque mínimo na tela inicial" />
+					</h:panelGrid>
+
+					<p:separator />
+
+					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+						<p:selectBooleanCheckbox
+							value="#{parametrosController.parametro.mostrarListagemOSTelaInicial}" />
+						<h:outputText
+							value="Mostrar listagem de O.S em 'Andamento' e 'Aberta' na tela inicial" />
+					</h:panelGrid>
+
+					<p:separator />
+
+					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+						<p:selectBooleanCheckbox
+							value="#{parametrosController.parametro.mostrarContaPagarReceber}" />
+						<h:outputText
+							value="Mostrar contas a pagar e contas a receber na tela inicial" />
+					</h:panelGrid>
+
+					<p:separator />
+
+					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+						<p:outputLabel value="Empresa padrão" />
+						<p:selectOneMenu converter="omnifaces.SelectItemsConverter"
+							value="#{parametrosController.parametro.unidadeEmpresarialPadrao}">
+							<f:selectItems var="unid"
+								value="#{parametrosController.unidadesEmpresariais}"
+								itemLabel="#{unid.razaoSocial}" itemValue="#{unid}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+
+					<p:separator />
+					
+					<h:panelGrid columns="2">
+						<p:outputLabel value="Tema"/>	
+					    <p:themeSwitcher id="advanced" style="width:165px" effect="fade"
+								value="#{guessPreferences.theme}">
+								<f:selectItem itemLabel="Escolha um tema" itemValue="" />
+								<f:selectItems value="#{themeBean.themes}" actionListener=""/>
+								<p:column>
+									<h:outputText styleClass="ui-theme ui-theme-"
+										style="display-block" />
+								</p:column>
+								<p:ajax listener="#{themeBean.saveTheme}"/>
+							</p:themeSwitcher>
+					</h:panelGrid>
+					
+					<p:separator />
+
+					<h:panelGrid>
+						<p:commandButton value="Salvar" icon="ui-icon-disk"
+							actionListener="#{parametrosController.salvar}"
+							update=":msgGlobal" />
+					</h:panelGrid>
+				</p:tab>
+			</p:tabView>
 		</h:form>
 	</ui:define>
 </ui:composition>

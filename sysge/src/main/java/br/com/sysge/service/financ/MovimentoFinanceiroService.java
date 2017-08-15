@@ -535,13 +535,10 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	
 	public boolean isHabilitarBotao(LancamentoFinanceiro lancamentoFinanceiro){
 		if(lancamentoFinanceiro.getCategoriaLancamentoReceita() == CategoriaLancamentoReceita.ORDEM_SERVICO){
-			if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PENDENTE){
-				return true;
-			}
+			return false;
 		}else{
 			return true;
 		}
-		return false;
 	}
 
 }

@@ -13,6 +13,8 @@ public class ItemOrdemServicoTO implements Serializable{
 	
 	private BigDecimal valor;
 	
+	private BigDecimal valorUnit;
+	
 	private BigDecimal total;
 
 	public String getDescricao() {
@@ -47,7 +49,12 @@ public class ItemOrdemServicoTO implements Serializable{
 		this.total = total;
 	}
 
-	
-	
+	public BigDecimal getValorUnit() {
+		return valorUnit;
+	}
+
+	public void setValorUnit(BigDecimal valorUnit) {
+		this.valorUnit = valorUnit;
+	}
 
 }
