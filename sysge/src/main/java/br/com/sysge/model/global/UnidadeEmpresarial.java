@@ -31,6 +31,8 @@ public class UnidadeEmpresarial extends GenericDomain{
 	
 	private String celular2;
 	
+	private String celular3;
+	
 	private String logradouro;
 	
 	private String CEP;
@@ -195,6 +197,14 @@ public class UnidadeEmpresarial extends GenericDomain{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getCelular3() {
+		return celular3;
+	}
+
+	public void setCelular3(String celular3) {
+		this.celular3 = celular3;
 	}
 	
 	

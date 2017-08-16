@@ -37,7 +37,7 @@
 
 			<p:panelGrid columns="2">
 				<p:commandLink value="Esqueceu a senha? Cliquei aqui"
-					icon="ui-icon-circle-check" />
+					icon="ui-icon-circle-check" oncomplete="PF('dialog_recuperacao_senha').show();"/>
 			</p:panelGrid>
 
 			<p:blockUI block="formDialog" trigger="btnEntrar">
@@ -45,6 +45,32 @@
 				<p:graphicImage library="img" name="loading.gif" />
 			</p:blockUI>
 		</h:form>
+	</p:dialog>
+	
+	<p:dialog appendTo="@(body)" modal="true" 
+			  closable="true" resizable="false" draggable="false" 
+			  header="Recuperação de senha" widgetVar="dialog_recuperacao_senha">
+		<h:form id="form_recuperacao_senha">
+		
+			<h:panelGrid columns="2">
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Funcionários"/>
+					<p:selectOneMenu value="#{loginController.funcionario}" converter="omnifaces.SelectItemsConverter" >
+						<f:selectItems var="f" value="#{loginController.funcionarios}" itemLabel="#{f.nome}" itemValue="#{f}"/>
+					</p:selectOneMenu>		
+				</h:panelGrid>			
+			</h:panelGrid>
+		
+			<h:panelGrid columns="2">
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Gerar senha aleatória"/>
+					<p:commandButton value="Gerar" icon="ui-icon-unlocked" actionListener="#{loginController.gerarSenhaAleatoria}" update=":msgGlobal form_recuperacao_senha"/>
+					<h:outputLabel value="Anote esse senha: "/>
+					<h:outputLabel value="#{loginController.senhaAleatoria}" styleClass="texto_negrito" style="color: red;"/>
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:form>
+	
 	</p:dialog>
 
 	<p:dialog appendTo="@(body)" modal="true" 

@@ -25,7 +25,6 @@ public class Servico extends GenericDomain {
 	@DecimalMin(value = "0", message = "O valor mínimo é zero!")
 	private BigDecimal valor;
 	
-	private String descricao;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "serv_situacao")
@@ -54,15 +53,6 @@ public class Servico extends GenericDomain {
 	public void setSituacao(Situacao situacao) {
 		this.situacao = situacao;
 	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-	
 	
 
 }

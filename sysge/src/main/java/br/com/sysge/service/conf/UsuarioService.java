@@ -2,6 +2,7 @@ package br.com.sysge.service.conf;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.conf.Usuario;
+import br.com.sysge.model.rh.Funcionario;
 import br.com.sysge.model.type.Situacao;
 import br.com.sysge.service.rh.FuncionarioService;
 
@@ -130,4 +132,30 @@ public class UsuarioService extends GenericDaoImpl<Usuario, Long>{
 		}
 	}
 	
+	public String gerarSenhaAleatoria(Funcionario funcionario){
+		Random random = new Random();
+		StringBuffer sb = new StringBuffer();
+		
+		char[] letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+		
+		long novaSenha = random.nextInt(10000) + 1;
+		
+	    for (int i = 0; i < 3; i++) {
+	        int ch = random.nextInt (letras.length);
+	        sb.append (letras [ch]);
+	    }
+	    
+	    String senhaAleatoria = sb.toString() + novaSenha;
+	    verificarFuncionarioEUsuario(funcionario, senhaAleatoria);
+	    return senhaAleatoria;
+	}
+	
+	private void verificarFuncionarioEUsuario(Funcionario funcionario, String novaSenha){
+		for(Usuario usuario : super.findBySituation(Situacao.ATIVO)){
+			if(usuario.getFuncionario().getId() == funcionario.getId()){
+				usuario.setSenhaUsuario(novaSenha);
+				super.save(usuario);
+			}
+		}
+	}
 }

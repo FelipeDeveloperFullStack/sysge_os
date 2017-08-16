@@ -158,6 +158,8 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			if(ordemServico.getNumero() == null){
 			throw new RuntimeException("Nenhuma ordem de servico de status '"+ordemServico.getStatusOS().getStatusOS()+"' encontrada, "
 						+ "verifique e tente novamente!");
+			}else if(ordemServico.getNumero() == 0){
+				listaOS = super.findByStatusOs(ordemServico.getStatusOS());
 			}else{
 				throw new RuntimeException("Nenhuma ordem de servico de nº "
 						+ ""+ordemServico.getNumero()+ " "

@@ -86,7 +86,7 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 			throw new RuntimeException("Não é possível gerar as parcelas, pois o valor total está igual a R$: 0,00");
 		}
 
-			verificarLancamentoFinanceiroParcela(parcelas); //Voltar esse método quando arrumar o financeiro para a OS
+			//verificarLancamentoFinanceiroParcela(parcelas); //Voltar esse método quando arrumar o financeiro para a OS
 		
 			String condicaoPagamento = ordemServico.getCondicaoPagamento().getDescricao();
 			if(condicaoPagamento == null){

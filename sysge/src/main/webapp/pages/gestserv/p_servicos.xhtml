@@ -20,7 +20,6 @@
 						<f:selectItems var="s" value="#{servicoController.situacoes}" itemLabel="#{s.situacao}" itemValue="#{s}"/>
 					</p:selectOneMenu>
 					<p:commandButton id="btnPesquisarServico" value="Pesquisar" icon="ui-icon-search" update="formGeralServico" actionListener="#{servicoController.pesquisar}"/>
-					<p:commandButton value="Imprimir" icon="ui-icon-print"/>
 					<p:tooltip value="Digite o nome do serviço" 
 							   for="txtServicoPesquisa" position="bottom"/>
 					<p:focus context="panelPesquisa"/>
@@ -104,16 +103,6 @@
 							</p:selectOneMenu>
 						</h:panelGrid>
 						
-						<h:panelGrid columns="2">
-							<h:panelGrid columns="1">
-								<p:outputLabel value="Descrição (Opcional)"/>
-								<p:inputTextarea rows="8" cols="45" counter="display" maxlength="200" 
-											 counterTemplate="{0} caracteres restantes." autoResize="false" 
-											 value="#{servicoController.servico.descricao}"/>
-	   							<h:outputText id="display" />
-							</h:panelGrid>
-						</h:panelGrid>
-					
 						<h:panelGrid id="panelBotoesEditarServico" columns="2">
 							<h:panelGrid columns="2">
 								<p:commandButton id="btnEditarServico" value="Salvar" icon="ui-icon-check" 
@@ -146,16 +135,6 @@
 							<p:outputLabel value="Valor"/>
 							<p:inputNumber value="#{servicoController.servico.valor}" symbol="R$ "
 										   decimalSeparator="," thousandSeparator="."/>
-						</h:panelGrid>
-						
-						<h:panelGrid columns="2">
-							<h:panelGrid columns="1">
-								<p:outputLabel value="Descrição"/>
-								<p:inputTextarea rows="8" cols="45" counter="display" maxlength="200" 
-											 counterTemplate="{0} caracteres restantes." autoResize="false" 
-											 placeholder="(Opcional)" value="#{servicoController.servico.descricao}"/>
-	   							<h:outputText id="display" />
-							</h:panelGrid>
 						</h:panelGrid>
 					
 						<h:panelGrid id="panelBotoesNovoServico" columns="2">

@@ -23,7 +23,6 @@
 					</p:selectOneMenu>
 					<p:commandButton id="btnPesquisarFun" value="Pesquisar" icon="ui-icon-search"
 						update="tablePerfilfuncionario" actionListener="#{funcionarioController.pesquisar}"/>
-					<p:commandButton value="Imprimir" icon="ui-icon-print" />
 					<p:tooltip
 						value="Digite um funcionário ou informe * para pesquisar todos!"
 						for="txtFuncionarioPesquisa" position="bottom" />
@@ -206,13 +205,6 @@
 								</p:selectOneMenu>
 							</h:panelGrid>
 
-							<h:panelGrid columns="1">
-								<p:outputLabel value="Código IBGE" />
-								<p:inputText
-									value="#{funcionarioController.funcionario.codigoIBGE}"
-									style="width: 100px;" />
-							</h:panelGrid>
-
 						</h:panelGrid>
 
 						<p:blockUI block="tabEndereco" trigger="button1">
@@ -355,13 +347,6 @@
 										value="#{funcionarioController.unidadesFederativa}"
 										itemLabel="#{uf.unidadeFederativa}" itemValue="#{uf}" />
 								</p:selectOneMenu>
-							</h:panelGrid>
-
-							<h:panelGrid columns="1">
-								<p:outputLabel value="Código IBGE" />
-								<p:inputText
-									value="#{funcionarioController.funcionario.codigoIBGE}"
-									style="width: 100px;" />
 							</h:panelGrid>
 
 						</h:panelGrid>

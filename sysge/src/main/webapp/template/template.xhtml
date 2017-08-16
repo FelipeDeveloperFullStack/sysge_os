@@ -11,6 +11,8 @@
 	<h:outputStylesheet library="css" name="template.css" />
 	<h:outputStylesheet library="css" name="allstyle.css" />
 	<h:outputScript library="js" name="script.js" />
+	<h:outputLink hreflang="" rel="icon" type="image/ico"/>
+	<link rel="icon" href="cloudicon32.ico" type="image/ico" />
 
 </h:head>
 <h:body>
@@ -26,18 +28,7 @@
 								value="Olá! #{loginController.usuario.funcionario.nome}"
 								styleClass="facet-outputLabel-menubar" />
 							<p:commandButton value="Sair do sistema" icon="ui-icon-extlink"
-								action="#{loginController.logoutSistema}">
-								<p:confirm header="Atenção"
-									message="Deseja realmente sair do sistema?"
-									icon="ui-icon-alert" />
-							</p:commandButton>
-							<p:confirmDialog global="true" showEffect="clip"
-								hideEffect="fade">
-								<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"
-									icon="ui-icon-check" />
-								<p:commandButton value="Não" type="button"
-									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-							</p:confirmDialog>
+								action="#{loginController.logoutSistema}"/>
 						</h:form>
 					</f:facet>
 				</p:toolbar>

@@ -35,7 +35,7 @@
 		</script>	
 	
 			<!-- Nova de recebimento -->
-			<p:dialog widgetVar="pdfViewNotaRecebimento" width="900" height="800" resizable="false" 
+			<p:dialog widgetVar="pdfViewNotaRecebimento" width="950" height="650" resizable="false" 
 			          minimizable="false" header="Nota de recebimento" position="top" modal="true" appendTo="@(body)">
 				<p:commandButton value="Fechar" oncomplete="PF('pdfViewNotaRecebimento').hide();" icon="ui-icon-closethick"/>
 				<h:form id="form_pdf_nota_recebimento_view">
@@ -48,7 +48,7 @@
 		    
 		     
 			<!-- Ordem de serviço -->
-			<p:dialog widgetVar="pdfViewOrdemServico" width="900" height="800" resizable="false" 
+			<p:dialog widgetVar="pdfViewOrdemServico" width="950" height="650" resizable="false" 
 			          minimizable="false" header="Ordem de serviço" position="top" modal="true" appendTo="@(body)">
 				<p:commandButton value="Fechar" oncomplete="PF('pdfViewOrdemServico').hide();" icon="ui-icon-closethick"/>
 				<h:form id="form_pdf_ordem_servico_view">
@@ -60,7 +60,7 @@
 		    
 		    
 			<!-- Comprovante de pagamento -->
-			<p:dialog widgetVar="pdfComprovantePagamento" width="900" height="800" resizable="false" 
+			<p:dialog widgetVar="pdfComprovantePagamento" width="950" height="650" resizable="false" 
 			          minimizable="false" header="Comprovante de pagamento" position="top" modal="true" appendTo="@(body)">
 				<p:commandButton value="Fechar" oncomplete="PF('pdfComprovantePagamento').hide();" icon="ui-icon-closethick"/>
 				<h:form id="form_pdf_comprovante_pagamento_view">
@@ -664,7 +664,7 @@
 								<p:commandButton icon="ui-icon-close"
 									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}"
 									actionListener="#{ordemServicoController.removerServico(s)}"
-									update="tableServico :formEditarOrdemServico:tabViewEditarOS:panel_2_pagamento">
+									update="tableServico :formEditarOrdemServico:tabViewEditarOS:panel_2_pagamento :msgGlobal">
 
 									<p:confirm header="Confirmação"
 										message="Deseja realmente excluir esse serviço? '#{s.servico.nome}'"
@@ -760,7 +760,7 @@
 								<p:commandButton id="btnExcluirProduto" icon="ui-icon-close"
 									disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}"
 									actionListener="#{ordemServicoController.removerProduto(p)}"
-									update="tableProduto :formEditarOrdemServico:tabViewEditarOS:panel_2_pagamento">
+									update="tableProduto :formEditarOrdemServico:tabViewEditarOS:panel_2_pagamento :msgGlobal">
 
 									<p:confirm header="Confirmação"
 										message="Deseja realmente excluir esse produto '#{p.produto.descricaoProduto}'"

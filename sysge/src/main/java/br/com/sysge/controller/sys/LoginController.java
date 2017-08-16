@@ -54,6 +54,8 @@ public class LoginController implements Serializable {
 	
 	private Usuario usuarioInicial;
 	
+	private String senhaAleatoria;
+	
 	private MenuModel menuModel;
 	private LocalDateTime dataUltimoAcesso = null;
 
@@ -177,6 +179,10 @@ public class LoginController implements Serializable {
 		menuItemProduto = null;
 		menuItemAgenda = null;
 		menuItemAuditoriaFinanceiro = null;
+	}
+	
+	public void gerarSenhaAleatoria(){
+		senhaAleatoria = usuarioService.gerarSenhaAleatoria(funcionario);
 	}
 
 	public String autenticarLogin() {
@@ -549,6 +555,14 @@ public class LoginController implements Serializable {
 		setarDataUltimoAcessoInicialUsuario(usuario);
 		iniciarSessaoUsuario(usuario);
 		return PAGE_DASHBOARD + FACES_REDIRECT;
+	}
+
+	public String getSenhaAleatoria() {
+		return senhaAleatoria;
+	}
+
+	public void setSenhaAleatoria(String senhaAleatoria) {
+		this.senhaAleatoria = senhaAleatoria;
 	}
 
 	

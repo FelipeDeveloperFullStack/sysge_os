@@ -566,58 +566,71 @@ public class OrdemServicoController implements Serializable {
 	}
 	
 	public void removerServico(ServicoOrdemServico servicoOrdemServico){
-		if(servicoOrdemServico.getId() == null){
-			for(int i = 0; i < this.listaServicos.size(); i++){
-				if(this.listaServicos.get(i).getServico().getNome().equals(servicoOrdemServico.getServico().getNome())){
-					this.listaServicos.remove(i);
-					ordemServico.setTotalServico(ordemServico.getTotalServico().subtract(servicoOrdemServico.getSubTotal()));
-					ordemServico.setTotal(BigDecimal.ZERO);
-					ordemServico.setTotal(ordemServico.getTotalServico().add(ordemServico.getTotalProduto()));
-				}
-			}
+		
+		if(getVerificarSeExistePagamentoRealizado()){
+			FacesUtil.mensagemWarn("Não é possível excluir o serviço, "
+					+ "pois já existe uma parcela recebida na ordem de serviço!!");
 		}else{
-			
-			this.listaServicos = servicoOrdemServicoService.removerServicoOSPeloID(listaServicos, servicoOrdemServico);	
-			
-			if(!servicoOrdemServicoService.verificarSeExisteIdNull(listaServicos)){
-				this.listaServicos = ordemServicoService.procurarServicosOS(ordemServico.getId());
+			if(servicoOrdemServico.getId() == null){
+				for(int i = 0; i < this.listaServicos.size(); i++){
+					if(this.listaServicos.get(i).getServico().getNome().equals(servicoOrdemServico.getServico().getNome())){
+						this.listaServicos.remove(i);
+						ordemServico.setTotalServico(ordemServico.getTotalServico().subtract(servicoOrdemServico.getSubTotal()));
+						ordemServico.setTotal(BigDecimal.ZERO);
+						ordemServico.setTotal(ordemServico.getTotalServico().add(ordemServico.getTotalProduto()));
+					}
+				}
+			}else{
+				
+				this.listaServicos = servicoOrdemServicoService.removerServicoOSPeloID(listaServicos, servicoOrdemServico);	
+				
+				if(!servicoOrdemServicoService.verificarSeExisteIdNull(listaServicos)){
+					this.listaServicos = ordemServicoService.procurarServicosOS(ordemServico.getId());
+				}
+				
+				ordemServico.setTotalServico(ordemServico.getTotalServico().subtract(servicoOrdemServico.getSubTotal()));
+				ordemServico.setTotal(BigDecimal.ZERO);
+				ordemServico.setTotal(ordemServico.getTotalServico().add(ordemServico.getTotalProduto()));
+				ordemServicoService.salvar(ordemServico);
 			}
-			
-			ordemServico.setTotalServico(ordemServico.getTotalServico().subtract(servicoOrdemServico.getSubTotal()));
-			ordemServico.setTotal(BigDecimal.ZERO);
-			ordemServico.setTotal(ordemServico.getTotalServico().add(ordemServico.getTotalProduto()));
-			ordemServicoService.salvar(ordemServico);
 		}
+		
 	}
 	
 	public void removerProduto(ProdutoOrdemServico produtoOrdemServico){
 		
-		if(produtoOrdemServico.getId() == null){
-			for(int i = 0; i < listaProdutos.size(); i++){
-				if(this.listaProdutos.get(i).getProduto().getDescricaoProduto().trim().equals(produtoOrdemServico.getProduto().getDescricaoProduto().trim())){
-					this.listaProdutos.remove(i);
-					ordemServico.setTotalProduto(ordemServico.getTotalProduto().subtract(produtoOrdemServico.getSubTotal()));
-					ordemServico.setTotal(BigDecimal.ZERO);
-					ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
-				}
-			}
+		if(getVerificarSeExistePagamentoRealizado()){
+			FacesUtil.mensagemWarn("Não é possível excluir o produto, "
+					+ "pois já existe uma parcela recebida na ordem de serviço!!");
 		}else{
-			
-			for(int i = 0; i < listaProdutos.size(); i++){
-				if(this.listaProdutos.get(i).getProduto().getDescricaoProduto().trim().equals(produtoOrdemServico.getProduto().getDescricaoProduto().trim())){
-					produtoOrdemServicoService.remove(produtoOrdemServico.getId());
-					this.listaProdutos.remove(i);
+			if(produtoOrdemServico.getId() == null){
+				for(int i = 0; i < listaProdutos.size(); i++){
+					if(this.listaProdutos.get(i).getProduto().getDescricaoProduto().trim().equals(produtoOrdemServico.getProduto().getDescricaoProduto().trim())){
+						this.listaProdutos.remove(i);
+						ordemServico.setTotalProduto(ordemServico.getTotalProduto().subtract(produtoOrdemServico.getSubTotal()));
+						ordemServico.setTotal(BigDecimal.ZERO);
+						ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
+					}
 				}
-			}	
-			
-			produtoOrdemServico.getProduto().setQuantidadeEstoque(produtoOrdemServico.getProduto().getQuantidadeEstoque() + produtoOrdemServico.getQuantidade());
-			produtoService.salvar(produtoOrdemServico.getProduto());
-			
-			ordemServico.setTotalProduto(ordemServico.getTotalProduto().subtract(produtoOrdemServico.getSubTotal()));
-			ordemServico.setTotal(BigDecimal.ZERO);
-			ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
-			ordemServicoService.salvar(ordemServico);
+			}else{
+				
+				for(int i = 0; i < listaProdutos.size(); i++){
+					if(this.listaProdutos.get(i).getProduto().getDescricaoProduto().trim().equals(produtoOrdemServico.getProduto().getDescricaoProduto().trim())){
+						produtoOrdemServicoService.remove(produtoOrdemServico.getId());
+						this.listaProdutos.remove(i);
+					}
+				}	
+				
+				produtoOrdemServico.getProduto().setQuantidadeEstoque(produtoOrdemServico.getProduto().getQuantidadeEstoque() + produtoOrdemServico.getQuantidade());
+				produtoService.salvar(produtoOrdemServico.getProduto());
+				
+				ordemServico.setTotalProduto(ordemServico.getTotalProduto().subtract(produtoOrdemServico.getSubTotal()));
+				ordemServico.setTotal(BigDecimal.ZERO);
+				ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
+				ordemServicoService.salvar(ordemServico);
+			}
 		}
+		
 	}
 	
 	public void gerarComprovantePagamento(ParcelasPagamentoOs parcelasPagamentoOs){
