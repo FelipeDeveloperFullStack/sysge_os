@@ -547,8 +547,18 @@ public class OrdemServicoController implements Serializable {
 			ordemServico.setDataSaida(Calendar.getInstance().getTime());
 			ordemServico.setHoraSaida(Calendar.getInstance().getTime());
 			salvarOS();
+			adicionarQtdeEstoqueProduto();
 			RequestContextUtil.execute("PF('dialog_motivo_cancelamento').hide();");
 			fecharDialogs();
+		}
+	}
+	
+	private void adicionarQtdeEstoqueProduto(){
+		for(ProdutoOrdemServico listProduto : listaProdutos){
+			if(listProduto.getOrdemServico().getId() == ordemServico.getId()){
+				listProduto.getProduto().setQuantidadeEstoque(listProduto.getProduto().getQuantidadeEstoque().add(listProduto.getQuantidade()));
+				produtoService.save(listProduto.getProduto());
+			}
 		}
 	}
 	
