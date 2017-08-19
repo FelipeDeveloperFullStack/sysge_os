@@ -12,6 +12,7 @@ import br.com.sysge.model.estoque.Produto;
 import br.com.sysge.model.global.Cliente;
 import br.com.sysge.model.global.Fornecedor;
 import br.com.sysge.model.type.Situacao;
+import br.com.sysge.model.type.UnidadeMedida;
 import br.com.sysge.service.estoque.ProdutoService;
 import br.com.sysge.service.global.FornecedorService;
 import br.com.sysge.util.FacesUtil;
@@ -41,6 +42,10 @@ public class ProdutoController implements Serializable{
 	
 	public Situacao[] getSituacoes(){
 		return Situacao.values();
+	}
+	
+	public UnidadeMedida[] getUnidadeMedidas(){
+		return UnidadeMedida.values();
 	}
 	
 	public void pesquisar(){

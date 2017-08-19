@@ -24,11 +24,11 @@ public class Usuario extends GenericDomain{
 
 	private static final long serialVersionUID = 1344655132014776204L;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, optional = true)
 	@JoinColumn(name = "usu_funcionario")
 	private Funcionario funcionario;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, optional = true)
 	@JoinColumn(name = "usu_perfil_acesso")
 	private PerfilAcesso perfilAcesso;
 	

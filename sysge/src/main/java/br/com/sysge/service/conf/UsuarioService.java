@@ -35,20 +35,41 @@ public class UsuarioService extends GenericDaoImpl<Usuario, Long>{
 	
 	public Usuario salvar(Usuario usuario){
 		try {
-			if(usuario.getPerfilAcesso() == null){
-				throw new RuntimeException("O perfil é obrigatório para o usuário!");
-			}
-			if(usuario.getId() != null){
-				if(usuario.equals(obterSessaoUsuario())){
-					if(usuario.getSituacao() == Situacao.INATIVO){
-						throw new RuntimeException("Não é possível inativar o mesmo usuário logado no sistema!");
-					}
-				}
-			}
+			consistirPerfilAcesso(usuario);
+			verificarUsuarioLogado(usuario);
+			verificarFuncionario(usuario);
+			
 			return super.save(consistirUsuario(usuario));
 		} catch (RuntimeException e) {
 			e.getStackTrace();
 			throw new RuntimeException(e.getMessage());
+		}
+	}
+	
+	private void verificarUsuarioLogado(Usuario usuario){
+		if(usuario.getId() != null){
+			if(usuario.equals(obterSessaoUsuario())){
+				if(usuario.getSituacao() == Situacao.INATIVO){
+					throw new RuntimeException("Não é possível inativar o mesmo usuário logado no sistema!");
+				}
+			}
+		}
+	}
+	
+	private void consistirPerfilAcesso(Usuario usuario){
+		if(usuario.getPerfilAcesso() == null){
+			throw new RuntimeException("O perfil é obrigatório para o usuário!");
+		}
+	}
+	
+	private void verificarFuncionario(Usuario usuario){
+		if(usuario.getId() == null){
+			List<Usuario> usuarios = super.findAll();
+			for(Usuario u : usuarios){
+				if(u.getFuncionario().getId() == usuario.getFuncionario().getId()){
+					throw new RuntimeException("Já existe um usuário cadastrado para esse funcionário, escolha outro funcionário!");
+				}
+			}
 		}
 	}
 	

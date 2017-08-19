@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import br.com.sysge.infraestrutura.dao.GenericDomain;
 import br.com.sysge.model.global.Fornecedor;
 import br.com.sysge.model.type.Situacao;
+import br.com.sysge.model.type.UnidadeMedida;
 
 @Entity
 @Table(name = "tbl_produto")
@@ -25,9 +26,12 @@ public class Produto extends GenericDomain{
 	
 	private BigDecimal valorVenda = BigDecimal.ZERO;
 	
-	private long quantidadeEstoque = 0L;
+	private BigDecimal quantidadeEstoque = BigDecimal.ZERO;
 	
-	private long quantidadeEstoqueMinimo = 0L;
+	private BigDecimal quantidadeEstoqueMinimo = BigDecimal.ZERO;
+	
+	@Enumerated(EnumType.STRING)
+	private UnidadeMedida unidadeMedida;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	private Fornecedor fornecedor;
@@ -61,19 +65,19 @@ public class Produto extends GenericDomain{
 		this.valorVenda = valorVenda;
 	}
 
-	public long getQuantidadeEstoque() {
+	public BigDecimal getQuantidadeEstoque() {
 		return quantidadeEstoque;
 	}
 
-	public void setQuantidadeEstoque(long quantidadeEstoque) {
+	public void setQuantidadeEstoque(BigDecimal quantidadeEstoque) {
 		this.quantidadeEstoque = quantidadeEstoque;
 	}
 
-	public long getQuantidadeEstoqueMinimo() {
+	public BigDecimal getQuantidadeEstoqueMinimo() {
 		return quantidadeEstoqueMinimo;
 	}
 
-	public void setQuantidadeEstoqueMinimo(long quantidadeEstoqueMinimo) {
+	public void setQuantidadeEstoqueMinimo(BigDecimal quantidadeEstoqueMinimo) {
 		this.quantidadeEstoqueMinimo = quantidadeEstoqueMinimo;
 	}
 
@@ -102,6 +106,14 @@ public class Produto extends GenericDomain{
 
 	public void setMostrarEstoqueMinimoTelaInicial(boolean mostrarEstoqueMinimoTelaInicial) {
 		this.mostrarEstoqueMinimoTelaInicial = mostrarEstoqueMinimoTelaInicial;
+	}
+
+	public UnidadeMedida getUnidadeMedida() {
+		return unidadeMedida;
+	}
+
+	public void setUnidadeMedida(UnidadeMedida unidadeMedida) {
+		this.unidadeMedida = unidadeMedida;
 	}
 	
 	

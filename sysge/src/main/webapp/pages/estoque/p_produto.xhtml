@@ -36,7 +36,7 @@
 					emptyMessage="Nenhum registro encontrado!" rows="12"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
 					{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowStyleClass="#{p.quantidadeEstoque le p.quantidadeEstoqueMinimo ? 'cor_vemelho' : null}">
+					rowStyleClass="#{p.quantidadeEstoque ge p.quantidadeEstoqueMinimo ? 'cor_vemelho' : null}">
 
 					<p:column headerText="ID" width="30" style="text-align:center;">
 						<p:outputLabel value="#{p.id}" />
@@ -121,18 +121,27 @@
 
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Estoque" />
-						<p:spinner min="0"
-							value="#{produtoController.produto.quantidadeEstoque}" />
+						<p:inputNumber decimalSeparator="," thousandSeparator="." 
+							value="#{produtoController.produto.quantidadeEstoque}"/>
 					</h:panelGrid>
 
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Estoque mínimo" />
-						<p:spinner min="0"
+						<p:inputNumber decimalSeparator="," thousandSeparator="." 
 							value="#{produtoController.produto.quantidadeEstoqueMinimo}" />
 					</h:panelGrid>
 				</h:panelGrid>
 
-				<h:panelGrid columns="2">
+				<h:panelGrid columns="3">
+				
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Unid. Medida" />
+						<p:selectOneMenu value="#{produtoController.produto.unidadeMedida}">
+							<f:selectItems var="u" value="#{produtoController.unidadeMedidas}"
+								itemLabel="#{u.unidadeMedida}" itemValue="#{u}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+				
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Valor de venda" />
 						<p:inputNumber value="#{produtoController.produto.valorVenda}"
@@ -212,18 +221,27 @@
 					
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Estoque" />
-						<p:spinner min="0"
+						<p:inputNumber decimalSeparator="," thousandSeparator="." 
 							value="#{produtoController.produto.quantidadeEstoque}" />
 					</h:panelGrid>
 
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Estoque mínimo" />
-						<p:spinner min="0"
+						<p:inputNumber decimalSeparator="," thousandSeparator="." 
 							value="#{produtoController.produto.quantidadeEstoqueMinimo}" />
 					</h:panelGrid>
 				</h:panelGrid>
 
-				<h:panelGrid columns="2">
+				<h:panelGrid columns="3">
+				
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Unid. Medida" />
+						<p:selectOneMenu value="#{produtoController.produto.unidadeMedida}">
+							<f:selectItems var="u" value="#{produtoController.unidadeMedidas}"
+								itemLabel="#{u.unidadeMedida}" itemValue="#{u}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+				
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Valor de venda" />
 						<p:inputNumber value="#{produtoController.produto.valorVenda}"

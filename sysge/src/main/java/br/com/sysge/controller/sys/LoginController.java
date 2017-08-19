@@ -226,14 +226,14 @@ public class LoginController implements Serializable {
 			ZoneId fusoHorarioSaoPaulo = ZoneId.of("America/Sao_Paulo");
 			dataUltimoAcesso = LocalDateTime.now(fusoHorarioSaoPaulo);
 			u.setUltimoAcesso(DateUtil.asDate(dataUltimoAcesso));
-			usuarioService.salvar(u);
+			usuarioService.save(u);
 		}
 	}
 
 	private void iniciarSessaoUsuario(Usuario usuario) {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		usuario.setDataInicial(Calendar.getInstance().getTime());
-		usuarioService.salvar(usuario);
+		usuarioService.save(usuario);
 		session.setAttribute("usuario", usuario);
 	}
 
@@ -243,14 +243,14 @@ public class LoginController implements Serializable {
 
 	public void salvarDataAtual(Usuario u) {
 		u.setUltimoAcesso(Calendar.getInstance().getTime());
-		usuarioService.salvar(u);
+		usuarioService.save(u);
 	}
 
 	public String logoutSistema() {
 		usuario = usuarioService.findById(usuario.getId());
 		usuario.setDataFinal(Calendar.getInstance().getTime());
 		usuario.setUltimoAcesso(usuario.getDataInicial());
-		usuarioService.salvar(usuario);
+		usuarioService.save(usuario);
 		usuario = null;
 		finalizarSessaoUsuario();
 		return PAGE_LOGIN + FACES_REDIRECT;

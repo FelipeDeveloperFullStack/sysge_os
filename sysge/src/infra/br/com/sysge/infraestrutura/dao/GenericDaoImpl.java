@@ -79,8 +79,6 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 		} catch (RuntimeException e) {
 			consistEntityTransactional(tx);
 			throw e;
-		}finally{
-			
 		}
 	}
 
@@ -103,12 +101,14 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@Override
 	public List<E> findAll() {
 		try {
-			manager.clear();
 			CriteriaQuery<E> criteria = manager.getCriteriaBuilder().createQuery(entityClass);
 			criteria.from(entityClass);
 			return manager.createQuery(criteria).getResultList();
 		} catch (RuntimeException e) {
 			throw e;
+		}finally{
+			manager.clear();
+			
 		}
 	}
 	
@@ -116,23 +116,27 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@Override
 	public List<E> findByDate(Date dataInicial, Date dataFinal, String atributoData){
 		try {
-			manager.clear();
 			TypedQuery<E> query = (TypedQuery<E>) manager.createQuery(""
 					+ "SELECT b FROM "+entityClass.getSimpleName()+" b "
 					+ "WHERE b."+atributoData+" >= "+dataInicial+" OR b.dataBackup <= "+dataFinal+"");
 			return query.getResultList();
 		} catch (Exception e) {
 			throw e;
+		}finally{
+			manager.clear();
+			
 		}
 	}
 
 	@Override
 	public E findById(I id) {
 		try {
-			manager.clear();
 			return manager.find(entityClass, id);
 		} catch (RuntimeException e) {
 			throw e;
+		}finally{
+			manager.clear();
+			
 		}
 	}
 	
@@ -140,26 +144,30 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@Override
 	public List<E> findAllByIdWithNativeQuery(I id, String table, String column){
 		try {
-			manager.clear();
 			TypedQuery<E> query = (TypedQuery<E>) manager.createNativeQuery(
 					"SELECT * FROM "+table+" t "
 				  + "WHERE t."+column+ " = "+id, entityClass);
 			return query.getResultList();
 		} catch (RuntimeException e) {
 			throw e;
+		}finally{
+			manager.clear();
+			
 		}
 	}
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findAllByIdWithNativeQuery(I id, boolean valueBoolean, String table, String columnID, String columnBoolean){
 		try {
-			manager.clear();
 			TypedQuery<E> query = (TypedQuery<E>) manager.createNativeQuery(
 					"SELECT * FROM "+table+" t "
 							+ "WHERE t."+columnID+ " = "+id + " AND t."+columnBoolean+ " = "+valueBoolean, entityClass);
 			return query.getResultList();
 		} catch (RuntimeException e) {
 			throw e;
+		}finally{
+			manager.clear();
+			
 		}
 	}
 
@@ -183,105 +191,155 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@Override
 	public List<E> findByParametersForSituation(Object value, Situacao situation, 
 			String attributeClass, String condition, String paramLikeLeft, String paramLikeRight) {
-		manager.clear();
-		Query query = manager.createQuery(""
-				+ "SELECT e FROM "+entityClass.getSimpleName()+" e "
-				+ "WHERE e."+attributeClass+" "+condition+" '"+paramLikeLeft+""+value+""+paramLikeRight+"' "
-				+ "AND e.situacao = '"+situation+"'");
-		return query.getResultList();
+		try {
+			Query query = manager.createQuery(""
+					+ "SELECT e FROM "+entityClass.getSimpleName()+" e "
+					+ "WHERE e."+attributeClass+" "+condition+" '"+paramLikeLeft+""+value+""+paramLikeRight+"' "
+					+ "AND e.situacao = '"+situation+"'");
+			return query.getResultList();
+		} catch (Exception e) {
+			throw e;
+		}finally{
+			manager.clear();
+			
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findByParametersForSituation(Object value, Categoria categoria, Situacao situation, 
 			String attributeClass, String condition, String paramLikeLeft, String paramLikeRight) {
-		manager.clear();
-		Query query = manager.createQuery(""
-				+ "SELECT e FROM "+entityClass.getSimpleName()+" e "
-				+ "WHERE e."+attributeClass+" "+condition+" '"+paramLikeLeft+""+value+""+paramLikeRight+"' "
-				+ "AND e.situacao = '"+situation+"' "
-				+ "AND e.categoria = '"+categoria+"'");
-		return query.getResultList();
+		try {
+			Query query = manager.createQuery(""
+					+ "SELECT e FROM "+entityClass.getSimpleName()+" e "
+					+ "WHERE e."+attributeClass+" "+condition+" '"+paramLikeLeft+""+value+""+paramLikeRight+"' "
+					+ "AND e.situacao = '"+situation+"' "
+					+ "AND e.categoria = '"+categoria+"'");
+			return query.getResultList();
+		} catch (Exception e) {
+			throw e;
+		}finally{
+			manager.clear();
+			
+		}
 	}
 	
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<E> findByParametersForSituation(Object value, TipoPessoa tipoPessoa, Situacao situation, 
 			String attributeClass, String condition, String paramLikeLeft, String paramLikeRight) {
-		manager.clear();
-		Query query = manager.createQuery(""
-				+ "SELECT e FROM "+entityClass.getSimpleName()+" e "
-				+ "WHERE e."+attributeClass+" "+condition+" '"+paramLikeLeft+""+value+""+paramLikeRight+"' "
-				+ "AND e.situacao = '"+situation+"' "
-				+ "AND e.tipoPessoa = '"+tipoPessoa+"'");
-		return query.getResultList();
+		try {
+			Query query = manager.createQuery(""
+					+ "SELECT e FROM "+entityClass.getSimpleName()+" e "
+					+ "WHERE e."+attributeClass+" "+condition+" '"+paramLikeLeft+""+value+""+paramLikeRight+"' "
+					+ "AND e.situacao = '"+situation+"' "
+					+ "AND e.tipoPessoa = '"+tipoPessoa+"'");
+			return query.getResultList();
+		} catch (Exception e) {
+			throw e;
+		}finally{
+			manager.clear();
+			
+		}
 	}
 	
 	@Override
 	public List<E> findBySituation(Situacao situacao) {
-		manager.clear();
-		builder = manager.getCriteriaBuilder();
-		criteria = builder.createQuery(entityClass);
-		Root<E> root = criteria.from(entityClass);
-		criteria.where(builder.equal(root.get("situacao"), situacao));
-		criteria.select(root);
-		return manager.createQuery(criteria).getResultList();
+		try {
+			manager.clear();
+			builder = manager.getCriteriaBuilder();
+			criteria = builder.createQuery(entityClass);
+			Root<E> root = criteria.from(entityClass);
+			criteria.where(builder.equal(root.get("situacao"), situacao));
+			criteria.select(root);
+			return manager.createQuery(criteria).getResultList();
+		} catch (Exception e) {
+			throw e;			
+		}finally{
+			manager.clear();
+			
+		}
 		
 	}
 	
 	@Override
 	public List<E> findByStatusOs(StatusOS statusOs) {
-		manager.clear();
-		builder = manager.getCriteriaBuilder();
-		criteria = builder.createQuery(entityClass);
-		Root<E> root = criteria.from(entityClass);
-		criteria.where(builder.equal(root.get("statusOS"), statusOs));
-		criteria.select(root);
-		return manager.createQuery(criteria).getResultList();
+		try {
+			manager.clear();
+			builder = manager.getCriteriaBuilder();
+			criteria = builder.createQuery(entityClass);
+			Root<E> root = criteria.from(entityClass);
+			criteria.where(builder.equal(root.get("statusOS"), statusOs));
+			criteria.select(root);
+			return manager.createQuery(criteria).getResultList();
+		} catch (Exception e) {
+			throw e;
+		}finally{
+			manager.clear();
+			
+		}
+		
 		
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findByStatusOs(StatusOS statusOS1, StatusOS statusOS2){
-		manager.clear();
-		Query query = manager.createQuery
-				("SELECT os FROM "+entityClass.getSimpleName()+ " os "
-				+ "WHERE os.statusOS = :status1 OR os.statusOS = :status2");
-		query.setParameter("status1", statusOS1);
-		query.setParameter("status2", statusOS2);
-		return query.getResultList();
+		try {
+			Query query = manager.createQuery
+					("SELECT os FROM "+entityClass.getSimpleName()+ " os "
+							+ "WHERE os.statusOS = :status1 OR os.statusOS = :status2");
+			query.setParameter("status1", statusOS1);
+			query.setParameter("status2", statusOS2);
+			return query.getResultList();
+		} catch (Exception e) {
+			throw e;
+		}finally{
+			manager.clear();
+			
+		}
 	}
 	
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findBySituationAndTipoPessoa(Situacao situacao, TipoPessoa tipoPessoa) {
-		manager.clear();
-		Query query = manager.createQuery(""
-				+ "SELECT sc FROM "+entityClass.getSimpleName()+ " sc "
-				+ "WHERE sc.situacao = '"+situacao  +"' "
-				+ "AND sc.tipoPessoa  = '"+tipoPessoa +"'");
-		return query.getResultList();
+		try {
+			Query query = manager.createQuery(""
+					+ "SELECT sc FROM "+entityClass.getSimpleName()+ " sc "
+					+ "WHERE sc.situacao = '"+situacao  +"' "
+					+ "AND sc.tipoPessoa  = '"+tipoPessoa +"'");
+			return query.getResultList();
+		} catch (Exception e) {
+			throw e;
+		}finally{
+			manager.clear();
+			
+		}
 		
 	}
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findBySituationAndCategoriaAndTipoPessoa(Situacao situacao, Categoria categoria, TipoPessoa tipoPessoa){
-		manager.clear();
-		Query query = manager.createQuery(""
-				+ "SELECT sc FROM "+entityClass.getSimpleName()+ " sc "
-				+ "WHERE sc.situacao = '"+situacao  +"' "
-				+ "AND sc.categoria  = '"+categoria +"' "
-				+ "AND sc.tipoPessoa = '"+tipoPessoa+"'");
-		return query.getResultList();
+		try {
+			Query query = manager.createQuery(""
+					+ "SELECT sc FROM "+entityClass.getSimpleName()+ " sc "
+					+ "WHERE sc.situacao = '"+situacao  +"' "
+					+ "AND sc.categoria  = '"+categoria +"' "
+					+ "AND sc.tipoPessoa = '"+tipoPessoa+"'");
+			return query.getResultList();
+		} catch (Exception e) {
+			throw e;
+		}finally{
+			manager.clear();
+			
+		}
 		
 	}
 	
 	@Override
 	@SuppressWarnings("unchecked")
 	public E findUserAndPassword(String usuario, String senha, Situacao situacao){
-		manager.clear();
 		try {
 			Query query = manager.createQuery(
 					  "SELECT us FROM Usuario us "
@@ -294,13 +352,15 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			return (E) query.getSingleResult();
 		} catch (NoResultException nre) {
 			throw new NoResultException(nre.getMessage());
+		}finally{
+			manager.clear();
+			
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findByNumeroStatusOS(long numero, StatusOS statusOS) {
-		manager.clear();
 		try {
 			Query query = manager.createQuery
 					("SELECT os FROM "+entityClass.getSimpleName() + " os "
@@ -308,13 +368,15 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			return query.getResultList();
 		} catch (NoResultException e) {
 			throw new NoResultException(e.getMessage());
+		}finally{
+			manager.clear();
+			
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findByDataEntradaOs(Date dataInicial, Date dataFinal) {
-		manager.clear();
 		try {
 			Query query = manager.createQuery
 					("SELECT os FROM "+entityClass.getSimpleName() + " os "
@@ -324,12 +386,14 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			return query.getResultList();
 		} catch (NoResultException e) {
 			throw new NoResultException(e.getMessage());
+		}finally{
+			manager.clear();
+			
 		}
 	}
 	@SuppressWarnings("unchecked")
 	@Override
 	public E findByData(Date data, String atributoClasse) {
-		manager.clear();
 		try {
 			Query query = manager.createQuery
 					("SELECT os FROM "+entityClass.getSimpleName() + " os "
@@ -338,12 +402,14 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			return (E) query.getSingleResult();
 		} catch (NoResultException e) {
 			throw new NoResultException(e.getMessage());
+		}finally{
+			manager.clear();
+			
 		}
 	}
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findByData(String atributoClasse, Date data) {
-		manager.clear();
 		try {
 			Query query = manager.createQuery
 					("SELECT b FROM "+entityClass.getSimpleName() + " b "
@@ -352,6 +418,9 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			return query.getResultList();
 		} catch (NoResultException e) {
 			throw new NoResultException(e.getMessage());
+		}finally{
+			manager.clear();
+			
 		}
 	}
 
@@ -371,20 +440,32 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findByListProperty(Object object, String attributeClass) {
-		manager.clear();
-		Query query = manager.createQuery
-			  ("SELECT p FROM "+entityClass.getSimpleName() + " p "
-			  + " WHERE p."+attributeClass+" = "+object+"");
-		return query.getResultList();
+		try {
+			Query query = manager.createQuery
+					("SELECT p FROM "+entityClass.getSimpleName() + " p "
+							+ " WHERE p."+attributeClass+" = "+object+"");
+			return query.getResultList();
+		} catch (Exception e) {
+			throw e;
+		}finally{
+			manager.clear();
+			
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public E findByProperty(Object object, String attributeClass) {
-		manager.clear();
-		Query query = manager.createQuery
-				("SELECT p FROM "+entityClass.getSimpleName() + " p "
-						+ " WHERE p."+attributeClass+" = "+object+"");
-		return (E) query.getSingleResult();
+		try {
+			Query query = manager.createQuery
+					("SELECT p FROM "+entityClass.getSimpleName() + " p "
+							+ " WHERE p."+attributeClass+" = "+object+"");
+			return (E) query.getSingleResult();
+		} catch (Exception e) {
+			throw e;
+		}finally{
+			manager.clear();
+			
+		}
 	}
 
 	public EntityManager getEntityManager() {

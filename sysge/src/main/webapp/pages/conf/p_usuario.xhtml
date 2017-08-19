@@ -115,10 +115,10 @@
 								<p:inputText id="txtFuncionario"
 									readonly="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}"
 									value="#{usuarioController.usuario.funcionario.nome}"
-									style="width: 315px;" />
+									style="width: 315px;"/>
 							</h:panelGrid>
 
-							<h:panelGrid columns="1">
+							<!-- <h:panelGrid columns="1">
 								<h:outputLabel value="." style="color: white;" />
 								<p:commandButton id="btnFuncionario"
 									icon="ui-icon-circle-zoomout"
@@ -131,14 +131,14 @@
 								<p:tooltip for="btnFuncionario"
 									value="Cliquei aqui para cadastrar um novo funcionário!"
 									position="top" />
-							</h:panelGrid>
+							</h:panelGrid> -->
 
 						</h:panelGrid>
 
-						<p:blockUI block="tabViewEditarUsuario" trigger="btnFuncionario">
+						<!-- <p:blockUI block="tabViewEditarUsuario" trigger="btnFuncionario">
 								        Carregando! Aguarde...<br />
 							<p:graphicImage library="img" name="loading.gif" />
-						</p:blockUI>
+						</p:blockUI> -->
 
 						<h:panelGrid columns="2">
 

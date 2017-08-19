@@ -55,7 +55,7 @@ public class OrdemServicoController implements Serializable {
 
 	private OrdemServico ordemServico;
 	
-	private Long quantidadeAdicionada = 0L;
+	private BigDecimal quantidadeAdicionada = BigDecimal.ZERO;
 	
 	private ParcelasPagamentoOs parcelasPagamentoOs;
 	
@@ -345,12 +345,12 @@ public class OrdemServicoController implements Serializable {
 	
 	public void setarProduto(ProdutoOrdemServico produtoOrdemServico){
 		this.produtoOrdemServico = produtoOrdemServico;
-		this.quantidadeAdicionada = 0L;
+		this.quantidadeAdicionada = BigDecimal.ZERO;
 	}
 	
 	public void calcularValorProduto(){
 		
-			if(this.quantidadeAdicionada >= produtoOrdemServico.getProduto().getQuantidadeEstoque()){
+			if(this.quantidadeAdicionada.compareTo(produtoOrdemServico.getProduto().getQuantidadeEstoque()) >= 0){
 				if(parametroService.verificarParametroEstoqueNegativo()){
 					FacesUtil.mensagemWarn("Não é possível adicionar a quantidade '"+this.quantidadeAdicionada+"' "
 							+ "para o produto '"+produtoOrdemServico.getProduto().getDescricaoProduto()+" "
@@ -368,16 +368,16 @@ public class OrdemServicoController implements Serializable {
 				return;
 			}
 
-		if(quantidadeAdicionada == 0L){
+		if(quantidadeAdicionada == BigDecimal.ZERO){
 			FacesUtil.mensagemWarn("A quantidade é obrigatório!");
 		}else{
 			ordemServico.setTotalProduto(BigDecimal.ZERO);
-			produtoOrdemServico.setQuantidade(produtoOrdemServico.getQuantidade() + quantidadeAdicionada);
+			produtoOrdemServico.setQuantidade(produtoOrdemServico.getQuantidade().add(quantidadeAdicionada));
 			
 			for(ProdutoOrdemServico po : listaProdutos){
 				if(po.getProduto().getId() == produtoOrdemServico.getProduto().getId()){
 					BigDecimal valorProduto = produtoOrdemServico.getProduto().getValorVenda().
-							multiply(BigDecimal.valueOf(produtoOrdemServico.getQuantidade()));
+							multiply(produtoOrdemServico.getQuantidade());
 					po.setValor(produtoOrdemServico.getValor());
 					po.setSubTotal(valorProduto);
 				}
@@ -525,19 +525,19 @@ public class OrdemServicoController implements Serializable {
 	private void subtrairQuantidadeEstoqueProduto(ProdutoOrdemServico listProduto){
 		if(listProduto.getId() == null){
 			listProduto.getProduto().setQuantidadeEstoque
-						(listProduto.getProduto().getQuantidadeEstoque() - listProduto.getQuantidade());
+						(listProduto.getProduto().getQuantidadeEstoque().subtract(listProduto.getQuantidade()));
 		}else{
 			listProduto.getProduto().setQuantidadeEstoque
-					    (listProduto.getProduto().getQuantidadeEstoque() - this.quantidadeAdicionada);
+					    (listProduto.getProduto().getQuantidadeEstoque().subtract(this.quantidadeAdicionada));
 		}
 		produtoService.salvar(listProduto.getProduto());
 	}
 	
 	private void subtrairQuantidadeEstoqueProduto(ProdutoOrdemServico listProduto, ProdutoOrdemServico ps){
-		if(listProduto.getQuantidade() > ps.getQuantidade()){
+		if(listProduto.getQuantidade().compareTo(ps.getQuantidade()) > 0){
 			subtrairQuantidadeEstoqueProduto(listProduto);
 		}
-		this.quantidadeAdicionada = 0L;
+		this.quantidadeAdicionada = BigDecimal.ZERO;
 	}
 	
 	public void salvarMotivoCancelamento(){
@@ -621,7 +621,7 @@ public class OrdemServicoController implements Serializable {
 					}
 				}	
 				
-				produtoOrdemServico.getProduto().setQuantidadeEstoque(produtoOrdemServico.getProduto().getQuantidadeEstoque() + produtoOrdemServico.getQuantidade());
+				produtoOrdemServico.getProduto().setQuantidadeEstoque(produtoOrdemServico.getProduto().getQuantidadeEstoque().add(produtoOrdemServico.getQuantidade()));
 				produtoService.salvar(produtoOrdemServico.getProduto());
 				
 				ordemServico.setTotalProduto(ordemServico.getTotalProduto().subtract(produtoOrdemServico.getSubTotal()));
@@ -842,11 +842,11 @@ public class OrdemServicoController implements Serializable {
 		this.produtoOrdemServico = produtoOrdemServico;
 	}
 
-	public Long getQuantidadeAdicionada() {
+	public BigDecimal getQuantidadeAdicionada() {
 		return quantidadeAdicionada;
 	}
 
-	public void setQuantidadeAdicionada(Long quantidadeAdicionada) {
+	public void setQuantidadeAdicionada(BigDecimal quantidadeAdicionada) {
 		this.quantidadeAdicionada = quantidadeAdicionada;
 	}
 

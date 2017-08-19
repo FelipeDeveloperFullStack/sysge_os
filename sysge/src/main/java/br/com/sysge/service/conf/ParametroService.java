@@ -38,7 +38,7 @@ public class ParametroService extends GenericDaoImpl<Parametro, Long>{
 	public boolean verificarParametroEstoqueNegativo(Produto produto){
 		for(Produto prod : produtoService.findBySituation(Situacao.ATIVO)){
 			if(prod.getId() == produto.getId()){
-				if(prod.getQuantidadeEstoque() <= 0){
+				if(prod.getQuantidadeEstoque().doubleValue() <= 0){
 					return verificarParametroEstoqueNegativo();
 				}
 			}

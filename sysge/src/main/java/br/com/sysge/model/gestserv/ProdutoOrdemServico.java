@@ -23,7 +23,7 @@ public class ProdutoOrdemServico extends GenericDomain{
 	@OneToOne(fetch  =FetchType.EAGER)
 	private OrdemServico ordemServico;
 	
-	private Long quantidade = 1L;
+	private BigDecimal quantidade = BigDecimal.ONE;
 	
 	private BigDecimal valor = BigDecimal.ZERO;
 	
@@ -45,11 +45,11 @@ public class ProdutoOrdemServico extends GenericDomain{
 		this.ordemServico = ordemServico;
 	}
 
-	public Long getQuantidade() {
+	public BigDecimal getQuantidade() {
 		return quantidade;
 	}
 
-	public void setQuantidade(Long quantidade) {
+	public void setQuantidade(BigDecimal quantidade) {
 		this.quantidade = quantidade;
 	}
 
