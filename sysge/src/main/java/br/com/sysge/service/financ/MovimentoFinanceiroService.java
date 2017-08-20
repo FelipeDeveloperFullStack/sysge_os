@@ -21,6 +21,7 @@ import br.com.sysge.model.financ.type.TipoAtualizacaoMovimento;
 import br.com.sysge.model.financ.type.TipoLancamento;
 import br.com.sysge.model.financ.type.TipoLancamentoFinanceiro;
 import br.com.sysge.model.gestserv.OrdemServico;
+import br.com.sysge.model.type.StatusOS;
 import br.com.sysge.util.DateUtil;
 import br.com.sysge.util.UsuarioSession;
 
@@ -77,12 +78,21 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		}
 		if(condicaoPagamento.equals(A_VISTA)){
 			lancamentoReceita.setTipoLancamentoFinanceiro(TipoLancamentoFinanceiro.LANCAMENTO_SIMPLES);
-			lancamentoReceita.setTitulo("Ordem Serviço nº "+ordemServico.getId());
+			if(ordemServico.getStatusOS() == StatusOS.CANCELADO){
+				lancamentoReceita.setTitulo("(Cancelado) Ordem Serviço nº "+ordemServico.getId());
+			}else{
+				lancamentoReceita.setTitulo("Ordem Serviço nº "+ordemServico.getId());
+			}
 		}else{
 			lancamentoReceita.setTipoLancamentoFinanceiro(TipoLancamentoFinanceiro.LANCAMENTO_PARCELADO);
 			lancamentoReceita.setTitulo("Ordem Serviço nº "+ordemServico.getId()+ " - "+parcelasPagamentoOs.getNumero()+"º parcela");
 		}
-		lancamentoReceita.setValor(parcelasPagamentoOs.getValorCobrado());
+		if(ordemServico.getStatusOS() == StatusOS.CANCELADO){
+			lancamentoReceita.setStatusOS(StatusOS.CANCELADO);
+			lancamentoReceita.setValor(BigDecimal.ZERO);
+		}else{
+			lancamentoReceita.setValor(parcelasPagamentoOs.getValorCobrado());
+		}
 		lancamentoReceita = lancamentoFinanceiroService.save(lancamentoReceita);
 		parcelasPagamentoOs.setLancamentoReceita(lancamentoReceita);
 	}

@@ -23,6 +23,7 @@ import br.com.sysge.model.financ.type.TipoLancamentoFinanceiro;
 import br.com.sysge.model.global.Cliente;
 import br.com.sysge.model.global.Fornecedor;
 import br.com.sysge.model.type.FormaPagamento;
+import br.com.sysge.model.type.StatusOS;
 
 @Entity
 @Table(name = "tbl_lancamento_financeiro")
@@ -41,6 +42,9 @@ public class LancamentoFinanceiro extends GenericDomain{
 	private String descricao;
 	
 	private BigDecimal valor;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusOS statusOS;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoAtualizacaoMovimento tipoAtualizacaoMovimento;
@@ -209,6 +213,14 @@ public class LancamentoFinanceiro extends GenericDomain{
 		if(lancamentoReceita.getValor() == null){
 			throw new RuntimeException("O valor do lançamento é obrigatório");
 		}
+	}
+
+	public StatusOS getStatusOS() {
+		return statusOS;
+	}
+
+	public void setStatusOS(StatusOS statusOS) {
+		this.statusOS = statusOS;
 	}
 	
 	

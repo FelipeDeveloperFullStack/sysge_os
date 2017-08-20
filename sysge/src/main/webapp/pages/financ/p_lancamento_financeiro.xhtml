@@ -35,7 +35,8 @@
 			<p:dataTable id="tableMovimentoCaixa" var="mov"
 				emptyMessage="Nenhum movimento encontrado!"
 				value="#{movimentoFinanceiroController.lancamentoFinanceiros}"
-				rows="12" paginator="true" paginatorPosition="bottom">
+				rows="12" paginator="true" paginatorPosition="bottom"
+				rowStyleClass="#{mov.statusOS eq 'CANCELADO' ? 'cor_vemelho' : null}">
 				
 				<!-- <p:column style="width:16px">
 					<p:rowToggler rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}{mov.tipoLancamento.tipoLancamento == 'Receita'}"/>
@@ -65,12 +66,14 @@
 				</p:column>
 
 				<p:column headerText="Status" width="107" style="text-align:center;">
-					<p:commandButton value="#{mov.statusRecebimentoReceita.status}" icon="ui-icon-circle-check" rendered="#{mov.statusRecebimentoReceita.status == 'Pago'}"
+					<p:commandButton value="#{mov.statusRecebimentoReceita.status}" icon="ui-icon-circle-check" 
+									 rendered="#{mov.statusRecebimentoReceita.status == 'Pago'}"
+									 disabled="#{mov.statusOS == 'CANCELADO'}"
 									  actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}" update="tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
 						 <p:confirm header="Confirmação" message="Deseja realmente mudar o status do título do valor de #{mov.valor} para pendente?" icon="ui-icon-alert" />
 					</p:commandButton>
 					
-					<p:commandButton value="#{mov.statusRecebimentoReceita.status}" icon="ui-icon-circle-minus" rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}" 
+					<p:commandButton value="#{mov.statusRecebimentoReceita.status}" icon="ui-icon-circle-minus" rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}" disabled="#{mov.statusOS == 'CANCELADO'}"
 									 actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}"  update="tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
 						 <p:confirm header="Confirmação" message="Deseja confirmar o recebimento do título para essa data?" icon="ui-icon-alert" />
 					</p:commandButton>
@@ -85,7 +88,7 @@
 					<p:commandButton icon="ui-icon-search" id="btnVisualizar"
 						oncomplete="PF('dialog_dados_titulo').show();"
 						actionListener="#{movimentoFinanceiroController.setarDadosFinanceiro(mov)}"
-						update=":msgGlobal :visualizar_dados" />
+						update=":msgGlobal :visualizar_dados" disabled="#{mov.statusOS == 'CANCELADO'}"/>
 					<p:commandButton icon="ui-icon-trash" id="btnExcluir" update=":msgGlobal tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro :form_dialog_justificativa" 
 					       rendered="#{movimentoFinanceiroController.isHabilitarBotao(mov)}" actionListener="#{movimentoFinanceiroController.excluirLancamentoFinanceiro(mov)}"/>
 					<p:tooltip value="Cliquei aqui para visualizar os dados financeiros do título!" for="btnVisualizar"

@@ -30,11 +30,11 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 	
 	public List<ParcelasPagamentoOs> salvar(OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelas){
 		List<ParcelasPagamentoOs> listaParcelas = procurarParcelasPorOS(ordemServico.getId());
-		if(!listaParcelas.isEmpty()){
+		/*if(!listaParcelas.isEmpty()){
 			for(ParcelasPagamentoOs p : listaParcelas){
 				super.removeByObject(p);
 			}
-		}
+		}*/
 		for(ParcelasPagamentoOs p : parcelas){
 			if(p.getStatusFinanceiro() == null){
 				p.setStatusFinanceiro(StatusFinanceiro.PENDENTE);

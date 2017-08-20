@@ -9,7 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
+import javax.persistence.SynchronizationType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -39,7 +41,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	private CriteriaQuery<E> criteria;
 
 	@Inject
-	@PersistenceContext
+	@PersistenceContext(type = PersistenceContextType.TRANSACTION)
 	private EntityManager manager;
 	
 	private EntityTransaction tx;
@@ -265,7 +267,6 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	@Override
 	public List<E> findByStatusOs(StatusOS statusOs) {
 		try {
-			manager.clear();
 			builder = manager.getCriteriaBuilder();
 			criteria = builder.createQuery(entityClass);
 			Root<E> root = criteria.from(entityClass);
@@ -274,11 +275,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			return manager.createQuery(criteria).getResultList();
 		} catch (Exception e) {
 			throw e;
-		}finally{
-			manager.clear();
-			
 		}
-		
 		
 	}
 	
