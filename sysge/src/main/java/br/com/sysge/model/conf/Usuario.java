@@ -2,6 +2,7 @@ package br.com.sysge.model.conf;
 
 import java.util.Date;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,6 +21,7 @@ import br.com.sysge.model.type.Situacao;
 
 @Entity
 @Table(name = "tbl_usuario")
+@Cacheable
 public class Usuario extends GenericDomain{
 
 	private static final long serialVersionUID = 1344655132014776204L;

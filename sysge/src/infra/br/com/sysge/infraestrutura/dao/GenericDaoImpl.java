@@ -8,10 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
-import javax.persistence.SynchronizationType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -41,7 +38,6 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	private CriteriaQuery<E> criteria;
 
 	@Inject
-	@PersistenceContext(type = PersistenceContextType.TRANSACTION)
 	private EntityManager manager;
 	
 	private EntityTransaction tx;
@@ -55,6 +51,8 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 
 		ParameterizedType parameterizedType = (ParameterizedType) clazz.getGenericSuperclass();
 		entityClass = (Class<E>) parameterizedType.getActualTypeArguments()[0];
+		
+		//configCacheSecondLevel();
 		
 	}
 	
@@ -110,7 +108,6 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			throw e;
 		}finally{
 			manager.clear();
-			
 		}
 	}
 	
@@ -121,6 +118,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			TypedQuery<E> query = (TypedQuery<E>) manager.createQuery(""
 					+ "SELECT b FROM "+entityClass.getSimpleName()+" b "
 					+ "WHERE b."+atributoData+" >= "+dataInicial+" OR b.dataBackup <= "+dataFinal+"");
+			
 			return query.getResultList();
 		} catch (Exception e) {
 			throw e;
@@ -149,6 +147,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			TypedQuery<E> query = (TypedQuery<E>) manager.createNativeQuery(
 					"SELECT * FROM "+table+" t "
 				  + "WHERE t."+column+ " = "+id, entityClass);
+			
 			return query.getResultList();
 		} catch (RuntimeException e) {
 			throw e;
@@ -164,6 +163,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			TypedQuery<E> query = (TypedQuery<E>) manager.createNativeQuery(
 					"SELECT * FROM "+table+" t "
 							+ "WHERE t."+columnID+ " = "+id + " AND t."+columnBoolean+ " = "+valueBoolean, entityClass);
+			
 			return query.getResultList();
 		} catch (RuntimeException e) {
 			throw e;
@@ -198,6 +198,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 					+ "SELECT e FROM "+entityClass.getSimpleName()+" e "
 					+ "WHERE e."+attributeClass+" "+condition+" '"+paramLikeLeft+""+value+""+paramLikeRight+"' "
 					+ "AND e.situacao = '"+situation+"'");
+			
 			return query.getResultList();
 		} catch (Exception e) {
 			throw e;
@@ -217,6 +218,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 					+ "WHERE e."+attributeClass+" "+condition+" '"+paramLikeLeft+""+value+""+paramLikeRight+"' "
 					+ "AND e.situacao = '"+situation+"' "
 					+ "AND e.categoria = '"+categoria+"'");
+			
 			return query.getResultList();
 		} catch (Exception e) {
 			throw e;
@@ -236,6 +238,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 					+ "WHERE e."+attributeClass+" "+condition+" '"+paramLikeLeft+""+value+""+paramLikeRight+"' "
 					+ "AND e.situacao = '"+situation+"' "
 					+ "AND e.tipoPessoa = '"+tipoPessoa+"'");
+			
 			return query.getResultList();
 		} catch (Exception e) {
 			throw e;
@@ -288,6 +291,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 							+ "WHERE os.statusOS = :status1 OR os.statusOS = :status2");
 			query.setParameter("status1", statusOS1);
 			query.setParameter("status2", statusOS2);
+			
 			return query.getResultList();
 		} catch (Exception e) {
 			throw e;
@@ -306,6 +310,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 					+ "SELECT sc FROM "+entityClass.getSimpleName()+ " sc "
 					+ "WHERE sc.situacao = '"+situacao  +"' "
 					+ "AND sc.tipoPessoa  = '"+tipoPessoa +"'");
+			
 			return query.getResultList();
 		} catch (Exception e) {
 			throw e;
@@ -324,6 +329,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 					+ "WHERE sc.situacao = '"+situacao  +"' "
 					+ "AND sc.categoria  = '"+categoria +"' "
 					+ "AND sc.tipoPessoa = '"+tipoPessoa+"'");
+			
 			return query.getResultList();
 		} catch (Exception e) {
 			throw e;
@@ -346,6 +352,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			query.setParameter("usuario", usuario);
 			query.setParameter("senha", senha);
 			query.setParameter("situacao", situacao);
+			
 			return (E) query.getSingleResult();
 		} catch (NoResultException nre) {
 			throw new NoResultException(nre.getMessage());
@@ -362,6 +369,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			Query query = manager.createQuery
 					("SELECT os FROM "+entityClass.getSimpleName() + " os "
 					+ "WHERE os.id = '"+numero+"' AND os.statusOS = '"+statusOS+"'");
+			
 			return query.getResultList();
 		} catch (NoResultException e) {
 			throw new NoResultException(e.getMessage());
@@ -380,6 +388,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 					+ "WHERE os.dataEntrada between :dataInicial AND : dataFinal");
 			query.setParameter("dataInicial", dataInicial);
 			query.setParameter("dataFinal", dataFinal);
+			
 			return query.getResultList();
 		} catch (NoResultException e) {
 			throw new NoResultException(e.getMessage());
@@ -396,6 +405,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 					("SELECT os FROM "+entityClass.getSimpleName() + " os "
 							+ "WHERE os."+atributoClasse+" = :data");
 			query.setParameter("data", data);
+			
 			return (E) query.getSingleResult();
 		} catch (NoResultException e) {
 			throw new NoResultException(e.getMessage());
@@ -412,6 +422,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 					("SELECT b FROM "+entityClass.getSimpleName() + " b "
 							+ "WHERE b."+atributoClasse+" = :data");
 			query.setParameter("data", data);
+			
 			return query.getResultList();
 		} catch (NoResultException e) {
 			throw new NoResultException(e.getMessage());
@@ -441,6 +452,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			Query query = manager.createQuery
 					("SELECT p FROM "+entityClass.getSimpleName() + " p "
 							+ " WHERE p."+attributeClass+" = "+object+"");
+			
 			return query.getResultList();
 		} catch (Exception e) {
 			throw e;
@@ -456,6 +468,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			Query query = manager.createQuery
 					("SELECT p FROM "+entityClass.getSimpleName() + " p "
 							+ " WHERE p."+attributeClass+" = "+object+"");
+			
 			return (E) query.getSingleResult();
 		} catch (Exception e) {
 			throw e;

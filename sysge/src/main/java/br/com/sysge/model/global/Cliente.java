@@ -2,6 +2,7 @@ package br.com.sysge.model.global;
 
 import java.util.Date;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -21,6 +22,7 @@ import br.com.sysge.model.type.UnidadeFederativa;
 
 @Entity
 @Table(name = "tbl_cliente")
+@Cacheable
 public class Cliente extends GenericDomain{
 
 	private static final long serialVersionUID = -4365055249547093538L;

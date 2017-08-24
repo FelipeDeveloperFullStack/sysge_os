@@ -2,6 +2,7 @@ package br.com.sysge.model.gestserv;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,6 +15,7 @@ import br.com.sysge.model.type.Situacao;
 
 @Entity
 @Table(name = "tbl_servico")
+@Cacheable(true)
 public class Servico extends GenericDomain {
 
 	private static final long serialVersionUID = 2576493816494710460L;

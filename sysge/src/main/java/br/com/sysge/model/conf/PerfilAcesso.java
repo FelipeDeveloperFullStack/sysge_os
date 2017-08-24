@@ -1,5 +1,6 @@
 package br.com.sysge.model.conf;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,6 +14,7 @@ import br.com.sysge.model.type.TipoAcesso;
 
 @Entity
 @Table(name = "tbl_perfil_acesso")
+@Cacheable
 public class PerfilAcesso extends GenericDomain{
 
 	private static final long serialVersionUID = -6079597816829140471L;

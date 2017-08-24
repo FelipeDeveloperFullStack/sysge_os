@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,6 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 
 import br.com.sysge.infraestrutura.dao.GenericDomain;
 import br.com.sysge.model.financ.CondicaoPagamento;
@@ -25,6 +27,7 @@ import br.com.sysge.model.type.TipoDesconto;
 
 @Entity
 @Table(name = "tbl_ordem_servico")
+@Cacheable(true)
 public class OrdemServico extends GenericDomain {
 
 	private static final long serialVersionUID = -520625131525167597L;

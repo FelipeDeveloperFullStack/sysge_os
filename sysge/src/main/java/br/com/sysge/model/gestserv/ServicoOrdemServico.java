@@ -2,6 +2,7 @@ package br.com.sysge.model.gestserv;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
@@ -13,6 +14,7 @@ import br.com.sysge.infraestrutura.dao.GenericDomain;
 @Entity
 //@IdClass(ServicoOrdemServicoId.class)
 @Table(name = "tbl_servico_os")
+@Cacheable(true)
 public class ServicoOrdemServico extends GenericDomain{
 	
 	private static final long serialVersionUID = 1626357136962819168L;

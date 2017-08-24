@@ -2,6 +2,7 @@ package br.com.sysge.model.estoque;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,6 +17,7 @@ import br.com.sysge.model.type.UnidadeMedida;
 
 @Entity
 @Table(name = "tbl_produto")
+@Cacheable
 public class Produto extends GenericDomain{
 
 	private static final long serialVersionUID = -7328127398997221454L;
