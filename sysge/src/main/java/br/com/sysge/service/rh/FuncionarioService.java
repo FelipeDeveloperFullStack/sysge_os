@@ -1,10 +1,12 @@
 package br.com.sysge.service.rh;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.rh.Funcionario;
 import br.com.sysge.model.type.Situacao;
+import br.com.sysge.util.UsuarioSession;
 
 public class FuncionarioService extends GenericDaoImpl<Funcionario, Long>{
 
@@ -24,10 +26,13 @@ public class FuncionarioService extends GenericDaoImpl<Funcionario, Long>{
 	
 	private Funcionario consistirFuncionario(Funcionario funcionario){
 		if(funcionario.getId() == null){
-			//funcionario.setNome(funcionario.getNome().toUpperCase());
+			funcionario.setUsuarioQueCadastrou(UsuarioSession.getSessionUsuario());
+			funcionario.setDataUsuarioCadastro(new Date());
 			funcionario.setSituacao(Situacao.ATIVO);
+		}else{
+			funcionario.setUsuarioQueAlterou(UsuarioSession.getSessionUsuario());
+			funcionario.setDataUsuarioAlteracao(new Date());
 		}
-		//funcionario.setNome(funcionario.getNome().toUpperCase());
 		return funcionario;
 	}
 	

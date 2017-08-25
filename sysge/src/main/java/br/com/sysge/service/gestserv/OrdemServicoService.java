@@ -30,6 +30,7 @@ import br.com.sysge.service.estoque.ProdutoService;
 import br.com.sysge.service.financ.ParcelasPagamentoOsService;
 import br.com.sysge.service.global.ClienteService;
 /*import net.sf.jasperreports.engine.JRException;*/
+import br.com.sysge.util.UsuarioSession;
 
 public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 
@@ -104,9 +105,20 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 				throw new RuntimeException("O nome do cliente é obrigatório!");
 			}
 			ordemServico.setNumero(ordemServico.getId());
+			consistirOrdemServico(ordemServico);
 			return super.save(ordemServico);
 		} catch (RuntimeException e) {
 			throw new RuntimeException(e.getMessage());
+		}
+	}
+	
+	public void consistirOrdemServico(OrdemServico ordemServico){
+		if(ordemServico.getId() == null){
+			ordemServico.setUsuarioQueCadastrou(UsuarioSession.getSessionUsuario());
+			ordemServico.setDataUsuarioCadastro(new Date());
+		}else{
+			ordemServico.setUsuarioQueAlterou(UsuarioSession.getSessionUsuario());
+			ordemServico.setDataUsuarioAlteracao(new Date());
 		}
 	}
 

@@ -66,7 +66,7 @@ public class UsuarioController implements Serializable{
 		setBotaoDisable(false);
 	}
 	
-	public void obterPageFuncionario(){
+	public void pageFuncionario(){
 		templateViewPage.openDialog(PAGE_FUNCIONARIO, 
 				"idTitleFuncionário", 800L, 450L, true);
 	}

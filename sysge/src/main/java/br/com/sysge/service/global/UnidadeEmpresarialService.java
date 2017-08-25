@@ -1,5 +1,6 @@
 package br.com.sysge.service.global;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.sysge.infraestrutura.cnpj.CnpjResource;
@@ -8,6 +9,7 @@ import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.global.UnidadeEmpresarial;
 import br.com.sysge.model.type.Situacao;
 import br.com.sysge.model.type.UnidadeFederativa;
+import br.com.sysge.util.UsuarioSession;
 
 public class UnidadeEmpresarialService extends GenericDaoImpl<UnidadeEmpresarial, Long>{
 
@@ -30,7 +32,12 @@ public class UnidadeEmpresarialService extends GenericDaoImpl<UnidadeEmpresarial
 	
 	private UnidadeEmpresarial consistirUnidadeEmpresarial(UnidadeEmpresarial unidadeEmpresarial){
 		if(unidadeEmpresarial.getId() == null){
+			unidadeEmpresarial.setUsuarioQueCadastrou(UsuarioSession.getSessionUsuario());
+			unidadeEmpresarial.setDataUsuarioCadastro(new Date());
 			unidadeEmpresarial.setSituacao(Situacao.ATIVO);
+		}else{
+			unidadeEmpresarial.setUsuarioQueAlterou(UsuarioSession.getSessionUsuario());
+			unidadeEmpresarial.setDataUsuarioAlteracao(new Date());
 		}
 		return unidadeEmpresarial;
 	}

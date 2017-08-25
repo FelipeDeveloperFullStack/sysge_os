@@ -110,7 +110,7 @@
 		<!-- Dialog editar fornecedor -->
 		<p:dialog id="dialogEditarCliente" widgetVar="dialogEditarCliente"
 			header="Editar fornecedor" modal="true" appendTo="@(body)"
-			resizable="false" position="top" width="600" closable="false">
+			resizable="false" position="top" width="700" closable="false">
 			<h:form id="formEditarCliente">
 
 				<p:tabView activeIndex="#{fornecedorController.currentTab}">
@@ -344,6 +344,30 @@
 							</h:panelGrid>
 						</h:panelGrid>
 					</p:tab>
+					
+					<p:tab title="Auditoria">
+						<h:panelGrid columns="2">
+							<p:outputLabel
+								value="Incluído por: #{fornecedorController.fornecedor.usuarioQueCadastrou.nomeUsuario} - " />
+							<p:outputLabel
+								value="#{fornecedorController.fornecedor.dataUsuarioCadastro}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"
+									timeZone="GMT-2" type="both" />
+							</p:outputLabel>
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<p:outputLabel
+								value="Alterado por : #{fornecedorController.fornecedor.usuarioQueAlterou.nomeUsuario} - " />
+							<p:outputLabel
+								value="#{fornecedorController.fornecedor.dataUsuarioAlteracao}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"
+									timeZone="GMT-2" type="both" />
+							</p:outputLabel>
+						</h:panelGrid>
+					</p:tab>
+					
+					
+					
 				</p:tabView>
 
 				<h:panelGrid id="panelBotoesCliente" columns="2">

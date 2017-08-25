@@ -955,6 +955,23 @@
 						</h:panelGrid>
 
 					</p:tab>
+					
+					<p:tab title="Auditoria">
+					<h:panelGrid columns="2">
+					     <p:outputLabel value="Incluído por: #{ordemServicoController.ordemServico.usuarioQueCadastrou.nomeUsuario} - "/>
+					     <p:outputLabel value="#{ordemServicoController.ordemServico.dataUsuarioCadastro}">
+					     	<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"
+								timeZone="GMT-2" type="both" />
+					     </p:outputLabel>
+					</h:panelGrid>				
+					<h:panelGrid columns="2">
+					     <p:outputLabel value="Alterado por : #{ordemServicoController.ordemServico.usuarioQueAlterou.nomeUsuario} - "/>
+					     <p:outputLabel value="#{ordemServicoController.ordemServico.dataUsuarioAlteracao}">
+					     	<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"
+								timeZone="GMT-2" type="both" />
+					     </p:outputLabel>
+					</h:panelGrid>				
+				</p:tab>
 
 				</p:tabView>
 

@@ -1,6 +1,7 @@
 package br.com.sysge.service.conf;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -13,6 +14,7 @@ import br.com.sysge.model.conf.Usuario;
 import br.com.sysge.model.rh.Funcionario;
 import br.com.sysge.model.type.Situacao;
 import br.com.sysge.service.rh.FuncionarioService;
+import br.com.sysge.util.UsuarioSession;
 
 public class UsuarioService extends GenericDaoImpl<Usuario, Long>{
 
@@ -75,7 +77,12 @@ public class UsuarioService extends GenericDaoImpl<Usuario, Long>{
 	
 	private Usuario consistirUsuario(Usuario usuario){
 		if(usuario.getId() == null){
+			usuario.setUsuarioQueCadastrou(UsuarioSession.getSessionUsuario());
+			usuario.setDataUsuarioCadastro(new Date());
 			usuario.setSituacao(Situacao.ATIVO);
+		}else{
+			usuario.setUsuarioQueAlterou(UsuarioSession.getSessionUsuario());
+			usuario.setDataUsuarioAlteracao(new Date());
 		}
 		return usuario;
 	}

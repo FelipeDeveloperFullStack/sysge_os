@@ -1,11 +1,17 @@
 package br.com.sysge.infraestrutura.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import br.com.sysge.model.conf.Usuario;
 
 @MappedSuperclass
 public abstract class GenericDomain implements Serializable{
@@ -15,6 +21,19 @@ public abstract class GenericDomain implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
+	@OneToOne
+	private Usuario usuarioQueCadastrou;
+	
+	@OneToOne
+	private Usuario usuarioQueAlterou;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataUsuarioCadastro;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataUsuarioAlteracao; 
+	
 
 	public Long getId() {
 		return id;
@@ -48,7 +67,39 @@ public abstract class GenericDomain implements Serializable{
 			return false;
 		return true;
 	}
-	
+
+	public Usuario getUsuarioQueCadastrou() {
+		return usuarioQueCadastrou;
+	}
+
+	public void setUsuarioQueCadastrou(Usuario usuarioQueCadastrou) {
+		this.usuarioQueCadastrou = usuarioQueCadastrou;
+	}
+
+	public Usuario getUsuarioQueAlterou() {
+		return usuarioQueAlterou;
+	}
+
+	public void setUsuarioQueAlterou(Usuario usuarioQueAlterou) {
+		this.usuarioQueAlterou = usuarioQueAlterou;
+	}
+
+	public Date getDataUsuarioCadastro() {
+		return dataUsuarioCadastro;
+	}
+
+	public void setDataUsuarioCadastro(Date dataUsuarioCadastro) {
+		this.dataUsuarioCadastro = dataUsuarioCadastro;
+	}
+
+	public Date getDataUsuarioAlteracao() {
+		return dataUsuarioAlteracao;
+	}
+
+	public void setDataUsuarioAlteracao(Date dataUsuarioAlteracao) {
+		this.dataUsuarioAlteracao = dataUsuarioAlteracao;
+	}
+
 	
 
 }

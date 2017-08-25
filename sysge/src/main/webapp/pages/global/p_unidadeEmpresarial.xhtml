@@ -274,6 +274,28 @@
 						</p:blockUI>
 					</p:tab>
 					
+					
+					<p:tab title="Auditoria">
+						<h:panelGrid columns="2">
+							<p:outputLabel
+								value="Incluído por: #{unidadeEmpresarialController.unidadeEmpresarial.usuarioQueCadastrou.nomeUsuario} - " />
+							<p:outputLabel
+								value="#{unidadeEmpresarialController.unidadeEmpresarial.dataUsuarioCadastro}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"
+									timeZone="GMT-2" type="both" />
+							</p:outputLabel>
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<p:outputLabel
+								value="Alterado por : #{unidadeEmpresarialController.unidadeEmpresarial.usuarioQueAlterou.nomeUsuario} - " />
+							<p:outputLabel
+								value="#{unidadeEmpresarialController.unidadeEmpresarial.dataUsuarioAlteracao}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"
+									timeZone="GMT-2" type="both" />
+							</p:outputLabel>
+						</h:panelGrid>
+					</p:tab>
+					
 				</p:tabView>
 				
 				<h:panelGrid id="panelBotoesUnidadeEmpresarial" columns="2">

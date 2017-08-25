@@ -356,6 +356,29 @@
 							<p:graphicImage library="img" name="loading.gif" />
 						</p:blockUI>
 					</p:tab>
+					
+					<p:tab title="Auditoria">
+						<h:panelGrid columns="2">
+							<p:outputLabel
+								value="Incluído por: #{funcionarioController.funcionario.usuarioQueCadastrou.nomeUsuario} - " />
+							<p:outputLabel
+								value="#{funcionarioController.funcionario.dataUsuarioCadastro}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"
+									timeZone="GMT-2" type="both" />
+							</p:outputLabel>
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<p:outputLabel
+								value="Alterado por : #{funcionarioController.funcionario.usuarioQueAlterou.nomeUsuario} - " />
+							<p:outputLabel
+								value="#{funcionarioController.funcionario.dataUsuarioAlteracao}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"
+									timeZone="GMT-2" type="both" />
+							</p:outputLabel>
+						</h:panelGrid>
+					</p:tab>
+					
+					
 				</p:tabView>
 				<h:panelGrid id="panelBotoesNovoFuncionario" columns="2">
 					<h:panelGrid columns="2">

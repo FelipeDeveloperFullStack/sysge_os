@@ -1,6 +1,7 @@
 package br.com.sysge.service.estoque;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,6 +10,7 @@ import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.estoque.Produto;
 import br.com.sysge.model.type.Situacao;
 import br.com.sysge.service.global.FornecedorService;
+import br.com.sysge.util.UsuarioSession;
 
 public class ProdutoService extends GenericDaoImpl<Produto, Long>{
 
@@ -16,7 +18,7 @@ public class ProdutoService extends GenericDaoImpl<Produto, Long>{
 	
 	@Inject
 	private FornecedorService fornecedorService;
-
+	
 	public Produto salvar(Produto produto){
 		try {
 			if(produto.getDescricaoProduto().trim().isEmpty()){
@@ -40,8 +42,12 @@ public class ProdutoService extends GenericDaoImpl<Produto, Long>{
 	
 	private Produto consistirProduto(Produto produto){
 		if(produto.getId() == null){
-			//produto.setDescricaoProduto(produto.getDescricaoProduto().toUpperCase());
+			produto.setUsuarioQueCadastrou(UsuarioSession.getSessionUsuario());
+			produto.setDataUsuarioCadastro(new Date());
 			produto.setSituacao(Situacao.ATIVO);
+		}else{
+			produto.setUsuarioQueAlterou(UsuarioSession.getSessionUsuario());
+			produto.setDataUsuarioAlteracao(new Date());
 		}
 		return produto;
 	}

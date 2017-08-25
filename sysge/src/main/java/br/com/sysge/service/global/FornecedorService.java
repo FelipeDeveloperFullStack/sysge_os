@@ -1,5 +1,6 @@
 package br.com.sysge.service.global;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.sysge.infraestrutura.cnpj.CnpjResource;
@@ -8,6 +9,7 @@ import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.global.Fornecedor;
 import br.com.sysge.model.type.Situacao;
 import br.com.sysge.model.type.UnidadeFederativa;
+import br.com.sysge.util.UsuarioSession;
 
 public class FornecedorService extends GenericDaoImpl<Fornecedor, Long> {
 
@@ -67,8 +69,12 @@ public class FornecedorService extends GenericDaoImpl<Fornecedor, Long> {
 
 	private Fornecedor consistirFornecedor(Fornecedor fornecedor) {
 		if (fornecedor.getId() == null) {
-			/*fornecedor.setNomeFantasia(fornecedor.getNomeFantasia().toUpperCase());*/
+			fornecedor.setUsuarioQueCadastrou(UsuarioSession.getSessionUsuario());
+			fornecedor.setDataUsuarioCadastro(new Date());
 			fornecedor.setSituacao(Situacao.ATIVO);
+		}else{
+			fornecedor.setUsuarioQueAlterou(UsuarioSession.getSessionUsuario());
+			fornecedor.setDataUsuarioAlteracao(new Date());
 		}
 		return fornecedor;
 	}

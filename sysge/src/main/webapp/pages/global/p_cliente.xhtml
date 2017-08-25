@@ -414,6 +414,28 @@
 
 					</p:tab>
 					
+					
+					<p:tab title="Auditoria">
+						<h:panelGrid columns="2">
+							<p:outputLabel
+								value="Incluído por: #{clienteController.cliente.usuarioQueCadastrou.nomeUsuario} - " />
+							<p:outputLabel
+								value="#{clienteController.cliente.dataUsuarioCadastro}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"
+									timeZone="GMT-2" type="both" />
+							</p:outputLabel>
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<p:outputLabel
+								value="Alterado por : #{clienteController.cliente.usuarioQueAlterou.nomeUsuario} - " />
+							<p:outputLabel
+								value="#{clienteController.cliente.dataUsuarioAlteracao}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"
+									timeZone="GMT-2" type="both" />
+							</p:outputLabel>
+						</h:panelGrid>
+					</p:tab>
+					
 				</p:tabView>
 				<h:panelGrid id="panelBotoesCliente" columns="2">
 					<h:panelGrid columns="2">

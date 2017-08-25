@@ -1,10 +1,12 @@
 package br.com.sysge.service.gestserv;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.gestserv.Servico;
 import br.com.sysge.model.type.Situacao;
+import br.com.sysge.util.UsuarioSession;
 
 public class ServicoService extends GenericDaoImpl<Servico, Long>{
 
@@ -27,7 +29,12 @@ public class ServicoService extends GenericDaoImpl<Servico, Long>{
 	
 	private Servico consistirServico(Servico servico){
 		if(servico.getId() == null){
+			servico.setUsuarioQueCadastrou(UsuarioSession.getSessionUsuario());
+			servico.setDataUsuarioCadastro(new Date());
 			servico.setSituacao(Situacao.ATIVO);
+		}else{
+			servico.setUsuarioQueAlterou(UsuarioSession.getSessionUsuario());
+			servico.setDataUsuarioAlteracao(new Date());
 		}
 		return servico;
 	}

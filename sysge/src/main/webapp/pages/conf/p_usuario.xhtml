@@ -118,20 +118,6 @@
 									style="width: 315px;"/>
 							</h:panelGrid>
 
-							<!-- <h:panelGrid columns="1">
-								<h:outputLabel value="." style="color: white;" />
-								<p:commandButton id="btnFuncionario"
-									icon="ui-icon-circle-zoomout"
-									actionListener="#{usuarioController.obterPageFuncionario}"
-									process="@this" update="@none">
-									<p:ajax event="dialogReturn"
-										listener="#{usuarioController.funcionarioSelecionado}"
-										process="@this" update="txtFuncionario" />
-								</p:commandButton>
-								<p:tooltip for="btnFuncionario"
-									value="Cliquei aqui para cadastrar um novo funcionário!"
-									position="top" />
-							</h:panelGrid> -->
 
 						</h:panelGrid>
 
@@ -221,7 +207,7 @@
 								<h:outputLabel value="." style="color: white;" />
 								<p:commandButton id="btnFuncionario2"
 									icon="ui-icon-circle-zoomout"
-									actionListener="#{usuarioController.obterPageFuncionario}"
+									actionListener="#{usuarioController.pageFuncionario}"
 									process="@this" update="@none">
 									<p:ajax event="dialogReturn"
 										listener="#{usuarioController.funcionarioSelecionado}"

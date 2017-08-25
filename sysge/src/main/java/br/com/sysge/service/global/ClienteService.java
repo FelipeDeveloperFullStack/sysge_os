@@ -1,5 +1,6 @@
 package br.com.sysge.service.global;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.sysge.infraestrutura.cnpj.CnpjResource;
@@ -9,6 +10,7 @@ import br.com.sysge.model.global.Cliente;
 import br.com.sysge.model.type.Situacao;
 import br.com.sysge.model.type.TipoPessoa;
 import br.com.sysge.model.type.UnidadeFederativa;
+import br.com.sysge.util.UsuarioSession;
 
 public class ClienteService extends GenericDaoImpl<Cliente, Long> {
 
@@ -118,10 +120,12 @@ public class ClienteService extends GenericDaoImpl<Cliente, Long> {
 
 	private Cliente consistirCliente(Cliente cliente) {
 		if (cliente.getId() == null) {
-			/*cliente.setNomeDaPessoaFisica(cliente.getNomeDaPessoaFisica().toUpperCase());
-			cliente.setNomeFantasia(cliente.getNomeFantasia().toUpperCase());
-			cliente.setNomeTemporario(cliente.getNomeTemporario().toUpperCase());*/
+			cliente.setUsuarioQueCadastrou(UsuarioSession.getSessionUsuario());
+			cliente.setDataUsuarioCadastro(new Date());
 			cliente.setSituacao(Situacao.ATIVO);
+		}else{
+			cliente.setUsuarioQueAlterou(UsuarioSession.getSessionUsuario());
+			cliente.setDataUsuarioAlteracao(new Date());
 		}
 		return cliente;
 	}
