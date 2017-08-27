@@ -353,45 +353,51 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	}
 	
 	public void excluirLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
-		if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.RECEITA){
+		try {
+			if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.RECEITA){
+				
+				if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
+					lancamentoFinanceiro.getMovimentoFinanceiro().setTotalRecebido(subtratirTotalRecebido(lancamentoFinanceiro, 
+							lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
+				}else{
+					lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(subtratirTotalReceita(lancamentoFinanceiro, 
+							lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
+				}
+			}else{
+				if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
+					lancamentoFinanceiro.getMovimentoFinanceiro().setTotalPago(subtratirTotalPago(lancamentoFinanceiro, 
+							lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
+				}else{
+					lancamentoFinanceiro.getMovimentoFinanceiro().setTotalDespesa(subtrairTotalDespesa(lancamentoFinanceiro, 
+							lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
+				}
+			}
 			
-			if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
-				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalRecebido(subtratirTotalRecebido(lancamentoFinanceiro, 
-						lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
-			}else{
-				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(subtratirTotalReceita(lancamentoFinanceiro, 
-						lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
-			}
-		}else{
-			if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
-				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalPago(subtratirTotalPago(lancamentoFinanceiro, 
-						lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
-			}else{
-				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalDespesa(subtrairTotalDespesa(lancamentoFinanceiro, 
-						lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
-			}
+			//obter saldo dia anterior
+			lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoAnterior(
+					obterSaldoMovimentoAnterior(lancamentoFinanceiro.getMovimentoFinanceiro().getDataMovimento()));
+			
+			lancamentoFinanceiro.setMovimentoFinanceiro(super.save(lancamentoFinanceiro.getMovimentoFinanceiro()));
+			
+			lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoOperacional(
+					somarTotalSaldoOperacional(lancamentoFinanceiro, 
+							buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
+			
+			super.save(lancamentoFinanceiro.getMovimentoFinanceiro());
+			
+			//obter saldo atual
+			lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoAtual(obterSaldoAtual());
+			
+			super.save(lancamentoFinanceiro.getMovimentoFinanceiro());
+			
+			lancamentoFinanceiroService.remove(lancamentoFinanceiro.getId());
+			
+			logAuditoria();
+			
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-		
-		//obter saldo dia anterior
-		lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoAnterior(
-				obterSaldoMovimentoAnterior(lancamentoFinanceiro.getMovimentoFinanceiro().getDataMovimento()));
-		
-		lancamentoFinanceiro.setMovimentoFinanceiro(super.save(lancamentoFinanceiro.getMovimentoFinanceiro()));
-		
-		lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoOperacional(
-				somarTotalSaldoOperacional(lancamentoFinanceiro, 
-						buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
-		
-		super.save(lancamentoFinanceiro.getMovimentoFinanceiro());
-		
-		//obter saldo atual
-		lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoAtual(obterSaldoAtual());
-		
-		super.save(lancamentoFinanceiro.getMovimentoFinanceiro());
-
-		lancamentoFinanceiroService.remove(lancamentoFinanceiro.getId());
-		
-		logAuditoria();
 	}
 	
 	

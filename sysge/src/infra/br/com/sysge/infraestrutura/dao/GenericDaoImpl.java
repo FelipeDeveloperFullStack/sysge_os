@@ -86,9 +86,9 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 	public void remove(I id) {
 		try {
 			tx = initializationTransactional();
-			E objeto = findById(id);
+			//E objeto = findById(id);
 			tx.begin();
-			manager.remove(objeto);
+			manager.remove(manager.getReference(entityClass, id));
 			tx.commit();
 		} catch (RuntimeException e) {
 			consistEntityTransactional(tx);
