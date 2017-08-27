@@ -98,12 +98,12 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findAll() {
 		try {
-			CriteriaQuery<E> criteria = manager.getCriteriaBuilder().createQuery(entityClass);
-			criteria.from(entityClass);
-			return manager.createQuery(criteria).getResultList();
+			Query query = manager.createQuery("SELECT a FROM "+entityClass.getSimpleName() + " a");
+			return query.getResultList();
 		} catch (RuntimeException e) {
 			throw e;
 		}finally{
@@ -246,16 +246,13 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findBySituation(Situacao situacao) {
 		try {
-			manager.clear();
-			builder = manager.getCriteriaBuilder();
-			criteria = builder.createQuery(entityClass);
-			Root<E> root = criteria.from(entityClass);
-			criteria.where(builder.equal(root.get("situacao"), situacao));
-			criteria.select(root);
-			return manager.createQuery(criteria).getResultList();
+			Query query = manager.createQuery("SELECT s FROM "+entityClass.getSimpleName() + " s WHERE s.situacao = :situacao"); 
+			query.setParameter("situacao", situacao);
+			return query.getResultList();
 		} catch (Exception e) {
 			throw e;			
 		}finally{
@@ -265,15 +262,13 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findByStatusOs(StatusOS statusOs) {
 		try {
-			builder = manager.getCriteriaBuilder();
-			criteria = builder.createQuery(entityClass);
-			Root<E> root = criteria.from(entityClass);
-			criteria.where(builder.equal(root.get("statusOS"), statusOs));
-			criteria.select(root);
-			return manager.createQuery(criteria).getResultList();
+			Query query = manager.createQuery("SELECT s FROM "+entityClass.getSimpleName() + " s WHERE s.statusOS = :statusOS");
+			query.setParameter("statusOS", statusOs);
+			return query.getResultList();
 		} catch (Exception e) {
 			throw e;
 		}

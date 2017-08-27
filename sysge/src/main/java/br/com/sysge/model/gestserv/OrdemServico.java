@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+import javax.persistence.Transient;
 
 import br.com.sysge.infraestrutura.dao.GenericDomain;
 import br.com.sysge.model.financ.CondicaoPagamento;
@@ -103,7 +103,10 @@ public class OrdemServico extends GenericDomain {
 	private String observacoes;
 
 	private String motivoCancelamento;
-
+	
+	@Transient
+	private String pagamentoPendente;
+	
 	public Date getDataEntrada() {
 		return dataEntrada;
 	}
@@ -352,7 +355,14 @@ public class OrdemServico extends GenericDomain {
 	public void setNumero(Long numero) {
 		this.numero = numero;
 	}
-	
-	
+
+	public String getPagamentoPendente() {
+		return pagamentoPendente;
+	}
+
+	public void setPagamentoPendente(String pagamentoPendente) {
+		this.pagamentoPendente = pagamentoPendente;
+	}
+
 
 }

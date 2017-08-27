@@ -979,7 +979,7 @@
 				<br></br>
 
 				<p:fieldset>
-					<h:panelGrid columns="5" id="panelBotoesEditarOS">
+					<h:panelGrid columns="7" id="panelBotoesEditarOS">
 						<p:commandButton id="btnEditarOS" value="Salvar" icon="ui-icon-circle-check"
 							actionListener="#{ordemServicoController.salvar}"
 							update=":msgGlobal :formGeralServico:tableServico :motivo_cancelamento"
@@ -1000,6 +1000,8 @@
 
 						<p:outputLabel value=" Ordem de serviço apenas para visualização!"
 							rendered="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
+							
+						<p:outputLabel value="   #{ordemServicoController.ordemServico.pagamentoPendente}" styleClass="texto_negrito" style="color: blue" rendered="#{ordemServicoController.ordemServico.statusOS != 'CANCELADO'}" />	
 
 					</h:panelGrid>
 					
@@ -1171,7 +1173,7 @@
 					</p:outputLabel>
 					
 					<p:outputLabel value="Data pagamento"/>
-					<p:calendar showOn="button" value="#{ordemServicoController.parcela.dataPagamento}" pattern="dd/MM/yyyy" mask="true"/>
+					<p:calendar locale="pt" showOn="button" value="#{ordemServicoController.parcela.dataPagamento}" pattern="dd/MM/yyyy" mask="true" mindate="#{ordemServicoController.parcela.dataVencimento}"/>
 				</p:panelGrid>
 				
 				<p:separator/>

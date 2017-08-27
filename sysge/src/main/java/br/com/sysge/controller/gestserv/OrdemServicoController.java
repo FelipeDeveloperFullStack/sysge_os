@@ -132,6 +132,7 @@ public class OrdemServicoController implements Serializable {
 	private static final String PAGE_SERVICO = "/pages_framework/p_servicos.xhtml";
 	private static final String PAGE_PRODUTO = "/pages_framework/p_produto.xhtml";
 	private static final String MSG_PAGAMENTO_REALIZADO = "Não é possível gerar o parcelamento, pois já existe parcela(s) recebida(s)!";
+	private static final String PENDENTE_PAGAMENTO = "Pendente para pagamento!";
 	
 	@PostConstruct
 	public void init() {
@@ -161,12 +162,10 @@ public class OrdemServicoController implements Serializable {
 		try {
 			parcelasPagamentoOsService.salvarMovimentoReceitaParcela(parcela);
 			RequestContextUtil.execute("PF('dialog_confirmar_pagamento').hide();");
+			this.parcela = new ParcelasPagamentoOs();
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
-		}finally {
-			this.parcela = new ParcelasPagamentoOs();
 		}
-		
 	}
 	
 	public void obterPageCliente(){
@@ -397,10 +396,25 @@ public class OrdemServicoController implements Serializable {
 		this.listaServicos = ordemServicoService.procurarServicosOS(ordemServico.getId());
 		this.listaProdutos = ordemServicoService.procurarProdutosOS(ordemServico.getId());
 		this.parcelas = parcelasPagamentoOsService.procurarParcelasPorOS(ordemServico.getId());
+		
+		verificarPagamentoPendenteOS(parcelas);
+		
 		RequestContextUtil.execute("PF('dialogEditarOrdemDeServico').show();");
 		ordensServicos = new ArrayList<OrdemServico>();
 		
 		setarTabIndex(0);
+	}
+	
+	private void verificarPagamentoPendenteOS(List<ParcelasPagamentoOs> parcelas){
+		for(ParcelasPagamentoOs p : parcelas){
+			if(p.getOrdemServico().getId() == ordemServico.getId()){
+				if(p.getStatusFinanceiro() == StatusFinanceiro.PENDENTE){
+					if(ordemServico.getStatusOS() == StatusOS.ABERTO || ordemServico.getStatusOS() == StatusOS.EM_ANDAMENTO){
+						ordemServico.setPagamentoPendente(PENDENTE_PAGAMENTO);
+					}
+				}
+			}
+		}
 	}
 	
 	public void novaOrdemServico(){
@@ -424,12 +438,12 @@ public class OrdemServicoController implements Serializable {
 	public void salvar(){
 		try {
 			if(ordemServico.getStatusOS() == StatusOS.CANCELADO){
-				if(getVerificarSeExistePagamentoNAORealizado()){
+				/*if(getVerificarSeExistePagamentoNAORealizado()){
 					FacesUtil.mensagemWarn("Não é possível cancelar a ordem de serviço, "
 							+ "pois ainda existe parcelas para ser recebido!!");
 				}else{
-					RequestContextUtil.execute("PF('dialog_motivo_cancelamento').show();");
-				}
+				}*/
+				RequestContextUtil.execute("PF('dialog_motivo_cancelamento').show();");
 			}else{
 				BigDecimal somaValorParcela = BigDecimal.ZERO;
 				for(ParcelasPagamentoOs p : parcelas){
