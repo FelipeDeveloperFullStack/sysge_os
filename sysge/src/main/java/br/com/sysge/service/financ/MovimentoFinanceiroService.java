@@ -463,12 +463,16 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		return lancamentoFinanceiro.getMovimentoFinanceiro();
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked"})
 	private List<MovimentoFinanceiro> buscarMovimentoFinanceiroByData(Date dataMovimentoFinanceiro){
-		Query query = getEntityManager().createQuery("SELECT m FROM "+getEntityClass().getSimpleName() + " m "
-				+ "WHERE m.dataMovimento = :dataMovimento");
-		query.setParameter("dataMovimento", dataMovimentoFinanceiro);
-		return query.getResultList();
+		try {
+			Query query = getEntityManager().createQuery("SELECT m FROM "+getEntityClass().getSimpleName() + " m "
+					+ "WHERE m.dataMovimento = :dataMovimento");
+			query.setParameter("dataMovimento", dataMovimentoFinanceiro);
+			return query.getResultList();
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 	
 	public List<MovimentoFinanceiro> buscarMovimentoFinanceiroPorData(Date dataMov){

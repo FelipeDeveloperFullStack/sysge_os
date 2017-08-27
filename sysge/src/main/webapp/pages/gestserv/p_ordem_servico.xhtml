@@ -440,7 +440,6 @@
 							<p:inputTextarea style="width: 855px;"
 								value="#{ordemServicoController.ordemServico.motivoCancelamento}" />
 						</h:panelGrid>
-
 					</p:tab>
 
 				</p:tabView>
@@ -448,14 +447,16 @@
 				<br></br>
 
 				<p:fieldset>
-					<h:panelGrid columns="3">
-						<p:commandButton value="Salvar" icon="ui-icon-circle-check"
+					<h:panelGrid columns="3" id="panelBotoesNovoOS">
+						<p:commandButton id="btnSalvarNovoOS" value="Salvar" icon="ui-icon-circle-check"
 							actionListener="#{ordemServicoController.salvar}"
 							update=":msgGlobal :formGeralServico:tableServico" />
 
 						<p:commandButton value="Cancelar" icon="ui-icon-closethick"
 							oncomplete="PF('dialogNovaOrdemDeServico').hide();" />
 					</h:panelGrid>
+					<p:blockUI block="panelBotoesNovoOS"
+					trigger="btnSalvarNovoOS" />
 				</p:fieldset>
 			</h:form>
 		</p:dialog>
@@ -978,8 +979,8 @@
 				<br></br>
 
 				<p:fieldset>
-					<h:panelGrid columns="5">
-						<p:commandButton value="Salvar" icon="ui-icon-circle-check"
+					<h:panelGrid columns="5" id="panelBotoesEditarOS">
+						<p:commandButton id="btnEditarOS" value="Salvar" icon="ui-icon-circle-check"
 							actionListener="#{ordemServicoController.salvar}"
 							update=":msgGlobal :formGeralServico:tableServico :motivo_cancelamento"
 							disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
@@ -1001,6 +1002,8 @@
 							rendered="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}" />
 
 					</h:panelGrid>
+					
+					<p:blockUI block="panelBotoesEditarOS"	trigger="btnEditarOS" />
 				</p:fieldset>
 			</h:form>
 		</p:dialog>

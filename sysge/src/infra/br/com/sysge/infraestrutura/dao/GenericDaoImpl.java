@@ -111,7 +111,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked"})
 	@Override
 	public List<E> findByDate(Date dataInicial, Date dataFinal, String atributoData){
 		try {
@@ -124,7 +124,6 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			throw e;
 		}finally{
 			manager.clear();
-			
 		}
 	}
 
@@ -136,7 +135,6 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			throw e;
 		}finally{
 			manager.clear();
-			
 		}
 	}
 	
@@ -414,7 +412,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			
 		}
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked"})
 	@Override
 	public List<E> findByData(String atributoClasse, Date data) {
 		try {
@@ -428,7 +426,6 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			throw new NoResultException(e.getMessage());
 		}finally{
 			manager.clear();
-			
 		}
 	}
 

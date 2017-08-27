@@ -362,10 +362,10 @@
 					</h:panelGrid>
 				</h:panelGrid>
 
-						<h:panelGrid columns="2" >
+						<h:panelGrid columns="2" id="panelBotoesReceita">
 							<h:panelGrid columns="2">
 								<h:form id="form">
-									<p:commandButton value="Salvar"
+									<p:commandButton id="btnSalvarReceita" value="Salvar"
 										icon="ui-icon-check"
 										actionListener="#{movimentoFinanceiroController.salvarLancamento}"
 										update=":msgGlobal :formLancamentoFinanceiro:tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
@@ -376,6 +376,7 @@
 							</h:panelGrid>
 						</h:panelGrid>
 						
+						<p:blockUI block="panelBotoesReceita" trigger="form:btnSalvarReceita" />
 
 					</p:tab>
 				</p:tabView>
@@ -456,10 +457,10 @@
 					</h:panelGrid>
 				</h:panelGrid>
 
-						<h:panelGrid columns="2" >
+						<h:panelGrid columns="2" id="panelBotoesDespesa">
 							<h:panelGrid columns="2">
 								<h:form id="form">
-									<p:commandButton value="Salvar"
+									<p:commandButton id="btnSalvarDespesa" value="Salvar"
 										icon="ui-icon-check"
 										actionListener="#{movimentoFinanceiroController.salvarLancamento}"
 										update=":msgGlobal :formLancamentoFinanceiro:tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
@@ -470,7 +471,8 @@
 							</h:panelGrid>
 						</h:panelGrid>
 						
-
+						<p:blockUI block="panelBotoesDespesa" trigger="form:btnSalvarDespesa" />
+						
 					</p:tab>
 				</p:tabView>
 
