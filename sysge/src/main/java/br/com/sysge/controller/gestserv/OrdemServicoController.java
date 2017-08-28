@@ -223,7 +223,7 @@ public class OrdemServicoController implements Serializable {
 			if(parametroService.verificarParametroEstoqueNegativo(this.produto)){
 				FacesUtil.mensagemWarn("O produto '"+this.produto.getDescricaoProduto()+"' "
 						+ "se encontra com estoque igual a "+this.produto.getQuantidadeEstoque()+", não é permitido adicionar o produto, "
-						+ "para permitir essa ação desmarque o parâmetro do sistema.");
+						+ "desmarque o parâmetro no sistema.");
 			}else{
 				if(produtoOrdemServicoService.verificarSeExisteProdutoNaTabela(listaProdutos, produto)){
 					FacesUtil.mensagemWarn("Já existe um produto '"+this.produto.getDescricaoProduto() +
