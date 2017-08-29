@@ -288,11 +288,6 @@
 								value="#{ordemServicoController.ordemServico.acessorios}" />
 						</h:panelGrid>
 
-						<!-- <h:panelGrid columns="1">
-							<p:outputLabel value="Descrição Produto / Serviço" />
-							<p:inputTextarea style="width: 725px;" />
-						</h:panelGrid> -->
-
 						<h:panelGrid columns="1">
 							<p:outputLabel value="Defeito" />
 							<p:inputTextarea style="width: 855px;"
@@ -303,142 +298,6 @@
 							<p:outputLabel value="Laudo Técnico" />
 							<p:inputTextarea style="width: 855px; color: blue"
 								value="#{ordemServicoController.ordemServico.laudoTecnico}" />
-						</h:panelGrid>
-					</p:tab>
-
-					<!-- <p:tab title="Serviços">
-					
-						<h:panelGrid columns="5">
-							<p:commandButton id="btnProcurarServicoDialog"
-								icon="ui-icon-search"
-								actionListener="#{ordemServicoController.obterPageServico}"
-								value="Procurar">
-								<p:ajax event="dialogReturn"
-									listener="#{ordemServicoController.servicoSelecionado}"
-									process="@this" update=":msgGlobal tableServico :formNovaOrdemServico:tabViewNovaOS" />
-							</p:commandButton>
-
-							<p:blockUI block="formNovaOrdemServico"
-								trigger="btnProcurarServicoDialog">
-								        Carregando! Aguarde...<br />
-								<p:graphicImage library="img" name="loading.gif" />
-							</p:blockUI>
-
-						</h:panelGrid>
-
-						<p:dataTable emptyMessage="Nenhum serviço encontrado!"
-							id="tableServico" var="s"
-							value="#{ordemServicoController.listaServicos}" paginator="true"
-							paginatorPosition="bottom" rows="7">
-							
-							<p:column headerText="ID" width="35" style="text-align:center;">
-								<h:outputLabel value="#{s.servico.id}" />
-							</p:column>
-							<p:column headerText="Nome">
-								<h:outputLabel value="#{s.servico.nome}" />
-							</p:column>
-							<p:column headerText="Quantidade">
-								<p:spinner min="1" value="#{s.quantidade}" style="width: 200px;">
-									<p:ajax
-										listener="#{ordemServicoController.calcularValorServico(s)}"
-										update="tableServico" />
-								</p:spinner>
-							</p:column>
-							<p:column headerText="Valor" width="120" style="text-align:center;">
-								<h:outputLabel value="#{s.servico.valor}" style="color: blue;">
-									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
-								</h:outputLabel>
-							</p:column>
-							<p:column headerText="Subtotal" width="120" style="text-align:center;">
-								<h:outputLabel id="txtTotalServico" value="#{s.subTotal}" style="color: blue;">
-									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
-								</h:outputLabel>
-							</p:column>
-							<p:column width="30">
-								<p:commandButton icon="ui-icon-close" />
-							</p:column>
-							
-							<p:columnGroup type="footer">
-								<p:row>
-									<p:column colspan="4" style="text-align:right" footerText="Total:" />
-									<p:column footerText="R$: #{ordemServicoController.ordemServico.totalServico}" style="text-align:left" />
-								</p:row>
-							</p:columnGroup>
-							
-						</p:dataTable>
-					</p:tab> -->
-
-					<!-- <p:tab title="Produto">
-						<h:panelGrid columns="5">
-							<p:commandButton id="btnProcurarProdutoDialog"
-								icon="ui-icon-search"
-								actionListener="#{ordemServicoController.obterPageProduto}"
-								value="Procurar">
-								<p:ajax event="dialogReturn"
-									listener="#{ordemServicoController.produtoSelecionado}"
-									process="@this" update=":msgGlobal tableProduto :formNovaOrdemServico:tabViewNovaOS" />
-							</p:commandButton>
-
-							<p:blockUI block="formNovaOrdemServico"
-								trigger="btnProcurarProdutoDialog">
-								        Carregando! Aguarde...<br />
-								<p:graphicImage library="img" name="loading.gif" />
-							</p:blockUI>
-
-						</h:panelGrid>
-						<p:dataTable emptyMessage="Nenhum produto encontrado!" id="tableProduto" 
-							var="p"	value="#{ordemServicoController.listaProdutos}" paginator="true"
-							paginatorPosition="bottom" rows="7">
-							
-							<p:column headerText="ID" width="35" style="text-align:center;">
-								<h:outputLabel value="#{p.produto.id}" />
-							</p:column>
-							<p:column headerText="Descrição">
-								<h:outputLabel value="#{p.produto.descricaoProduto}" />
-							</p:column>
-							<p:column headerText="Quantidade">
-								<p:spinner min="1" value="#{p.quantidade}" style="width: 200px;">
-									<p:ajax
-										listener="#{ordemServicoController.calcularValorProduto(p)}"
-										update="tableProduto" />
-								</p:spinner>
-							</p:column>
-							<p:column headerText="Valor" width="120" style="text-align:center;">
-								<h:outputLabel value="#{p.produto.valorVenda}" style="color: blue;">
-									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
-								</h:outputLabel>
-							</p:column>
-							<p:column headerText="Subtotal" width="120" style="text-align:center;">
-								<h:outputLabel id="txtTotalServico" value="#{p.subTotal}" style="color: blue;">
-									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
-								</h:outputLabel>
-							</p:column>
-							<p:column width="30">
-								<p:commandButton icon="ui-icon-close" />
-							</p:column>
-							
-							<p:columnGroup type="footer">
-								<p:row>
-									<p:column colspan="4" style="text-align:right" footerText="Total:" />
-									<p:column footerText="R$: #{ordemServicoController.ordemServico.totalProduto}" style="text-align:left" />
-								</p:row>
-							</p:columnGroup>
-						</p:dataTable>
-					</p:tab> -->
-
-					<p:tab title="Informações complementares">
-
-						<h:panelGrid columns="1">
-							<p:outputLabel value="Observações" />
-							<p:inputTextarea style="width: 855px;"
-								value="#{ordemServicoController.ordemServico.observacoes}" />
-						</h:panelGrid>
-
-						<h:panelGrid columns="1"
-							rendered="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}">
-							<p:outputLabel value="Motivo do cancelamento" />
-							<p:inputTextarea style="width: 855px;"
-								value="#{ordemServicoController.ordemServico.motivoCancelamento}" />
 						</h:panelGrid>
 					</p:tab>
 
@@ -942,12 +801,6 @@
 
 					<p:tab title="Informações complementares">
 
-						<h:panelGrid columns="1">
-							<p:outputLabel value="Observações" />
-							<p:inputTextarea style="width: 855px;"
-								value="#{ordemServicoController.ordemServico.observacoes}" />
-						</h:panelGrid>
-
 						<h:panelGrid columns="1"
 							rendered="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}">
 							<p:outputLabel value="Motivo do cancelamento" />
@@ -1054,6 +907,9 @@
 						styleClass="texto_negrito" />
 					<h:outputLabel
 						value="Uma vez cancelada, não poderá ser reaberta! A mesma ficará disponível apenas para visualização!"
+						styleClass="texto_negrito" />
+					<h:outputLabel
+						value="Se houver parcelas recebidas ou pendentes, as mesmas ficarão desabilitadas com o saldo igual a ZERO no movimento financeiro!"
 						styleClass="texto_negrito" />
 				</h:panelGrid>
 

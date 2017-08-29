@@ -87,7 +87,6 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	private static String NUMERO_SERIE = "numero_serie";
 	private static String NUMERO_PATRIMONIO = "numero_patrimonio";
 	private static String DATA_ENTRADA = "data_entrada";
-	private static String OBSERVACOES = "observacoes";
 	
 	private SimpleDateFormat sdf;
 	private boolean enviaEmail;
@@ -235,7 +234,6 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		params.put(MODELO, ordemServico.getModelo());
 		params.put(ACESSORIOS, ordemServico.getAcessorios());
 		params.put(SINTOMAS, ordemServico.getDefeito());
-		params.put(OBSERVACOES, ordemServico.getObservacoes());
 		params.put(NUMERO_SERIE, String.valueOf(ordemServico.getNumeroSerie()));
 		params.put(NUMERO_PATRIMONIO, String.valueOf(ordemServico.getNumeroPatrimonio()));
 		

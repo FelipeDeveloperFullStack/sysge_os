@@ -122,16 +122,6 @@
 				</p:selectOneMenu>
 			</h:panelGrid>
 
-			<h:panelGrid columns="2">
-				<h:panelGrid columns="1">
-					<p:outputLabel value="Descrição (Opcional)" />
-					<p:inputTextarea rows="8" cols="45" counter="display"
-						maxlength="200" counterTemplate="{0} caracteres restantes."
-						autoResize="false" value="#{servicoController.servico.nome}" />
-					<h:outputText id="display" />
-				</h:panelGrid>
-			</h:panelGrid>
-
 			<h:panelGrid id="panelBotoesEditarServico" columns="2">
 				<h:panelGrid columns="2">
 					<p:commandButton id="btnEditarServico" value="Salvar"
@@ -150,7 +140,7 @@
 	</p:dialog>
 
 
-	<!-- Dialog novo usuário -->
+	<!-- Dialog novo serviço -->
 	<p:dialog widgetVar="dialogNovoServico" header="Novo Serviço"
 		modal="true" appendTo="@(body)" resizable="false" position="top"
 		width="430">

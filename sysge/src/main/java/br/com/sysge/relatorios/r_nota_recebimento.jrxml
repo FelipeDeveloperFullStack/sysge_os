@@ -184,10 +184,6 @@
 				<text><![CDATA[Sintomas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="283" width="70" height="15" uuid="568d38e8-47b3-421a-944a-73f06faf2755"/>
-				<text><![CDATA[Observações]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="313" y="223" width="85" height="15" uuid="88eb5c84-cf6c-4dd6-ad5a-6530c62c53ea"/>
 				<text><![CDATA[Nº de serie]]></text>
 			</staticText>
@@ -267,10 +263,6 @@
 			<textField>
 				<reportElement x="70" y="268" width="485" height="15" uuid="3fa65eb1-2928-40e1-8b18-2ada22ee25ba"/>
 				<textFieldExpression><![CDATA[$P{sintomas}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="70" y="283" width="483" height="15" uuid="b763c9c7-8a9b-4002-83d2-614a3ee73a76"/>
-				<textFieldExpression><![CDATA[$P{observacoes}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="398" y="223" width="158" height="15" uuid="e2864351-7471-473b-b79b-4afcd2d0cd94"/>

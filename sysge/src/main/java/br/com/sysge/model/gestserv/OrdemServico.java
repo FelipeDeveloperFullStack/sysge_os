@@ -100,8 +100,6 @@ public class OrdemServico extends GenericDomain {
 
 	private BigDecimal total = BigDecimal.ZERO;
 
-	private String observacoes;
-
 	private String motivoCancelamento;
 	
 	@Transient
@@ -287,14 +285,6 @@ public class OrdemServico extends GenericDomain {
 
 	public void setTotal(BigDecimal total) {
 		this.total = total;
-	}
-
-	public String getObservacoes() {
-		return observacoes;
-	}
-
-	public void setObservacoes(String observacoes) {
-		this.observacoes = observacoes;
 	}
 
 	public String getMotivoCancelamento() {
