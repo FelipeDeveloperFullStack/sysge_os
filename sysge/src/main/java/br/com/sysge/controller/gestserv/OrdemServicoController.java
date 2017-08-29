@@ -353,7 +353,7 @@ public class OrdemServicoController implements Serializable {
 				if(parametroService.verificarParametroEstoqueNegativo()){
 					FacesUtil.mensagemWarn("Não é possível adicionar a quantidade '"+this.quantidadeAdicionada+"' "
 							+ "para o produto '"+produtoOrdemServico.getProduto().getDescricaoProduto()+" "
-							+ "pois o mesmo possui a quantidade de estoque = "+produtoOrdemServico.getProduto().getQuantidadeEstoque()+" "
+							+ "pois, o mesmo ficara com estoque negativo"
 							+ "verifique os parâmetros do sistema "
 							+ "e tente novamente!");
 					return;
@@ -365,6 +365,19 @@ public class OrdemServicoController implements Serializable {
 						+ "se encontra com estoque igual a "+produtoOrdemServico.getProduto().getQuantidadeEstoque()+", não é permitido adicionar o produto, "
 						+ "para permitir essa ação desmarque o parâmetro do sistema.");
 				return;
+			}
+			
+			for(ProdutoOrdemServico po : listaProdutos){
+				if(po.getQuantidade().add(quantidadeAdicionada).compareTo(produtoOrdemServico.getProduto().getQuantidadeEstoque()) > 0){
+					if(parametroService.verificarParametroEstoqueNegativo()){
+						FacesUtil.mensagemWarn("Não é possível adicionar a quantidade '"+this.quantidadeAdicionada+"' "
+								+ "para o produto '"+produtoOrdemServico.getProduto().getDescricaoProduto()+" "
+								+ "pois, o mesmo ficara com estoque negativo "
+								+ "verifique os parâmetros do sistema "
+								+ "e tente novamente!");
+						return;
+					}
+				}
 			}
 
 		if(quantidadeAdicionada == BigDecimal.ZERO){
