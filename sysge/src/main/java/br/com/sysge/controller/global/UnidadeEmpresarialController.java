@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+
 
 import br.com.sysge.model.global.UnidadeEmpresarial;
 import br.com.sysge.model.type.Situacao;
@@ -19,8 +20,8 @@ import br.com.sysge.service.sys.WebServiceCEPService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 
-@Named
 @ViewScoped
+@ManagedBean
 public class UnidadeEmpresarialController implements Serializable{
 
 	private static final long serialVersionUID = 4377896072467651845L;
@@ -29,8 +30,7 @@ public class UnidadeEmpresarialController implements Serializable{
 	
 	private List<UnidadeEmpresarial> unidadeEmpresariais;
 	
-	@Inject
-	private UnidadeEmpresarialService unidadeEmpresarialService;
+	private UnidadeEmpresarialService unidadeEmpresarialService = new UnidadeEmpresarialService();
 	
 	@PostConstruct
 	public void init(){

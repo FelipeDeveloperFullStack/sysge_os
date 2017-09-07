@@ -1,14 +1,12 @@
 package br.com.sysge.service.sys;
 
 import java.io.Serializable;
+
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import javax.faces.bean.SessionScoped;
 
-
-@Named
 @SessionScoped
 public class ThemeBean implements Serializable{
 

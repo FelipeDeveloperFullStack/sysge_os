@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+
 
 import br.com.sysge.model.financ.AuditoriaFinanceiro;
 import br.com.sysge.model.financ.LancamentoFinanceiro;
@@ -31,20 +33,16 @@ import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 import br.com.sysge.util.UsuarioSession;
 
-
-@Named
 @ViewScoped
+@ManagedBean
 public class MovimentoFinanceiroController implements Serializable {
 
 	private static final long serialVersionUID = 514967643852507096L;
 	
-	@Inject
 	private MovimentoFinanceiroService movimentoFinanceiroService;
 	
-	@Inject
 	private LancamentoFinanceiroService lancamentoFinanceiroService;
 	
-	@Inject
 	private ParcelasPagamentoOsService parcelasPagamentoOsService;
 	
 	private List<LancamentoFinanceiro> lancamentoFinanceiros;
@@ -61,11 +59,18 @@ public class MovimentoFinanceiroController implements Serializable {
 	
 	private AuditoriaFinanceiro auditoriaFinanceiro;
 	
-	@Inject
 	private ClienteService clienteService;
 	
-	@Inject
 	private FornecedorService fornecedorService;
+	
+	@PostConstruct
+	public void movimentoFinanceiroController(){
+		this.movimentoFinanceiroService = new MovimentoFinanceiroService();
+		this.lancamentoFinanceiroService = new LancamentoFinanceiroService();
+		this.parcelasPagamentoOsService = new ParcelasPagamentoOsService();
+		this.clienteService = new ClienteService();
+		this.fornecedorService = new FornecedorService();
+	}
 	
 	public List<CategoriaLancamentoReceita> getCategoriasLancamentoReceita(){
 		List<CategoriaLancamentoReceita> receita = new ArrayList<CategoriaLancamentoReceita>();

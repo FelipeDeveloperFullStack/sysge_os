@@ -3,9 +3,8 @@ package br.com.sysge.controller.sys;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
@@ -15,8 +14,9 @@ import org.primefaces.model.DefaultDashboardModel;
 import br.com.sysge.model.conf.Parametro;
 import br.com.sysge.service.conf.ParametroService;
 
-@Named
+
 @ViewScoped
+@ManagedBean
 public class DashboardController implements Serializable{
 
 	private static final long serialVersionUID = 248574364508549444L;
@@ -25,8 +25,7 @@ public class DashboardController implements Serializable{
 	
 	private Parametro parametro;
 	
-	@Inject
-	private ParametroService parametroService;
+	private ParametroService parametroService = new ParametroService();
 	
 	@PostConstruct
 	public void init(){

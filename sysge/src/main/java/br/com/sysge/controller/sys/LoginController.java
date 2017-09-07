@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
+
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.model.DualListModel;
@@ -40,8 +40,8 @@ import br.com.sysge.util.DateUtil;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 
-@Named
 @SessionScoped
+@ManagedBean
 public class LoginController implements Serializable {
 
 	private static final long serialVersionUID = -6030501658030781045L;
@@ -91,17 +91,17 @@ public class LoginController implements Serializable {
 	
 	private DualListModel<PanelMenu> menus;
 
-	@Inject
-	private PanelMenuService panelMenuService;
+	
+	private PanelMenuService panelMenuService = new PanelMenuService();
 
-	@Inject
-	private UsuarioService usuarioService;
 	
-	@Inject
-	private PerfilAcessoService perfilAcessoService;
+	private UsuarioService usuarioService = new UsuarioService();
 	
-	@Inject
-	private FuncionarioService funcionarioService;
+	
+	private PerfilAcessoService perfilAcessoService = new PerfilAcessoService();
+	
+	
+	private FuncionarioService funcionarioService = new FuncionarioService();
 	
 	// Faces redirect
 	private static final String FACES_REDIRECT = "?faces-redirect=true";

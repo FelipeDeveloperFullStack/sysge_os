@@ -42,19 +42,10 @@
 		<param-value>0</param-value> </context-param> -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>#{guessPreferences.theme}</param-value>
+		<param-value>redmond</param-value>
 	</context-param>
 	<!-- <context-param> <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name> 
 		<param-value>true</param-value> </context-param> -->
-	<listener>
-		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
-	</listener>
-	<listener>
-		<listener-class>org.jboss.weld.servlet.WeldInitialListener</listener-class>
-	</listener>
-	<listener>
-		<listener-class>org.jboss.weld.servlet.WeldTerminalListener</listener-class>
-	</listener>
 	<resource-env-ref>
 		<resource-env-ref-name>BeanManager</resource-env-ref-name>
 		<resource-env-ref-type>javax.enterprise.inject.spi.BeanManager</resource-env-ref-type>

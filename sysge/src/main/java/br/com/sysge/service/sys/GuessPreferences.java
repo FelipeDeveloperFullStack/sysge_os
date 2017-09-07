@@ -3,11 +3,11 @@ package br.com.sysge.service.sys;
 import java.io.Serializable;
 import java.util.Map;
 
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 
-@Named
+
+
 @SessionScoped
 public class GuessPreferences implements Serializable{
 

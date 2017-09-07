@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+
 
 import org.primefaces.event.SelectEvent;
 
@@ -23,8 +24,9 @@ import br.com.sysge.service.rh.FuncionarioService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 
-@Named
+
 @ViewScoped
+@ManagedBean
 public class UsuarioController implements Serializable{
 
 	private static final long serialVersionUID = 5133625956304965649L;
@@ -38,17 +40,13 @@ public class UsuarioController implements Serializable{
 	
 	private int currentTab = 0;
 	
-	@Inject
 	private TemplateViewPage templateViewPage;
 	
-	@Inject
-	private UsuarioService usuarioService;
+	private UsuarioService usuarioService = new UsuarioService();
 	
-	@Inject
-	private FuncionarioService funcionarioService;
+	private FuncionarioService funcionarioService = new FuncionarioService();
 	
-	@Inject
-	private PerfilAcessoService perfilAcessoService;
+	private PerfilAcessoService perfilAcessoService = new PerfilAcessoService();
 	
 	private static final String PAGE_FUNCIONARIO = "/pages_framework/p_funcionario.xhtml";
 	

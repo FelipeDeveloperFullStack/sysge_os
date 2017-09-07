@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
+
 import javax.persistence.Query;
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
@@ -33,19 +33,23 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
-	@Inject
 	private LancamentoFinanceiroService lancamentoFinanceiroService;
 	
 	@SuppressWarnings("unused")
-	@Inject
+	
 	private ParcelasPagamentoOsService parcelasPagamentoOsService;
 	
-	@Inject
 	private AuditoriaFinanceiroService auditoriaFinanceiroService;
 	
 	private AuditoriaFinanceiro auditoriaFinanceiro;
 	
 	private MovimentoFinanceiro movimentoFinanceiro;
+	
+	public MovimentoFinanceiroService(){
+		this.parcelasPagamentoOsService = new ParcelasPagamentoOsService();
+		this.auditoriaFinanceiroService = new AuditoriaFinanceiroService();
+		this.lancamentoFinanceiroService = new LancamentoFinanceiroService();
+	}
 	
 	public void salvarMovimentoFinanceiroOS(OrdemServico ordemServico, ParcelasPagamentoOs parcelasPagamentoOs){
 		

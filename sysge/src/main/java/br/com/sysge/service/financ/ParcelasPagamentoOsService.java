@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
+
 import javax.persistence.Query;
 
 
@@ -25,8 +25,7 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 	
 	private static final String CONDICAO_PAGAMENTO = "A condição de pagamento é obrigatório!";
 	
-	@Inject
-	private MovimentoFinanceiroController movimentoFinanceiroController;
+	private MovimentoFinanceiroController movimentoFinanceiroController = new MovimentoFinanceiroController();
 	
 	public List<ParcelasPagamentoOs> salvar(OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelas){
 		List<ParcelasPagamentoOs> listaParcelas = procurarParcelasPorOS(ordemServico.getId());

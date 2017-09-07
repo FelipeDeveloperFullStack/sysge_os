@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+
 
 import br.com.sysge.model.gestserv.Servico;
 import br.com.sysge.model.type.Situacao;
@@ -15,16 +16,16 @@ import br.com.sysge.service.gestserv.ServicoService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 
-@Named
+
 @ViewScoped
+@ManagedBean
 public class ServicoController implements Serializable {
 
 	private static final long serialVersionUID = 4027984504929564579L;
 
 	private Servico servico;
 	
-	@Inject
-	private ServicoService servicoService;
+	private ServicoService servicoService = new ServicoService();
 
 	private List<Servico> servicos;
 

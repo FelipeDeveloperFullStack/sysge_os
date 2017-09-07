@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
 
 import br.com.sysge.model.conf.Parametro;
 import br.com.sysge.model.global.UnidadeEmpresarial;
@@ -15,19 +15,18 @@ import br.com.sysge.service.conf.ParametroService;
 import br.com.sysge.service.global.UnidadeEmpresarialService;
 import br.com.sysge.util.FacesUtil;
 
-@Named
+
 @ViewScoped
+@ManagedBean
 public class ParametrosController implements Serializable{
 
 	private static final long serialVersionUID = -3967688189576379494L;
 	
-	@Inject
-	private ParametroService parametroService;
+	private ParametroService parametroService = new ParametroService();
 	
 	private Parametro parametro;
 	
-	@Inject
-	private UnidadeEmpresarialService unidadeEmpresarialService;
+	private UnidadeEmpresarialService unidadeEmpresarialService = new UnidadeEmpresarialService();
 	
 	@PostConstruct
 	public void init(){

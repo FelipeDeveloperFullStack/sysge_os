@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.inject.Inject;
+
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.conf.BackupHistorico;
@@ -29,9 +29,8 @@ public class BackupService extends GenericDaoImpl<BackupHistorico, Long>{
 
 	private static final long serialVersionUID = 7547494882791200676L;
 	
-	@Inject
-	private ConfiguracaoBackupService configuracaoBackupService;
-
+	
+	private ConfiguracaoBackupService configuracaoBackupService = new ConfiguracaoBackupService();
 	
 	private BackupHistorico backupHistorico;
 	

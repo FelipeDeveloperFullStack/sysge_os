@@ -2,7 +2,7 @@ package br.com.sysge.service.conf;
 
 import java.util.List;
 
-import javax.inject.Inject;
+
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.conf.Parametro;
@@ -14,8 +14,7 @@ public class ParametroService extends GenericDaoImpl<Parametro, Long>{
 
 	private static final long serialVersionUID = -4527982637637712859L;
 	
-	@Inject
-	private ProdutoService produtoService;
+	private ProdutoService produtoService = new ProdutoService();
 	
 	public void salvar(Parametro parametro){
 		List<Parametro> parametros = super.findAll();

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
+
 import javax.servlet.http.HttpSession;
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
@@ -20,8 +20,7 @@ public class UsuarioService extends GenericDaoImpl<Usuario, Long>{
 
 	private static final long serialVersionUID = -2651419634334617651L;
 	
-	@Inject
-	private FuncionarioService funcionarioService;
+	private FuncionarioService funcionarioService = new FuncionarioService();
 	
 	public List<Usuario> pesquisarUsuario(Usuario usuario){
 		if(usuario.getPerfilAcesso() != null){

@@ -8,9 +8,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+
 
 import org.primefaces.event.SelectEvent;
 
@@ -43,8 +44,9 @@ import br.com.sysge.service.rh.FuncionarioService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 
-@Named
+
 @ViewScoped
+@ManagedBean
 public class OrdemServicoController implements Serializable {
 
 	private static final long serialVersionUID = 1267523434219231347L;
@@ -92,40 +94,40 @@ public class OrdemServicoController implements Serializable {
 	
 	private List<ProdutoOrdemServico> listaProdutosTemporário;
 	
-	@Inject
+	
 	private FuncionarioService funcionarioService;
 	
-	@Inject
+	
 	private ClienteService clienteService;
 	
-	@Inject
+	
 	private TemplateViewPage templateViewPage;
 	
-	@Inject
+	
 	private OrdemServicoService ordemServicoService;
 	
-	@Inject
+	
 	private ServicoOrdemServicoService servicoOrdemServicoService;
 	
-	@Inject
+	
 	private ProdutoOrdemServicoService produtoOrdemServicoService;
 	
-	@Inject
+	
 	private ParcelasPagamentoOsService parcelasPagamentoOsService;
 	
-	@Inject
+	
 	private CondicaoPagamentoService condicaoPagamentoService;
 	
-	@Inject
+	
 	private ProdutoService produtoService;
 	
-	@Inject
+	
 	private ParametroService parametroService;
 	
-	@Inject
+	
 	private MovimentoFinanceiroService movimentoFinanceiroService;
 	
-	@Inject
+	
 	private EmailOSController emailOSController;
 	
 	private static final String PAGE_CLIENTE = "/pages_framework/p_cliente.xhtml";
@@ -137,6 +139,19 @@ public class OrdemServicoController implements Serializable {
 	@PostConstruct
 	public void init() {
 		novaOrdemServico();
+		
+		this.templateViewPage = new TemplateViewPage();
+		this.movimentoFinanceiroService = new MovimentoFinanceiroService();
+		this.parametroService = new ParametroService();
+		this.produtoService = new ProdutoService();
+		this.ordemServicoService = new OrdemServicoService();
+		this.servicoOrdemServicoService = new ServicoOrdemServicoService();
+		this.produtoOrdemServicoService = new ProdutoOrdemServicoService();
+		this.parcelasPagamentoOsService = new ParcelasPagamentoOsService();
+		this.funcionarioService = new FuncionarioService();
+		this.clienteService = new ClienteService();
+    	this.condicaoPagamentoService = new CondicaoPagamentoService();
+
 	}
 	
 	public void pesquisarCliente() {

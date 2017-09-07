@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+
 
 import br.com.sysge.model.global.Fornecedor;
 import br.com.sysge.model.type.Atividade;
@@ -23,8 +24,9 @@ import br.com.sysge.service.sys.WebServiceCEPService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 
-@Named
+
 @ViewScoped
+@ManagedBean
 public class FornecedorController implements Serializable {
 
 	private static final long serialVersionUID = -2506223673479436354L;
@@ -35,8 +37,7 @@ public class FornecedorController implements Serializable {
 	
 	private int currentTab = 0;
 	
-	@Inject
-	private  FornecedorService fornecedorService;
+	private  FornecedorService fornecedorService = new FornecedorService();
 
 	@PostConstruct
 	public void init() {

@@ -4,9 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+
 
 import br.com.sysge.model.estoque.Produto;
 import br.com.sysge.model.global.Cliente;
@@ -18,8 +19,9 @@ import br.com.sysge.service.global.FornecedorService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 
-@Named
+
 @ViewScoped
+@ManagedBean
 public class ProdutoController implements Serializable{
 
 	private static final long serialVersionUID = 7321092633765106412L;
@@ -34,11 +36,9 @@ public class ProdutoController implements Serializable{
 	@SuppressWarnings("unused")
 	private List<Cliente> fornecedores;
 	
-	@Inject
-	private ProdutoService produtoService;
+	private ProdutoService produtoService = new ProdutoService();
 	
-	@Inject
-	private FornecedorService fornecedorService;
+	private FornecedorService fornecedorService = new FornecedorService();
 	
 	public Situacao[] getSituacoes(){
 		return Situacao.values();

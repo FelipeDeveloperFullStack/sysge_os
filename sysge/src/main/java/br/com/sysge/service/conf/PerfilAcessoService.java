@@ -3,7 +3,7 @@ package br.com.sysge.service.conf;
 
 import java.util.List;
 
-import javax.inject.Inject;
+
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.conf.PerfilAcesso;
@@ -14,8 +14,7 @@ public class PerfilAcessoService extends GenericDaoImpl<PerfilAcesso, Long>{
 
 	private static final long serialVersionUID = -2246221808094794560L;
 	
-	@Inject
-	private UsuarioService usuarioService;
+	private UsuarioService usuarioService = new UsuarioService();
 	
 	public List<PerfilAcesso> pesquisarPerfilAcesso(PerfilAcesso perfilAcesso){
 		try {

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
+
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.infraestrutura.decimal.ConverteNumeroExtensoReal;
@@ -37,27 +37,20 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	private static final long serialVersionUID = 6697038638256448464L;
 	
 	private ConverteNumeroExtensoReal converteNumeroExtensoReal;
-
-	@Inject
-	private ServicoOrdemServicoService servicoOrdemServicoService;
 	
-	@Inject
-	private ProdutoOrdemServicoService produtoOrdemServicoService;
+	private ServicoOrdemServicoService servicoOrdemServicoService = new ServicoOrdemServicoService();
 	
-	@Inject
-	private ServicoService servicoService;
-
-	@Inject
-	private ProdutoService produtoService;
+	private ProdutoOrdemServicoService produtoOrdemServicoService = new ProdutoOrdemServicoService();
 	
-	@Inject
-	private ParcelasPagamentoOsService parcelasPagamentoService;
+	private ServicoService servicoService = new ServicoService();
 	
-	@Inject
-	private ClienteService clienteService;
+	private ProdutoService produtoService = new ProdutoService();
 	
-	@Inject
-	private ParametroService parametroService;
+	private ParcelasPagamentoOsService parcelasPagamentoService = new ParcelasPagamentoOsService();
+	
+	private ClienteService clienteService = new ClienteService();
+	
+	private ParametroService parametroService = new ParametroService();
 	
 	private static String NUMERO_RECIDO = "numero_recibo";
 	private static String VALOR_OS = "valor_os";

@@ -4,7 +4,6 @@ package br.com.sysge.converter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.inject.spi.CDI;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -24,7 +23,7 @@ public class PrimeFacesPickListConverter implements Converter {
 	private PanelMenuService panelMenuService;
 	
 	public PrimeFacesPickListConverter(){
-		this.panelMenuService = CDI.current().select(PanelMenuService.class).get();
+		this.panelMenuService = new PanelMenuService();
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+
 
 import br.com.sysge.model.financ.CondicaoPagamento;
 import br.com.sysge.model.type.Situacao;
@@ -15,8 +16,9 @@ import br.com.sysge.service.financ.CondicaoPagamentoService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 
-@Named
+
 @ViewScoped
+@ManagedBean
 public class CondicaoPagamentoController implements Serializable{
 
 	private static final long serialVersionUID = 8114651297348114528L;
@@ -29,8 +31,7 @@ public class CondicaoPagamentoController implements Serializable{
 	
 	private List<CondicaoPagamento> condicoesPagamento;
 	
-	@Inject
-	private CondicaoPagamentoService condicaoPagamentoService;
+	private CondicaoPagamentoService condicaoPagamentoService = new CondicaoPagamentoService();
 	
 	@PostConstruct
 	public void init() {

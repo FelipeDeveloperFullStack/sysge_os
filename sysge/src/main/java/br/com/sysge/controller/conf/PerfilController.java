@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+
 
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
@@ -21,8 +22,9 @@ import br.com.sysge.service.sys.PanelMenuService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 
-@Named
+
 @ViewScoped
+@ManagedBean
 public class PerfilController implements Serializable{
 
 	private static final long serialVersionUID = -8278690574259597505L;
@@ -36,11 +38,9 @@ public class PerfilController implements Serializable{
 	
 	protected List<PerfilAcesso> perfis;
 	
-	@Inject
-	private PanelMenuService panelMenuService;
+	private PanelMenuService panelMenuService = new PanelMenuService();
 	
-	@Inject
-	private PerfilAcessoService perfilAcessoService;
+	private PerfilAcessoService perfilAcessoService = new PerfilAcessoService();
 	
 	@PostConstruct
     public void init() {

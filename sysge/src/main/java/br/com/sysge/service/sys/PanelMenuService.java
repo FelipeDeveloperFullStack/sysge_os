@@ -3,7 +3,7 @@ package br.com.sysge.service.sys;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
+
 
 import org.primefaces.model.DualListModel;
 
@@ -19,8 +19,7 @@ public class PanelMenuService extends GenericDaoImpl<PanelMenu, Long>{
 
 	private static final long serialVersionUID = 8750947842342786618L;
 	
-	@Inject
-	private PerfilAcessoService perfilAcessoService;
+	private PerfilAcessoService perfilAcessoService = new PerfilAcessoService();
 	
 	public List<PanelMenu> setarMenuSource(PerfilAcesso perfilAcesso,DualListModel<PanelMenu> menus){
 		try {

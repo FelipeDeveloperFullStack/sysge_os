@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
+
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.estoque.Produto;
@@ -16,8 +16,7 @@ public class ProdutoService extends GenericDaoImpl<Produto, Long>{
 
 	private static final long serialVersionUID = 1704211895445872913L;
 	
-	@Inject
-	private FornecedorService fornecedorService;
+	private FornecedorService fornecedorService = new FornecedorService();
 	
 	public Produto salvar(Produto produto){
 		try {

@@ -4,25 +4,20 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import br.com.sysge.model.type.Categoria;
 import br.com.sysge.model.type.Situacao;
 import br.com.sysge.model.type.StatusOS;
 import br.com.sysge.model.type.TipoPessoa;
 
-
 /**
- * 
- *
  * @param <E> -> Entidade
  * @param <I> -> Identificador
  */
@@ -33,11 +28,6 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 
 	private Class<E> entityClass;
 	
-	private CriteriaBuilder builder;
-	
-	private CriteriaQuery<E> criteria;
-
-	@Inject
 	private EntityManager manager;
 	
 	private EntityTransaction tx;
@@ -52,7 +42,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 		ParameterizedType parameterizedType = (ParameterizedType) clazz.getGenericSuperclass();
 		entityClass = (Class<E>) parameterizedType.getActualTypeArguments()[0];
 		
-		//configCacheSecondLevel();
+	    this.manager = JPAUtil.getEntityManager();
 		
 	}
 	
@@ -79,6 +69,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 		} catch (RuntimeException e) {
 			consistEntityTransactional(tx);
 			throw e;
+		}finally {
 		}
 	}
 
@@ -93,8 +84,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 		} catch (RuntimeException e) {
 			consistEntityTransactional(tx);
 			throw e;
-		}finally{
-			
+		}finally {
 		}
 	}
 
@@ -106,8 +96,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			return query.getResultList();
 		} catch (RuntimeException e) {
 			throw e;
-		}finally{
-			manager.clear();
+		}finally {
 		}
 	}
 	
@@ -122,8 +111,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			return query.getResultList();
 		} catch (Exception e) {
 			throw e;
-		}finally{
-			manager.clear();
+		}finally {
 		}
 	}
 
@@ -133,8 +121,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 			return manager.find(entityClass, id);
 		} catch (RuntimeException e) {
 			throw e;
-		}finally{
-			manager.clear();
+		}finally {
 		}
 	}
 	

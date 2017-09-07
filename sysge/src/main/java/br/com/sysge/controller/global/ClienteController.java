@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 import br.com.sysge.model.gestserv.GarantiaServico;
 import br.com.sysge.model.gestserv.Servico;
@@ -26,8 +25,9 @@ import br.com.sysge.service.sys.WebServiceCEPService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 
-@Named
+
 @ViewScoped
+@ManagedBean
 public class ClienteController implements Serializable {
 
 	private static final long serialVersionUID = -2506223673479436354L;
@@ -47,11 +47,9 @@ public class ClienteController implements Serializable {
 	
 	private List<GarantiaServico> garantiaServicos;
 	
-	@Inject
-	private ServicoService servicoService;
-
-	@Inject
-	private ClienteService clienteService;
+	private ServicoService servicoService = new ServicoService();
+	
+	private ClienteService clienteService = new ClienteService();
 
 	@PostConstruct
 	public void init() {

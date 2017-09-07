@@ -5,10 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -20,8 +18,9 @@ import br.com.sysge.service.global.AgendaService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 
-@Named
+
 @ViewScoped
+@ManagedBean
 public class AgendaController implements Serializable{
 
 	private static final long serialVersionUID = -6536627098015550705L;
@@ -32,8 +31,7 @@ public class AgendaController implements Serializable{
 	
 	private Agenda agenda;
 	
-	@Inject
-	private AgendaService agendaService;
+	private AgendaService agendaService = new AgendaService();
 
 	public ScheduleModel getAgendas() {
 		return agendas;

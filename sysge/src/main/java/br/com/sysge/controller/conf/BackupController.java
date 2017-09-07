@@ -12,9 +12,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 import br.com.sysge.model.conf.BackupHistorico;
 import br.com.sysge.model.conf.ConfiguracaoBackup;
@@ -23,14 +22,13 @@ import br.com.sysge.service.conf.ConfiguracaoBackupService;
 import br.com.sysge.util.DateUtil;
 import br.com.sysge.util.FacesUtil;
 
-@Named
 @ViewScoped
+@ManagedBean
 public class BackupController implements Serializable{
 
 	private static final long serialVersionUID = -6691709383659177389L;
 	
-	@Inject
-	private ConfiguracaoBackupService configuracaoBackupService;
+	private ConfiguracaoBackupService configuracaoBackupService = new ConfiguracaoBackupService();
 	
 	private ConfiguracaoBackup configuracaoBackup;
 	
@@ -41,8 +39,7 @@ public class BackupController implements Serializable{
 	
 	private LocalDate dataFinal;
 	
-	@Inject
-	private BackupService backupService;
+	private BackupService backupService = new BackupService();
 	
 	@PostConstruct
 	public void init(){
