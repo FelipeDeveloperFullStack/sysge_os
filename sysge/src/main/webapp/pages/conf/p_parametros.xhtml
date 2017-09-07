@@ -62,22 +62,6 @@
 
 					<p:separator />
 					
-					<h:panelGrid columns="2">
-						<p:outputLabel value="Tema"/>	
-					    <p:themeSwitcher id="advanced" style="width:165px" effect="fade"
-								value="#{guessPreferences.theme}">
-								<f:selectItem itemLabel="Escolha um tema" itemValue="" />
-								<f:selectItems value="#{themeBean.themes}" actionListener=""/>
-								<p:column>
-									<h:outputText styleClass="ui-theme ui-theme-"
-										style="display-block" />
-								</p:column>
-								<p:ajax listener="#{themeBean.saveTheme}"/>
-							</p:themeSwitcher>
-					</h:panelGrid>
-					
-					<p:separator />
-
 					<h:panelGrid>
 						<p:commandButton value="Salvar" icon="ui-icon-disk"
 							actionListener="#{parametrosController.salvar}"

@@ -65,6 +65,10 @@ public class MovimentoFinanceiroController implements Serializable {
 	
 	@PostConstruct
 	public void movimentoFinanceiroController(){
+		instanceObjetos();
+	}
+	
+	private void instanceObjetos(){
 		this.movimentoFinanceiroService = new MovimentoFinanceiroService();
 		this.lancamentoFinanceiroService = new LancamentoFinanceiroService();
 		this.parcelasPagamentoOsService = new ParcelasPagamentoOsService();
@@ -181,6 +185,7 @@ public class MovimentoFinanceiroController implements Serializable {
 	}
 	
 	public void atualizarStatusFinanceiroTituto(LancamentoFinanceiro lancamentoFinanceiro){
+		instanceObjetos();
 		if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
 			this.lancamentoFinanceiro = lancamentoFinanceiro;
 			this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PENDENTE);
