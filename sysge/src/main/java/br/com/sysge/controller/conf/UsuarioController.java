@@ -42,11 +42,11 @@ public class UsuarioController implements Serializable{
 	
 	private TemplateViewPage templateViewPage;
 	
-	private UsuarioService usuarioService = new UsuarioService();
+	private UsuarioService usuarioService;
 	
-	private FuncionarioService funcionarioService = new FuncionarioService();
+	private FuncionarioService funcionarioService;
 	
-	private PerfilAcessoService perfilAcessoService = new PerfilAcessoService();
+	private PerfilAcessoService perfilAcessoService;
 	
 	private static final String PAGE_FUNCIONARIO = "/pages_framework/p_funcionario.xhtml";
 	
@@ -56,6 +56,16 @@ public class UsuarioController implements Serializable{
 		funcionarios = new ArrayList<Funcionario>();
 		perfisAcesso = new ArrayList<PerfilAcesso>();
 		usuario = new Usuario();
+		
+		instanceObjeto();
+	}
+	
+	private void instanceObjeto(){
+		this.usuarioService = new UsuarioService();
+		this.funcionarioService = new FuncionarioService();
+		this.perfilAcessoService = new PerfilAcessoService();
+		this.templateViewPage = new TemplateViewPage();
+		
 	}
 	
 	public void novoUsuario(){

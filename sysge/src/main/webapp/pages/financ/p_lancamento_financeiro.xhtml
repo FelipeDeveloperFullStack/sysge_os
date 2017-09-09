@@ -35,7 +35,7 @@
 			<p:dataTable id="tableMovimentoCaixa" var="mov"
 				emptyMessage="Nenhum movimento encontrado!"
 				value="#{movimentoFinanceiroController.lancamentoFinanceiros}"
-				rows="12" paginator="true" paginatorPosition="bottom"
+				rows="7" paginator="true" paginatorPosition="bottom"
 				rowStyleClass="#{mov.statusOS eq 'CANCELADO' ? 'cor_vemelho' : null}">
 				
 				<!-- <p:column style="width:16px">

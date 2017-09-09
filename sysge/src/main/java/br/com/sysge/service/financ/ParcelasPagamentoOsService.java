@@ -25,7 +25,12 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 	
 	private static final String CONDICAO_PAGAMENTO = "A condição de pagamento é obrigatório!";
 	
-	private MovimentoFinanceiroController movimentoFinanceiroController = new MovimentoFinanceiroController();
+	private MovimentoFinanceiroController movimentoFinanceiroController;
+	
+	
+	public ParcelasPagamentoOsService(){
+		movimentoFinanceiroController = new MovimentoFinanceiroController();
+	}
 	
 	public List<ParcelasPagamentoOs> salvar(OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelas){
 		List<ParcelasPagamentoOs> listaParcelas = procurarParcelasPorOS(ordemServico.getId());
@@ -42,6 +47,7 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 			p = super.save(p);
 			listaParcelas.add(p);
 		}
+		
 		return listaParcelas;
 	}
 	

@@ -497,7 +497,12 @@ public class OrdemServicoController implements Serializable {
 	
 	public void salvarMovimentoFinanceiro(OrdemServico ordemServico, List<ParcelasPagamentoOs> parcelasPagamentoOs){
 		for(ParcelasPagamentoOs p : parcelasPagamentoOs){
-			movimentoFinanceiroService.salvarMovimentoFinanceiroOS(ordemServico, p);
+			if(p.getStatusFinanceiro() == null){
+				p.setStatusFinanceiro(StatusFinanceiro.PENDENTE);
+			}
+			if(p.getStatusFinanceiro() == StatusFinanceiro.PENDENTE){
+				movimentoFinanceiroService.salvarMovimentoFinanceiroOS(ordemServico, p);
+			}
 		}
 	}
 	
@@ -527,9 +532,9 @@ public class OrdemServicoController implements Serializable {
 	private void salvarOS(){
 		if(ordemServico.getId() == null){
 			ordemServico = ordemServicoService.salvar(ordemServico);
-			parcelasPagamentoOsService.salvar(ordemServico, parcelas);
-			ordemServicoService.consistirServico(listaServicos, ordemServico);
-			ordemServicoService.consistirProduto(listaProdutos, ordemServico);
+			//parcelasPagamentoOsService.salvar(ordemServico, parcelas);
+			//ordemServicoService.consistirServico(listaServicos, ordemServico);
+			//ordemServicoService.consistirProduto(listaProdutos, ordemServico);
 		}else{
 			ordemServico = ordemServicoService.salvar(ordemServico);
 			salvarMovimentoFinanceiro(ordemServico, parcelas);
