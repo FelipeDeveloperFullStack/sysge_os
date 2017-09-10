@@ -197,6 +197,25 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		return new MovimentoFinanceiro();
 	}
 	
+	private LancamentoFinanceiro setarLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
+		
+		/*lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_PAGO);
+		lancamentoFinanceiro.setTipoLancamento(TipoLancamento.RECEITA);
+		lancamentoFinanceiroService.save(lancamentoFinanceiro);*/
+		
+		lancamentoFinanceiro = new LancamentoFinanceiro();
+		lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_PAGO);
+		lancamentoFinanceiro.setTipoLancamento(TipoLancamento.RECEITA);
+		lancamentoFinanceiro.setMovimentoFinanceiro(new MovimentoFinanceiro());
+		return lancamentoFinanceiro;
+	}
+	
+	private void excluirMovimentoFinanceiro(Date dataMovimento, Long idMovimento){
+		if(lancamentoFinanceiroService.findByData("dataLancamento", dataMovimento).isEmpty()){
+			super.remove(idMovimento);
+		}
+	}
+	
 	private MovimentoFinanceiro calcularMovimentoParcelasPagamentoOS
 			(OrdemServico ordemServico,LancamentoFinanceiro lancamentoReceita, ParcelasPagamentoOs parcelasPagamentoOs){
 		
@@ -209,9 +228,13 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			if(parcelasPagamentoOs.getDataPagamento() != null){
 				lancamentoReceita.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_PAGO);
 				if(buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento()).isEmpty()){
-					lancamentoReceita = new LancamentoFinanceiro();
-					lancamentoReceita.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_PAGO);
-					lancamentoReceita.setMovimentoFinanceiro(new MovimentoFinanceiro());
+					if(parcelasPagamentoOs.getDataPagamento().compareTo(parcelasPagamentoOs.getDataVencimento()) == 0){
+						//lancamentoReceita.setDataLancamento(parcelasPagamentoOs.getDataPagamento());
+						lancamentoReceita = setarLancamentoFinanceiro(lancamentoReceita);
+					}else{
+						//lancamentoReceita.setDataLancamento(parcelasPagamentoOs.getDataPagamento());
+						lancamentoReceita = setarLancamentoFinanceiro(lancamentoReceita);
+					}
 				}
 			}else{
 				lancamentoReceita.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER);
@@ -272,6 +295,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			}
 			
 			this.movimentoFinanceiro = lancamentoReceita.getMovimentoFinanceiro();
+			//excluirMovimentoFinanceiro(parcelasPagamentoOs.getDataVencimento(),lancamentoReceita.getMovimentoFinanceiro().getId());
 			
 		return lancamentoReceita.getMovimentoFinanceiro();
 	}

@@ -19,8 +19,6 @@ public class Produto extends GenericDomain{
 
 	private static final long serialVersionUID = -7328127398997221454L;
 
-	private String codigoProduto;
-	
 	private String descricaoProduto;
 	
 	private BigDecimal valorCusto = BigDecimal.ZERO;
@@ -38,14 +36,6 @@ public class Produto extends GenericDomain{
 	private Situacao situacao;
 	
 	private boolean mostrarEstoqueMinimoTelaInicial = Boolean.TRUE;
-
-	public String getCodigoProduto() {
-		return codigoProduto;
-	}
-
-	public void setCodigoProduto(String codigoProduto) {
-		this.codigoProduto = codigoProduto;
-	}
 
 	public String getDescricaoProduto() {
 		return descricaoProduto;

@@ -382,7 +382,12 @@ public class LoginController implements Serializable {
 		if (menuItemCliente != null || menuItemFornecedor != null || menuItemUnidadeEmpresarial != null 
 				|| menuItemAgenda != null) {
 			menuGlobal = new DefaultSubMenu(MenuSistema.GLOBAL.getMenu());
+			
+			if(menuItemAgenda != null){
+				menuGlobal.addElement(menuItemAgenda);
+			}
 			menuModel.addElement(menuGlobal);
+			
 			subMenuCadastroGl = new DefaultSubMenu(MenuSistema.CADASTROS_GL.getMenu());
 			menuGlobal.addElement(subMenuCadastroGl);
 			if(menuItemCliente != null){
@@ -394,9 +399,7 @@ public class LoginController implements Serializable {
 			if(menuItemUnidadeEmpresarial != null){
 				subMenuCadastroGl.addElement(menuItemUnidadeEmpresarial);
 			}
-			if(menuItemAgenda != null){
-				subMenuCadastroGl.addElement(menuItemAgenda);
-			}
+			
 		}
 		
 		if (menuItemUsuario != null || menuItemPerfilAcesso != null || menuItemBackup != null || menuItemParametros != null) {

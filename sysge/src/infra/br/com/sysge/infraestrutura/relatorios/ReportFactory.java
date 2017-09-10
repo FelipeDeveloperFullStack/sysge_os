@@ -1,18 +1,13 @@
 package br.com.sysge.infraestrutura.relatorios;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 public class ReportFactory {
 
@@ -42,21 +37,30 @@ public class ReportFactory {
 		this.params = params;
 		this.tipoRelatorio = tipoRelatorio;
 	}
+	
+	private void redirect(String page){
+		try {
+			FacesContext fc = FacesContext.getCurrentInstance();
+			ExternalContext ec = fc.getExternalContext();
+			ec.redirect(ec.getRequestContextPath() + page);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void getReportStream() {
-
-		try {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		
+		HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+		if(params == null && list == null && reportName == null){
+			throw new RuntimeException("Nenhum registro encontrado para "
+					+ "geração do relatório, tente novamente!");
+		}else{
+			session.setAttribute("params", params);
+			session.setAttribute("list", list == null ? new ArrayList<>() : list);
+			session.setAttribute("reportName", reportName);
 			
-			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(getClass().getClassLoader().getResourceAsStream("br/com/sysge/relatorios/" + reportName));
-			jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL);
-
-			JasperPrint print = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(list));
-			
-			JasperViewer view = new JasperViewer(print, false);
-			view.setVisible(true);
-			
-		} catch (JRException ex) {
-			Logger.getLogger(ReportFactory.class.getName()).log(Level.SEVERE, null, ex);
+			redirect("/ReportServlet");
 		}
 
 	}

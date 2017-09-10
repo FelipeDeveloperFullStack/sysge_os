@@ -12,6 +12,7 @@ import javax.inject.Named;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
 import br.com.sysge.model.global.Agenda;
@@ -26,6 +27,8 @@ public class AgendaController implements Serializable{
 	private static final long serialVersionUID = -6536627098015550705L;
 	
 	private ScheduleModel agendas;
+	
+	private ScheduleEvent event;
 	
 	private Agenda agenda;
 	
@@ -43,9 +46,11 @@ public class AgendaController implements Serializable{
 	@PostConstruct
 	public void listarAgenda(){
 		this.agendas = new DefaultScheduleModel();
+		this.agenda = new Agenda();
 		for(Agenda agenda : agendaService.findAll()){
 			this.agendas.addEvent(new DefaultScheduleEvent(agenda.getDescricao(), 
-					subtrairUmDia(agenda.getDataInicial()), subtrairUmDia(agenda.getDataFinal())));
+					subtrairUmDia(agenda.getDataInicial()), 
+					subtrairUmDia(agenda.getDataFinal()), agenda.getId()));
 		}
 	}
 	
@@ -53,6 +58,11 @@ public class AgendaController implements Serializable{
 		this.agenda = new Agenda();
 		this.agenda.setDataInicial(adicionarUmDia((Date) event.getObject()));
 		this.agenda.setDataFinal(adicionarUmDia((Date) event.getObject()));
+	}
+	
+	public void setarAgenda(SelectEvent event){
+		this.event = (ScheduleEvent) event.getObject();
+		this.agenda = agendaService.findById((Long) this.event.getData());
 	}
 	
 	private Date adicionarUmDia(Date data){

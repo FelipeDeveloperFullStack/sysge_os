@@ -33,7 +33,7 @@
 			}
 		</script>	
 	
-		<h:form id="formGeralServico">
+		<h:form id="formGeralServico" target="_blank">
 			<p:panel header="Listagem de ordens de serviços">
 
 				<h:panelGrid columns="6" id="panelPesquisa">
@@ -127,9 +127,9 @@
 
 					<p:rowExpansion>
 						<p:commandButton value="Imprimir nota de recebimento nº #{s.id}"
-							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarNotaRecebimento(s)}"/>
+							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarNotaRecebimento(s)}" ajax="false"/>
 						<p:commandButton value="Imprimir ordem de serviço nº #{s.id}"
-							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarOrdemServico(s)}"/>
+							icon="ui-icon-print" actionListener="#{ordemServicoController.gerarOrdemServico(s)}" ajax="false"/>
 					</p:rowExpansion>
 				</p:dataTable>
 			</p:panel>
@@ -425,7 +425,7 @@
 		<p:dialog widgetVar="dialogEditarOrdemDeServico"
 			header="Editar Ordem de Serviço" modal="true" appendTo="@(body)"
 			resizable="false" position="top" width="938" closable="false">
-			<h:form id="formEditarOrdemServico">
+			<h:form id="formEditarOrdemServico" target="_blank">
 
 				<p:tabView id="tabViewEditarOS"
 					activeIndex="#{ordemServicoController.currentTab}">

@@ -638,16 +638,14 @@ public class OrdemServicoController implements Serializable {
 	}
 	
 	public void gerarOrdemServico(OrdemServico ordemServico){
-			/*try {
+			try {
 				ordemServicoService.gerarOrdemServico(ordemServico, 
-						ordemServicoService.procurarServicosOS(ordemServico.getId()), 
-						ordemServicoService.procurarProdutosOS(ordemServico.getId()),
-						ordemServicoService.procurarPagamentoOS(ordemServico.getId()));
-			} catch (JRException e) {
-				FacesUtil.mensagemErro(e.getMessage());
+				ordemServicoService.procurarServicosOS(ordemServico.getId()), 
+				ordemServicoService.procurarProdutosOS(ordemServico.getId()),
+				ordemServicoService.procurarPagamentoOS(ordemServico.getId()));
 			}finally {
 				ordemServico = new OrdemServico();
-			}*/
+			}
 	}
 	
 	public void setarTabIndex(int tabIndex) {

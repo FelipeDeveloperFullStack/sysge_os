@@ -15,9 +15,14 @@
 		<p:panel header="Agenda">
 		
 		<h:form id="formGeralAgenda">
-	       <p:schedule value="#{agendaController.agendas}">
+	       <p:schedule value="#{agendaController.agendas}" locale="pt">
 	       		 <p:ajax event="dateSelect" 
 	       		 		 listener="#{agendaController.novo}"
+	       		         update=":formAgenda :msgGlobal"
+	       		         oncomplete="PF('agenda').show();" />
+	       		         
+	       		 <p:ajax event="eventSelect" 
+	       		 	     listener="#{agendaController.setarAgenda}"
 	       		         update=":formAgenda :msgGlobal"
 	       		         oncomplete="PF('agenda').show();" />
 	       </p:schedule>
@@ -42,11 +47,11 @@
 	       			<h:panelGrid columns="2">
 	       				<h:panelGrid columns="1">
 	       					<p:outputLabel value="Data inicial"/>
-	       					<p:calendar value="#{agendaController.agenda.dataInicial}" pattern="dd/MM/yyyy HH:mm"/>
+	       					<p:calendar locale="pt" value="#{agendaController.agenda.dataInicial}" pattern="dd/MM/yyyy HH:mm"/>
 	       				</h:panelGrid>	
 	       				<h:panelGrid columns="1">
 	       					<p:outputLabel value="Data inicial"/>
-	       					<p:calendar value="#{agendaController.agenda.dataFinal}" pattern="dd/MM/yyyy HH:mm"/>
+	       					<p:calendar locale="pt" value="#{agendaController.agenda.dataFinal}" pattern="dd/MM/yyyy HH:mm"/>
 	       				</h:panelGrid>	
 	       			</h:panelGrid>
 	       			

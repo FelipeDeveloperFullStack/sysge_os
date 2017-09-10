@@ -106,11 +106,6 @@
 
 				<h:panelGrid columns="2">
 					<h:panelGrid columns="1">
-						<p:outputLabel value="Código do produto" />
-						<p:inputText value="#{produtoController.produto.codigoProduto}" />
-					</h:panelGrid>
-
-					<h:panelGrid columns="1">
 						<p:outputLabel value="Descrição do produto" />
 						<p:inputText style="width: 385px;"
 							value="#{produtoController.produto.descricaoProduto}" />
@@ -118,9 +113,10 @@
 				</h:panelGrid>
 
 				<h:panelGrid columns="3">
+				
 					<h:panelGrid columns="1">
-						<p:outputLabel value="Valor de venda" />
-						<p:inputNumber value="#{produtoController.produto.valorVenda}"
+						<p:outputLabel value="Valor de custo" />
+						<p:inputNumber value="#{produtoController.produto.valorCusto}"
 							symbol="R$ " decimalSeparator="," thousandSeparator="." />
 					</h:panelGrid>
 
@@ -139,8 +135,8 @@
 
 				<h:panelGrid columns="2">
 					<h:panelGrid columns="1">
-						<p:outputLabel value="Valor de custo" />
-						<p:inputNumber value="#{produtoController.produto.valorCusto}"
+						<p:outputLabel value="Valor de venda" />
+						<p:inputNumber value="#{produtoController.produto.valorVenda}"
 							symbol="R$ " decimalSeparator="," thousandSeparator="." />
 					</h:panelGrid>
 
@@ -201,11 +197,6 @@
 
 				<h:panelGrid columns="2">
 					<h:panelGrid columns="1">
-						<p:outputLabel value="Código do produto" />
-						<p:inputText value="#{produtoController.produto.codigoProduto}" />
-					</h:panelGrid>
-
-					<h:panelGrid columns="1">
 						<p:outputLabel value="Descrição do produto" />
 						<p:inputText style="width: 385px;"
 							value="#{produtoController.produto.descricaoProduto}" />
@@ -213,12 +204,13 @@
 				</h:panelGrid>
 
 				<h:panelGrid columns="3">
+					
 					<h:panelGrid columns="1">
-						<p:outputLabel value="Valor de venda" />
-						<p:inputNumber value="#{produtoController.produto.valorVenda}"
+						<p:outputLabel value="Valor de custo" />
+						<p:inputNumber value="#{produtoController.produto.valorCusto}"
 							symbol="R$ " decimalSeparator="," thousandSeparator="." />
 					</h:panelGrid>
-
+					
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Estoque" />
 						<p:spinner min="0"
@@ -234,8 +226,8 @@
 
 				<h:panelGrid columns="2">
 					<h:panelGrid columns="1">
-						<p:outputLabel value="Valor de custo" />
-						<p:inputNumber value="#{produtoController.produto.valorCusto}"
+						<p:outputLabel value="Valor de venda" />
+						<p:inputNumber value="#{produtoController.produto.valorVenda}"
 							symbol="R$ " decimalSeparator="," thousandSeparator="." />
 					</h:panelGrid>
 

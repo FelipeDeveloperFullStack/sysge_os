@@ -17,7 +17,7 @@
 
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Data Movimento" />
-						<p:calendar pattern="dd/MM/yyyy" mask="true"
+						<p:calendar locale="pt" pattern="dd/MM/yyyy" mask="true"
 							value="#{movimentoFinanceiroController.dataMovimento}" />
 					</h:panelGrid>
 
@@ -38,7 +38,7 @@
 				rows="12" paginator="true" paginatorPosition="bottom">
 				
 				<p:column style="width:16px">
-					<p:rowToggler />
+					<p:rowToggler rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}"/>
 				</p:column>
 
 				<p:column headerText="Título">
@@ -109,8 +109,6 @@
 				<p:rowExpansion>
 						<p:commandButton value="Emitir boleto"
 							icon="ui-icon-print" rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}"/>
-						<p:commandButton value="Imprimir recibo de pagamento!"
-							icon="ui-icon-bookmark" rendered="#{mov.statusRecebimentoReceita.status == 'Pago'}"/>
 			    </p:rowExpansion>
 
 			</p:dataTable>
@@ -298,7 +296,7 @@
 						<h:panelGrid columns="2">
 					<h:panelGrid columns="1">
 						<h:outputLabel value="Data"/>
-						<p:calendar showOn="button" pattern="dd/MM/yyyy" mask="true" value="#{movimentoFinanceiroController.lancamentoFinanceiro.dataLancamento}"/>
+						<p:calendar locale="pt" showOn="button" pattern="dd/MM/yyyy" mask="true" value="#{movimentoFinanceiroController.lancamentoFinanceiro.dataLancamento}"/>
 					</h:panelGrid>
 				</h:panelGrid>
 				
@@ -392,7 +390,7 @@
 						<h:panelGrid columns="2">
 					<h:panelGrid columns="1">
 						<h:outputLabel value="Data"/>
-						<p:calendar showOn="button" pattern="dd/MM/yyyy" mask="true" value="#{movimentoFinanceiroController.lancamentoFinanceiro.dataLancamento}"/>
+						<p:calendar locale="pt" showOn="button" pattern="dd/MM/yyyy" mask="true" value="#{movimentoFinanceiroController.lancamentoFinanceiro.dataLancamento}"/>
 					</h:panelGrid>
 				</h:panelGrid>
 				
