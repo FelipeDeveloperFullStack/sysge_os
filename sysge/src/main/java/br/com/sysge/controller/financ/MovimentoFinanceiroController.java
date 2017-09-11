@@ -74,6 +74,7 @@ public class MovimentoFinanceiroController implements Serializable {
 		this.parcelasPagamentoOsService = new ParcelasPagamentoOsService();
 		this.clienteService = new ClienteService();
 		this.fornecedorService = new FornecedorService();
+		this.auditoriaFinanceiro = new AuditoriaFinanceiro();
 	}
 	
 	public List<CategoriaLancamentoReceita> getCategoriasLancamentoReceita(){
@@ -141,8 +142,8 @@ public class MovimentoFinanceiroController implements Serializable {
 	public void excluirLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
 		try {
 			novaAuditoria();
-			RequestContextUtil.execute("PF('dialog_justificativa').show();");
 			this.lancamentoFinanceiro = lancamentoFinanceiro;
+			excluirLancamentoFinanceiro();
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}
@@ -182,6 +183,15 @@ public class MovimentoFinanceiroController implements Serializable {
 	
 	public void setarDadosFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
 		this.lancamentoFinanceiro = lancamentoFinanceiro;
+	}
+	
+	public void atualizarStatusFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
+		this.lancamentoFinanceiro = lancamentoFinanceiro;
+		if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
+				RequestContextUtil.execute("PF('mudarParaPendente').show();");
+		}else{
+			RequestContextUtil.execute("PF('mudarParaPago').show();");
+		}
 	}
 	
 	public void atualizarStatusFinanceiroTituto(LancamentoFinanceiro lancamentoFinanceiro){
@@ -224,6 +234,11 @@ public class MovimentoFinanceiroController implements Serializable {
 		if(lancamentoFinanceiro.getCategoriaLancamentoReceita() != null){
 			if(lancamentoFinanceiro.getCategoriaLancamentoReceita() == CategoriaLancamentoReceita.ORDEM_SERVICO){
 				ParcelasPagamentoOs p = parcelasPagamentoOsService.obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(lancamentoFinanceiro);
+				if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
+					p.setDataPagamento(lancamentoFinanceiro.getDataLancamento());
+				}else{
+					p.setDataVencimento(lancamentoFinanceiro.getDataLancamento());
+				}
 				p.setStatusFinanceiro(lancamentoFinanceiro.getStatusRecebimentoReceita());
 				parcelasPagamentoOsService.save(p);
 			}

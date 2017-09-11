@@ -105,7 +105,7 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>6.1</version>
+			<version>6.0</version>
 			<!-- <scope>compile</scope> -->  <!-- dependência será empacotada no war -->
 		</dependency>
 

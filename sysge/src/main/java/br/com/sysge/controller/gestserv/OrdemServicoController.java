@@ -500,7 +500,7 @@ public class OrdemServicoController implements Serializable {
 			if(p.getStatusFinanceiro() == null){
 				p.setStatusFinanceiro(StatusFinanceiro.PENDENTE);
 			}
-			if(p.getStatusFinanceiro() == StatusFinanceiro.PENDENTE){
+			if(p.getStatusFinanceiro() == StatusFinanceiro.PENDENTE || ordemServico.getStatusOS() == StatusOS.CANCELADO){
 				movimentoFinanceiroService.salvarMovimentoFinanceiroOS(ordemServico, p);
 			}
 		}

@@ -74,13 +74,25 @@ public class CondicaoPagamentoController implements Serializable{
 	}
 	
 	public void editarCondicaoPagamento(CondicaoPagamento condicaoPagamento){
-		if(condicaoPagamento.getSituacao() == Situacao.ATIVO){
-			condicaoPagamento.setSituacao(Situacao.INATIVO);
-		}else{
-			condicaoPagamento.setSituacao(Situacao.ATIVO);
+		this.condicaoPagamento = condicaoPagamento;
+		RequestContextUtil.execute("PF('confirmarAtualizacaoStatus').show();");
+	}
+	
+	public void editarCondicaoPagamento(){
+		try {
+			if(this.condicaoPagamento.getSituacao() == Situacao.ATIVO){
+				this.condicaoPagamento.setSituacao(Situacao.INATIVO);
+			}else{
+				this.condicaoPagamento.setSituacao(Situacao.ATIVO);
+			}
+			condicaoPagamentoService.salvar(this.condicaoPagamento);
+			novaListaFormaPagamento();
+			this.condicaoPagamento = new CondicaoPagamento();
+			RequestContextUtil.execute("PF('confirmarAtualizacaoStatus').hide();");
+			FacesUtil.mensagemInfo("Status atualizado com sucesso!");
+		} catch (Exception e) {
+			FacesUtil.mensagemErro(e.getMessage());
 		}
-		condicaoPagamentoService.salvar(condicaoPagamento);
-		novaListaFormaPagamento();
 	}
 	
 	public void fecharDialogs(){

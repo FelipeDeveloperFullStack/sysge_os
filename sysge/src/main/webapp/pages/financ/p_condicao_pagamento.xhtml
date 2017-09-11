@@ -56,16 +56,8 @@
 									
 					<p:column width="40">
 						<p:commandButton id="btnEditar" icon="ui-icon-pencil" 
-										 actionListener="#{condicaoPagamentoController.editarCondicaoPagamento(c)}"
-										 update=":msgGlobal tableServico">
-							<p:confirm header="Confirmação" message="Deseja realmente editar a situação da condição de pagamento #{c.descricao}?" icon="ui-icon-alert"/>
+										 actionListener="#{condicaoPagamentoController.editarCondicaoPagamento(c)}">
 						</p:commandButton>
-						
-						<p:confirmDialog showEffect="fade" hideEffect="fade">
-					        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-					        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-					    </p:confirmDialog>
-						
 							<p:tooltip value="Cliquei aqui para ativo ou inativar a condição de pagamento!" for="btnEditar" position="left"/>
 					</p:column>	
 					
@@ -85,6 +77,20 @@
 				
 				</h:form>
 				
+				<p:dialog widgetVar="confirmarAtualizacaoStatus" 
+						  header="Atenção" modal="true" 
+						  appendTo="@(body)" resizable="false"
+						  position="top" closable="false">
+						 <h:form>
+						 	<p:panelGrid columns="1">
+						 		<p:outputLabel value="Deseja realmente mudar o status da condição de pagamento?"/>
+						 	</p:panelGrid>	
+						 	<p:panelGrid columns="2">
+						 		<p:commandButton value="Sim" actionListener="#{condicaoPagamentoController.editarCondicaoPagamento}"  update=":msgGlobal :formGeralServico:tableServico"/>
+						 		<p:commandButton value="Não" oncomplete="PF('confirmarAtualizacaoStatus').hide();"  actionListener="#{condicaoPagamentoController.pesquisar}" update=":msgGlobal :formGeralServico:tableServico"/>
+						 	</p:panelGrid>	
+						 </h:form> 
+				</p:dialog>
 				
 				<!-- Dialog Nova Condição de Pagamento -->
 				<p:dialog widgetVar="dialogNovoServico" 

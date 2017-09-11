@@ -97,6 +97,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 		} catch (RuntimeException e) {
 			throw e;
 		}finally {
+			manager.clear();
 		}
 	}
 	

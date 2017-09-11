@@ -83,13 +83,19 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		if(condicaoPagamento.equals(A_VISTA)){
 			lancamentoReceita.setTipoLancamentoFinanceiro(TipoLancamentoFinanceiro.LANCAMENTO_SIMPLES);
 			if(ordemServico.getStatusOS() == StatusOS.CANCELADO){
+				lancamentoReceita = subtratirTotalRecebidoTotalReceitaCalcularMovimentoFinanceiro(lancamentoReceita, parcelasPagamentoOs);
 				lancamentoReceita.setTitulo("(Cancelado) Ordem Serviço nº "+ordemServico.getId());
 			}else{
 				lancamentoReceita.setTitulo("Ordem Serviço nº "+ordemServico.getId());
 			}
 		}else{
 			lancamentoReceita.setTipoLancamentoFinanceiro(TipoLancamentoFinanceiro.LANCAMENTO_PARCELADO);
-			lancamentoReceita.setTitulo("Ordem Serviço nº "+ordemServico.getId()+ " - "+parcelasPagamentoOs.getNumero()+"º parcela");
+			if(ordemServico.getStatusOS() == StatusOS.CANCELADO){
+				lancamentoReceita = subtratirTotalRecebidoTotalReceitaCalcularMovimentoFinanceiro(lancamentoReceita, parcelasPagamentoOs);
+				lancamentoReceita.setTitulo("(Cancelado) Ordem Serviço nº "+ordemServico.getId());
+			}else{
+				lancamentoReceita.setTitulo("Ordem Serviço nº "+ordemServico.getId()+ " - "+parcelasPagamentoOs.getNumero()+"º parcela");
+			}
 		}
 		if(ordemServico.getStatusOS() == StatusOS.CANCELADO){
 			lancamentoReceita.setStatusOS(StatusOS.CANCELADO);
@@ -101,6 +107,22 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		parcelasPagamentoOs.setLancamentoReceita(lancamentoReceita);
 	}
 	
+	private LancamentoFinanceiro subtratirTotalRecebidoTotalReceitaCalcularMovimentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro, ParcelasPagamentoOs parcelasPagamentoOs){
+		if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.RECEITA){
+			if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
+				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalRecebido(subtratirTotalRecebido(lancamentoFinanceiro, lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
+				lancamentoFinanceiro.getMovimentoFinanceiro().setDataMovimento(parcelasPagamentoOs.getDataPagamento());
+			}else{
+				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(subtratirTotalReceita(lancamentoFinanceiro, lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
+				lancamentoFinanceiro.getMovimentoFinanceiro().setDataMovimento(parcelasPagamentoOs.getDataVencimento());
+			}
+		    lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoOperacional(somarTotalSaldoOperacional(lancamentoFinanceiro, buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento() == null ? parcelasPagamentoOs.getDataVencimento() : parcelasPagamentoOs.getDataPagamento())));
+			lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoAtual(obterSaldoAtual());
+			lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoAnterior(obterSaldoMovimentoAnterior(parcelasPagamentoOs.getDataPagamento() == null ? parcelasPagamentoOs.getDataVencimento() : parcelasPagamentoOs.getDataPagamento()));
+			lancamentoFinanceiro.setMovimentoFinanceiro(super.save(lancamentoFinanceiro.getMovimentoFinanceiro()));
+		}
+		return lancamentoFinanceiro;
+	}
 	
 	private BigDecimal subtratirTotalRecebido(LancamentoFinanceiro lancamentoReceita, BigDecimal valor, List<MovimentoFinanceiro> listMovimentoFinanceiro){
 		if(listMovimentoFinanceiro.isEmpty()){
@@ -264,7 +286,9 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		if(parcelasPagamentoOs.getStatusFinanceiro() == StatusFinanceiro.PAGO){
 			if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.RECEITA){
 				if(lancamentoFinanceiro.getTipoAtualizacaoMovimento() != TipoAtualizacaoMovimento.ATUALIZADO_P_RECEBIDO){
-					lancamentoFinanceiro.getMovimentoFinanceiro().setTotalRecebido(somarTotalRecebido(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento())));
+					if(ordemServico.getStatusOS() != StatusOS.CANCELADO){
+						lancamentoFinanceiro.getMovimentoFinanceiro().setTotalRecebido(somarTotalRecebido(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataPagamento())));
+					}
 				}
 			}else{
 				if(lancamentoFinanceiro.getTipoAtualizacaoMovimento() != TipoAtualizacaoMovimento.ATUALIZADO_P_PAGO){
@@ -274,11 +298,13 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			lancamentoFinanceiro.getMovimentoFinanceiro().setDataMovimento(parcelasPagamentoOs.getDataPagamento());
 		}else{
 			if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.RECEITA){
-				if(lancamentoFinanceiro.getTipoAtualizacaoMovimento() == null || lancamentoFinanceiro.getTipoAtualizacaoMovimento() == TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER){
-					lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
-				}else{
-					if(lancamentoFinanceiro.getTipoAtualizacaoMovimento() != TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER){
+				if(ordemServico.getStatusOS() != StatusOS.CANCELADO){
+					if(lancamentoFinanceiro.getTipoAtualizacaoMovimento() == null || lancamentoFinanceiro.getTipoAtualizacaoMovimento() == TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER){
 						lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
+					}else{
+						if(lancamentoFinanceiro.getTipoAtualizacaoMovimento() != TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER){
+							lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
+						}
 					}
 				}
 			}else{

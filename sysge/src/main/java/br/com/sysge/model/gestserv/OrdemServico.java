@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Cacheable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -65,10 +66,13 @@ public class OrdemServico extends GenericDomain {
 
 	private String numeroPatrimonio;
 
+	@Column(length = 1000)
 	private String acessorios;
 
+	@Column(length = 1000)
 	private String defeito;
 
+	@Column(length = 1000)
 	private String laudoTecnico;
 
 	@Enumerated(EnumType.STRING)
@@ -100,6 +104,7 @@ public class OrdemServico extends GenericDomain {
 
 	private BigDecimal total = BigDecimal.ZERO;
 
+	@Column(length = 1000)
 	private String motivoCancelamento;
 	
 	@Transient
