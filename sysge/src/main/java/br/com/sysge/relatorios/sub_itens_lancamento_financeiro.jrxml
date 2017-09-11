@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_itens_lancamento_financeiro" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="21d29a70-1a27-4434-8303-03a433b165da">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="formaPagamento" class="java.lang.String">
+		<fieldDescription><![CDATA[formaPagamento]]></fieldDescription>
+	</field>
+	<field name="tipoLancamento" class="java.lang.String">
+		<fieldDescription><![CDATA[tipoLancamento]]></fieldDescription>
+	</field>
+	<field name="categoria" class="java.lang.String">
+		<fieldDescription><![CDATA[categoria]]></fieldDescription>
+	</field>
+	<field name="valor" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valor]]></fieldDescription>
+	</field>
+	<field name="titulo" class="java.lang.String">
+		<fieldDescription><![CDATA[titulo]]></fieldDescription>
+	</field>
+	<field name="dataTitulo" class="java.util.Date">
+		<fieldDescription><![CDATA[dataTitulo]]></fieldDescription>
+	</field>
+	<field name="descricao" class="java.lang.String">
+		<fieldDescription><![CDATA[descricao]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.String">
+		<fieldDescription><![CDATA[status]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="708" y="0" width="94" height="20" forecolor="#0019FA" uuid="57a74a32-e9ab-45e4-ba94-08df0d537859"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Lançamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="614" y="0" width="94" height="20" forecolor="#0019FA" uuid="8d974d2c-0643-48f5-9114-620d4216cac0"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Forma Pagamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="555" y="0" width="59" height="20" forecolor="#0019FA" uuid="8ee31ba7-2a2c-43dc-be47-8257bb58bbe5"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Categoria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="496" y="0" width="59" height="20" forecolor="#0019FA" uuid="a7f6c58d-5c09-40f1-a79a-68e217e8f1ec"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="437" y="0" width="59" height="20" forecolor="#0019FA" uuid="79d18b9c-3fb1-4fca-a77e-3357739ab3a7"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="378" y="0" width="59" height="20" forecolor="#0019FA" uuid="ccfe4d15-c0b5-4a26-878c-083de6040b8b"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="0" width="240" height="20" forecolor="#0019FA" uuid="3f125e58-6333-45a3-a60c-1fda8bca538b"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="138" height="20" forecolor="#0019FA" uuid="65caa3c1-6351-450e-b239-95ab85a10c7d"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Título]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="138" height="30" uuid="acbc8325-9748-4d3b-a960-20301e4df953"/>
+				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="0" width="240" height="30" uuid="a125dfbe-65aa-4b2a-ada6-6f66df879a96"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="378" y="0" width="59" height="30" uuid="12981f1b-0713-4aa5-bce0-3a5e44fc438b"/>
+				<textFieldExpression><![CDATA[$F{dataTitulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="0" width="59" height="30" uuid="d30d9a76-88f1-4041-b1a4-833c7696d17d"/>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="496" y="0" width="59" height="30" uuid="dd9e3074-8359-4466-9dc3-ca167f7ad874"/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="614" y="0" width="94" height="30" uuid="e4a2b06b-86dd-4c10-b400-b51c949bb4f1"/>
+				<textFieldExpression><![CDATA[$F{formaPagamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="555" y="0" width="59" height="30" uuid="8da50222-4622-4f11-9770-2c5873a9ac29"/>
+				<textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="708" y="0" width="94" height="30" uuid="cb966ce7-7d0b-42a6-a08e-de64c00f1d4f"/>
+				<textFieldExpression><![CDATA[$F{tipoLancamento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

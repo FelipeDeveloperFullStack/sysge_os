@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_lancamento_financeiro" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8a017e33-7de2-4091-906e-129ea8582513">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="formaPagamento" class="java.lang.String">
+		<fieldDescription><![CDATA[formaPagamento]]></fieldDescription>
+	</field>
+	<field name="tipoLancamento" class="java.lang.String">
+		<fieldDescription><![CDATA[tipoLancamento]]></fieldDescription>
+	</field>
+	<field name="categoria" class="java.lang.String">
+		<fieldDescription><![CDATA[categoria]]></fieldDescription>
+	</field>
+	<field name="valor" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valor]]></fieldDescription>
+	</field>
+	<field name="titulo" class="java.lang.String">
+		<fieldDescription><![CDATA[titulo]]></fieldDescription>
+	</field>
+	<field name="dataTitulo" class="java.util.Date">
+		<fieldDescription><![CDATA[dataTitulo]]></fieldDescription>
+	</field>
+	<field name="descricao" class="java.lang.String">
+		<fieldDescription><![CDATA[descricao]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.String">
+		<fieldDescription><![CDATA[status]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="180" y="2" width="400" height="30" uuid="49b80636-8d28-452c-b2a2-f7268dc76986"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de Lançamento Financeiro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="32" width="60" height="18" uuid="dcb137b7-0100-4844-8da4-b981f8991080"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Período de ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="627" y="0" width="60" height="18" uuid="54cd9a2a-e06b-4951-b2d2-f98feebc8988"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Emitido em ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm">
+				<reportElement x="680" y="0" width="120" height="18" uuid="bde4d19c-f89f-4c96-8ef1-2a5baeaacba7"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="138" height="20" uuid="3ee801f9-f707-47ed-9836-51a60b6ffc37"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de lançamento]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="62" splitType="Stretch">
+			<subreport>
+				<reportElement x="-20" y="1" width="842" height="61" uuid="1ba01d79-1018-4b96-bd65-39283f24947a"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["src/main/java/br/com/relatorios/sub_itens_lancamento_financeiro.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="37">
+			<textField evaluationTime="Report">
+				<reportElement x="700" y="0" width="100" height="30" uuid="b2ac1784-d87c-4231-9eaa-00c3872886e9"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="610" y="0" width="90" height="30" uuid="66b8648f-b538-4180-8bd5-409fb3921038"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
