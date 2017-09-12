@@ -14,5 +14,7 @@ public class LancamentoFinanceiroService extends GenericDaoImpl<LancamentoFinanc
 		return super.findByData("dataLancamento",dataMovimento);
 	}
 	
+	
+	
 
 }

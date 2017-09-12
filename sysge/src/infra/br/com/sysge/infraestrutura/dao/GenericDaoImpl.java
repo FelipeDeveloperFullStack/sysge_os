@@ -107,7 +107,7 @@ public class GenericDaoImpl<E, I> implements GenericDao<E, I> {
 		try {
 			TypedQuery<E> query = (TypedQuery<E>) manager.createQuery(""
 					+ "SELECT b FROM "+entityClass.getSimpleName()+" b "
-					+ "WHERE b."+atributoData+" >= "+dataInicial+" OR b.dataBackup <= "+dataFinal+"");
+					+ "WHERE b."+atributoData+" >= "+dataInicial+" OR b."+atributoData+" <= "+dataFinal+"");
 			
 			return query.getResultList();
 		} catch (Exception e) {

@@ -63,9 +63,22 @@ public class MovimentoFinanceiroController implements Serializable {
 	
 	private FornecedorService fornecedorService;
 	
+	private Date dataInicial;
+	
+	private Date dataFinal;
+	
 	@PostConstruct
 	public void movimentoFinanceiroController(){
 		instanceObjetos();
+	}
+	
+	public void gerarRelatorioMovimentoFinanceiro(){
+		try {
+			movimentoFinanceiroService.gerarRelatorioMovimentoFinanceiroPorPeriodo(dataInicial, dataFinal);
+			RequestContextUtil.execute("PF('pdfMovimentoFinanceiro').show();");
+		} catch (Exception e) {
+			FacesUtil.mensagemErro(e.getMessage());
+		}
 	}
 	
 	private void instanceObjetos(){
@@ -176,6 +189,7 @@ public class MovimentoFinanceiroController implements Serializable {
 		try {
 			lancamentoFinanceiros = lancamentoFinanceiroService.obterLancamentoFinanceiroPorData(dataMovimento);
 			this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(dataMovimento);
+			movimentoFinanceiroService.save(this.movimentoFinanceiro);
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}
@@ -303,6 +317,22 @@ public class MovimentoFinanceiroController implements Serializable {
 
 	public void setAuditoriaFinanceiro(AuditoriaFinanceiro auditoriaFinanceiro) {
 		this.auditoriaFinanceiro = auditoriaFinanceiro;
+	}
+
+	public Date getDataInicial() {
+		return dataInicial;
+	}
+
+	public void setDataInicial(Date dataInicial) {
+		this.dataInicial = dataInicial;
+	}
+
+	public Date getDataFinal() {
+		return dataFinal;
+	}
+
+	public void setDataFinal(Date dataFinal) {
+		this.dataFinal = dataFinal;
 	}
 
 }

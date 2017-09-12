@@ -51,15 +51,7 @@
 					value="#{fornecedorController.fornecedores}"
 					emptyMessage="Nenhum registro encontrado!" rows="8"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
-					{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}">
-
-					<f:facet name="{Exporters}">
-						<h:commandLink>
-							<p:graphicImage library="img" name="Excel-icon32.png" width="24" />
-							<p:dataExporter type="xls" target="tableCliente"
-								fileName="Fornecedores" />
-						</h:commandLink>
-					</f:facet>
+					{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
 					<p:column headerText="ID" width="15" style="text-align:center;">
 						<p:outputLabel value="#{c.id}" />

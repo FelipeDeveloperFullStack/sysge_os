@@ -5,12 +5,15 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import javax.persistence.Query;
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
+import br.com.sysge.infraestrutura.relatorios.ReportFactory;
+import br.com.sysge.infraestrutura.relatorios.TiposRelatorio;
 import br.com.sysge.model.financ.AuditoriaFinanceiro;
 import br.com.sysge.model.financ.LancamentoFinanceiro;
 import br.com.sysge.model.financ.MovimentoFinanceiro;
@@ -548,7 +551,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	}
 	
 	public MovimentoFinanceiro setarMovimentoFinanceiro(Date dataMov) {
-		MovimentoFinanceiro m = new MovimentoFinanceiro();
+		MovimentoFinanceiro m = super.findByData(dataMov, "dataMovimento");
 		for(MovimentoFinanceiro mov : buscarMovimentoFinanceiroPorData(dataMov)){
 			m.setDataMovimento(dataMov);
 			m.setTotalDespesa(mov.getTotalDespesa());
@@ -588,6 +591,40 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			return false;
 		}else{
 			return true;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<MovimentoFinanceiro> obterMovimentoPorPeriodo(Date dataInicial, Date dataFinal){
+		Query query = getEntityManager().createQuery("SELECT m FROM "+getEntityClass().getSimpleName() + " m "
+				+ "WHERE m.dataMovimento >= :dataInicial and m.dataMovimento <= :dataFinal order by m.dataMovimento ASC");
+		query.setParameter("dataInicial", dataInicial);
+		query.setParameter("dataFinal", dataFinal);
+		return query.getResultList();
+	}
+	
+	public void gerarRelatorioMovimentoFinanceiroPorPeriodo(Date dataInicial, Date dataFinal){
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		if(dataInicial == null){
+			throw new RuntimeException("A data inicial é obrigatória");
+		}
+		
+		if(dataFinal == null){
+			throw new RuntimeException("A data final é obrigatória");
+		}
+		
+		try {
+			params.put("dataInicial", dataInicial);
+			params.put("dataFinal", dataFinal);
+			
+			ReportFactory reportFactory = new ReportFactory("r_movimento_financeiro.jasper", params, 
+					TiposRelatorio.PDF, obterMovimentoPorPeriodo(dataInicial, dataFinal));
+			
+			reportFactory.gerarPDFView("Relatório de Movimento Financeiro");
+			
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 

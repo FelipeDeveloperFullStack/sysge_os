@@ -11,170 +11,280 @@
 
 <ui:composition template="/template/template.xhtml">
 	<ui:define name="conteudo">
-		<h:form id="formLancamentoFinanceiro">
-			<p:panel header="MOVIMENTO FINANCEIRO">
-				<h:panelGrid columns="6">
 
-					<h:panelGrid columns="1">
-						<p:outputLabel value="Data Movimento" />
-						<p:calendar locale="pt" pattern="dd/MM/yyyy" mask="true"
-							value="#{movimentoFinanceiroController.dataMovimento}" />
-					</h:panelGrid>
-
-					<h:panelGrid columns="1">
-						<h:outputLabel value="." style="color: white;" />
-						<p:commandButton value="Pesquisar" icon="ui-icon-search"
-							actionListener="#{movimentoFinanceiroController.pesquisar}"
-							update="tableMovimentoCaixa resumo_financeiro" />
-					</h:panelGrid>
-
-				</h:panelGrid>
-			</p:panel>
-
-
-			<p:dataTable id="tableMovimentoCaixa" var="mov"
-				emptyMessage="Nenhum movimento encontrado!"
-				value="#{movimentoFinanceiroController.lancamentoFinanceiros}"
-				rows="7" paginator="true" paginatorPosition="bottom"
-				rowStyleClass="#{mov.statusOS eq 'CANCELADO' ? 'cor_vemelho' : null}"
-				rowsPerPageTemplate="7,10,15,20,25,30"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+			<p:tabView id="tabView">
+				<p:tab title="MOVIMENTO FINANCEIRO">
 				
-				<!-- <p:column style="width:16px">
+				<h:form id="formLancamentoFinanceiro">
+
+						<h:panelGrid columns="6">
+
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Data Movimento" />
+								<p:calendar locale="pt" pattern="dd/MM/yyyy" mask="true"
+									value="#{movimentoFinanceiroController.dataMovimento}" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="1">
+								<h:outputLabel value="." style="color: white;" />
+								<p:commandButton value="Pesquisar" icon="ui-icon-search"
+									actionListener="#{movimentoFinanceiroController.pesquisar}"
+									update="tableMovimentoCaixa resumo_financeiro" />
+							</h:panelGrid>
+
+						</h:panelGrid>
+
+
+					<p:dataTable id="tableMovimentoCaixa" var="mov"
+						emptyMessage="Nenhum movimento encontrado!"
+						value="#{movimentoFinanceiroController.lancamentoFinanceiros}"
+						rows="7" paginator="true" paginatorPosition="bottom"
+						rowStyleClass="#{mov.statusOS eq 'CANCELADO' ? 'cor_vemelho' : null}"
+						rowsPerPageTemplate="7,10,15,20,25,30"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+						<!-- <p:column style="width:16px">
 					<p:rowToggler rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}{mov.tipoLancamento.tipoLancamento == 'Receita'}"/>
 				</p:column> -->
 
-				<p:column headerText="Título">
-					<p:outputLabel value="#{mov.titulo}" />
-				</p:column>
+						<p:column headerText="Título">
+							<p:outputLabel value="#{mov.titulo}" />
+						</p:column>
 
-				<p:column headerText="Cadastro">
-					<p:outputLabel value="#{mov.cliente.nomeDaPessoaFisica}#{mov.cliente.nomeFantasia}" 
-								   rendered="#{mov.tipoLancamento == 'RECEITA'}"/>
-					<p:outputLabel value="#{mov.fornecedor.nomeFantasia}" 
-								   rendered="#{mov.tipoLancamento == 'DESPESA'}"/>
-				</p:column>
+						<p:column headerText="Cadastro">
+							<p:outputLabel
+								value="#{mov.cliente.nomeDaPessoaFisica}#{mov.cliente.nomeFantasia}"
+								rendered="#{mov.tipoLancamento == 'RECEITA'}" />
+							<p:outputLabel value="#{mov.fornecedor.nomeFantasia}"
+								rendered="#{mov.tipoLancamento == 'DESPESA'}" />
+						</p:column>
 
-				<p:column headerText="Categoria" width="175"
-					style="text-align:center;">
-					<p:outputLabel value="#{mov.categoriaLancamentoReceita.tipo}" rendered="#{mov.tipoLancamento == 'RECEITA'}"/>
-					<p:outputLabel value="#{mov.categoriaLancamentoDespesa.tipo}" rendered="#{mov.tipoLancamento == 'DESPESA'}"/>
-				</p:column>
+						<p:column headerText="Categoria" width="175"
+							style="text-align:center;">
+							<p:outputLabel value="#{mov.categoriaLancamentoReceita.tipo}"
+								rendered="#{mov.tipoLancamento == 'RECEITA'}" />
+							<p:outputLabel value="#{mov.categoriaLancamentoDespesa.tipo}"
+								rendered="#{mov.tipoLancamento == 'DESPESA'}" />
+						</p:column>
 
-				<p:column headerText="Valor" width="75" style="text-align:center;">
-					<p:outputLabel value="#{mov.valor}" styleClass="#{movimentoFinanceiroController.mudarCorValorMovimento(mov)}">
-						<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
-					</p:outputLabel>
-				</p:column>
+						<p:column headerText="Valor" width="75" style="text-align:center;">
+							<p:outputLabel value="#{mov.valor}"
+								styleClass="#{movimentoFinanceiroController.mudarCorValorMovimento(mov)}">
+								<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+							</p:outputLabel>
+						</p:column>
 
-				<p:column headerText="Status" width="107" style="text-align:center;">
-					<p:commandButton value="#{mov.statusRecebimentoReceita.status}" icon="ui-icon-circle-check" 
-									 rendered="#{mov.statusRecebimentoReceita.status == 'Pago'}"
-									 disabled="#{mov.statusOS == 'CANCELADO'}"
-									  actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}" update="tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
-						 <p:confirm header="Confirmação" message="Deseja realmente mudar o status do título do valor de #{mov.valor} para pendente?" icon="ui-icon-alert" />
-					</p:commandButton>
-					
-					<p:commandButton value="#{mov.statusRecebimentoReceita.status}" icon="ui-icon-circle-minus" rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}" disabled="#{mov.statusOS == 'CANCELADO'}"
-									 actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}"  update="tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
-						 <p:confirm header="Confirmação" message="Deseja confirmar o recebimento do título para essa data?" icon="ui-icon-alert" />
-					</p:commandButton>
-					
-					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-				        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-				        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-				    </p:confirmDialog>
-				</p:column>
+						<p:column headerText="Status" width="107"
+							style="text-align:center;">
+							<p:commandButton value="#{mov.statusRecebimentoReceita.status}"
+								icon="ui-icon-circle-check"
+								rendered="#{mov.statusRecebimentoReceita.status == 'Pago'}"
+								disabled="#{mov.statusOS == 'CANCELADO'}"
+								actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}"
+								update="tableMovimentoCaixa tabView:formLancamentoFinanceiro:resumo_financeiro">
+								<p:confirm header="Confirmação"
+									message="Deseja realmente mudar o status do título do valor de #{mov.valor} para pendente?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
 
-				<p:column headerText="Ações" width="75">
-					<p:commandButton icon="ui-icon-search" id="btnVisualizar"
-						oncomplete="PF('dialog_dados_titulo').show();"
-						actionListener="#{movimentoFinanceiroController.setarDadosFinanceiro(mov)}"
-						update=":msgGlobal :visualizar_dados" disabled="#{mov.statusOS == 'CANCELADO'}"/>
-					<p:commandButton icon="ui-icon-trash" id="btnExcluir" update=":msgGlobal tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro :form_dialog_justificativa" 
-					       rendered="#{movimentoFinanceiroController.isHabilitarBotao(mov)}" actionListener="#{movimentoFinanceiroController.excluirLancamentoFinanceiro(mov)}" oncomplete="PF('dialog_justificativa').show();"/>
-					<p:tooltip value="Cliquei aqui para visualizar os dados financeiros do título!" for="btnVisualizar"
-						position="left" />
-					<p:tooltip value="Cliquei aqui para excluir o título financeiro" for="btnExcluir"
-						position="left" />
-				</p:column>
-				
-				
-				<f:facet name="header">
-					<p:commandButton value="Receita" icon="ui-icon-arrowthick-1-n" 
-										 oncomplete="PF('dialog_lancamento_receita').show();"
-										 actionListener="#{movimentoFinanceiroController.novoLancamento}"
-										 update=":msgGlobal :formReceita"/>
-					<p:commandButton value="Despesa" icon="ui-icon-arrowthick-1-s"
-									 oncomplete="PF('dialog_lancamento_despesa').show();"
-									 actionListener="#{movimentoFinanceiroController.novoLancamento}"
-									 update=":msgGlobal :formDespesa"/>					 
-				</f:facet>
-				
-				<p:rowExpansion>
-						<p:commandButton value="Emitir boleto"
-							icon="ui-icon-print" rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}"/>
-			    </p:rowExpansion>
+							<p:commandButton value="#{mov.statusRecebimentoReceita.status}"
+								icon="ui-icon-circle-minus"
+								rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}"
+								disabled="#{mov.statusOS == 'CANCELADO'}"
+								actionListener="#{movimentoFinanceiroController.atualizarStatusFinanceiroTituto(mov)}"
+								update="tableMovimentoCaixa tabView:formLancamentoFinanceiro:resumo_financeiro">
+								<p:confirm header="Confirmação"
+									message="Deseja confirmar o recebimento do título para essa data?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
 
-			</p:dataTable>
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
+								<p:commandButton value="Sim" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="Não" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+						</p:column>
 
-			<p:panel header="RESUMO FINANCEIRO" id="resumo_financeiro">
+						<p:column headerText="Ações" width="75">
+							<p:commandButton icon="ui-icon-search" id="btnVisualizar"
+								oncomplete="PF('dialog_dados_titulo').show();"
+								actionListener="#{movimentoFinanceiroController.setarDadosFinanceiro(mov)}"
+								update=":msgGlobal :visualizar_dados"
+								disabled="#{mov.statusOS == 'CANCELADO'}" />
+							<p:commandButton icon="ui-icon-trash" id="btnExcluir"
+								update=":msgGlobal tableMovimentoCaixa tabView:formLancamentoFinanceiro:resumo_financeiro :form_dialog_justificativa"
+								rendered="#{movimentoFinanceiroController.isHabilitarBotao(mov)}"
+								actionListener="#{movimentoFinanceiroController.excluirLancamentoFinanceiro(mov)}"
+								oncomplete="PF('dialog_justificativa').show();" />
+							<p:tooltip
+								value="Cliquei aqui para visualizar os dados financeiros do título!"
+								for="btnVisualizar" position="left" />
+							<p:tooltip value="Cliquei aqui para excluir o título financeiro"
+								for="btnExcluir" position="left" />
+						</p:column>
+
+
+						<f:facet name="header">
+							<p:commandButton value="Receita" icon="ui-icon-arrowthick-1-n"
+								oncomplete="PF('dialog_lancamento_receita').show();"
+								actionListener="#{movimentoFinanceiroController.novoLancamento}"
+								update=":msgGlobal :formReceita" />
+							<p:commandButton value="Despesa" icon="ui-icon-arrowthick-1-s"
+								oncomplete="PF('dialog_lancamento_despesa').show();"
+								actionListener="#{movimentoFinanceiroController.novoLancamento}"
+								update=":msgGlobal :formDespesa" />
+						</f:facet>
+
+						<p:rowExpansion>
+							<p:commandButton value="Emitir boleto" icon="ui-icon-print"
+								rendered="#{mov.statusRecebimentoReceita.status != 'Pago'}" />
+						</p:rowExpansion>
+
+					</p:dataTable>
+
+					<p:panel header="RESUMO FINANCEIRO" id="resumo_financeiro">
+
+						<p:panelGrid columns="7">
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Total a receber"
+									styleClass="texto_negrito_azul" />
+								<p:outputLabel
+									value="#{movimentoFinanceiroController.movimentoFinanceiro.totalReceita}"
+									styleClass="texto_negrito_azul">
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+								</p:outputLabel>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Total a pagar"
+									styleClass="texto_negrito_vermelho" />
+								<p:outputLabel
+									value="#{movimentoFinanceiroController.movimentoFinanceiro.totalDespesa}"
+									styleClass="texto_negrito_vermelho">
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+								</p:outputLabel>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Total Recebido"
+									styleClass="texto_negrito_azul" />
+								<p:outputLabel
+									value="#{movimentoFinanceiroController.movimentoFinanceiro.totalRecebido}"
+									styleClass="texto_negrito_azul">
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+								</p:outputLabel>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Total Pago"
+									styleClass="texto_negrito_vermelho" />
+								<p:outputLabel
+									value="#{movimentoFinanceiroController.movimentoFinanceiro.totalPago}"
+									styleClass="texto_negrito_vermelho">
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+								</p:outputLabel>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Saldo do dia" styleClass="texto_negrito" />
+								<p:outputLabel
+									value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoOperacional}"
+									styleClass="texto_negrito">
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+								</p:outputLabel>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Saldo do movimento Anterior"
+									styleClass="texto_negrito" />
+								<p:outputLabel
+									value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAnterior}"
+									styleClass="texto_negrito">
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+								</p:outputLabel>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1">
+								<p:outputLabel value="Saldo Atual" styleClass="texto_negrito" />
+								<p:outputLabel
+									value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAtual}"
+									styleClass="texto_negrito">
+									<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
+								</p:outputLabel>
+							</p:panelGrid>
+
+						</p:panelGrid>
+						<p:separator />
+					</p:panel>
+
+				</h:form>
+			</p:tab>
 			
-				<p:panelGrid columns="7">
-					<p:panelGrid columns="1">
-						<p:outputLabel value="Total a receber" styleClass="texto_negrito_azul"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalReceita}" styleClass="texto_negrito_azul">
-							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
-						</p:outputLabel>
-					</p:panelGrid>
+			<p:tab title="RELATÓRIOS">
+			
+				<p:panel header="Relatório de movimentação financeira por período">
+					<h:form>
+						
+						<h:panelGrid columns="3">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Data Inicial"/>
+								<p:calendar locale="pt" pattern="dd/MM/yyyy" mask="true" value="#{movimentoFinanceiroController.dataInicial}"/>
+							</h:panelGrid>
+							
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Data Final"/>
+								<p:calendar locale="pt" pattern="dd/MM/yyyy" mask="true" value="#{movimentoFinanceiroController.dataFinal}"/>
+							</h:panelGrid>
+							
+							<h:panelGrid columns="1">
+								<p:outputLabel value="." style="color: white;"/>
+								<p:commandButton value="Gerar" icon="ui-icon-print" actionListener="#{movimentoFinanceiroController.gerarRelatorioMovimentoFinanceiro}" update=":msgGlobal"/>
+							</h:panelGrid>
+						</h:panelGrid>
+					
+					</h:form>
+				</p:panel>
 				
-					<p:panelGrid columns="1">
-						<p:outputLabel value="Total a pagar" styleClass="texto_negrito_vermelho"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalDespesa}" styleClass="texto_negrito_vermelho">
-							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
-						</p:outputLabel>
-					</p:panelGrid>
+				<p:panel header="Relatório de lançamentos financeiro por período">
+					<h:form>
+						
+						<h:panelGrid columns="3">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Data Inicial"/>
+								<p:calendar locale="pt" pattern="dd/MM/yyyy" mask="true"/>
+							</h:panelGrid>
+							
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Data Final"/>
+								<p:calendar locale="pt" pattern="dd/MM/yyyy" mask="true"/>
+							</h:panelGrid>
+							
+							<h:panelGrid columns="1">
+								<p:outputLabel value="." style="color: white;"/>
+								<p:commandButton value="Gerar" icon="ui-icon-print"/>
+							</h:panelGrid>
+						</h:panelGrid>
 					
-					<p:panelGrid columns="1">
-						<p:outputLabel value="Total Recebido" styleClass="texto_negrito_azul"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalRecebido}" styleClass="texto_negrito_azul">
-							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
-						</p:outputLabel>
-					</p:panelGrid>
+					</h:form>
+				</p:panel>
 					
-					<p:panelGrid columns="1">
-						<p:outputLabel value="Total Pago" styleClass="texto_negrito_vermelho"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalPago}" styleClass="texto_negrito_vermelho">
-							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
-						</p:outputLabel>
-					</p:panelGrid>
-					
-					<p:panelGrid columns="1">
-						<p:outputLabel value="Saldo do dia" styleClass="texto_negrito"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoOperacional}" styleClass="texto_negrito">
-							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
-						</p:outputLabel>
-					</p:panelGrid>
-					
-					<p:panelGrid columns="1">
-						<p:outputLabel value="Saldo do movimento Anterior" styleClass="texto_negrito"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAnterior}" styleClass="texto_negrito">
-							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
-						</p:outputLabel>
-					</p:panelGrid>
-					
-					<p:panelGrid columns="1">
-						<p:outputLabel value="Saldo Atual" styleClass="texto_negrito"/>
-						<p:outputLabel value="#{movimentoFinanceiroController.movimentoFinanceiro.totalSaldoAtual}" styleClass="texto_negrito">
-							<f:convertNumber pattern="###,###0.00" locale="pt_BR" />
-						</p:outputLabel>
-					</p:panelGrid>
-					
-				</p:panelGrid>
-				<p:separator />
-			</p:panel>
+			</p:tab>
+			
+			</p:tabView>
+			
+			
+			<p:dialog widgetVar="pdfMovimentoFinanceiro" width="1024" height="800" resizable="false" 
+			          minimizable="false" header="Relatório de Movimentação Financeira" position="top" modal="true" appendTo="@(body)">
+				<p:commandButton value="Fechar" oncomplete="PF('pdfMovimentoFinanceiro').hide();" icon="ui-icon-closethick"/>
+				<h:form id="form_pdf_pdfMovimentoFinanceiro_view">
+				   <h:panelGrid >
+				   	   <p:media value="/PDF" width="1024" height="800" player="pdf"/>
+				   </h:panelGrid>
+				</h:form>
+		    </p:dialog> 
 
-		</h:form>
 
 		<p:dialog header="Dados do título financeiro" closable="true" draggable="true"
 			resizable="false" maximizable="false" widgetVar="dialog_dados_titulo"
@@ -368,7 +478,7 @@
 									<p:commandButton id="btnSalvarReceita" value="Salvar"
 										icon="ui-icon-check"
 										actionListener="#{movimentoFinanceiroController.salvarLancamento}"
-										update=":msgGlobal :formLancamentoFinanceiro:tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
+										update=":msgGlobal tabView:formLancamentoFinanceiro:tableMovimentoCaixa tabView:formLancamentoFinanceiro:resumo_financeiro">
 									</p:commandButton>
 									<p:commandButton value="Cancelar" icon="ui-icon-close"
 										oncomplete="PF('dialog_lancamento_receita').hide();"/>
@@ -463,7 +573,7 @@
 									<p:commandButton id="btnSalvarDespesa" value="Salvar"
 										icon="ui-icon-check"
 										actionListener="#{movimentoFinanceiroController.salvarLancamento}"
-										update=":msgGlobal :formLancamentoFinanceiro:tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro">
+										update=":msgGlobal tabView:formLancamentoFinanceiro:tableMovimentoCaixa tabView:formLancamentoFinanceiro:resumo_financeiro">
 									</p:commandButton>
 									<p:commandButton value="Cancelar" icon="ui-icon-close"
 										oncomplete="PF('dialog_lancamento_despesa').hide();"/>
@@ -502,7 +612,7 @@
 					<p:panelGrid columns="2">
 						<p:panelGrid columns="2">
 							<p:commandButton icon="ui-icon-check" value="Confirmar" actionListener="#{movimentoFinanceiroController.excluirLancamentoFinanceiro}" 
-							update=":msgGlobal :formLancamentoFinanceiro:tableMovimentoCaixa :formLancamentoFinanceiro:resumo_financeiro"/>
+							update=":msgGlobal tabView:formLancamentoFinanceiro:tableMovimentoCaixa tabView:formLancamentoFinanceiro:resumo_financeiro"/>
 							<p:commandButton icon="ui-icon-closethick" value="Cancelar" oncomplete="PF('dialog_justificativa').hide();"/>
 						</p:panelGrid>
 					</p:panelGrid>
