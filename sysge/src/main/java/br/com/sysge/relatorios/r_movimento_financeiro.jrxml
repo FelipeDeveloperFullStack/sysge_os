@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_movimento_financeiro" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2a6a1aa7-da64-4faa-9e6e-3367532be0e1">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="dataInicial" class="java.util.Date"/>
+	<parameter name="dataFinal" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="saldoDia" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[saldoDia]]></fieldDescription>
+	</field>
+	<field name="totalReceber" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalReceber]]></fieldDescription>
+	</field>
+	<field name="saldoMovimentoAnterior" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[saldoMovimentoAnterior]]></fieldDescription>
+	</field>
+	<field name="dataMovimento" class="java.util.Date">
+		<fieldDescription><![CDATA[dataMovimento]]></fieldDescription>
+	</field>
+	<field name="totalRecebido" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalRecebido]]></fieldDescription>
+	</field>
+	<field name="totalPago" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPago]]></fieldDescription>
+	</field>
+	<field name="saldoAtual" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[saldoAtual]]></fieldDescription>
+	</field>
+	<field name="totalPagar" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPagar]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="200" y="0" width="352" height="30" uuid="f1e7c46d-dfe1-422e-a9ff-42c1a6208856"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="arial" size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de Movimento Financeiro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="596" y="0" width="60" height="30" uuid="1f080079-4d11-49cf-be93-785786a158cf"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Emitido em ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm">
+				<reportElement x="650" y="0" width="150" height="30" uuid="35556700-70a7-4edb-b89a-6c4379e18510"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="286" y="30" width="60" height="20" uuid="4cd6f8ae-de96-4945-8e27-44413001e4fc"/>
+				<text><![CDATA[Período de]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="340" y="30" width="100" height="20" uuid="85981b01-f188-4c8c-a201-0e669d30ccf9"/>
+				<textFieldExpression><![CDATA[$P{dataInicial}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="408" y="30" width="103" height="20" uuid="0d36c038-72d2-4de4-b504-a2de0fada34c"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$P{dataFinal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="397" y="30" width="9" height="20" uuid="9dcd8e94-426f-4fa7-8e9f-cd5ca65c1bf1"/>
+				<text><![CDATA[a]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="19" forecolor="#4600DE" uuid="d57907f8-f3f7-47f6-a3dd-bdc5227ddcdd"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data do movimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="100" height="19" forecolor="#4600DE" uuid="3fc73071-6cad-4234-ad0c-b54a456b8332"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total a receber]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="0" width="100" height="19" forecolor="#4600DE" uuid="a4627964-0493-47e4-9d15-63af9a501a04"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total a pagar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="0" width="100" height="19" forecolor="#4600DE" uuid="bebc818f-d260-4b37-98dd-c075c0170026"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total recebido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="0" width="100" height="19" forecolor="#4600DE" uuid="e7850078-6436-4653-8149-bd1a00f88db5"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total pago]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="0" width="136" height="19" forecolor="#4600DE" uuid="7ff9d4fe-73aa-4c60-8e63-32ce2fd11fa8"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo movimento anterior]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="637" y="0" width="100" height="19" forecolor="#4600DE" uuid="169f7185-d9a3-48c1-a0ba-ad17a493d129">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo do dia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="737" y="0" width="80" height="19" forecolor="#4600DE" uuid="46037dc1-d371-4b47-a243-646074e6fe92"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo atual]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="0" y="-1" width="100" height="20" uuid="f6a7c75b-508e-4d22-84df-943400eb51ea"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dataMovimento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;#,##0.00" isBlankWhenNull="true">
+				<reportElement x="100" y="-1" width="100" height="20" uuid="cb890348-f746-4fb0-ba13-6083a21a73d1"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{totalReceber}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;#,##0.00" isBlankWhenNull="true">
+				<reportElement x="200" y="-1" width="100" height="20" uuid="29d6f35c-f3eb-4cde-bf3a-d1cda5daf0bc"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{totalPagar}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;#,##0.00" isBlankWhenNull="true">
+				<reportElement x="300" y="0" width="100" height="20" uuid="bf109a92-f5bc-4835-a634-3c92e2e433c1"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{totalRecebido}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;#,##0.00" isBlankWhenNull="true">
+				<reportElement x="400" y="0" width="100" height="20" uuid="2211c449-5b39-4879-b6fd-3d1927fcf7c7"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{totalPago}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;#,##0.00" isBlankWhenNull="true">
+				<reportElement x="500" y="0" width="136" height="20" uuid="807fdf7a-2d53-4b3a-8701-67f524548b11"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{saldoMovimentoAnterior}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;#,##0.00" isBlankWhenNull="true">
+				<reportElement x="637" y="0" width="100" height="20" uuid="17a6ef9d-6673-4dd8-a2a8-bcbe9661c309"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{saldoDia}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;#,##0.00" isBlankWhenNull="true">
+				<reportElement x="737" y="0" width="80" height="20" uuid="8bfb5f26-76db-457e-af0b-90397f1efa19"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{saldoAtual}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="564" y="15" width="100" height="30" uuid="7362845a-dd3c-4860-9b82-60b2451e9d11"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="664" y="15" width="100" height="30" uuid="bb5f0ba1-665c-427f-8f7c-df9032def220"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
