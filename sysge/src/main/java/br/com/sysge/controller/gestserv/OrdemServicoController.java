@@ -151,6 +151,7 @@ public class OrdemServicoController implements Serializable {
 		this.funcionarioService = new FuncionarioService();
 		this.clienteService = new ClienteService();
     	this.condicaoPagamentoService = new CondicaoPagamentoService();
+    	this.emailOSController = new EmailOSController();
 
 	}
 	
@@ -506,6 +507,11 @@ public class OrdemServicoController implements Serializable {
 			}
 			if(p.getValorCobrado().compareTo(p.getLancamentoReceita().getMovimentoFinanceiro().getTotalReceita()) != 0){
 				if(p.getStatusFinanceiro() == StatusFinanceiro.PENDENTE || ordemServico.getStatusOS() == StatusOS.CANCELADO){
+					movimentoFinanceiroService.salvarMovimentoFinanceiroOS(ordemServico, p);
+				}
+			}
+			if(p.getValorCobrado().compareTo(p.getLancamentoReceita().getMovimentoFinanceiro().getTotalReceita()) == 0){
+				if(ordemServico.getStatusOS() == StatusOS.CANCELADO){
 					movimentoFinanceiroService.salvarMovimentoFinanceiroOS(ordemServico, p);
 				}
 			}

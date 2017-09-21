@@ -2,6 +2,7 @@ package br.com.sysge.controller.gestserv;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -27,11 +28,15 @@ public class EmailOSController implements Serializable{
 	
 	private Hotmail hotmail;
 	
+	@PostConstruct
+	public void emailOSController(){
+		this.usuarioService = new UsuarioService();
+	}
+	
 	public void novoEmail(){
 		this.email = new Email();
 		this.email.setRemetente(getUsuario().getFuncionario().getEmail());
 	}
-	
 	
 	private UsuarioService usuarioService;
 	
