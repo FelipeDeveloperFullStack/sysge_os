@@ -16,7 +16,7 @@
 
 	<p:dialog id="dialogLogin" showEffect="clip" appendTo="@(body)"
 		modal="true" visible="true" closable="false" resizable="false"
-		draggable="false" header="Cadastros iniciais" position="top">
+		draggable="false" header="Cadastros iniciais" position="top" width="700">
 		<h:form id="formDialog">
 
 			<h:panelGrid columns="1">
@@ -209,9 +209,14 @@
 					<p:panel header="Confirmação">
 						<p:commandButton value="Salvar e Entrar no sistema"
 							action="#{loginController.salvarDadosIniciais}"
-							update=":msgGlobal" icon="ui-icon-check"/>	
+							update=":msgGlobal" icon="ui-icon-check" id="btn_entrar"/>	
+						<p:blockUI block="dialogLogin" trigger="btn_entrar">
+					        Carregando! Aguarde...<br />
+							<p:graphicImage library="img" name="loading.gif" />
+						</p:blockUI>
 					</p:panel>
 				</p:tab>
+				
 			</p:wizard>
 		</h:form>
 	</p:dialog>

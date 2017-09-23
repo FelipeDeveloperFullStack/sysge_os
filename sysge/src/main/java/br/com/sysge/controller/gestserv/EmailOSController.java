@@ -2,18 +2,10 @@ package br.com.sysge.controller.gestserv;
 
 import java.io.Serializable;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-
-
-import javax.servlet.http.HttpSession;
-
 import br.com.sysge.infraestrutura.email.Email;
 import br.com.sysge.infraestrutura.email.Hotmail;
-import br.com.sysge.model.conf.Usuario;
-import br.com.sysge.service.conf.UsuarioService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
 
@@ -28,28 +20,6 @@ public class EmailOSController implements Serializable{
 	
 	private Hotmail hotmail;
 	
-	@PostConstruct
-	public void emailOSController(){
-		this.usuarioService = new UsuarioService();
-	}
-	
-	public void novoEmail(){
-		this.email = new Email();
-		this.email.setRemetente(getUsuario().getFuncionario().getEmail());
-	}
-	
-	private UsuarioService usuarioService;
-	
-	private Usuario getSessionUsuario(){
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-		Usuario usuario = (Usuario) session.getAttribute("usuario");
-		return usuario;
-	}
-	
-	private Usuario getUsuario(){
-		return usuarioService.findById(getSessionUsuario().getId());
-	}
-	
 	public Email getEmail() {
 		return email;
 	}
@@ -58,8 +28,8 @@ public class EmailOSController implements Serializable{
 		this.email = email;
 	}
 	
-	public void enviarEmail(long numeroOS){
-		
+	public void enviarEmail(long numeroOS, Email email){
+		this.email = email;
 		try {
 			this.hotmail = new Hotmail();
 			consistirEmailDestinatario();

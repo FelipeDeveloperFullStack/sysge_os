@@ -352,10 +352,15 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), listMov));
 			}else{
 				for(MovimentoFinanceiro m : listMov){
-					if(parcelasPagamentoOs.getValorCobrado().compareTo(m.getTotalReceita()) != 0){
-						m.setTotalReceita(BigDecimal.ZERO);
+					if(lancamentoFinanceiro.getValor() != null){
+						if(parcelasPagamentoOs.getValorCobrado().compareTo(lancamentoFinanceiro.getValor()) == 0){
+							m.setTotalReceita(somarTotalReceita(lancamentoFinanceiro, BigDecimal.ZERO, listMov));
+						}else{
+							m.setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado().subtract(lancamentoFinanceiro.getValor()), listMov));
+						}
+					}else{
+						m.setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), listMov));
 					}
-					m.setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), listMov));
 					lancamentoFinanceiro.setMovimentoFinanceiro(m);
 				}
 			}

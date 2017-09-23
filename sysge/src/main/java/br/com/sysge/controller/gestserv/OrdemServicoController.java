@@ -16,6 +16,8 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.event.SelectEvent;
 
 import br.com.sysge.controller.sys.TemplateViewPage;
+import br.com.sysge.infraestrutura.email.Email;
+import br.com.sysge.model.conf.Usuario;
 import br.com.sysge.model.estoque.Produto;
 import br.com.sysge.model.financ.CondicaoPagamento;
 import br.com.sysge.model.financ.ParcelasPagamentoOs;
@@ -32,6 +34,7 @@ import br.com.sysge.model.type.Situacao;
 import br.com.sysge.model.type.StatusOS;
 import br.com.sysge.model.type.TipoDesconto;
 import br.com.sysge.service.conf.ParametroService;
+import br.com.sysge.service.conf.UsuarioService;
 import br.com.sysge.service.estoque.ProdutoService;
 import br.com.sysge.service.financ.CondicaoPagamentoService;
 import br.com.sysge.service.financ.MovimentoFinanceiroService;
@@ -43,6 +46,7 @@ import br.com.sysge.service.global.ClienteService;
 import br.com.sysge.service.rh.FuncionarioService;
 import br.com.sysge.util.FacesUtil;
 import br.com.sysge.util.RequestContextUtil;
+import br.com.sysge.util.UsuarioSession;
 
 
 @ViewScoped
@@ -64,6 +68,8 @@ public class OrdemServicoController implements Serializable {
 	private ParcelasPagamentoOs parcela;
 	
 	private Servico servico;
+	
+	private Email email;
 	
 	private Produto produto;
 	
@@ -97,6 +103,7 @@ public class OrdemServicoController implements Serializable {
 	
 	private FuncionarioService funcionarioService;
 	
+	private UsuarioService usuarioService;
 	
 	private ClienteService clienteService;
 	
@@ -152,6 +159,7 @@ public class OrdemServicoController implements Serializable {
 		this.clienteService = new ClienteService();
     	this.condicaoPagamentoService = new CondicaoPagamentoService();
     	this.emailOSController = new EmailOSController();
+    	this.usuarioService = new UsuarioService();
 
 	}
 	
@@ -781,13 +789,24 @@ public class OrdemServicoController implements Serializable {
 			}
 	}
 	
+	public void novoEmail(){
+		this.email = new Email();
+		this.email.setRemetente(getUsuario().getFuncionario().getEmail());
+		this.email.setEmailDestinatario(ordemServico.getCliente().getEmail());
+		this.email.setAssunto("Ordem de Serviço de nº "+ordemServico.getId());
+	}
+	
+	private Usuario getUsuario(){
+		return usuarioService.findById(UsuarioSession.getSessionUsuario().getId());
+	}
+	
 	public void enviarEmail(){
 			ordemServicoService.isEnviarEmail(true);
 			ordemServicoService.gerarOrdemServico(ordemServico, 
 					ordemServicoService.procurarServicosOS(ordemServico.getId()), 
 					ordemServicoService.procurarProdutosOS(ordemServico.getId()),
 					ordemServicoService.procurarPagamentoOS(ordemServico.getId()));
-			emailOSController.enviarEmail(ordemServico.getId());
+			emailOSController.enviarEmail(ordemServico.getId(), email);
 		
 	}
 	
@@ -981,6 +1000,14 @@ public class OrdemServicoController implements Serializable {
 
 	public void setPesquisaCliente(String pesquisaCliente) {
 		this.pesquisaCliente = pesquisaCliente;
+	}
+
+	public Email getEmail() {
+		return email;
+	}
+
+	public void setEmail(Email email) {
+		this.email = email;
 	}
 
 }
