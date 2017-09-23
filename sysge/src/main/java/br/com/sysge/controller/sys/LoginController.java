@@ -293,11 +293,11 @@ public class LoginController implements Serializable {
 				menuItemUnidadeEmpresarial.setOutcome(PAGE_UNIDADE_EMPRESARIAL);
 				menuItemUnidadeEmpresarial.setIcon(ICON_MENU);
 			}
-			/*if (menu.getMenu().equals(MenuSistema.AGENDA.getMenu())) {
+			if (menu.getMenu().equals(MenuSistema.AGENDA.getMenu())) {
 				menuItemAgenda = new DefaultMenuItem(MenuSistema.AGENDA.getMenu());
 				menuItemAgenda.setOutcome(PAGE_AGENDA);
 				menuItemAgenda.setIcon(ICON_MENU);
-			}*/
+			}
 			if (menu.getMenu().equals(MenuSistema.FORNECEDOR.getMenu())) {
 				menuItemFornecedor = new DefaultMenuItem(MenuSistema.FORNECEDOR.getMenu());
 				menuItemFornecedor.setOutcome(PAGE_FORNECEDOR);
@@ -399,9 +399,9 @@ public class LoginController implements Serializable {
 		if (menuItemCliente != null || menuItemFornecedor != null || menuItemUnidadeEmpresarial != null) {
 			menuGlobal = new DefaultSubMenu(MenuSistema.GLOBAL.getMenu());
 			
-			/*if(menuItemAgenda != null){
+			if(menuItemAgenda != null){
 				menuGlobal.addElement(menuItemAgenda);
-			}*/
+			}
 			menuModel.addElement(menuGlobal);
 			
 			subMenuCadastroGl = new DefaultSubMenu(MenuSistema.CADASTROS_GL.getMenu());
