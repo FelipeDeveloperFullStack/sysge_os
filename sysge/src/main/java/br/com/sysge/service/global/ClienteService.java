@@ -70,7 +70,7 @@ public class ClienteService extends GenericDaoImpl<Cliente, Long> {
 			return super.findBySituationAndTipoPessoa(cliente.getSituacao(), cliente.getTipoPessoa());
 		} else {
 			if(cliente.getTipoPessoa() == TipoPessoa.PESSOA_FISICA){
-				if(!cliente.getNomeDaPessoaFisica().toUpperCase().trim().isEmpty()){
+				if(!cliente.getNomeDaPessoaFisica().trim().isEmpty()){
 					return super.findByParametersForSituation(cliente.getNomeDaPessoaFisica(), cliente.getTipoPessoa(),
 							cliente.getSituacao(), "nomeDaPessoaFisica", "LIKE", "%", "%");
 				}else{
@@ -78,7 +78,7 @@ public class ClienteService extends GenericDaoImpl<Cliente, Long> {
 							"cpf", "=", "", "");
 				}
 			}else{
-				if(!cliente.getNomeFantasia().toUpperCase().trim().isEmpty()){
+				if(!cliente.getNomeFantasia().trim().isEmpty()){
 					return super.findByParametersForSituation(cliente.getNomeFantasia(), cliente.getTipoPessoa(),
 							cliente.getSituacao(), "nomeFantasia", "LIKE", "%", "%");
 				}else{

@@ -84,6 +84,7 @@ public class ClienteController implements Serializable {
 			this.clientes = new ArrayList<Cliente>();
 			FacesUtil.mensagemInfo("Cliente salvo com sucesso!");
 			fecharDialogs();
+			cliente = new Cliente();
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}

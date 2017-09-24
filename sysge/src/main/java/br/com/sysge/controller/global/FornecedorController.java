@@ -55,6 +55,7 @@ public class FornecedorController implements Serializable {
 			FacesUtil.mensagemInfo("Fornecedor salvo com sucesso!");
 			fecharDialogs();
 			this.fornecedores = new ArrayList<Fornecedor>();
+			fornecedor = new Fornecedor(); 
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}
