@@ -678,6 +678,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		try {
 			params.put("dataInicial", dataInicial);
 			params.put("dataFinal", dataFinal);
+			params.put("saldoAtual", obterSaldoAtual());
 			
 			ReportFactory reportFactory = new ReportFactory("r_movimento_financeiro.jasper", params, 
 					TiposRelatorio.PDF, obterMovimentoPorPeriodo(dataInicial, dataFinal));
