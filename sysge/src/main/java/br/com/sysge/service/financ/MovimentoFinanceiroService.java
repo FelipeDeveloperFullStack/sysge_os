@@ -303,7 +303,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.RECEITA){
 				if(ordemServico.getStatusOS() != StatusOS.CANCELADO){
 					if(lancamentoFinanceiro.getTipoAtualizacaoMovimento() == null || lancamentoFinanceiro.getTipoAtualizacaoMovimento() == TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER){
-						lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
+						lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(verificarSaldoOSMovimento(buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento()), parcelasPagamentoOs, lancamentoFinanceiro).getTotalReceita());
 					}else{
 						if(lancamentoFinanceiro.getTipoAtualizacaoMovimento() != TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER){
 							lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
@@ -342,6 +342,19 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			this.movimentoFinanceiro = lancamentoFinanceiro.getMovimentoFinanceiro();
 			
 		return lancamentoFinanceiro.getMovimentoFinanceiro();
+	}
+	
+	private MovimentoFinanceiro verificarSaldoOSMovimento(List<MovimentoFinanceiro> listMov, ParcelasPagamentoOs parcelasPagamentoOs, LancamentoFinanceiro lancamentoFinanceiro){
+		if(parcelasPagamentoOs.getValorCobrado().compareTo(lancamentoFinanceiro.getMovimentoFinanceiro().getTotalReceita()) != 0){
+			for(MovimentoFinanceiro m : listMov){
+				m.setTotalReceita(BigDecimal.ZERO);
+				m.setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), listMov));
+			    lancamentoFinanceiro.setMovimentoFinanceiro(m);
+			}
+			return lancamentoFinanceiro.getMovimentoFinanceiro();
+		}else{
+			return lancamentoFinanceiro.getMovimentoFinanceiro();
+		}
 	}
 	
 	private void verificarSeExisteMovimento(Date dataVencimento, LancamentoFinanceiro lancamentoFinanceiro){
