@@ -24,6 +24,7 @@ import br.com.sysge.model.rh.Funcionario;
 import br.com.sysge.model.type.FormaPagamento;
 import br.com.sysge.model.type.Garantia;
 import br.com.sysge.model.type.StatusOS;
+import br.com.sysge.model.type.StatusOSOR;
 import br.com.sysge.model.type.TipoDesconto;
 
 @Entity
@@ -51,6 +52,9 @@ public class OrdemServico extends GenericDomain {
 
 	@Enumerated(EnumType.STRING)
 	private StatusOS statusOS;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusOSOR statusOSOR;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	private Cliente cliente;
@@ -357,6 +361,14 @@ public class OrdemServico extends GenericDomain {
 
 	public void setPagamentoPendente(String pagamentoPendente) {
 		this.pagamentoPendente = pagamentoPendente;
+	}
+
+	public StatusOSOR getStatusOSOR() {
+		return statusOSOR;
+	}
+
+	public void setStatusOSOR(StatusOSOR statusOSOR) {
+		this.statusOSOR = statusOSOR;
 	}
 
 

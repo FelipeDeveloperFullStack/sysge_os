@@ -20,6 +20,11 @@
 }
 
 .cor_azul{
+	font-weight: bold !important;
+	color: #6495ED;
+}
+
+.cor_azul{
 	color: blue;
 }
 

@@ -32,6 +32,7 @@ import br.com.sysge.model.type.FormaPagamento;
 import br.com.sysge.model.type.Garantia;
 import br.com.sysge.model.type.Situacao;
 import br.com.sysge.model.type.StatusOS;
+import br.com.sysge.model.type.StatusOSOR;
 import br.com.sysge.model.type.TipoDesconto;
 import br.com.sysge.service.conf.ParametroService;
 import br.com.sysge.service.conf.UsuarioService;
@@ -72,6 +73,8 @@ public class OrdemServicoController implements Serializable {
 	private Email email;
 	
 	private Produto produto;
+	
+	private String tituloDialog;
 	
 	private String pesquisaCliente = "";
 	
@@ -440,10 +443,12 @@ public class OrdemServicoController implements Serializable {
 		
 		verificarPagamentoPendenteOS(parcelas);
 		
+		this.setTituloDialog(mudarTituloDialog());
 		RequestContextUtil.execute("PF('dialogEditarOrdemDeServico').show();");
 		ordensServicos = new ArrayList<OrdemServico>();
 		
 		setarTabIndex(0);
+		
 	}
 	
 	private void verificarPagamentoPendenteOS(List<ParcelasPagamentoOs> parcelas){
@@ -474,6 +479,39 @@ public class OrdemServicoController implements Serializable {
 		this.listaProdutosTemporário = new ArrayList<ProdutoOrdemServico>();
 		
 		setarTabIndex(0);
+	}
+	
+	public String mudarTituloDialog(){
+		if(ordemServico.getStatusOSOR() == StatusOSOR.ORCAMENTO){
+			return StatusOSOR.ORCAMENTO.getStatusOSOR();
+		}else{
+			return StatusOSOR.ORDEM_SERVICO.getStatusOSOR();
+		}
+	}
+	
+	public void salvarOrcamento(){
+		try {
+			if(ordemServico.getId() == null){
+				ordemServico.setStatusOSOR(StatusOSOR.ORCAMENTO);
+				ordemServico = ordemServicoService.salvar(ordemServico);
+				RequestContextUtil.execute("PF('dialogNovaOrdemDeServico').hide();");
+			}else{
+				ordemServico = ordemServicoService.salvar(ordemServico);
+				RequestContextUtil.execute("PF('dialogNovaOrdemDeServico').hide();");
+			}
+			FacesUtil.mensagemInfo("Orçamento de nº "+ordemServico.getId() + " salvo com sucesso!");
+		} catch (Exception e) {
+			FacesUtil.mensagemErro(e.getMessage());
+		}
+	}
+	
+	public void converterParaOrdemServico(){
+		try {
+			ordemServico.setStatusOSOR(StatusOSOR.ORDEM_SERVICO);
+			salvar();
+		} catch (Exception e) {
+			FacesUtil.mensagemErro(e.getMessage());
+		}
 	}
 	
 	public void salvar(){
@@ -551,10 +589,8 @@ public class OrdemServicoController implements Serializable {
 	
 	private void salvarOS(){
 		if(ordemServico.getId() == null){
+			ordemServico.setStatusOSOR(StatusOSOR.ORDEM_SERVICO);
 			ordemServico = ordemServicoService.salvar(ordemServico);
-			//parcelasPagamentoOsService.salvar(ordemServico, parcelas);
-			//ordemServicoService.consistirServico(listaServicos, ordemServico);
-			//ordemServicoService.consistirProduto(listaProdutos, ordemServico);
 		}else{
 			ordemServico = ordemServicoService.salvar(ordemServico);
 			salvarMovimentoFinanceiro(ordemServico, parcelas);
@@ -587,6 +623,7 @@ public class OrdemServicoController implements Serializable {
 		}
 		
 		FacesUtil.mensagemInfo("Ordem de servico de nº "+ordemServico.getId() + " salvo com sucesso!");
+		this.setTituloDialog(null);
 	}
 	
 	private void subtrairQuantidadeEstoqueProduto(ProdutoOrdemServico listProduto){
@@ -633,7 +670,7 @@ public class OrdemServicoController implements Serializable {
 		RequestContextUtil.execute("PF('dialogNovaOrdemDeServico').hide();");
 		RequestContextUtil.execute("PF('dialogEditarOrdemDeServico').hide();");
 		ordensServicos = new ArrayList<OrdemServico>();
-		
+		this.setTituloDialog(null);
 	}
 	
 	public void fecharDialogMotivoCancelamento(){
@@ -807,7 +844,6 @@ public class OrdemServicoController implements Serializable {
 					ordemServicoService.procurarProdutosOS(ordemServico.getId()),
 					ordemServicoService.procurarPagamentoOS(ordemServico.getId()));
 			emailOSController.enviarEmail(ordemServico.getId(), email);
-		
 	}
 	
 	private void gerarOS(OrdemServico ordemServico){
@@ -1008,6 +1044,14 @@ public class OrdemServicoController implements Serializable {
 
 	public void setEmail(Email email) {
 		this.email = email;
+	}
+
+	public String getTituloDialog() {
+		return tituloDialog;
+	}
+
+	public void setTituloDialog(String tituloDialog) {
+		this.tituloDialog = tituloDialog;
 	}
 
 }

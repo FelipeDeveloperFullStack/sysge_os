@@ -93,6 +93,9 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			if (ordemServico.getFuncionario().getNome().isEmpty()) {
 				throw new RuntimeException("O nome do funcionário é obrigatório!");
 			}
+			if (ordemServico.getCliente().getNomeTemporario() == null) {
+				throw new RuntimeException("O nome do cliente é obrigatório!");
+			}
 			if (ordemServico.getCliente().getNomeTemporario().isEmpty()) {
 				throw new RuntimeException("O nome do cliente é obrigatório!");
 			}
