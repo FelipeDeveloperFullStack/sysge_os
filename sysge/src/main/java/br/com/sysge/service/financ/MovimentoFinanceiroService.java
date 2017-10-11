@@ -458,6 +458,33 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 		}
 	}
 	
+	public MovimentoFinanceiro salvarMovimentoFinanceiroOrdemServicoPorPagamento(LancamentoFinanceiro lancamentoFinanceiro){
+		lancamentoFinanceiro.setMovimentoFinanceiro(lancamentoFinanceiro.getMovimentoFinanceiro());
+		
+		lancamentoFinanceiro.setMovimentoFinanceiro(setarMovimentoFinanceiro(lancamentoFinanceiro));
+		
+		if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
+			if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.RECEITA){
+				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalRecebido(somarTotalRecebido(lancamentoFinanceiro, lancamentoFinanceiro.getValor(), buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
+				
+				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoOperacional(somarTotalSaldoOperacional(lancamentoFinanceiro, buscarMovimentoFinanceiroByData(lancamentoFinanceiro.getDataLancamento())));
+				
+				lancamentoFinanceiro.setTipoLancamentoFinanceiro(TipoLancamentoFinanceiro.LANCAMENTO_SIMPLES);
+				
+				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoAtual(obterSaldoAtual());
+				
+				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalSaldoAnterior(obterSaldoMovimentoAnterior(lancamentoFinanceiro.getMovimentoFinanceiro().getDataMovimento()));
+				
+				lancamentoFinanceiro.setMovimentoFinanceiro(super.save(lancamentoFinanceiro.getMovimentoFinanceiro()));
+				
+				lancamentoFinanceiroService.save(lancamentoFinanceiro);
+				
+				this.movimentoFinanceiro = lancamentoFinanceiro.getMovimentoFinanceiro();
+			}
+		}	
+		return lancamentoFinanceiro.getMovimentoFinanceiro();
+	}
+	
 	
 	public MovimentoFinanceiro salvarMovimentoReceita(LancamentoFinanceiro lancamentoFinanceiro){
 		

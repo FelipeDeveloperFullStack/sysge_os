@@ -244,6 +244,22 @@ public class MovimentoFinanceiroController implements Serializable {
 		}
 	}
 	
+	public void atualizarMovimentoFinanceiroOrdemServico(LancamentoFinanceiro lancamentoFinanceiro){
+		this.lancamentoFinanceiro = lancamentoFinanceiro;
+		this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PAGO);
+		if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.DESPESA){
+			this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_PAGO);
+		}else{
+			this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_RECEBIDO);
+		}
+		obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(this.lancamentoFinanceiro);
+		lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
+		
+		movimentoFinanceiroService.salvarMovimentoFinanceiroOrdemServicoPorPagamento(lancamentoFinanceiro);
+		lancamentoFinanceiros = obterTitulosPelaDataMovimento(this.lancamentoFinanceiro.getDataLancamento());
+		this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(dataMovimento);
+	}
+	
 	private void obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
 		if(lancamentoFinanceiro.getCategoriaLancamentoReceita() != null){
 			if(lancamentoFinanceiro.getCategoriaLancamentoReceita() == CategoriaLancamentoReceita.ORDEM_SERVICO){

@@ -166,7 +166,9 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 		}
 		parcela.setStatusFinanceiro(StatusFinanceiro.PAGO);
 		parcela = super.save(parcela);
-		movimentoFinanceiroController.atualizarStatusFinanceiroTituto(parcela.getLancamentoReceita());
+		parcela.getLancamentoReceita().setDataLancamento(parcela.getDataPagamento());
+		parcela.getLancamentoReceita().getMovimentoFinanceiro().setTotalReceita(parcela.getLancamentoReceita().getMovimentoFinanceiro().getTotalReceita().subtract(parcela.getValorCobrado()));
+		movimentoFinanceiroController.atualizarMovimentoFinanceiroOrdemServico(parcela.getLancamentoReceita());
 	}
 	
 	public ParcelasPagamentoOs obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
