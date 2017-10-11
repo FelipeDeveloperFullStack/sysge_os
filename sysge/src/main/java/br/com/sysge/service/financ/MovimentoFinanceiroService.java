@@ -306,7 +306,8 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 						lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(verificarSaldoOSMovimento(buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento()), parcelasPagamentoOs, lancamentoFinanceiro).getTotalReceita());
 					}else{
 						if(lancamentoFinanceiro.getTipoAtualizacaoMovimento() != TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER){
-							lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
+							//lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento())));
+							lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(verificarSaldoOSMovimento(buscarMovimentoFinanceiroByData(parcelasPagamentoOs.getDataVencimento()), parcelasPagamentoOs, lancamentoFinanceiro).getTotalReceita());
 						}
 					}
 				}
@@ -346,13 +347,24 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 	
 	private MovimentoFinanceiro verificarSaldoOSMovimento(List<MovimentoFinanceiro> listMov, ParcelasPagamentoOs parcelasPagamentoOs, LancamentoFinanceiro lancamentoFinanceiro){
 		if(parcelasPagamentoOs.getValorCobrado().compareTo(lancamentoFinanceiro.getMovimentoFinanceiro().getTotalReceita()) != 0){
-			for(MovimentoFinanceiro m : listMov){
-				m.setTotalReceita(BigDecimal.ZERO);
-				m.setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), listMov));
-			    lancamentoFinanceiro.setMovimentoFinanceiro(m);
+			if(listMov.isEmpty()){
+				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(BigDecimal.ZERO);
+				lancamentoFinanceiro.getMovimentoFinanceiro().setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), listMov));
+			}else{
+				for(MovimentoFinanceiro m : listMov){
+					if(parcelasPagamentoOs.getValorCobrado().compareTo(m.getTotalReceita()) != 0){
+						m.setTotalReceita(BigDecimal.ZERO);
+					}
+					m.setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), listMov));
+					lancamentoFinanceiro.setMovimentoFinanceiro(m);
+				}
 			}
 			return lancamentoFinanceiro.getMovimentoFinanceiro();
 		}else{
+			for(MovimentoFinanceiro m : listMov){
+				m.setTotalReceita(somarTotalReceita(lancamentoFinanceiro, parcelasPagamentoOs.getValorCobrado(), listMov));
+				lancamentoFinanceiro.setMovimentoFinanceiro(m);
+			}
 			return lancamentoFinanceiro.getMovimentoFinanceiro();
 		}
 	}

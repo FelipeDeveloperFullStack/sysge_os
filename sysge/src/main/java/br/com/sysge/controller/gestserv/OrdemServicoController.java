@@ -364,6 +364,10 @@ public class OrdemServicoController implements Serializable {
 	
 	public void calcularValorProduto(){
 		
+		if(getVerificarSeExistePagamentoRealizado()){
+			FacesUtil.mensagemWarn("Não é possível adicionar a quantidade, "
+					+ "pois já existe uma parcela recebida na ordem de serviço!!");
+		}else{
 			if(this.quantidadeAdicionada.compareTo(produtoOrdemServico.getProduto().getQuantidadeEstoque()) >= 0){
 				if(parametroService.verificarParametroEstoqueNegativo()){
 					FacesUtil.mensagemWarn("Não é possível adicionar a quantidade '"+this.quantidadeAdicionada+"' "
@@ -374,7 +378,7 @@ public class OrdemServicoController implements Serializable {
 					return;
 				}
 			}
-		
+			
 			if(parametroService.verificarParametroEstoqueNegativo(produtoOrdemServico.getProduto())){
 				FacesUtil.mensagemWarn("O produto '"+produtoOrdemServico.getProduto().getDescricaoProduto()+"' "
 						+ "se encontra com estoque igual a "+produtoOrdemServico.getProduto().getQuantidadeEstoque()+", não é permitido adicionar o produto, "
@@ -394,27 +398,27 @@ public class OrdemServicoController implements Serializable {
 					}
 				}
 			}
-
-		if(quantidadeAdicionada == BigDecimal.ZERO){
-			FacesUtil.mensagemWarn("A quantidade é obrigatório!");
-		}else{
-			ordemServico.setTotalProduto(BigDecimal.ZERO);
-			produtoOrdemServico.setQuantidade(produtoOrdemServico.getQuantidade().add(quantidadeAdicionada));
 			
-			for(ProdutoOrdemServico po : listaProdutos){
-				if(po.getProduto().getId() == produtoOrdemServico.getProduto().getId()){
-					BigDecimal valorProduto = produtoOrdemServico.getProduto().getValorVenda().
-							multiply(produtoOrdemServico.getQuantidade());
-					po.setValor(produtoOrdemServico.getValor());
-					po.setSubTotal(valorProduto);
-				}
-				ordemServico.setTotal((ordemServico.getTotalServico().add(ordemServico.getTotalProduto())).add(po.getSubTotal()));
-				ordemServico.setTotalProduto(ordemServico.getTotalProduto().add(po.getSubTotal()));
+			if(quantidadeAdicionada == BigDecimal.ZERO){
+				FacesUtil.mensagemWarn("A quantidade é obrigatório!");
+			}else{
+				ordemServico.setTotalProduto(BigDecimal.ZERO);
+				produtoOrdemServico.setQuantidade(produtoOrdemServico.getQuantidade().add(quantidadeAdicionada));
 				
+				for(ProdutoOrdemServico po : listaProdutos){
+					if(po.getProduto().getId() == produtoOrdemServico.getProduto().getId()){
+						BigDecimal valorProduto = produtoOrdemServico.getProduto().getValorVenda().
+								multiply(produtoOrdemServico.getQuantidade());
+						po.setValor(produtoOrdemServico.getValor());
+						po.setSubTotal(valorProduto);
+					}
+					ordemServico.setTotal((ordemServico.getTotalServico().add(ordemServico.getTotalProduto())).add(po.getSubTotal()));
+					ordemServico.setTotalProduto(ordemServico.getTotalProduto().add(po.getSubTotal()));
+					
+				}
+				RequestContextUtil.execute("PF('dialog_quantidade_estoque_produto').hide();");
 			}
-			RequestContextUtil.execute("PF('dialog_quantidade_estoque_produto').hide();");
 		}
-		
 	}
 	
 	public void setarOrdemServico(OrdemServico ordemServico){
@@ -500,8 +504,10 @@ public class OrdemServicoController implements Serializable {
 			if(p.getStatusFinanceiro() == null){
 				p.setStatusFinanceiro(StatusFinanceiro.PENDENTE);
 			}
-			if(p.getStatusFinanceiro() == StatusFinanceiro.PENDENTE || ordemServico.getStatusOS() == StatusOS.CANCELADO){
-				movimentoFinanceiroService.salvarMovimentoFinanceiroOS(ordemServico, p);
+			if(p.getValorCobrado().compareTo(p.getLancamentoReceita().getMovimentoFinanceiro().getTotalReceita()) != 0){
+				if(p.getStatusFinanceiro() == StatusFinanceiro.PENDENTE || ordemServico.getStatusOS() == StatusOS.CANCELADO){
+					movimentoFinanceiroService.salvarMovimentoFinanceiroOS(ordemServico, p);
+				}
 			}
 		}
 	}
@@ -650,6 +656,30 @@ public class OrdemServicoController implements Serializable {
 				ordemServico.setTotal(ordemServico.getTotalServico().add(ordemServico.getTotalProduto()));
 				ordemServicoService.salvar(ordemServico);
 			}
+			
+			if(this.listaServicos.isEmpty()){
+				ordemServico.setTotalServico(BigDecimal.ZERO);
+				ordemServico.setTotal(BigDecimal.ZERO);
+				ordemServico.setTotal(ordemServico.getTotalServico().add(ordemServico.getTotalProduto()));
+				ordemServicoService.salvar(ordemServico);
+			}else{
+				BigDecimal somaServico = BigDecimal.ZERO;
+				for(ServicoOrdemServico s : listaServicos){
+					somaServico = somaServico.add(s.getSubTotal());
+				}
+				if(somaServico.compareTo(ordemServico.getTotalServico()) != 0){
+					ordemServico.setTotalServico(somaServico);
+					ordemServico.setTotal(BigDecimal.ZERO);
+					ordemServico.setTotal(ordemServico.getTotalServico().add(ordemServico.getTotalProduto()));
+				}
+				ordemServicoService.salvar(ordemServico);
+			}
+			
+			if(listaProdutos.isEmpty() && listaServicos.isEmpty()){
+				ordemServico.setTotal(BigDecimal.ZERO);
+				ordemServicoService.salvar(ordemServico);
+			}
+			
 		}
 		
 	}
@@ -686,6 +716,30 @@ public class OrdemServicoController implements Serializable {
 				ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
 				ordemServicoService.salvar(ordemServico);
 			}
+			
+			if(this.listaProdutos.isEmpty()){
+				ordemServico.setTotalProduto(BigDecimal.ZERO);
+				ordemServico.setTotal(BigDecimal.ZERO);
+				ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
+				ordemServicoService.salvar(ordemServico);
+			}else{
+				BigDecimal somaProduto = BigDecimal.ZERO;
+				for(ProdutoOrdemServico s : listaProdutos){
+					somaProduto = somaProduto.add(s.getSubTotal());
+				}
+				if(somaProduto.compareTo(ordemServico.getTotalProduto()) != 0){
+					ordemServico.setTotalProduto(somaProduto);
+					ordemServico.setTotal(BigDecimal.ZERO);
+					ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
+				}
+				ordemServicoService.salvar(ordemServico);
+			}
+			
+			if(listaProdutos.isEmpty() && listaServicos.isEmpty()){
+				ordemServico.setTotal(BigDecimal.ZERO);
+				ordemServicoService.salvar(ordemServico);
+			}
+			
 		}
 		
 	}
