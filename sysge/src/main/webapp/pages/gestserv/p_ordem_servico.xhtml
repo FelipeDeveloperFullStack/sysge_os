@@ -63,6 +63,20 @@
 				</h:panelGrid>
 			</h:form>
 		</p:dialog>
+		
+		<!-- Orcamento -->
+		<p:dialog widgetVar="pdfViewOrcamento" width="950" height="650"
+			resizable="false" minimizable="false" header="Orçamento"
+			position="top" modal="true" appendTo="@(body)">
+			<p:commandButton value="Fechar"
+				oncomplete="PF('pdfViewOrcamento').hide();"
+				icon="ui-icon-closethick" />
+			<h:form id="form_pdf_orcamento_view">
+				<h:panelGrid>
+					<p:media value="/PDF" width="900" height="800px" player="pdf" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
 
 
 		<!-- Comprovante de pagamento -->
@@ -196,6 +210,7 @@
 						<p:commandButton id="btn_or"
 							rendered="#{s.statusOSOR == 'ORCAMENTO'}"
 							value="Imprimir orçamento nº #{s.id}" icon="ui-icon-print"
+							actionListener="#{ordemServicoController.gerarOrcamento(s)}"
 							update=":msgGlobal form_pdf_ordem_servico_view" />
 
 					</p:rowExpansion>
@@ -854,14 +869,19 @@
 
 						</p:tab>
 
-						<p:tab title="Informações complementares"
-							rendered="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}">
+						<p:tab title="Informações complementares">
 
 							<h:panelGrid columns="1"
 								rendered="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}">
 								<p:outputLabel value="Motivo do cancelamento" />
 								<p:inputTextarea style="width: 855px;"
 									value="#{ordemServicoController.ordemServico.motivoCancelamento}" />
+							</h:panelGrid>
+							
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Observação da ordem de serviço" />
+								<p:inputTextarea style="width: 855px;"
+									value="#{ordemServicoController.ordemServico.observacao}" />
 							</h:panelGrid>
 
 						</p:tab>
@@ -904,11 +924,11 @@
 							<p:commandButton id="btnEditarOSOR"
 								value="Converter para Ordem de Serviço"
 								icon="ui-icon-circle-check"
-								actionListener="#{ordemServicoController.converterParaOrdemServico}"
 								update=":msgGlobal :formGeralServico:tableServico :motivo_cancelamento"
 								disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}"
 								rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORCAMENTO'}"
-								style="background: #F4A460; color: white;" />
+								style="background: #F4A460; color: white;" 
+								oncomplete="PF('dialogConfirmacaoConverterOS').show();"/>
 
 							<p:commandButton value="Cancelar" icon="ui-icon-closethick"
 								actionListener="#{ordemServicoController.fecharDialogs}"
@@ -1015,16 +1035,22 @@
 					<p:inputTextarea style="width: 855px;"
 						value="#{ordemServicoController.ordemServico.motivoCancelamento}" />
 				</h:panelGrid>
-				<h:panelGrid columns="2">
+				<h:panelGrid columns="2" id="panel_btn_confirmacao_cancelamento">
 					<p:commandButton value="Salvar"
 						actionListener="#{ordemServicoController.salvarMotivoCancelamento}"
-						update=":msgGlobal" icon="ui-icon-check" />
+						update=":msgGlobal" icon="ui-icon-check" id="tbl_salvar_motivo_cancelamento"/>
 					<p:commandButton value="Cancelar"
 						oncomplete="PF('dialog_motivo_cancelamento').hide();"
 						update=":formGeralServico"
 						actionListener="#{ordemServicoController.fecharDialogMotivoCancelamento}"
 						icon="ui-icon-closethick" />
 				</h:panelGrid>
+				
+				<p:blockUI block="panel_btn_confirmacao_cancelamento" trigger="tbl_salvar_motivo_cancelamento">
+					        Carregando! Aguarde...<br />
+						<p:graphicImage library="img" name="loading.gif" />
+				</p:blockUI>
+					
 			</h:form>
 		</p:dialog>
 
@@ -1225,6 +1251,24 @@
 				</h:panelGrid>
 
 			</h:form>
+		</p:dialog>
+			
+		<p:dialog widgetVar="dialogConfirmacaoConverterOS" header="Atenção" modal="true"
+			resizable="false" position="center" appendTo="@(body)" closable="false">
+			
+			<h:form>
+				<p:panelGrid columns="1">
+					<h:outputLabel styleClass="texto_negrito" value="Deseja realmente converter esse orçamento em ordem de serviço?"/>
+				</p:panelGrid>
+				
+				<p:panelGrid columns="2">
+					<p:commandButton value="Sim" icon="ui-icon-circle-check"
+								actionListener="#{ordemServicoController.converterParaOrdemServico}"/>
+								
+					<p:commandButton value="Não" icon="ui-icon-closethick" oncomplete="PF('dialogConfirmacaoConverterOS').hide();"/>
+				</p:panelGrid>
+			</h:form>
+		
 		</p:dialog>
 
 	</ui:define>

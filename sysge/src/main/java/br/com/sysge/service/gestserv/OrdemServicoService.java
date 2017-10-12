@@ -283,6 +283,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		params.put(BAIRRO, ordemServico.getCliente().getBairro());
 		params.put("cidade", ordemServico.getCliente().getCidade());
 		params.put("atendente", ordemServico.getFuncionario().getNome());
+		params.put("observacao", ordemServico.getObservacao());
 		
 		params.put("show_subreport", !listaPagamentos.isEmpty());
 		
@@ -303,7 +304,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			params.put("cidade_u", u.getCidade());
 			params.put("bairro_u", u.getBairro());
 			params.put("cep_u", u.getCEP());
-			params.put("telefones_u", u.getTelefone() + " | "+u.getCelular());
+			params.put("telefones_u", u.getTelefone() + " "+u.getCelular() + " "+u.getCelular2() + " " + u.getCelular3());
 		}
 		
 		ReportFactory reportFactory = new ReportFactory("r_ordem_servico.jasper", params, TiposRelatorio.PDF);
@@ -315,6 +316,66 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			enviaEmail = false;
 		}else{
 			reportFactory.gerarPDFView("Ordem de servico.pdf");
+		}
+	}
+	
+	public void gerarOrcamento(OrdemServico ordemServico, 
+			List<ServicoOrdemServico> servicos, 
+			List<ProdutoOrdemServico> produtos){
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		sdf = new SimpleDateFormat("dd/MM/yyyy - hh:mm");
+		
+		ordemServico.setCliente(clienteService.verificarTipoPessoa(ordemServico.getCliente()));
+		
+		params.put("list_item_ordem_servico", setarItemOrdemServicoTo(servicos, produtos, ordemServico.getTotal()));
+		params.put("subTotalServico", ordemServico.getTotalServico());
+		params.put("subTotalProduto", ordemServico.getTotalProduto());
+		params.put("totalOS", ordemServico.getTotal());
+		params.put(NUMERO_OS, String.valueOf(ordemServico.getId()));
+		params.put("data_hora", sdf.format(ordemServico.getDataEntrada()));
+		params.put("data_hora_saida", verificarDataSaida(ordemServico.getDataSaida(), sdf));
+		params.put("statusOS", ordemServico.getStatusOS().getStatusOS());
+		params.put("nomeCliente", ordemServico.getCliente().getNomeTemporario());
+		params.put("CPF_CNPJ", clienteService.getTipoDocumentoPessoa(ordemServico.getCliente()));
+		params.put("telefone", ordemServico.getCliente().getTelefone());
+		params.put("celular", ordemServico.getCliente().getCelular());
+		params.put("email", ordemServico.getCliente().getEmail());
+		params.put(ENDERECO, ordemServico.getCliente().getLogradouro());
+		params.put(BAIRRO, ordemServico.getCliente().getBairro());
+		params.put("cidade", ordemServico.getCliente().getCidade());
+		params.put("atendente", ordemServico.getFuncionario().getNome());
+		params.put("observacao", ordemServico.getObservacao());
+		
+		params.put(MARCA, ordemServico.getMarca());
+		params.put(MODELO, ordemServico.getModelo());
+		params.put(ACESSORIOS, ordemServico.getAcessorios());
+		params.put(SINTOMAS, ordemServico.getDefeito());
+		params.put(RELATORIO_TECNICO, ordemServico.getLaudoTecnico());
+		params.put(NUMERO_SERIE, String.valueOf(ordemServico.getNumeroSerie()));
+		params.put(NUMERO_PATRIMONIO, String.valueOf(ordemServico.getNumeroPatrimonio()));
+		
+		//Unidade Empresarial
+		for(Parametro p : parametroService.findAll()){
+			UnidadeEmpresarial u = p.getUnidadeEmpresarialPadrao();
+			params.put("razao_social_u", u.getRazaoSocial());
+			params.put("nomeFantasiaUnidadeEmpresarial", u.getNomeFantasia());
+			params.put("endereco_u", u.getLogradouro() + " " + u.getComplemento());
+			params.put("cidade_u", u.getCidade());
+			params.put("bairro_u", u.getBairro());
+			params.put("cep_u", u.getCEP());
+			params.put("telefones_u", u.getTelefone() + " "+u.getCelular() + " "+u.getCelular2() + " " + u.getCelular3());
+		}
+		
+		ReportFactory reportFactory = new ReportFactory("r_orcamento.jasper", params, TiposRelatorio.PDF);
+		
+		//Envio de email
+		if(enviaEmail){
+			reportFactory.exportarPDF();
+			enviaEmail = false;
+		}else{
+			reportFactory.gerarPDFView("Orcamento.pdf");
 		}
 	}
 	

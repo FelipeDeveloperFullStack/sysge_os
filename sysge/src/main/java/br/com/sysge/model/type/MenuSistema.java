@@ -10,8 +10,8 @@ public enum MenuSistema {
 		CADASTROS_GS("Cadastros"),
 			SERVICO("Serviços"),
 		ORDEM_DE_SERVICO("Ordem de Serviço"),
-	CONTROLE_ORCAMENTO("Controle de Orçamento"),
-		ORCAMENTO("Orçamento"),
+	/*CONTROLE_ORCAMENTO("Controle de Orçamento"),
+		ORCAMENTO("Orçamento"),*/
 	RH("RH"),
 		CADASTRO_RH("Cadastros"),
 			FUNCIONARIO("Funcionário"),

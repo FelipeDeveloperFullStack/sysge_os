@@ -111,6 +111,9 @@ public class OrdemServico extends GenericDomain {
 	@Column(length = 1000)
 	private String motivoCancelamento;
 	
+	@Column(length = 1000)
+	private String observacao;
+	
 	@Transient
 	private String pagamentoPendente;
 	
@@ -369,6 +372,14 @@ public class OrdemServico extends GenericDomain {
 
 	public void setStatusOSOR(StatusOSOR statusOSOR) {
 		this.statusOSOR = statusOSOR;
+	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
 	}
 
 

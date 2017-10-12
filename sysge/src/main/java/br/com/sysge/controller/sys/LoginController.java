@@ -62,7 +62,7 @@ public class LoginController implements Serializable {
 	private DefaultSubMenu menuCompras;
 	private DefaultSubMenu menuEstoque;
 	private DefaultSubMenu menuGestaoServico;
-	private DefaultSubMenu menuControleOrcamento;
+	//private DefaultSubMenu menuControleOrcamento;
 	private DefaultSubMenu menuRh;
 	private DefaultSubMenu menuFinanceiro;
 	private DefaultSubMenu menuGlobal;
@@ -81,7 +81,7 @@ public class LoginController implements Serializable {
 	private DefaultMenuItem menuItemFuncionario;
 	private DefaultMenuItem menuItemServico;
 	private DefaultMenuItem menuItemOrdemServico;
-	private DefaultMenuItem menuItemOrcamento;
+	//private DefaultMenuItem menuItemOrcamento;
 	private DefaultMenuItem menuItemCliente;
 	private DefaultMenuItem menuItemUnidadeEmpresarial;
 	private DefaultMenuItem menuItemAgenda;
@@ -158,7 +158,7 @@ public class LoginController implements Serializable {
 		menuCompras = null;
 		menuEstoque = null;
 		menuGestaoServico = null;
-		menuControleOrcamento = null;
+		//menuControleOrcamento = null;
 		menuRh = null;
 		menuFinanceiro = null;
 		menuGlobal = null;
@@ -181,7 +181,7 @@ public class LoginController implements Serializable {
 		menuItemUnidadeEmpresarial = null;
 		menuItemFornecedor = null;
 		menuItemOrdemServico = null;
-		menuItemOrcamento = null;
+		//menuItemOrcamento = null;
 		menuItemFormaPagamento = null;
 		menuItemProduto = null;
 		menuItemAgenda = null;
@@ -290,11 +290,11 @@ public class LoginController implements Serializable {
 				menuItemOrdemServico.setOutcome(PAGE_ORDEM_DE_SERVICO);
 				menuItemOrdemServico.setIcon(ICON_MENU);
 			}
-			if (menu.getMenu().equals(MenuSistema.ORCAMENTO.getMenu())) {
+			/*if (menu.getMenu().equals(MenuSistema.ORCAMENTO.getMenu())) {
 				menuItemOrcamento = new DefaultMenuItem(MenuSistema.ORCAMENTO.getMenu());
 				menuItemOrcamento.setOutcome(PAGE_ORCAMENTO);
 				menuItemOrcamento.setIcon(ICON_MENU);
-			}
+			}*/
 			if (menu.getMenu().equals(MenuSistema.CLIENTE.getMenu())) {
 				menuItemCliente = new DefaultMenuItem(MenuSistema.CLIENTE.getMenu());
 				menuItemCliente.setOutcome(PAGE_CLIENTE);
@@ -383,11 +383,11 @@ public class LoginController implements Serializable {
 			}
 		}
 		
-		if (menuItemOrcamento != null) {
+		/*if (menuItemOrcamento != null) {
 			menuControleOrcamento = new DefaultSubMenu(MenuSistema.CONTROLE_ORCAMENTO.getMenu());
 			menuModel.addElement(menuControleOrcamento);
 			menuControleOrcamento.addElement(menuItemOrcamento);
-		}
+		}*/
 
 		if (menuItemFuncionario != null) {
 			menuRh = new DefaultSubMenu(MenuSistema.RH.getMenu());

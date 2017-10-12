@@ -6,7 +6,7 @@ public enum MenuPerfilAcesso {
 			PRODUTO("Produto"),
 			SERVICO("Serviços"),
 		ORDEM_DE_SERVICO("Ordem de Serviço"),
-		ORCAMENTO("Orçamento"),	
+		//ORCAMENTO("Orçamento"),	
 		FUNCIONARIO("Funcionário"),
 			LANCAMENTO_FINANCEIRO("Lançamento financeiro"),
 		CONDICAO_PAGAMENTO("Condição de pagamento"),

@@ -509,6 +509,7 @@ public class OrdemServicoController implements Serializable {
 		try {
 			ordemServico.setStatusOSOR(StatusOSOR.ORDEM_SERVICO);
 			salvar();
+			RequestContextUtil.execute("PF('dialogConfirmacaoConverterOS').hide();");
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}
@@ -826,6 +827,15 @@ public class OrdemServicoController implements Serializable {
 			}
 	}
 	
+	public void gerarOrcamento(OrdemServico ordemServico){
+		try {
+			gerarOR(ordemServico);
+			RequestContextUtil.execute("PF('pdfViewOrcamento').show();");
+		}finally {
+			ordemServico = new OrdemServico();
+		}
+	}
+	
 	public void novoEmail(){
 		this.email = new Email();
 		this.email.setRemetente(getUsuario().getFuncionario().getEmail());
@@ -851,6 +861,12 @@ public class OrdemServicoController implements Serializable {
 				ordemServicoService.procurarServicosOS(ordemServico.getId()), 
 				ordemServicoService.procurarProdutosOS(ordemServico.getId()),
 				ordemServicoService.procurarPagamentoOS(ordemServico.getId()));
+	}
+	
+	private void gerarOR(OrdemServico ordemServico){
+		ordemServicoService.gerarOrcamento(ordemServico, 
+				ordemServicoService.procurarServicosOS(ordemServico.getId()), 
+				ordemServicoService.procurarProdutosOS(ordemServico.getId()));
 	}
 	
 	public void setarTabIndex(int tabIndex) {
