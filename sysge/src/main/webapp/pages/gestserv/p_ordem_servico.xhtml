@@ -869,7 +869,7 @@
 
 						</p:tab>
 
-						<p:tab title="Informações complementares">
+						<p:tab title="Informações complementares" rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORCAMENTO'}">
 
 							<h:panelGrid columns="1"
 								rendered="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}">
