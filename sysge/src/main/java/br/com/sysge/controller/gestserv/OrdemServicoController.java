@@ -840,7 +840,11 @@ public class OrdemServicoController implements Serializable {
 		this.email = new Email();
 		this.email.setRemetente(getUsuario().getFuncionario().getEmail());
 		this.email.setEmailDestinatario(ordemServico.getCliente().getEmail());
-		this.email.setAssunto("Ordem de Serviço de nº "+ordemServico.getId());
+		if(this.ordemServico.getStatusOSOR() == StatusOSOR.ORDEM_SERVICO){
+			this.email.setAssunto("Ordem de Serviço de nº "+ordemServico.getId());
+		}else{
+			this.email.setAssunto("Orçamento de nº "+ordemServico.getId());
+		}
 	}
 	
 	private Usuario getUsuario(){
@@ -849,10 +853,16 @@ public class OrdemServicoController implements Serializable {
 	
 	public void enviarEmail(){
 			ordemServicoService.isEnviarEmail(true);
-			ordemServicoService.gerarOrdemServico(ordemServico, 
-					ordemServicoService.procurarServicosOS(ordemServico.getId()), 
-					ordemServicoService.procurarProdutosOS(ordemServico.getId()),
-					ordemServicoService.procurarPagamentoOS(ordemServico.getId()));
+			if(this.ordemServico.getStatusOSOR() == StatusOSOR.ORDEM_SERVICO){
+				ordemServicoService.gerarOrdemServico(ordemServico, 
+						ordemServicoService.procurarServicosOS(ordemServico.getId()), 
+						ordemServicoService.procurarProdutosOS(ordemServico.getId()),
+						ordemServicoService.procurarPagamentoOS(ordemServico.getId()));
+			}else{
+				ordemServicoService.gerarOrcamento(ordemServico, 
+						ordemServicoService.procurarServicosOS(ordemServico.getId()), 
+						ordemServicoService.procurarProdutosOS(ordemServico.getId()));
+			}
 			emailOSController.enviarEmail(ordemServico.getId(), email);
 	}
 	
