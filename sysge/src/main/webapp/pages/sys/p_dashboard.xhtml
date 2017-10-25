@@ -25,7 +25,7 @@
 						var="os" value="#{ordemServicoController.ordensServicosAbertas}"
 						paginator="true" paginatorPosition="bottom" rows="4">
 
-						<p:column headerText="Nº OS" width="40" style="text-align:center;">
+						<p:column headerText="Nº OS" width="50" style="text-align:center;">
 							<p:outputLabel value="#{os.id}" />
 						</p:column>
 
@@ -55,9 +55,9 @@
 							<h:outputLabel value="#{os.statusOS.statusOS}" />
 						</p:column>
 
-						<p:column width="40">
+						<!-- <p:column width="40">
 							<p:commandButton icon="ui-icon-newwin" />
-						</p:column>
+						</p:column> -->
 					</p:dataTable>
 				</p:panel>
 
@@ -88,9 +88,9 @@
 							<p:outputLabel value="#{p.quantidadeEstoque}" />
 						</p:column>
 						
-						<p:column width="40"> 
+						<!-- <p:column width="40"> 
 							<p:commandButton icon="ui-icon-newwin" />
-						</p:column>
+						</p:column> -->
 
 					</p:dataTable>
 				</p:panel>
@@ -108,7 +108,7 @@
 							</p:outputLabel>
 						</p:column>
 
-						<p:column headerText="R$ A pagar" width="75"
+						<p:column headerText="R$ A pagar" width="100"
 							style="text-align:center;">
 							<p:outputLabel value="#{p.totalDespesa}" style="color: red;">
 								<f:convertNumber pattern="###,###0.00" locale="pt_BR" />

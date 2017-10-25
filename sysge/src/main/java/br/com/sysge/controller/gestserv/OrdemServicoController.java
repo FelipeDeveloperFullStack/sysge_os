@@ -489,17 +489,13 @@ public class OrdemServicoController implements Serializable {
 		}
 	}
 	
-	public void salvarOrcamento(){
+	public void salvarOSOR(){
 		try {
-			if(ordemServico.getId() == null){
-				ordemServico.setStatusOSOR(StatusOSOR.ORCAMENTO);
-				ordemServico = ordemServicoService.salvar(ordemServico);
-				RequestContextUtil.execute("PF('dialogNovaOrdemDeServico').hide();");
-			}else{
-				ordemServico = ordemServicoService.salvar(ordemServico);
-				RequestContextUtil.execute("PF('dialogNovaOrdemDeServico').hide();");
+			ordemServico = ordemServicoService.salvar(ordemServico);
+			RequestContextUtil.execute("PF('dialogNovaOrdemDeServico').hide();");
+			if(ordemServico.getStatusOSOR() == StatusOSOR.ORCAMENTO){
+				FacesUtil.mensagemInfo("Orçamento de nº "+ordemServico.getId() + " salvo com sucesso!");
 			}
-			FacesUtil.mensagemInfo("Orçamento de nº "+ordemServico.getId() + " salvo com sucesso!");
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}

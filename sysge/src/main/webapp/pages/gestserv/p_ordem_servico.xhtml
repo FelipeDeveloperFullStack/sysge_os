@@ -254,6 +254,15 @@
 										timeZone="GMT-2" type="both" />
 								</p:inputText>
 							</h:panelGrid>
+							
+							<h:panelGrid columns="1">
+								<p:outputLabel value="." style="color: white;"/>
+								<p:selectOneMenu value="#{ordemServicoController.ordemServico.statusOSOR}">
+						            <f:selectItem itemLabel="Orçamento" itemValue="ORCAMENTO"/>
+						            <f:selectItem itemLabel="Ordem de Serviço" itemValue="ORDEM_SERVICO" />
+						         <p:ajax event="change" update="formNovaOrdemServico" process="@this" />   
+						        </p:selectOneMenu>
+							</h:panelGrid>
 						</h:panelGrid>
 
 						<h:panelGrid columns="5">
@@ -303,7 +312,7 @@
 						</h:panelGrid>
 
 
-						<h:panelGrid columns="4">
+						<h:panelGrid columns="4" rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORDEM_SERVICO'}">
 							<h:panelGrid columns="1">
 								<p:outputLabel value="Marca" />
 								<p:inputText
@@ -328,19 +337,19 @@
 							</h:panelGrid>
 						</h:panelGrid>
 
-						<h:panelGrid columns="1">
+						<h:panelGrid columns="1" rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORDEM_SERVICO'}">
 							<p:outputLabel value="Acessórios" />
 							<p:inputText style="width: 855px;"
 								value="#{ordemServicoController.ordemServico.acessorios}" />
 						</h:panelGrid>
 
-						<h:panelGrid columns="1">
+						<h:panelGrid columns="1" rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORDEM_SERVICO'}">
 							<p:outputLabel value="Defeito" />
 							<p:inputTextarea style="width: 855px;"
 								value="#{ordemServicoController.ordemServico.defeito}" />
 						</h:panelGrid>
 
-						<h:panelGrid columns="1">
+						<h:panelGrid columns="1" rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORDEM_SERVICO'}">
 							<p:outputLabel value="Laudo Técnico" />
 							<p:inputTextarea style="width: 855px; color: blue"
 								value="#{ordemServicoController.ordemServico.laudoTecnico}" />
@@ -353,23 +362,17 @@
 
 				<p:fieldset>
 					<h:panelGrid columns="3" id="panelBotoesNovoOS">
-						<p:commandButton id="btnSalvarNovoOR"
-							value="Salvar como Orçamento" icon="ui-icon-disk"
-							actionListener="#{ordemServicoController.salvarOrcamento}"
+						<p:commandButton id="btnSalvarNovo"
+							value="Salvar" icon="ui-icon-disk"
+							actionListener="#{ordemServicoController.salvarOSOR}"
 							update=":msgGlobal :formGeralServico:tableServico" />
-
-						<p:commandButton id="btnSalvarNovoOS"
-							value="Salvar como Ordem de Serviço" icon="ui-icon-disk"
-							actionListener="#{ordemServicoController.salvar}"
-							update=":msgGlobal :formGeralServico:tableServico"
-							style="background: #F4A460; color: white;" />
 
 						<p:commandButton value="Cancelar" icon="ui-icon-closethick"
 							actionListener="#{ordemServicoController.fecharDialogs}"
 							update=":msgGlobal :formGeralServico:tableServico" />	
 							
 					</h:panelGrid>
-					<p:blockUI block="panelBotoesNovoOS" trigger="btnSalvarNovoOS" />
+					<p:blockUI block="panelBotoesNovoOS" trigger="btnSalvarNovo" />
 				</p:fieldset>
 			</h:form>
 		</p:dialog>
@@ -489,7 +492,7 @@
 							</h:panelGrid>
 
 
-							<h:panelGrid columns="4">
+							<h:panelGrid columns="4" rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORDEM_SERVICO'}">
 								<h:panelGrid columns="1">
 									<p:outputLabel value="Marca" />
 									<p:inputText
@@ -514,7 +517,7 @@
 								</h:panelGrid>
 							</h:panelGrid>
 
-							<h:panelGrid columns="1">
+							<h:panelGrid columns="1" rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORDEM_SERVICO'}">
 								<p:outputLabel value="Acessórios" />
 								<p:inputText style="width: 855px;"
 									value="#{ordemServicoController.ordemServico.acessorios}" />
@@ -525,13 +528,13 @@
 							<p:inputTextarea style="width: 725px;" />
 						</h:panelGrid> -->
 
-							<h:panelGrid columns="1">
+							<h:panelGrid columns="1" rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORDEM_SERVICO'}">
 								<p:outputLabel value="Defeito" />
 								<p:inputTextarea style="width: 855px;"
 									value="#{ordemServicoController.ordemServico.defeito}" />
 							</h:panelGrid>
 
-							<h:panelGrid columns="1">
+							<h:panelGrid columns="1" rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORDEM_SERVICO'}">
 								<p:outputLabel value="Laudo Técnico" />
 								<p:inputTextarea style="width: 855px; color: blue"
 									value="#{ordemServicoController.ordemServico.laudoTecnico}" />
