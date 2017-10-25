@@ -114,6 +114,16 @@
 								itemLabel="#{os.statusOS}" itemValue="#{os}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Cliente" />
+						<p:selectOneMenu
+							value="#{ordemServicoController.ordemServico.cliente}" filter="true" filterMatchMode="startsWith" converter="omnifaces.SelectItemsConverter">
+							<f:selectItems var="cl"
+								value="#{ordemServicoController.listaCliente}"
+								itemLabel="#{cl.nomeTemporario}" itemValue="#{cl}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
 
 					<h:panelGrid columns="1">
 						<p:outputLabel value="." style="color: white;" />

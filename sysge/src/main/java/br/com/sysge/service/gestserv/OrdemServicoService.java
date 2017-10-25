@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import javax.persistence.Query;
 
 import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.infraestrutura.decimal.ConverteNumeroExtensoReal;
@@ -156,8 +156,9 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	
 	public List<OrdemServico> pesquisarPorNumeroEStatusOS(OrdemServico ordemServico){
 		List<OrdemServico> listaOS = new ArrayList<OrdemServico>();
+		
 		if(ordemServico.getNumero() == null){
-			listaOS = super.findByStatusOs(ordemServico.getStatusOS());
+			listaOS = buscarOrdemServicoPorCliente(ordemServico);
 		}else{
 			listaOS = super.findByNumeroStatusOS(ordemServico.getNumero(), ordemServico.getStatusOS());
 		}
@@ -166,7 +167,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			throw new RuntimeException("Nenhuma ordem de servico de status '"+ordemServico.getStatusOS().getStatusOS()+"' encontrada, "
 						+ "verifique e tente novamente!");
 			}else if(ordemServico.getNumero() == 0){
-				listaOS = super.findByStatusOs(ordemServico.getStatusOS());
+				listaOS = buscarOrdemServicoPorCliente(ordemServico);
 			}else{
 				throw new RuntimeException("Nenhuma ordem de servico de nº "
 						+ ""+ordemServico.getNumero()+ " "
@@ -175,6 +176,19 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			}
 		}
 		return listaOS;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private List<OrdemServico> buscarOrdemServicoPorCliente(OrdemServico ordemServico){
+		try {
+			Query query = getEntityManager().createQuery("SELECT os FROM "+getEntityClass().getSimpleName() + " os "
+					+ "WHERE os.cliente = :cliente AND os.statusOS = :statusOS");
+			query.setParameter("cliente", ordemServico.getCliente());
+			query.setParameter("statusOS", ordemServico.getStatusOS());
+			return query.getResultList();
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 	
 	public void gerarComprovantePagamento(ParcelasPagamentoOs parcela) throws FileNotFoundException{

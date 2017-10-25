@@ -949,6 +949,14 @@ public class OrdemServicoController implements Serializable {
 	public void setClientes(List<Cliente> clientes) {
 		this.clientes = clientes;
 	}
+	
+	public List<Cliente> getListaCliente(){
+		List<Cliente> clientesList = new ArrayList<Cliente>();
+		for(Cliente cli : clienteService.findBySituation(Situacao.ATIVO)){
+			clientesList.add(clienteService.verificarTipoPessoa(cli));
+		}
+		return clientesList;
+	}
 
 	public Servico getServico() {
 		if(servico == null){
@@ -1075,5 +1083,6 @@ public class OrdemServicoController implements Serializable {
 	public void setTituloDialog(String tituloDialog) {
 		this.tituloDialog = tituloDialog;
 	}
+
 
 }
