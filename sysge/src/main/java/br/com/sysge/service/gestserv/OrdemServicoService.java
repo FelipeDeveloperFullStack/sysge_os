@@ -157,25 +157,30 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	public List<OrdemServico> pesquisarPorNumeroEStatusOS(OrdemServico ordemServico){
 		List<OrdemServico> listaOS = new ArrayList<OrdemServico>();
 		
-		if(ordemServico.getNumero() == null){
-			listaOS = buscarOrdemServicoPorCliente(ordemServico);
+		if(clienteService.isExisteClienteInativo()){
+			throw new RuntimeException("Não existe cliente(s) cadastrado(s) ou todos estão inativos!");
 		}else{
-			listaOS = super.findByNumeroStatusOS(ordemServico.getNumero(), ordemServico.getStatusOS());
-		}
-		if(listaOS.isEmpty()){
 			if(ordemServico.getNumero() == null){
-			throw new RuntimeException("Nenhuma ordem de servico de status '"+ordemServico.getStatusOS().getStatusOS()+"' encontrada, "
-						+ "verifique e tente novamente!");
-			}else if(ordemServico.getNumero() == 0){
 				listaOS = buscarOrdemServicoPorCliente(ordemServico);
 			}else{
-				throw new RuntimeException("Nenhuma ordem de servico de nº "
-						+ ""+ordemServico.getNumero()+ " "
-						+ "e status '"+ordemServico.getStatusOS().getStatusOS()+"' encontrada, "
-						+ "verifique e tente novamente!");
+				listaOS = super.findByNumeroStatusOS(ordemServico.getNumero(), ordemServico.getStatusOS());
+			}
+			if(listaOS.isEmpty()){
+				if(ordemServico.getNumero() == null){
+					throw new RuntimeException("Nenhuma ordem de servico de status '"+ordemServico.getStatusOS().getStatusOS()+"' encontrada, "
+							+ "verifique e tente novamente!");
+				}else if(ordemServico.getNumero() == 0){
+					listaOS = buscarOrdemServicoPorCliente(ordemServico);
+				}else{
+					throw new RuntimeException("Nenhuma ordem de servico de nº "
+							+ ""+ordemServico.getNumero()+ " "
+							+ "e status '"+ordemServico.getStatusOS().getStatusOS()+"' encontrada, "
+							+ "verifique e tente novamente!");
+				}
 			}
 		}
 		return listaOS;
+		
 	}
 	
 	@SuppressWarnings("unchecked")

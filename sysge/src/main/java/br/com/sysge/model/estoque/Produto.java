@@ -26,6 +26,8 @@ public class Produto extends GenericDomain{
 	
 	private BigDecimal valorCusto = BigDecimal.ZERO;
 	
+	private BigDecimal porcentagemLucro = BigDecimal.ZERO;
+	
 	private BigDecimal valorVenda = BigDecimal.ZERO;
 	
 	private BigDecimal quantidadeEstoque = BigDecimal.ZERO;
@@ -116,6 +118,14 @@ public class Produto extends GenericDomain{
 
 	public void setUnidadeMedida(UnidadeMedida unidadeMedida) {
 		this.unidadeMedida = unidadeMedida;
+	}
+
+	public BigDecimal getPorcentagemLucro() {
+		return porcentagemLucro;
+	}
+
+	public void setPorcentagemLucro(BigDecimal porcentagemLucro) {
+		this.porcentagemLucro = porcentagemLucro;
 	}
 	
 	

@@ -1,5 +1,6 @@
 package br.com.sysge.service.estoque;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,16 @@ public class ProdutoService extends GenericDaoImpl<Produto, Long>{
 		} catch (RuntimeException e) {
 			throw new RuntimeException(e.getMessage());
 		}
+	}
+	
+	public BigDecimal calcularValorVenda(Produto produto){
+		if(produto.getPorcentagemLucro() == null){
+			return produto.getValorCusto();
+		}
+		return ((produto.getValorCusto()
+				.multiply(produto.getPorcentagemLucro()))
+					.divide(BigDecimal.valueOf(100))
+						.add(produto.getValorCusto()));
 	}
 	
 	public boolean verificarSeExisteFornecedorAtivo(){

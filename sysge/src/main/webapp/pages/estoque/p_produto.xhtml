@@ -118,29 +118,14 @@
 					</h:panelGrid>
 				</h:panelGrid>
 
-				<h:panelGrid columns="3">
+				<h:panelGrid columns="4">
 				
-					<h:panelGrid columns="1">
-						<p:outputLabel value="Valor de custo" />
-						<p:inputNumber value="#{produtoController.produto.valorCusto}"
-							symbol="R$ " decimalSeparator="," thousandSeparator="." />
-					</h:panelGrid>
-
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Estoque" />
 						<p:inputNumber decimalSeparator="," thousandSeparator="." 
 							value="#{produtoController.produto.quantidadeEstoque}"/>
 					</h:panelGrid>
-
-					<h:panelGrid columns="1">
-						<p:outputLabel value="Estoque mínimo" />
-						<p:inputNumber decimalSeparator="," thousandSeparator="." 
-							value="#{produtoController.produto.quantidadeEstoqueMinimo}" />
-					</h:panelGrid>
-				</h:panelGrid>
-
-				<h:panelGrid columns="3">
-				
+					
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Unid. Medida" />
 						<p:selectOneMenu value="#{produtoController.produto.unidadeMedida}">
@@ -148,13 +133,43 @@
 								itemLabel="#{u.unidadeMedida}" itemValue="#{u}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
+
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Estoque mínimo" />
+						<p:inputNumber decimalSeparator="," thousandSeparator="." 
+							value="#{produtoController.produto.quantidadeEstoqueMinimo}" />
+					</h:panelGrid>
+					
+				</h:panelGrid>
+
+				<h:panelGrid columns="4">
+				
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Valor de custo" />
+						<p:inputNumber value="#{produtoController.produto.valorCusto}"
+							symbol="R$ " decimalSeparator="," thousandSeparator="." />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Lucro %" />
+						<p:inputNumber value="#{produtoController.produto.porcentagemLucro}"
+							symbol="R$ " decimalSeparator="," thousandSeparator="." />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<p:outputLabel value="." style="color: white;"/>
+						<p:commandButton value="Calcular" icon="ui-icon-clipboard" actionListener="#{produtoController.calcularPrecoVenda}" update="id_lucro_edit"/>
+					</h:panelGrid>
 				
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Valor de venda" />
 						<p:inputNumber value="#{produtoController.produto.valorVenda}"
-							symbol="R$ " decimalSeparator="," thousandSeparator="." />
+							symbol="R$ " decimalSeparator="," thousandSeparator="." id="id_lucro_edit"/>
 					</h:panelGrid>
 
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Fornecedor" />
 						<p:selectOneMenu value="#{produtoController.produto.fornecedor}"
@@ -164,9 +179,7 @@
 								itemLabel="#{f.nomeFantasia}" itemValue="#{f}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
-				</h:panelGrid>
-
-				<h:panelGrid columns="2">
+					
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Situação" />
 						<p:selectOneMenu value="#{produtoController.produto.situacao}">
@@ -174,6 +187,9 @@
 								itemLabel="#{s.situacao}" itemValue="#{s}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
 					
 					<h:panelGrid columns="1">
 						<p:outputLabel value="." style="color: white;"/>
@@ -230,7 +246,7 @@
 			
 			<h:form id="formNovoServico">
 
-				<h:panelGrid columns="2">
+					<h:panelGrid columns="2">
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Descrição do produto" />
 						<p:inputText style="width: 385px;"
@@ -238,29 +254,14 @@
 					</h:panelGrid>
 				</h:panelGrid>
 
-				<h:panelGrid columns="3">
-					
-					<h:panelGrid columns="1">
-						<p:outputLabel value="Valor de custo" />
-						<p:inputNumber value="#{produtoController.produto.valorCusto}"
-							symbol="R$ " decimalSeparator="," thousandSeparator="." />
-					</h:panelGrid>
-					
+				<h:panelGrid columns="4">
+				
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Estoque" />
 						<p:inputNumber decimalSeparator="," thousandSeparator="." 
-							value="#{produtoController.produto.quantidadeEstoque}" />
+							value="#{produtoController.produto.quantidadeEstoque}"/>
 					</h:panelGrid>
-
-					<h:panelGrid columns="1">
-						<p:outputLabel value="Estoque mínimo" />
-						<p:inputNumber decimalSeparator="," thousandSeparator="." 
-							value="#{produtoController.produto.quantidadeEstoqueMinimo}" />
-					</h:panelGrid>
-				</h:panelGrid>
-
-				<h:panelGrid columns="3">
-				
+					
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Unid. Medida" />
 						<p:selectOneMenu value="#{produtoController.produto.unidadeMedida}">
@@ -268,13 +269,43 @@
 								itemLabel="#{u.unidadeMedida}" itemValue="#{u}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
+
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Estoque mínimo" />
+						<p:inputNumber decimalSeparator="," thousandSeparator="." 
+							value="#{produtoController.produto.quantidadeEstoqueMinimo}" />
+					</h:panelGrid>
+					
+				</h:panelGrid>
+
+				<h:panelGrid columns="4">
+				
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Valor de custo" />
+						<p:inputNumber value="#{produtoController.produto.valorCusto}"
+							symbol="R$ " decimalSeparator="," thousandSeparator="." />
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Lucro %" />
+						<p:inputNumber value="#{produtoController.produto.porcentagemLucro}"
+							symbol="R$ " decimalSeparator="," thousandSeparator="."/>
+					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<p:outputLabel value="." style="color: white;"/>
+						<p:commandButton value="Calcular" icon="ui-icon-clipboard" actionListener="#{produtoController.calcularPrecoVenda}" update="formNovoServico:id_lucro"/>
+					</h:panelGrid>
 				
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Valor de venda" />
 						<p:inputNumber value="#{produtoController.produto.valorVenda}"
-							symbol="R$ " decimalSeparator="," thousandSeparator="." />
+							symbol="R$ " decimalSeparator="," thousandSeparator="." id="id_lucro"/>
 					</h:panelGrid>
 
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Fornecedor" />
 						<p:selectOneMenu value="#{produtoController.produto.fornecedor}"
@@ -284,11 +315,26 @@
 								itemLabel="#{f.nomeFantasia}" itemValue="#{f}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
+					
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Situação" />
+						<p:selectOneMenu value="#{produtoController.produto.situacao}">
+							<f:selectItems var="s" value="#{produtoController.situacoes}"
+								itemLabel="#{s.situacao}" itemValue="#{s}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
 				</h:panelGrid>
 
 				<h:panelGrid columns="2">
-					<p:selectBooleanCheckbox value="#{produtoController.produto.mostrarEstoqueMinimoTelaInicial}"/>
-					<h:outputText value="Mostrar o estoque mínimo na tela inicial ?" />
+					
+					<h:panelGrid columns="1">
+						<p:outputLabel value="." style="color: white;"/>
+						<h:panelGrid columns="2">
+							<p:selectBooleanCheckbox value="#{produtoController.produto.mostrarEstoqueMinimoTelaInicial}"/>
+							<h:outputText value="Mostrar o estoque mínimo na tela inicial ?"/>
+						</h:panelGrid>
+					</h:panelGrid>
+
 				</h:panelGrid>
 
 				<h:panelGrid id="panelBotoesNovoServico" columns="2">

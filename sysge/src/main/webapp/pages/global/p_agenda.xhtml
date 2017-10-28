@@ -44,7 +44,7 @@
 	       					<h:outputText id="display" />
 	       				</h:panelGrid>	
 	       			</h:panelGrid>
-	       			<h:panelGrid columns="2">
+	       			<!-- <h:panelGrid columns="2">
 	       				<h:panelGrid columns="1">
 	       					<p:outputLabel value="Data inicial"/>
 	       					<p:calendar locale="pt" value="#{agendaController.agenda.dataInicial}" pattern="dd/MM/yyyy HH:mm"/>
@@ -53,12 +53,17 @@
 	       					<p:outputLabel value="Data inicial"/>
 	       					<p:calendar locale="pt" value="#{agendaController.agenda.dataFinal}" pattern="dd/MM/yyyy HH:mm"/>
 	       				</h:panelGrid>	
-	       			</h:panelGrid>
+	       			</h:panelGrid> -->
 	       			
 	       			<h:panelGrid columns="2">
 	       				<h:panelGrid columns="1">
 	       					<p:outputLabel value="." style="color: white;"/>
-	       					<p:commandButton value="Salvar" actionListener="#{agendaController.salvar}" update=":formGeralAgenda :msgGlobal"/>
+	       					<p:commandButton value="Salvar" icon="ui-icon-check" actionListener="#{agendaController.salvar}" update=":formGeralAgenda :msgGlobal"/>
+	       				</h:panelGrid>	
+	       				
+	       				<h:panelGrid columns="1">
+	       					<p:outputLabel value="." style="color: white;"/>
+	       					<p:commandButton value="Cancelar" icon="ui-icon-closethick" update=":formGeralAgenda :msgGlobal" oncomplete="PF('agenda').hide();"/>
 	       				</h:panelGrid>	
 	       			</h:panelGrid>
 	       		</h:form>

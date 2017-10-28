@@ -130,4 +130,15 @@ public class ClienteService extends GenericDaoImpl<Cliente, Long> {
 		return cliente;
 	}
 
+	
+	public boolean isExisteClienteInativo(){
+		if(super.findAll().isEmpty()){
+			return true;
+		}
+		if(super.findBySituation(Situacao.ATIVO).isEmpty()){
+			return true;
+		}
+		return false;
+	}
+	
 }

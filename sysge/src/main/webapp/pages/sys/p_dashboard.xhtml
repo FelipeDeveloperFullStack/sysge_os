@@ -19,7 +19,7 @@
 
 			<p:dashboard id="board" model="#{dashboardController.model}">
 				<p:panel id="osAbertas"
-					header="Ordem de serviços 'Abertas' ou 'Em Andamento'"
+					header="Ordem de serviços / Orçamento 'Abertas' ou 'Em Andamento'"
 					rendered="#{dashboardController.parametro.mostrarListagemOSTelaInicial}">
 					<p:dataTable emptyMessage="Nenhuma ordem de serviço encontrada!"
 						var="os" value="#{ordemServicoController.ordensServicosAbertas}"

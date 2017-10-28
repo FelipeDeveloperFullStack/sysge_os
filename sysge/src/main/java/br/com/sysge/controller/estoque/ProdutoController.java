@@ -83,6 +83,13 @@ public class ProdutoController implements Serializable{
 	}
 	
 	
+	public void calcularPrecoVenda(){
+		try {
+			this.produto.setValorVenda(produtoService.calcularValorVenda(this.produto));
+		} catch (Exception e) {
+			FacesUtil.mensagemWarn(e.getMessage());
+		}
+	}
 	
 	public void fecharDialogs(){
 		RequestContextUtil.execute("PF('dialogNovoServico').hide();");
