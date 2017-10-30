@@ -311,8 +311,8 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		params.put(ACESSORIOS, ordemServico.getAcessorios());
 		params.put(SINTOMAS, ordemServico.getDefeito());
 		params.put(RELATORIO_TECNICO, ordemServico.getLaudoTecnico());
-		params.put(NUMERO_SERIE, String.valueOf(ordemServico.getNumeroSerie()));
-		params.put(NUMERO_PATRIMONIO, String.valueOf(ordemServico.getNumeroPatrimonio()));
+		params.put(NUMERO_SERIE, ordemServico.getNumeroSerie());
+		params.put(NUMERO_PATRIMONIO, ordemServico.getNumeroPatrimonio());
 		
 		//Unidade Empresarial
 		for(Parametro p : parametroService.findAll()){
