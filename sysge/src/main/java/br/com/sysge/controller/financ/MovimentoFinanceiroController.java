@@ -210,24 +210,48 @@ public class MovimentoFinanceiroController implements Serializable {
 	
 	public void atualizarStatusFinanceiroTituto(LancamentoFinanceiro lancamentoFinanceiro){
 		instanceObjetos();
-		if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
-			this.lancamentoFinanceiro = lancamentoFinanceiro;
-			this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PENDENTE);
-			if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.DESPESA){
-				this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_PAGAR);
+		try {
+			if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
+				this.lancamentoFinanceiro = lancamentoFinanceiro;
+				this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PENDENTE);
+				if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.DESPESA){
+					this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_PAGAR);
+				}else{
+					this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER);
+				}
+				obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(this.lancamentoFinanceiro);
+				lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
+				if(lancamentoFinanceiro.getCategoriaLancamentoReceita() == CategoriaLancamentoReceita.ORDEM_SERVICO){
+					movimentoFinanceiroService.salvarMovimentoReceita(lancamentoFinanceiro);
+				}else{
+					movimentoFinanceiroService.salvarMovimentoReceita(lancamentoFinanceiro);
+				}
+				lancamentoFinanceiros = obterTitulosPelaDataMovimento(this.lancamentoFinanceiro.getDataLancamento());
+				this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(dataMovimento);
 			}else{
-				this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_CONTA_A_RECEBER);
-			}
-			obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(this.lancamentoFinanceiro);
-			lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
-			if(lancamentoFinanceiro.getCategoriaLancamentoReceita() == CategoriaLancamentoReceita.ORDEM_SERVICO){
+				this.lancamentoFinanceiro = lancamentoFinanceiro;
+				this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PAGO);
+				if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.DESPESA){
+					this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_PAGO);
+				}else{
+					this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_RECEBIDO);
+				}
+				obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(this.lancamentoFinanceiro);
+				lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
+				
 				movimentoFinanceiroService.salvarMovimentoReceita(lancamentoFinanceiro);
-			}else{
-				movimentoFinanceiroService.salvarMovimentoReceita(lancamentoFinanceiro);
+				lancamentoFinanceiros = obterTitulosPelaDataMovimento(this.lancamentoFinanceiro.getDataLancamento());
+				this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(dataMovimento);
 			}
-			lancamentoFinanceiros = obterTitulosPelaDataMovimento(this.lancamentoFinanceiro.getDataLancamento());
-			this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(dataMovimento);
-		}else{
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+	
+	public void atualizarMovimentoFinanceiroOrdemServico(LancamentoFinanceiro lancamentoFinanceiro, ParcelasPagamentoOs parcelasPagamentoOs){
+		instanceObjetos();
+		try {
 			this.lancamentoFinanceiro = lancamentoFinanceiro;
 			this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PAGO);
 			if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.DESPESA){
@@ -235,29 +259,27 @@ public class MovimentoFinanceiroController implements Serializable {
 			}else{
 				this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_RECEBIDO);
 			}
-			obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(this.lancamentoFinanceiro);
+			
+				if(lancamentoFinanceiro.getCategoriaLancamentoReceita() != null){
+					if(lancamentoFinanceiro.getCategoriaLancamentoReceita() == CategoriaLancamentoReceita.ORDEM_SERVICO){
+						if(lancamentoFinanceiro.getStatusRecebimentoReceita() == StatusFinanceiro.PAGO){
+							parcelasPagamentoOs.setDataPagamento(lancamentoFinanceiro.getDataLancamento());
+						}else{
+							parcelasPagamentoOs.setDataVencimento(lancamentoFinanceiro.getDataLancamento());
+						}
+						parcelasPagamentoOs.setStatusFinanceiro(lancamentoFinanceiro.getStatusRecebimentoReceita());
+						parcelasPagamentoOsService.save(parcelasPagamentoOs);
+					}
+				}
+				//obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(this.lancamentoFinanceiro);
 			lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
 			
-			movimentoFinanceiroService.salvarMovimentoReceita(lancamentoFinanceiro);
+			movimentoFinanceiroService.salvarMovimentoFinanceiroOrdemServicoPorPagamento(lancamentoFinanceiro);
 			lancamentoFinanceiros = obterTitulosPelaDataMovimento(this.lancamentoFinanceiro.getDataLancamento());
 			this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(dataMovimento);
+		} catch (Exception e) {
+			throw e;
 		}
-	}
-	
-	public void atualizarMovimentoFinanceiroOrdemServico(LancamentoFinanceiro lancamentoFinanceiro){
-		this.lancamentoFinanceiro = lancamentoFinanceiro;
-		this.lancamentoFinanceiro.setStatusRecebimentoReceita(StatusFinanceiro.PAGO);
-		if(lancamentoFinanceiro.getTipoLancamento() == TipoLancamento.DESPESA){
-			this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_PAGO);
-		}else{
-			this.lancamentoFinanceiro.setTipoAtualizacaoMovimento(TipoAtualizacaoMovimento.ATUALIZADO_P_RECEBIDO);
-		}
-		obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(this.lancamentoFinanceiro);
-		lancamentoFinanceiroService.save(this.lancamentoFinanceiro);
-		
-		movimentoFinanceiroService.salvarMovimentoFinanceiroOrdemServicoPorPagamento(lancamentoFinanceiro);
-		lancamentoFinanceiros = obterTitulosPelaDataMovimento(this.lancamentoFinanceiro.getDataLancamento());
-		this.movimentoFinanceiro = movimentoFinanceiroService.setarMovimentoFinanceiro(dataMovimento);
 	}
 	
 	private void obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){

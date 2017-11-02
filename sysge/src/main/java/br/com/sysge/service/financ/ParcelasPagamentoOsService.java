@@ -161,14 +161,18 @@ public class ParcelasPagamentoOsService extends GenericDaoImpl<ParcelasPagamento
 	}
 	
 	public void salvarMovimentoReceitaParcela(ParcelasPagamentoOs parcela){
-		if(parcela.getDataPagamento() == null){
-			throw new RuntimeException("A data de pagamento é obrigatória!");
+		try {
+			if(parcela.getDataPagamento() == null){
+				throw new RuntimeException("A data de pagamento é obrigatória!");
+			}
+			parcela.setStatusFinanceiro(StatusFinanceiro.PAGO);
+			parcela = super.save(parcela);
+			parcela.getLancamentoReceita().setDataLancamento(parcela.getDataPagamento());
+			parcela.getLancamentoReceita().getMovimentoFinanceiro().setTotalReceita(parcela.getLancamentoReceita().getMovimentoFinanceiro().getTotalReceita().subtract(parcela.getValorCobrado()));
+			movimentoFinanceiroController.atualizarMovimentoFinanceiroOrdemServico(parcela.getLancamentoReceita(), parcela);
+		} catch (Exception e) {
+			throw e;
 		}
-		parcela.setStatusFinanceiro(StatusFinanceiro.PAGO);
-		parcela = super.save(parcela);
-		parcela.getLancamentoReceita().setDataLancamento(parcela.getDataPagamento());
-		parcela.getLancamentoReceita().getMovimentoFinanceiro().setTotalReceita(parcela.getLancamentoReceita().getMovimentoFinanceiro().getTotalReceita().subtract(parcela.getValorCobrado()));
-		movimentoFinanceiroController.atualizarMovimentoFinanceiroOrdemServico(parcela.getLancamentoReceita());
 	}
 	
 	public ParcelasPagamentoOs obterDadosParcelasPagamentoOsPorLancamentoFinanceiro(LancamentoFinanceiro lancamentoFinanceiro){
