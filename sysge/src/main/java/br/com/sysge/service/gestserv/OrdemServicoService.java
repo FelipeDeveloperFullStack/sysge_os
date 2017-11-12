@@ -284,7 +284,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		
 		ordemServico.setCliente(clienteService.verificarTipoPessoa(ordemServico.getCliente()));
 		
-		params.put("list_item_ordem_servico", setarItemOrdemServicoTo(servicos, produtos, ordemServico.getTotal()));
+		params.put("list_item_ordem_servico", setarItemOrdemServicoTo(servicos, produtos, ordemServico.getTotal(), ordemServico));
 		params.put("list_pagamentos", listaPagamentos);
 		params.put("subTotalServico", ordemServico.getTotalServico());
 		params.put("subTotalProduto", ordemServico.getTotalProduto());
@@ -348,7 +348,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		
 		ordemServico.setCliente(clienteService.verificarTipoPessoa(ordemServico.getCliente()));
 		
-		params.put("list_item_ordem_servico", setarItemOrdemServicoTo(servicos, produtos, ordemServico.getTotal()));
+		params.put("list_item_ordem_servico", setarItemOrdemServicoTo(servicos, produtos, ordemServico.getTotal(), ordemServico));
 		params.put("subTotalServico", ordemServico.getTotalServico());
 		params.put("subTotalProduto", ordemServico.getTotalProduto());
 		params.put("totalOS", ordemServico.getTotal());
@@ -406,15 +406,16 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		}
 	}
 	
-	private List<ItemOrdemServicoTO> setarItemOrdemServicoTo(List<ServicoOrdemServico> servicos, List<ProdutoOrdemServico> produtos, BigDecimal total){
+	private List<ItemOrdemServicoTO> setarItemOrdemServicoTo(List<ServicoOrdemServico> servicos, List<ProdutoOrdemServico> produtos,
+			BigDecimal total, OrdemServico ordemServico){
 		List<ItemOrdemServicoTO> tos = new ArrayList<ItemOrdemServicoTO>();
 		if(!servicos.isEmpty()){
 			for(ServicoOrdemServico s : servicos){
 				ItemOrdemServicoTO to = new ItemOrdemServicoTO();
+				to.setCodigo(s.getId().toString());
 				to.setDescricao(s.getServico().getNome());
 				to.setValor(s.getSubTotal());
 				to.setQuantidade("");
-				to.setTotal(total);
 				tos.add(to);
 			}
 		}
@@ -422,15 +423,42 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		if(!produtos.isEmpty()){
 			for(ProdutoOrdemServico p : produtos){
 				ItemOrdemServicoTO to = new ItemOrdemServicoTO();
+				to.setCodigo(p.getId().toString());
 				to.setDescricao(p.getProduto().getDescricaoProduto());
 				to.setQuantidade(p.getQuantidade().toString());
 				to.setValor(p.getSubTotal());
 				to.setValorUnit(p.getValor());
-				to.setTotal(total);
 				tos.add(to);
+				
 			}
 		}
+		
+		if(tos.size() - 8 < 8){
+			for(int i = 0; i < (tos.size() - 8)*(-1); i++){
+				ItemOrdemServicoTO temp = new ItemOrdemServicoTO();
+				temp.setDescricao("");
+				tos.add(temp);
+			}
+		}
+		
+		ItemOrdemServicoTO to = new ItemOrdemServicoTO();
+		to.setTotal(total);
+		to.setPercentualDesconto(obterPorcentagemValorDescontoOS(ordemServico));
+		to.setValorDesconto(ordemServico.getDescontoReais());
+		tos.add(to);
+		
 		return tos;
+	}
+	
+	private BigDecimal obterPorcentagemValorDescontoOS(OrdemServico ordemServico){
+		if(ordemServico.getDescontoPorcento().signum() == 0){
+			// ((F - I) / I * 100) = %
+			BigDecimal valorFinal = ordemServico.getDescontoReais().subtract(ordemServico.getTotal());
+			BigDecimal valorInicial = ordemServico.getTotal();
+			return ((valorFinal.subtract(valorInicial)).divide(valorInicial.multiply(BigDecimal.valueOf(100))));
+		}else{
+			return ordemServico.getDescontoPorcento();
+		}
 	}
 	
 	private List<PagamentoTO> setarPagamentoTo(List<ParcelasPagamentoOs> parcelas){
