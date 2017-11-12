@@ -47,7 +47,7 @@
 				<text><![CDATA[Cod.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="80" y="0" width="280" height="15" backcolor="#F0F0F0" uuid="1bf7e76d-665a-4d69-90b4-15131bae9156">
+				<reportElement mode="Opaque" x="80" y="0" width="320" height="15" backcolor="#F0F0F0" uuid="1bf7e76d-665a-4d69-90b4-15131bae9156">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Bottom">
@@ -56,7 +56,7 @@
 				<text><![CDATA[Descrição]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="360" y="0" width="90" height="15" backcolor="#F0F0F0" uuid="04a0ad54-4493-4f50-b508-dbe259f64505">
+				<reportElement mode="Opaque" x="400" y="0" width="70" height="15" backcolor="#F0F0F0" uuid="04a0ad54-4493-4f50-b508-dbe259f64505">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
@@ -65,7 +65,7 @@
 				<text><![CDATA[Valor Unit.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="450" y="0" width="85" height="15" backcolor="#F0F0F0" uuid="199ae309-864c-4443-b157-a52dc74cab96">
+				<reportElement mode="Opaque" x="470" y="0" width="65" height="15" backcolor="#F0F0F0" uuid="199ae309-864c-4443-b157-a52dc74cab96">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
@@ -88,7 +88,7 @@
 		<band height="16" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField evaluationTime="Page" isBlankWhenNull="true">
-				<reportElement x="80" y="1" width="279" height="15" uuid="100483b5-e48f-4f87-8678-d569b928f9ec">
+				<reportElement x="80" y="0" width="320" height="15" uuid="100483b5-e48f-4f87-8678-d569b928f9ec">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -101,7 +101,7 @@
 				<textFieldExpression><![CDATA[" "+$F{descricao}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Page" isBlankWhenNull="true">
-				<reportElement x="23" y="1" width="57" height="15" uuid="254a6a9b-66df-49a9-a9c7-647a49402404">
+				<reportElement x="23" y="0" width="57" height="15" uuid="254a6a9b-66df-49a9-a9c7-647a49402404">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -113,8 +113,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Page" pattern="¤#,##0.00;#,##0.00" isBlankWhenNull="true">
-				<reportElement key="" x="360" y="1" width="90" height="15" uuid="586f7762-6061-4d7d-b643-4c531d324511">
+			<textField evaluationTime="Page" pattern="#,##0.00#" isBlankWhenNull="true">
+				<reportElement key="" x="400" y="0" width="70" height="15" uuid="586f7762-6061-4d7d-b643-4c531d324511">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -126,8 +126,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorUnit}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤#,##0.00;#,##0.00" isBlankWhenNull="true">
-				<reportElement key="" x="450" y="1" width="85" height="15" uuid="fe0055e0-74e1-4f7c-a904-1b598a38bcb9">
+			<textField pattern="#,##0.00#" isBlankWhenNull="true">
+				<reportElement key="" x="470" y="0" width="65" height="15" uuid="fe0055e0-74e1-4f7c-a904-1b598a38bcb9">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -140,7 +140,7 @@
 				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Page" isBlankWhenNull="true">
-				<reportElement x="-20" y="1" width="43" height="15" uuid="720fb9a2-59a2-41dc-85a3-495701890b4d">
+				<reportElement x="-20" y="0" width="43" height="15" uuid="720fb9a2-59a2-41dc-85a3-495701890b4d">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>

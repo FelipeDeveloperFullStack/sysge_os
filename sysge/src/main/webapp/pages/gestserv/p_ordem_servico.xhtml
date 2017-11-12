@@ -746,16 +746,19 @@
 											<f:selectItem itemLabel="Selecione o tipo de Desconto" />
 											<f:selectItems var="td"
 												value="#{ordemServicoController.tiposDesconto}"
-												itemLabel="#{td.tipoDesconto}" itemValue="#{td}" />
+												itemLabel="#{td.tipoDesconto}" itemValue="#{td}" actionListener="#{ordemServicoController.setarTipoDesconto(td)}">
+											</f:selectItems>
+												
 											<p:ajax event="change" update="panel_2_pagamento"
-												process="som_tipo_desconto" />
+												process="som_tipo_desconto"/>
+												
 										</p:selectOneMenu>
 									</h:panelGrid>
 
 									<h:panelGrid columns="1"
 										rendered="#{ordemServicoController.ordemServico.tipoDesconto == 'DESCONTO_REAIS'}">
 										<p:outputLabel value="Desconto R$" />
-										<p:spinner stepFactor="0.1" min="0" prefix="R$: "
+										<p:spinner stepFactor="0.01" min="0" prefix="R$: "
 											max="#{ordemServicoController.ordemServico.total}"
 											value="#{ordemServicoController.ordemServico.descontoReais}">
 											<p:ajax

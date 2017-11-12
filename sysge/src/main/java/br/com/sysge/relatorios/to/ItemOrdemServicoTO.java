@@ -19,6 +19,8 @@ public class ItemOrdemServicoTO implements Serializable{
 	
 	private BigDecimal total;
 	
+	private BigDecimal totalComDesconto;
+	
 	private BigDecimal percentualDesconto;
 	
 	private BigDecimal valorDesconto;
@@ -85,6 +87,14 @@ public class ItemOrdemServicoTO implements Serializable{
 
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
+	}
+
+	public BigDecimal getTotalComDesconto() {
+		return totalComDesconto;
+	}
+
+	public void setTotalComDesconto(BigDecimal totalComDesconto) {
+		this.totalComDesconto = totalComDesconto;
 	}
 
 }

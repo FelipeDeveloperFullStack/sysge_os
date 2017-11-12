@@ -2,6 +2,7 @@ package br.com.sysge.service.gestserv;
 
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -284,7 +285,9 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		
 		ordemServico.setCliente(clienteService.verificarTipoPessoa(ordemServico.getCliente()));
 		
-		params.put("list_item_ordem_servico", setarItemOrdemServicoTo(servicos, produtos, ordemServico.getTotal(), ordemServico));
+		 List<ItemOrdemServicoTO> itensOrdemServico = setarItemOrdemServicoTo(servicos, produtos, ordemServico.getTotal(), ordemServico);
+		
+		//params.put("list_item_ordem_servico", setarItemOrdemServicoTo(servicos, produtos, ordemServico.getTotal(), ordemServico));
 		params.put("list_pagamentos", listaPagamentos);
 		params.put("subTotalServico", ordemServico.getTotalServico());
 		params.put("subTotalProduto", ordemServico.getTotalProduto());
@@ -326,7 +329,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			params.put("telefones_u", u.getTelefone() + " "+u.getCelular() + " "+u.getCelular2() + " " + u.getCelular3());
 		}
 		
-		ReportFactory reportFactory = new ReportFactory("r_ordem_servico.jasper", params, TiposRelatorio.PDF);
+		ReportFactory reportFactory = new ReportFactory("r_ordem_servico.jasper", params, TiposRelatorio.PDF, itensOrdemServico);
 		
 		//Envio de email
 		if(enviaEmail){
@@ -408,6 +411,10 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 	
 	private List<ItemOrdemServicoTO> setarItemOrdemServicoTo(List<ServicoOrdemServico> servicos, List<ProdutoOrdemServico> produtos,
 			BigDecimal total, OrdemServico ordemServico){
+		
+		BigDecimal totalServico = BigDecimal.ZERO;
+		BigDecimal totalProduto = BigDecimal.ZERO;
+		
 		List<ItemOrdemServicoTO> tos = new ArrayList<ItemOrdemServicoTO>();
 		if(!servicos.isEmpty()){
 			for(ServicoOrdemServico s : servicos){
@@ -417,6 +424,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 				to.setValor(s.getSubTotal());
 				to.setQuantidade("");
 				tos.add(to);
+				totalServico = totalServico.add(s.getSubTotal());
 			}
 		}
 		
@@ -429,12 +437,14 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 				to.setValor(p.getSubTotal());
 				to.setValorUnit(p.getValor());
 				tos.add(to);
-				
+				totalProduto = totalProduto.add(p.getSubTotal());
 			}
 		}
 		
-		if(tos.size() - 8 < 8){
-			for(int i = 0; i < (tos.size() - 8)*(-1); i++){
+		int listSize = tos.size() - 9;
+		
+		if(listSize < 9){
+			for(int i = 0; i < ((listSize)*(-1)) - 1; i++){
 				ItemOrdemServicoTO temp = new ItemOrdemServicoTO();
 				temp.setDescricao("");
 				tos.add(temp);
@@ -442,22 +452,33 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		}
 		
 		ItemOrdemServicoTO to = new ItemOrdemServicoTO();
-		to.setTotal(total);
+		to.setTotal(totalServico.add(totalProduto));
+		to.setTotalComDesconto(total);
 		to.setPercentualDesconto(obterPorcentagemValorDescontoOS(ordemServico));
 		to.setValorDesconto(ordemServico.getDescontoReais());
+		to.setDescricao("");
 		tos.add(to);
 		
 		return tos;
 	}
 	
 	private BigDecimal obterPorcentagemValorDescontoOS(OrdemServico ordemServico){
-		if(ordemServico.getDescontoPorcento().signum() == 0){
-			// ((F - I) / I * 100) = %
-			BigDecimal valorFinal = ordemServico.getDescontoReais().subtract(ordemServico.getTotal());
-			BigDecimal valorInicial = ordemServico.getTotal();
-			return ((valorFinal.subtract(valorInicial)).divide(valorInicial.multiply(BigDecimal.valueOf(100))));
-		}else{
-			return ordemServico.getDescontoPorcento();
+		BigDecimal valorInicial = ordemServico.getTotalServico().add(ordemServico.getTotalProduto());
+		BigDecimal diferenca = valorInicial.subtract(ordemServico.getDescontoReais());
+		
+		BigDecimal multiply = valorInicial.multiply(BigDecimal.valueOf(100));
+		
+		BigDecimal subtract = diferenca.subtract(valorInicial);
+		
+		try {
+			if(ordemServico.getDescontoPorcento().signum() == 0){
+				// ((D - I) / I * 100) = %
+				return ((subtract).divide(multiply,36, RoundingMode.DOWN)).multiply(BigDecimal.valueOf(10000));
+			}else{
+				return ordemServico.getDescontoPorcento();
+			}
+		} catch (ArithmeticException  e) {
+			throw e;
 		}
 	}
 	

@@ -323,20 +323,15 @@ public class OrdemServicoController implements Serializable {
 	
 	public void adicionarServico(){
 		ServicoOrdemServico servicoOrdemServico = new ServicoOrdemServico();
-		//servico.setId(null);
 		servicoOrdemServico.setServico(servico);
 		servicoOrdemServico.setSubTotal(servico.getValor());
 		servicoOrdemServico.setValor(servico.getValor());
 		servicoOrdemServico.setOrdemServico(ordemServico);
 		
-		//servicoOrdemServicoService.save(servicoOrdemServico);
-		
 		listaServicos.add(servicoOrdemServico);
 		
-		//this.listaServicos = ordemServicoService.procurarServicosOS(ordemServico.getId());
-		ordemServico.setTotal(ordemServico.getTotalServico().add(ordemServico.getTotalProduto()));
+		verificarDescontoOS();
 		
-		//ordemServicoService.salvar(ordemServico);
 		servico = new Servico();
 	}
 	
@@ -349,10 +344,11 @@ public class OrdemServicoController implements Serializable {
 		
 		listaProdutos.add(produtoOrdemServico);
 		
-		ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
+		verificarDescontoOS();
 		
 		produto = new Produto();
 	}
+	
 	
 	public void calcularValorServico(ServicoOrdemServico servicoOrdemServico){
 		ordemServico.setTotalServico(BigDecimal.ZERO);
@@ -363,15 +359,33 @@ public class OrdemServicoController implements Serializable {
 				so.setValor(servicoOrdemServico.getValor());
 				so.setSubTotal(valorServico);
 			}
-			ordemServico.setTotal((ordemServico.getTotalServico().add(ordemServico.getTotalProduto())).add(so.getSubTotal()));
 			
 			ordemServico.setTotalServico(ordemServico.getTotalServico().add(so.getSubTotal()));
+			
+			if(ordemServico.getDescontoPorcento().signum() != 0){
+				calcularDescontoPorcentagem();
+			}else if (ordemServico.getDescontoReais().signum() != 0){
+				calcularDescontoReais();
+			}else{
+				ordemServico.setTotal((ordemServico.getTotalServico().add(ordemServico.getTotalProduto())));
+			}
+			
 		}
 	}
 	
 	public void setarProduto(ProdutoOrdemServico produtoOrdemServico){
 		this.produtoOrdemServico = produtoOrdemServico;
 		this.quantidadeAdicionada = BigDecimal.ZERO;
+	}
+	
+	private void verificarDescontoOS(){
+		if(ordemServico.getDescontoPorcento().signum() != 0){
+			calcularDescontoPorcentagem();
+		}else if (ordemServico.getDescontoReais().signum() != 0){
+			calcularDescontoReais();
+		}else{
+			ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
+		}
 	}
 	
 	public void calcularValorProduto(){
@@ -424,9 +438,16 @@ public class OrdemServicoController implements Serializable {
 						po.setValor(produtoOrdemServico.getValor());
 						po.setSubTotal(valorProduto);
 					}
-					ordemServico.setTotal((ordemServico.getTotalServico().add(ordemServico.getTotalProduto())).add(po.getSubTotal()));
+					
 					ordemServico.setTotalProduto(ordemServico.getTotalProduto().add(po.getSubTotal()));
 					
+					if(ordemServico.getDescontoPorcento().signum() != 0){
+						calcularDescontoPorcentagem();
+					}else if (ordemServico.getDescontoReais().signum() != 0){
+						calcularDescontoReais();
+					}else{
+						ordemServico.setTotal((ordemServico.getTotalServico().add(ordemServico.getTotalProduto())));
+					}
 				}
 				RequestContextUtil.execute("PF('dialog_quantidade_estoque_produto').hide();");
 			}
@@ -688,7 +709,7 @@ public class OrdemServicoController implements Serializable {
 						this.listaServicos.remove(i);
 						ordemServico.setTotalServico(ordemServico.getTotalServico().subtract(servicoOrdemServico.getSubTotal()));
 						ordemServico.setTotal(BigDecimal.ZERO);
-						ordemServico.setTotal(ordemServico.getTotalServico().add(ordemServico.getTotalProduto()));
+						verificarDescontoOS();
 					}
 				}
 			}else{
@@ -701,14 +722,14 @@ public class OrdemServicoController implements Serializable {
 				
 				ordemServico.setTotalServico(ordemServico.getTotalServico().subtract(servicoOrdemServico.getSubTotal()));
 				ordemServico.setTotal(BigDecimal.ZERO);
-				ordemServico.setTotal(ordemServico.getTotalServico().add(ordemServico.getTotalProduto()));
+				verificarDescontoOS();
 				ordemServicoService.salvar(ordemServico);
 			}
 			
 			if(this.listaServicos.isEmpty()){
 				ordemServico.setTotalServico(BigDecimal.ZERO);
 				ordemServico.setTotal(BigDecimal.ZERO);
-				ordemServico.setTotal(ordemServico.getTotalServico().add(ordemServico.getTotalProduto()));
+				verificarDescontoOS();
 				ordemServicoService.salvar(ordemServico);
 			}else{
 				BigDecimal somaServico = BigDecimal.ZERO;
@@ -718,7 +739,7 @@ public class OrdemServicoController implements Serializable {
 				if(somaServico.compareTo(ordemServico.getTotalServico()) != 0){
 					ordemServico.setTotalServico(somaServico);
 					ordemServico.setTotal(BigDecimal.ZERO);
-					ordemServico.setTotal(ordemServico.getTotalServico().add(ordemServico.getTotalProduto()));
+					verificarDescontoOS();
 				}
 				ordemServicoService.salvar(ordemServico);
 			}
@@ -744,7 +765,7 @@ public class OrdemServicoController implements Serializable {
 						this.listaProdutos.remove(i);
 						ordemServico.setTotalProduto(ordemServico.getTotalProduto().subtract(produtoOrdemServico.getSubTotal()));
 						ordemServico.setTotal(BigDecimal.ZERO);
-						ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
+						verificarDescontoOS();
 					}
 				}
 			}else{
@@ -761,14 +782,14 @@ public class OrdemServicoController implements Serializable {
 				
 				ordemServico.setTotalProduto(ordemServico.getTotalProduto().subtract(produtoOrdemServico.getSubTotal()));
 				ordemServico.setTotal(BigDecimal.ZERO);
-				ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
+				verificarDescontoOS();
 				ordemServicoService.salvar(ordemServico);
 			}
 			
 			if(this.listaProdutos.isEmpty()){
 				ordemServico.setTotalProduto(BigDecimal.ZERO);
 				ordemServico.setTotal(BigDecimal.ZERO);
-				ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
+				verificarDescontoOS();
 				ordemServicoService.salvar(ordemServico);
 			}else{
 				BigDecimal somaProduto = BigDecimal.ZERO;
@@ -778,7 +799,7 @@ public class OrdemServicoController implements Serializable {
 				if(somaProduto.compareTo(ordemServico.getTotalProduto()) != 0){
 					ordemServico.setTotalProduto(somaProduto);
 					ordemServico.setTotal(BigDecimal.ZERO);
-					ordemServico.setTotal(ordemServico.getTotalProduto().add(ordemServico.getTotalServico()));
+					verificarDescontoOS();
 				}
 				ordemServicoService.salvar(ordemServico);
 			}
