@@ -351,7 +351,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		
 		ordemServico.setCliente(clienteService.verificarTipoPessoa(ordemServico.getCliente()));
 		
-		params.put("list_item_ordem_servico", setarItemOrdemServicoTo(servicos, produtos, ordemServico.getTotal(), ordemServico));
+		params.put("list_item_ordem_servico", setarItemOrcamentoTo(servicos, produtos, ordemServico.getTotal(), ordemServico));
 		params.put("subTotalServico", ordemServico.getTotalServico());
 		params.put("subTotalProduto", ordemServico.getTotalProduto());
 		params.put("totalOS", ordemServico.getTotal());
@@ -407,6 +407,41 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		}else{
 			return sdf.format(dataSaida);
 		}
+	}
+	
+	private List<ItemOrdemServicoTO> setarItemOrcamentoTo(List<ServicoOrdemServico> servicos, List<ProdutoOrdemServico> produtos,
+			BigDecimal total, OrdemServico ordemServico){
+		
+		BigDecimal totalServico = BigDecimal.ZERO;
+		BigDecimal totalProduto = BigDecimal.ZERO;
+		
+		List<ItemOrdemServicoTO> tos = new ArrayList<ItemOrdemServicoTO>();
+		if(!servicos.isEmpty()){
+			for(ServicoOrdemServico s : servicos){
+				ItemOrdemServicoTO to = new ItemOrdemServicoTO();
+				to.setCodigo(s.getId().toString());
+				to.setDescricao(s.getServico().getNome());
+				to.setValor(s.getSubTotal());
+				to.setQuantidade("");
+				tos.add(to);
+				totalServico = totalServico.add(s.getSubTotal());
+			}
+		}
+		
+		if(!produtos.isEmpty()){
+			for(ProdutoOrdemServico p : produtos){
+				ItemOrdemServicoTO to = new ItemOrdemServicoTO();
+				to.setCodigo(p.getId().toString());
+				to.setDescricao(p.getProduto().getDescricaoProduto());
+				to.setQuantidade(p.getQuantidade().toString());
+				to.setValor(p.getSubTotal());
+				to.setValorUnit(p.getValor());
+				tos.add(to);
+				totalProduto = totalProduto.add(p.getSubTotal());
+			}
+		}
+		
+		return tos;
 	}
 	
 	private List<ItemOrdemServicoTO> setarItemOrdemServicoTo(List<ServicoOrdemServico> servicos, List<ProdutoOrdemServico> produtos,

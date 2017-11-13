@@ -155,59 +155,17 @@
 		</band>
 	</detail>
 	<summary>
-		<band height="82">
+		<band height="23">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
-				<reportElement x="-20" y="41" width="80" height="20" uuid="b7eae99d-839a-4ae2-950b-30e706e968dc"/>
+				<reportElement x="-20" y="3" width="80" height="20" uuid="b7eae99d-839a-4ae2-950b-30e706e968dc"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Valor total:]]></text>
 			</staticText>
 			<textField pattern="¤#,##0.00;¤-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="60" y="41" width="120" height="20" uuid="07325cef-e384-4e13-8e4d-7e86c3f59467"/>
-				<textElement verticalAlignment="Bottom">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
-			</textField>
-			<textField pattern="¤#,##0.00;¤-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="60" y="1" width="120" height="20" uuid="5a75d2e8-582e-493d-94a7-3c13c6ab2ba7"/>
-				<textElement verticalAlignment="Bottom">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{valorDesconto}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="-20" y="1" width="80" height="20" uuid="16b8c537-2238-44c6-a0ea-3c41f8ca98e1"/>
-				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Desconto R$:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="-20" y="21" width="80" height="20" uuid="5a295f1d-362a-4367-92ef-4242dbe7ca84"/>
-				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Desconto %:]]></text>
-			</staticText>
-			<textField pattern="¤#,##0.00;¤-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="60" y="21" width="120" height="20" uuid="a28d445a-be73-4b58-8424-1360fdfdec24"/>
-				<textElement verticalAlignment="Bottom">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{percentualDesconto}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="-20" y="61" width="80" height="20" uuid="5029908c-657a-430f-8844-32b23e5c54be"/>
-				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Total c/ desconto:]]></text>
-			</staticText>
-			<textField pattern="¤#,##0.00;¤-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="60" y="61" width="120" height="20" uuid="8f088093-d766-418e-a320-7f81509101d7"/>
+				<reportElement x="60" y="3" width="120" height="20" uuid="07325cef-e384-4e13-8e4d-7e86c3f59467"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="9"/>
 				</textElement>
