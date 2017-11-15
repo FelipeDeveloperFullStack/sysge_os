@@ -36,6 +36,7 @@ public class FuncionarioService extends GenericDaoImpl<Funcionario, Long>{
 		return funcionario;
 	}
 	
+	
 	public List<Funcionario> pesquisarFuncionario(Funcionario funcionario){
 			if(funcionario.getNome().trim().isEmpty()){
 				return super.findBySituation(funcionario.getSituacao());

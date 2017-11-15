@@ -23,6 +23,9 @@ public class UnidadeEmpresarialService extends GenericDaoImpl<UnidadeEmpresarial
 			if(unidadeEmpresarial.getRazaoSocial().trim().equals("")){
 				throw new RuntimeException("A razão social é obrigatório!");
 			}
+			
+			verificar_CNPJ_unidadeEmpresarial(unidadeEmpresarial);
+			
 			return super.save(consistirUnidadeEmpresarial(unidadeEmpresarial));
 		} catch (RuntimeException e) {
 			e.getStackTrace();
@@ -40,6 +43,14 @@ public class UnidadeEmpresarialService extends GenericDaoImpl<UnidadeEmpresarial
 			unidadeEmpresarial.setDataUsuarioAlteracao(new Date());
 		}
 		return unidadeEmpresarial;
+	}
+	
+	private void verificar_CNPJ_unidadeEmpresarial(UnidadeEmpresarial unidadeEmpresarial){
+		for(UnidadeEmpresarial u : super.findAll()){
+			if(u.getCnpj() == unidadeEmpresarial.getCnpj()){
+				throw new RuntimeException("Já existe uma unidade empresarial com esse mesmo CNPJ, verifique e tente novamente!");
+			}
+		}
 	}
 	
 	public List<UnidadeEmpresarial> pesquisarUnidadeEmpresarial(UnidadeEmpresarial unidadeEmpresarial){

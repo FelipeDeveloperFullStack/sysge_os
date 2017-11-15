@@ -20,6 +20,9 @@ public class FornecedorService extends GenericDaoImpl<Fornecedor, Long> {
 			if (fornecedor.getNomeFantasia().trim().equals("")) {
 				throw new RuntimeException("O nome fantasia é obrigatório!");
 			}
+			
+			verificar_CNPJ_fornecedor(fornecedor);
+			
 			return super.save(consistirFornecedor(fornecedor));
 		} catch (RuntimeException e) {
 			e.getStackTrace();
@@ -77,6 +80,15 @@ public class FornecedorService extends GenericDaoImpl<Fornecedor, Long> {
 			fornecedor.setDataUsuarioAlteracao(new Date());
 		}
 		return fornecedor;
+	}
+	
+	
+	private void verificar_CNPJ_fornecedor(Fornecedor fornecedor){
+		for(Fornecedor f : super.findAll()){
+			if(f.getCnpj() == fornecedor.getCnpj()){
+				throw new RuntimeException("Já existe um fornecedor com esse mesmo CNPJ, verifique e tente novamente");
+			}
+		}
 	}
 
 }

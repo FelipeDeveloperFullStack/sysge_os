@@ -99,49 +99,49 @@
 				</reportElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="19" forecolor="#030303" uuid="d57907f8-f3f7-47f6-a3dd-bdc5227ddcdd"/>
+				<reportElement x="0" y="0" width="100" height="19" forecolor="#000000" uuid="d57907f8-f3f7-47f6-a3dd-bdc5227ddcdd"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data do movimento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="100" y="0" width="100" height="19" forecolor="#4800FF" uuid="3fc73071-6cad-4234-ad0c-b54a456b8332"/>
+				<reportElement x="100" y="0" width="100" height="19" forecolor="#000000" uuid="3fc73071-6cad-4234-ad0c-b54a456b8332"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Valor a receber]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="200" y="0" width="100" height="19" forecolor="#EB5552" uuid="a4627964-0493-47e4-9d15-63af9a501a04"/>
+				<reportElement x="200" y="0" width="100" height="19" forecolor="#000000" uuid="a4627964-0493-47e4-9d15-63af9a501a04"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Valor a pagar]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="300" y="0" width="100" height="19" forecolor="#4800FF" uuid="bebc818f-d260-4b37-98dd-c075c0170026"/>
+				<reportElement x="300" y="0" width="100" height="19" forecolor="#000000" uuid="bebc818f-d260-4b37-98dd-c075c0170026"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Valor recebido]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="0" width="100" height="19" forecolor="#EB5552" uuid="e7850078-6436-4653-8149-bd1a00f88db5"/>
+				<reportElement x="400" y="0" width="100" height="19" forecolor="#000000" uuid="e7850078-6436-4653-8149-bd1a00f88db5"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Valor pago]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="500" y="0" width="136" height="19" forecolor="#333000" uuid="7ff9d4fe-73aa-4c60-8e63-32ce2fd11fa8"/>
+				<reportElement x="500" y="0" width="136" height="19" forecolor="#000000" uuid="7ff9d4fe-73aa-4c60-8e63-32ce2fd11fa8"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Saldo movimento anterior]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="637" y="0" width="100" height="19" forecolor="#333000" uuid="169f7185-d9a3-48c1-a0ba-ad17a493d129">
+				<reportElement x="637" y="0" width="100" height="19" forecolor="#000000" uuid="169f7185-d9a3-48c1-a0ba-ad17a493d129">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -166,22 +166,22 @@
 				<textFieldExpression><![CDATA[$F{dataMovimento}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤#,##0.00;¤-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="100" y="-1" width="100" height="20" forecolor="#4800FF" uuid="cb890348-f746-4fb0-ba13-6083a21a73d1"/>
+				<reportElement x="100" y="-1" width="100" height="20" forecolor="#421E9E" uuid="cb890348-f746-4fb0-ba13-6083a21a73d1"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{totalReceita}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤#,##0.00;¤-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="200" y="-1" width="100" height="20" forecolor="#EB5552" uuid="29d6f35c-f3eb-4cde-bf3a-d1cda5daf0bc"/>
+				<reportElement x="200" y="-1" width="100" height="20" forecolor="#A8423E" uuid="29d6f35c-f3eb-4cde-bf3a-d1cda5daf0bc"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{totalDespesa}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤#,##0.00;¤-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="300" y="0" width="100" height="20" forecolor="#4800FF" uuid="bf109a92-f5bc-4835-a634-3c92e2e433c1"/>
+				<reportElement x="300" y="0" width="100" height="20" forecolor="#421E9E" uuid="bf109a92-f5bc-4835-a634-3c92e2e433c1"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{totalRecebido}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤#,##0.00;¤-#,##0.00" isBlankWhenNull="true">
-				<reportElement x="400" y="0" width="100" height="20" forecolor="#EB5552" uuid="2211c449-5b39-4879-b6fd-3d1927fcf7c7"/>
+				<reportElement x="400" y="0" width="100" height="20" forecolor="#A8423E" uuid="2211c449-5b39-4879-b6fd-3d1927fcf7c7"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{totalPago}]]></textFieldExpression>
 			</textField>

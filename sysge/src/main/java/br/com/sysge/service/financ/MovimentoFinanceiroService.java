@@ -95,7 +95,7 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			lancamentoReceita.setTipoLancamentoFinanceiro(TipoLancamentoFinanceiro.LANCAMENTO_PARCELADO);
 			if(ordemServico.getStatusOS() == StatusOS.CANCELADO){
 				lancamentoReceita = subtratirTotalRecebidoTotalReceitaCalcularMovimentoFinanceiro(lancamentoReceita, parcelasPagamentoOs);
-				lancamentoReceita.setTitulo("(Cancelado) Ordem Serviço nº "+ordemServico.getId());
+				lancamentoReceita.setTitulo("(Cancelado) Ordem Serviço nº "+ordemServico.getId()+ " - "+parcelasPagamentoOs.getNumero()+"º parcela");
 			}else{
 				lancamentoReceita.setTitulo("Ordem Serviço nº "+ordemServico.getId()+ " - "+parcelasPagamentoOs.getNumero()+"º parcela");
 			}
@@ -681,13 +681,31 @@ public class MovimentoFinanceiroService extends GenericDaoImpl<MovimentoFinancei
 			params.put("saldoAtual", obterSaldoAtual());
 			
 			ReportFactory reportFactory = new ReportFactory("r_movimento_financeiro.jasper", params, 
-					TiposRelatorio.PDF, obterMovimentoPorPeriodo(dataInicial, dataFinal));
+					TiposRelatorio.PDF, verificarValoresIguaisAZero(dataInicial, dataFinal));
 			
 			reportFactory.gerarPDFView("Relatório de Movimento Financeiro");
 			
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
+	}
+	
+	private List<MovimentoFinanceiro> verificarValoresIguaisAZero(Date dataInicial, Date dataFinal){
+		List<MovimentoFinanceiro> listMovimento = obterMovimentoPorPeriodo(dataInicial, dataFinal);
+		List<MovimentoFinanceiro> novaLista = new ArrayList<>();
+		for(MovimentoFinanceiro m : listMovimento){
+			if(m.getTotalDespesa().signum() == 0 && 
+					m.getTotalPago().signum() == 0 && 
+					m.getTotalRecebido().signum() == 0 && 
+					m.getTotalReceita().signum() == 0){
+				
+				//Mensagem para o desenvolvedor
+				System.out.println("Valores iguais a zero, não serão adicionados na lista!");
+			}else{
+				novaLista.add(m);
+			}
+		}
+		return novaLista;
 	}
 
 }
