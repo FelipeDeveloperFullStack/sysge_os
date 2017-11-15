@@ -497,7 +497,7 @@
 				<reportElement x="9" y="394" width="521" height="1" uuid="7143a917-d19e-409b-9c49-71c366a22aa6"/>
 			</line>
 			<staticText>
-				<reportElement mode="Opaque" x="500" y="410" width="50" height="15" backcolor="#F0F0F0" uuid="76c2c730-b36a-4e46-b29a-4e0db63d6bfb">
+				<reportElement mode="Opaque" x="500" y="410" width="54" height="15" backcolor="#F0F0F0" uuid="76c2c730-b36a-4e46-b29a-4e0db63d6bfb">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -576,7 +576,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="450" y="0" width="50" height="18" uuid="82dac9d4-aede-4b31-9923-f6f31e186dca"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.5" lineColor="#9C9C9C"/>
@@ -586,8 +586,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorUnit}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="500" y="0" width="50" height="18" uuid="8f5c5d93-94ec-49e1-aa55-273116386808">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="500" y="0" width="54" height="18" uuid="8f5c5d93-94ec-49e1-aa55-273116386808">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">

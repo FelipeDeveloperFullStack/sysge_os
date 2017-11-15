@@ -351,7 +351,9 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		
 		ordemServico.setCliente(clienteService.verificarTipoPessoa(ordemServico.getCliente()));
 		
-		params.put("list_item_ordem_servico", setarItemOrcamentoTo(servicos, produtos, ordemServico.getTotal(), ordemServico));
+		List<ItemOrdemServicoTO> itensOrcamento = setarItemOrcamentoTo(servicos, produtos, ordemServico.getTotal(), ordemServico);
+		
+		//params.put("list_item_ordem_servico", setarItemOrcamentoTo(servicos, produtos, ordemServico.getTotal(), ordemServico));
 		params.put("subTotalServico", ordemServico.getTotalServico());
 		params.put("subTotalProduto", ordemServico.getTotalProduto());
 		params.put("totalOS", ordemServico.getTotal());
@@ -390,7 +392,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			params.put("telefones_u", u.getTelefone() + " "+u.getCelular() + " "+u.getCelular2() + " " + u.getCelular3());
 		}
 		
-		ReportFactory reportFactory = new ReportFactory("r_orcamento.jasper", params, TiposRelatorio.PDF);
+		ReportFactory reportFactory = new ReportFactory("r_orcamento.jasper", params, TiposRelatorio.PDF, itensOrcamento);
 		
 		//Envio de email
 		if(enviaEmail){
@@ -420,7 +422,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			for(ServicoOrdemServico s : servicos){
 				ItemOrdemServicoTO to = new ItemOrdemServicoTO();
 				to.setCodigo(s.getId().toString());
-				to.setDescricao(s.getServico().getNome());
+				to.setDescricao(" "+s.getServico().getNome());
 				to.setValor(s.getSubTotal());
 				to.setQuantidade("");
 				tos.add(to);
@@ -432,7 +434,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			for(ProdutoOrdemServico p : produtos){
 				ItemOrdemServicoTO to = new ItemOrdemServicoTO();
 				to.setCodigo(p.getId().toString());
-				to.setDescricao(p.getProduto().getDescricaoProduto());
+				to.setDescricao(" "+p.getProduto().getDescricaoProduto());
 				to.setQuantidade(p.getQuantidade().toString());
 				to.setValor(p.getSubTotal());
 				to.setValorUnit(p.getValor());
@@ -440,6 +442,24 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 				totalProduto = totalProduto.add(p.getSubTotal());
 			}
 		}
+		
+		int listSize = tos.size() - 9;
+		
+		if(listSize < 9){
+			for(int i = 0; i < ((listSize)*(-1)) - 1; i++){
+				ItemOrdemServicoTO temp = new ItemOrdemServicoTO();
+				temp.setDescricao("");
+				tos.add(temp);
+			}
+		}
+		
+		ItemOrdemServicoTO to = new ItemOrdemServicoTO();
+		to.setTotal(total);
+		//to.setTotalComDesconto(total); //Se caso precisar 
+		//to.setPercentualDesconto(obterPorcentagemValorDescontoOS(ordemServico)); //Se caso precisar
+		//to.setValorDesconto(ordemServico.getDescontoReais()); //Se caso precisar
+		to.setDescricao("");
+		tos.add(to);
 		
 		return tos;
 	}
@@ -455,7 +475,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			for(ServicoOrdemServico s : servicos){
 				ItemOrdemServicoTO to = new ItemOrdemServicoTO();
 				to.setCodigo(s.getId().toString());
-				to.setDescricao(s.getServico().getNome());
+				to.setDescricao(" "+s.getServico().getNome());
 				to.setValor(s.getSubTotal());
 				to.setQuantidade("");
 				tos.add(to);
@@ -467,7 +487,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 			for(ProdutoOrdemServico p : produtos){
 				ItemOrdemServicoTO to = new ItemOrdemServicoTO();
 				to.setCodigo(p.getId().toString());
-				to.setDescricao(p.getProduto().getDescricaoProduto());
+				to.setDescricao(" "+p.getProduto().getDescricaoProduto());
 				to.setQuantidade(p.getQuantidade().toString());
 				to.setValor(p.getSubTotal());
 				to.setValorUnit(p.getValor());
