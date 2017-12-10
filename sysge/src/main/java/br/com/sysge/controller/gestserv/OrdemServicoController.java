@@ -503,8 +503,8 @@ public class OrdemServicoController implements Serializable {
 	}
 	
 	public String mudarTituloDialog(){
-		if(ordemServico.getStatusOSOR() == StatusOSOR.ORCAMENTO){
-			return StatusOSOR.ORCAMENTO.getStatusOSOR();
+		if(ordemServico.getStatusOSOR() == StatusOSOR.PEDIDO){
+			return StatusOSOR.PEDIDO.getStatusOSOR();
 		}else{
 			return StatusOSOR.ORDEM_SERVICO.getStatusOSOR();
 		}
@@ -514,8 +514,8 @@ public class OrdemServicoController implements Serializable {
 		try {
 			ordemServico = ordemServicoService.salvar(ordemServico);
 			RequestContextUtil.execute("PF('dialogNovaOrdemDeServico').hide();");
-			if(ordemServico.getStatusOSOR() == StatusOSOR.ORCAMENTO){
-				FacesUtil.mensagemInfo("Orçamento de nº "+ordemServico.getId() + " salvo com sucesso!");
+			if(ordemServico.getStatusOSOR() == StatusOSOR.PEDIDO){
+				FacesUtil.mensagemInfo("Pedido de nº "+ordemServico.getId() + " salvo com sucesso!");
 			}
 		} catch (Exception e) {
 			FacesUtil.mensagemErro(e.getMessage());
@@ -860,7 +860,7 @@ public class OrdemServicoController implements Serializable {
 		if(this.ordemServico.getStatusOSOR() == StatusOSOR.ORDEM_SERVICO){
 			this.email.setAssunto("Ordem de Serviço de nº "+ordemServico.getId());
 		}else{
-			this.email.setAssunto("Orçamento de nº "+ordemServico.getId());
+			this.email.setAssunto("Pedido de nº "+ordemServico.getId());
 		}
 	}
 	

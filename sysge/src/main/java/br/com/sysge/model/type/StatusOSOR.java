@@ -2,7 +2,7 @@ package br.com.sysge.model.type;
 
 public enum StatusOSOR {
 	
-	ORCAMENTO("Orçamento"),
+	PEDIDO("Pedido"),
 	ORDEM_SERVICO("Ordem de Serviço");
 
 	private String statusOSOR;

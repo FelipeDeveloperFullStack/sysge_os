@@ -470,7 +470,7 @@
 				<textElement>
 					<font size="9" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Temporatura__________]]></text>
+				<text><![CDATA[Temperatura__________]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="6" y="327" width="80" height="12" uuid="dcc3253c-501d-42d1-933d-b24d5377b0ff"/>
@@ -707,56 +707,56 @@
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="0" y="40" width="80" height="20" uuid="bc630a48-8300-46de-9d36-04d4e81552b5"/>
+				<reportElement x="420" y="40" width="80" height="20" uuid="bc630a48-8300-46de-9d36-04d4e81552b5"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Valor total:]]></text>
 			</staticText>
 			<textField pattern="¤ #,##0.00;¤ -#,##0.00" isBlankWhenNull="true">
-				<reportElement x="80" y="40" width="120" height="20" uuid="24b601b1-ef8e-4c4c-82f9-95ef7b58fa6c"/>
+				<reportElement x="500" y="40" width="75" height="20" uuid="24b601b1-ef8e-4c4c-82f9-95ef7b58fa6c"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00;¤ -#,##0.00" isBlankWhenNull="true">
-				<reportElement x="80" y="0" width="120" height="20" uuid="2be9bc0b-a7de-41ed-b1d3-77d4e7aaa74d"/>
+				<reportElement x="500" y="0" width="75" height="20" uuid="2be9bc0b-a7de-41ed-b1d3-77d4e7aaa74d"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorDesconto}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="0" width="80" height="20" uuid="30968f5b-9b98-474f-8ea1-95d5af993a85"/>
+				<reportElement x="420" y="0" width="80" height="20" uuid="30968f5b-9b98-474f-8ea1-95d5af993a85"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Desconto R$:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="20" width="80" height="20" uuid="e4578f91-ef1b-432c-97e1-f1294859d443"/>
+				<reportElement x="420" y="20" width="80" height="20" uuid="e4578f91-ef1b-432c-97e1-f1294859d443"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Desconto %:]]></text>
 			</staticText>
 			<textField pattern="#,##0.00#" isBlankWhenNull="true">
-				<reportElement x="80" y="20" width="120" height="20" uuid="9b9f9243-e0f9-4895-a266-f23cdce23c6f"/>
+				<reportElement x="500" y="20" width="75" height="20" uuid="9b9f9243-e0f9-4895-a266-f23cdce23c6f"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{percentualDesconto}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="60" width="80" height="20" uuid="2732ec82-40fb-4bea-b0f7-38eb6a2cbd41"/>
+				<reportElement x="420" y="60" width="80" height="20" uuid="2732ec82-40fb-4bea-b0f7-38eb6a2cbd41"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total c/ desconto:]]></text>
 			</staticText>
 			<textField pattern="¤ #,##0.00;¤ -#,##0.00" isBlankWhenNull="true">
-				<reportElement x="80" y="60" width="120" height="20" uuid="03fd4d42-d509-4222-9ddf-f626cf0086e9"/>
+				<reportElement x="500" y="60" width="75" height="20" uuid="03fd4d42-d509-4222-9ddf-f626cf0086e9"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="9"/>
 				</textElement>

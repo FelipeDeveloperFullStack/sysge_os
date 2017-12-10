@@ -66,7 +66,7 @@
 		
 		<!-- Orcamento -->
 		<p:dialog widgetVar="pdfViewOrcamento" width="950" 
-			resizable="false" minimizable="false" header="Orçamento"
+			resizable="false" minimizable="false" header="Pedido"
 			position="top" modal="true" appendTo="@(body)">
 			<p:commandButton value="Fechar"
 				oncomplete="PF('pdfViewOrcamento').hide();"
@@ -96,7 +96,7 @@
 
 		<h:form id="formGeralServico">
 
-			<p:panel header="Listagem de ordens de serviços / orçamentos">
+			<p:panel header="Listagem de ordens de serviços / pedidos">
 
 				<h:panelGrid columns="6" id="panelPesquisa">
 					<h:panelGrid columns="1">
@@ -144,7 +144,7 @@
 					value="#{ordemServicoController.ordensServicos}"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
 					{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowStyleClass="#{s.statusOSOR eq 'ORCAMENTO' ? 'cor_azul' : null}">
+					rowStyleClass="#{s.statusOSOR eq 'PEDIDO' ? 'cor_azul' : null}">
 
 					<p:column style="width:16px"
 						rendered="#{ordemServicoController.ordemServico.statusOS != 'CANCELADO'}">
@@ -196,7 +196,7 @@
 					</p:column>
 
 					<f:facet name="footer">
-						<p:commandButton value="Nova ordem de serviço / orçamento"
+						<p:commandButton value="Nova ordem de serviço / pedido"
 							oncomplete="PF('dialogNovaOrdemDeServico').show();"
 							icon="ui-icon-circle-plus"
 							actionListener="#{ordemServicoController.novaOrdemServico}"
@@ -218,8 +218,8 @@
 							rendered="#{s.statusOSOR == 'ORDEM_SERVICO'}" />
 
 						<p:commandButton id="btn_or"
-							rendered="#{s.statusOSOR == 'ORCAMENTO'}"
-							value="Imprimir orçamento nº #{s.id}" icon="ui-icon-print"
+							rendered="#{s.statusOSOR == 'PEDIDO'}"
+							value="Imprimir pedido nº #{s.id}" icon="ui-icon-print"
 							actionListener="#{ordemServicoController.gerarOrcamento(s)}"
 							update=":msgGlobal form_pdf_ordem_servico_view" />
 
@@ -237,7 +237,7 @@
 
 		<!-- Dialog nova ordem de Serviço -->
 		<p:dialog widgetVar="dialogNovaOrdemDeServico"
-			header="Nova Ordem de Serviço / Orçamento" modal="true"
+			header="Nova Ordem de Serviço / Pedido" modal="true"
 			appendTo="@(body)" resizable="false" position="top" width="938"
 			closable="false">
 			<h:form id="formNovaOrdemServico">
@@ -268,7 +268,7 @@
 							<h:panelGrid columns="1">
 								<p:outputLabel value="." style="color: white;"/>
 								<p:selectOneMenu value="#{ordemServicoController.ordemServico.statusOSOR}">
-						            <f:selectItem itemLabel="Orçamento" itemValue="ORCAMENTO"/>
+						            <f:selectItem itemLabel="Pedido" itemValue="PEDIDO"/>
 						            <f:selectItem itemLabel="Ordem de Serviço" itemValue="ORDEM_SERVICO" />
 						         <p:ajax event="change" update="formNovaOrdemServico" process="@this" />   
 						        </p:selectOneMenu>
@@ -409,7 +409,7 @@
 							</h:panelGrid>
 
 							<h:panelGrid columns="2"
-								rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORCAMENTO'}">
+								rendered="#{ordemServicoController.ordemServico.statusOSOR == 'PEDIDO'}">
 								<p:outputLabel styleClass="texto_negrito" value="Nº Orçamento: " />
 								<p:outputLabel styleClass="texto_negrito" style="color: blue;"
 									value="#{ordemServicoController.ordemServico.id}" />
@@ -885,7 +885,7 @@
 
 						</p:tab>
 
-						<p:tab title="Informações complementares" rendered="#{ordemServicoController.ordemServico.statusOSOR != 'ORCAMENTO'}">
+						<p:tab title="Informações complementares" rendered="#{ordemServicoController.ordemServico.statusOSOR != 'PEDIDO'}">
 
 							<h:panelGrid columns="1"
 								rendered="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}">
@@ -942,7 +942,7 @@
 								icon="ui-icon-circle-check"
 								update=":msgGlobal :formGeralServico:tableServico :motivo_cancelamento"
 								disabled="#{ordemServicoController.ordemServico.statusOS == 'CANCELADO'}"
-								rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORCAMENTO'}"
+								rendered="#{ordemServicoController.ordemServico.statusOSOR == 'PEDIDO'}"
 								style="background: #F4A460; color: white;" 
 								oncomplete="PF('dialogConfirmacaoConverterOS').show();"/>
 
@@ -1034,9 +1034,9 @@
 						value="Deseja realmente cancelar essa ordem de serviço?"
 						styleClass="texto_negrito"
 						rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORDEM_SERVICO'}" />
-					<h:outputLabel value="Deseja realmente cancelar esse orcamento?"
+					<h:outputLabel value="Deseja realmente cancelar esse pedido?"
 						styleClass="texto_negrito"
-						rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORCAMENTO'}" />
+						rendered="#{ordemServicoController.ordemServico.statusOSOR == 'PEDIDO'}" />
 					<h:outputLabel
 						value="Uma vez cancelada, não poderá ser reaberta! A mesma ficará disponível apenas para visualização!"
 						styleClass="texto_negrito" />
@@ -1274,7 +1274,7 @@
 			
 			<h:form>
 				<p:panelGrid columns="1">
-					<h:outputLabel styleClass="texto_negrito" value="Deseja realmente converter esse orçamento em ordem de serviço?"/>
+					<h:outputLabel styleClass="texto_negrito" value="Deseja realmente converter esse pedido em ordem de serviço?"/>
 				</p:panelGrid>
 				
 				<p:panelGrid columns="2">
