@@ -353,7 +353,7 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		
 		List<ItemOrdemServicoTO> itensOrcamento = setarItemOrcamentoTo(servicos, produtos, ordemServico.getTotal(), ordemServico);
 		
-		//params.put("list_item_ordem_servico", setarItemOrcamentoTo(servicos, produtos, ordemServico.getTotal(), ordemServico));
+		params.put("list_item_ordem_servico", itensOrcamento);
 		params.put("subTotalServico", ordemServico.getTotalServico());
 		params.put("subTotalProduto", ordemServico.getTotalProduto());
 		params.put("totalOS", ordemServico.getTotal());
@@ -454,10 +454,10 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		}
 		
 		ItemOrdemServicoTO to = new ItemOrdemServicoTO();
-		to.setTotal(total);
-		//to.setTotalComDesconto(total); //Se caso precisar 
-		//to.setPercentualDesconto(obterPorcentagemValorDescontoOS(ordemServico)); //Se caso precisar
-		//to.setValorDesconto(ordemServico.getDescontoReais()); //Se caso precisar
+		to.setTotal(totalServico.add(totalProduto));
+		to.setTotalComDesconto(total);
+		to.setPercentualDesconto(obterPorcentagemValorDescontoOS(ordemServico));
+		to.setValorDesconto(ordemServico.getDescontoReais());
 		to.setDescricao("");
 		tos.add(to);
 		

@@ -734,8 +734,7 @@
 
 						</p:tab>
 
-						<p:tab title="Pagamento" id="pagamento"
-							rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORDEM_SERVICO'}">
+						<p:tab title="Pagamento" id="pagamento">
 
 							<p:fieldset>
 								<h:panelGrid columns="4" id="panel_2_pagamento">
@@ -791,7 +790,7 @@
 
 							<br></br>
 
-							<h:panelGrid columns="4" id="panel_1_pagamento">
+							<h:panelGrid columns="4" id="panel_1_pagamento" rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORDEM_SERVICO'}">
 								<h:panelGrid columns="1">
 									<p:outputLabel value="Forma de pagamento" />
 									<p:selectOneMenu
@@ -826,7 +825,7 @@
 							<p:dataTable var="p" emptyMessage="Nenhum registro encontrado!"
 								paginator="true" paginatorPosition="bottom"
 								value="#{ordemServicoController.parcelas}" rows="4"
-								id="tableParcelas">
+								id="tableParcelas" rendered="#{ordemServicoController.ordemServico.statusOSOR == 'ORDEM_SERVICO'}">
 
 								<p:column headerText="Nº" width="20" style="text-align:center;">
 									<h:outputLabel value="#{p.numero}º" />

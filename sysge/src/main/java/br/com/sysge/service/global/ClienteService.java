@@ -29,7 +29,6 @@ public class ClienteService extends GenericDaoImpl<Cliente, Long> {
 				}
 			}
 			
-			verificar_CPF_CNPJ_Cliente(cliente);
 			
 			return super.save(consistirCliente(setarNomes(cliente)));
 		} catch (RuntimeException e) {
@@ -137,12 +136,14 @@ public class ClienteService extends GenericDaoImpl<Cliente, Long> {
 	private void verificar_CPF_CNPJ_Cliente(Cliente cliente){
 		
 		for(Cliente c : super.findAll()){
-			if(c.getCpf() == cliente.getCpf()){
-				throw new RuntimeException("Já existe um cliente cadastrado com esse CPF, verifique e tente novamente!");
-			}
-			
-			if(c.getCnpj() == cliente.getCnpj()){
-				throw new RuntimeException("Já existe um cliente cadastrado com esse CNPJ, verifique e tente novamente!");
+			if(cliente.getTipoPessoa() == TipoPessoa.PESSOA_FISICA){
+				if(c.getCpf() == cliente.getCpf()){
+					throw new RuntimeException("Já existe um cliente cadastrado com esse CPF, verifique e tente novamente!");
+				}
+			}else{
+				if(c.getCnpj().equals(cliente.getCnpj())){
+					throw new RuntimeException("Já existe um cliente cadastrado com esse CNPJ, verifique e tente novamente!");
+				}
 			}
 		}
 	}
