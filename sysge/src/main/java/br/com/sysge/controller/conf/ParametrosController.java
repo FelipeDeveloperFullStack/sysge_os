@@ -1,12 +1,18 @@
 package br.com.sysge.controller.conf;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import br.com.sysge.model.conf.Parametro;
 import br.com.sysge.model.global.UnidadeEmpresarial;
@@ -63,6 +69,21 @@ public class ParametrosController implements Serializable{
 	
 	public List<UnidadeEmpresarial> getUnidadesEmpresariais(){
 		return unidadeEmpresarialService.findBySituation(Situacao.ATIVO);
+	}
+	
+	public void uploadImage(FileUploadEvent event){
+		UploadedFile file = event.getFile();
+		
+		try {
+			Path tempFile = Files.createTempFile(null, null);
+			Files.copy(file.getInputstream(), tempFile, StandardCopyOption.REPLACE_EXISTING);
+			
+			FacesUtil.mensagemInfo("Imagem salva com sucesso!");
+		} catch (IOException e) {
+			e.printStackTrace();
+			FacesUtil.mensagemErro(e.getMessage());
+		}
+		
 	}
 	
 
