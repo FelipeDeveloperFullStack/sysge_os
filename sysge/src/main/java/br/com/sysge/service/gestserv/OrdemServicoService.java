@@ -301,9 +301,9 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		params.put("telefone", ordemServico.getCliente().getTelefone());
 		params.put("celular", ordemServico.getCliente().getCelular());
 		params.put("email", ordemServico.getCliente().getEmail());
-		params.put(ENDERECO, ordemServico.getCliente().getLogradouro());
+		params.put(ENDERECO, ordemServico.getCliente().getLogradouro() + " "+ordemServico.getCliente().getComplemento());
 		params.put(BAIRRO, ordemServico.getCliente().getBairro());
-		params.put("cidade", ordemServico.getCliente().getCidade());
+		params.put("cidade", ordemServico.getCliente().getCidade()+ "/"+ordemServico.getCliente().getUnidadeFederativa().getUnidadeFederativa() + " Nº "+ ordemServico.getCliente().getNumero());
 		params.put("atendente", ordemServico.getFuncionario().getNome());
 		params.put("observacao", ordemServico.getObservacao());
 		
@@ -366,11 +366,13 @@ public class OrdemServicoService extends GenericDaoImpl<OrdemServico, Long> {
 		params.put("telefone", ordemServico.getCliente().getTelefone());
 		params.put("celular", ordemServico.getCliente().getCelular());
 		params.put("email", ordemServico.getCliente().getEmail());
-		params.put(ENDERECO, ordemServico.getCliente().getLogradouro());
+		params.put(ENDERECO, ordemServico.getCliente().getLogradouro() + " "+ordemServico.getCliente().getComplemento());
 		params.put(BAIRRO, ordemServico.getCliente().getBairro());
-		params.put("cidade", ordemServico.getCliente().getCidade());
+		params.put("cidade", ordemServico.getCliente().getCidade()+ "/"+ordemServico.getCliente().getUnidadeFederativa().getUnidadeFederativa() + " Nº "+ ordemServico.getCliente().getNumero());
 		params.put("atendente", ordemServico.getFuncionario().getNome());
 		params.put("observacao", ordemServico.getObservacao());
+		
+		
 		
 		params.put(MARCA, ordemServico.getMarca());
 		params.put(MODELO, ordemServico.getModelo());

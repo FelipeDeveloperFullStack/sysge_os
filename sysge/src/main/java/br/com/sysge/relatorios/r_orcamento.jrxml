@@ -308,7 +308,7 @@
 				<textFieldExpression><![CDATA[$P{nomeCliente}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="68" y="102" width="239" height="12" uuid="dbb4d66e-544c-4198-b194-4469b4bf23cb"/>
+				<reportElement x="68" y="102" width="485" height="12" uuid="dbb4d66e-544c-4198-b194-4469b4bf23cb"/>
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
