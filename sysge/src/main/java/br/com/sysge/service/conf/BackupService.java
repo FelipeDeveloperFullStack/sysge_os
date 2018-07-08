@@ -23,19 +23,23 @@ import br.com.sysge.infraestrutura.dao.GenericDaoImpl;
 import br.com.sysge.model.conf.BackupHistorico;
 import br.com.sysge.model.conf.ConfiguracaoBackup;
 import br.com.sysge.util.DateUtil;
-import br.com.sysge.util.FacesUtil;
 
 public class BackupService extends GenericDaoImpl<BackupHistorico, Long>{
 
 	private static final long serialVersionUID = 7547494882791200676L;
-	
-	
+
 	private ConfiguracaoBackupService configuracaoBackupService = new ConfiguracaoBackupService();
 	
 	private BackupHistorico backupHistorico;
 	
 	public BackupService(){
 		this.backupHistorico = new BackupHistorico();
+	}
+	
+	public List<ConfiguracaoBackup> configuracaoBackupList(){
+		
+		return this.configuracaoBackupService.findAll();
+		
 	}
 	
 	public BackupHistorico fazerBackup() throws IOException {
@@ -50,13 +54,7 @@ public class BackupService extends GenericDaoImpl<BackupHistorico, Long>{
 				if(configuracaoBackup.getDiretorio().trim().isEmpty()){
 					throw new RuntimeException("O diretório não foi definido nas configurações, não é possível fazer o backup!");
 				}
-				if(configuracaoBackup.isAutomatico()){
-					//agendarBackup(configuracaoBackup.getTempoBackupAutomatico());
-					//FacesUtil.mensagemInfo("Backup agendado para todos os dias as "+configuracaoBackup.getTempoBackupAutomatico());
-					FacesUtil.mensagemInfo("Backup agendado para todos os dias as "+configuracaoBackup.getTempoBackupAutomatico());
-				}else{
-					return processarBackup();
-				}
+				return processarBackup();
 			}
 			return new BackupHistorico();
 		}
@@ -78,9 +76,9 @@ private void setarBackupHistorico(ConfiguracaoBackup config , BackupHistorico ba
 		
 		for(ConfiguracaoBackup config : listarConfiguracaoBackups()){
 			
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yy-hh-mm-ss");
+			//SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yy-hh-mm-ss");
 			File dir = new File(config.getDiretorio());
-			File backup = new File(config.getDiretorio() + getNomeArquivo(simpleDateFormat));
+			File backup = new File(config.getDiretorio() + getNomeArquivo(DateUtil.dateFormat()));
 			Runtime runTime = Runtime.getRuntime();
 				
 				if(!dir.isDirectory()){
@@ -118,7 +116,7 @@ private void setarBackupHistorico(ConfiguracaoBackup config , BackupHistorico ba
 				}
 				
 				try {
-					setarBackupHistorico(config, new BackupHistorico(),	getNomeArquivo(simpleDateFormat).replace("\\", "")
+					setarBackupHistorico(config, new BackupHistorico(),	getNomeArquivo(DateUtil.dateFormat()).replace("\\", "")
 							, obterTamanhoArquivo(backup.length()));
 					
 					this.backupHistorico = salvarBackup(this.backupHistorico);
@@ -189,7 +187,7 @@ private void setarBackupHistorico(ConfiguracaoBackup config , BackupHistorico ba
 	}
 	
 	
-	private String getNomeArquivo(SimpleDateFormat simpleDateFormat){
+	public static String getNomeArquivo(SimpleDateFormat simpleDateFormat){
 		return "\\backup_"+simpleDateFormat.format(new Date()) + ".sql";
 	}
 	

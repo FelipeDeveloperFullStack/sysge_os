@@ -15,6 +15,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.quartz.SchedulerException;
+
 import br.com.sysge.model.conf.BackupHistorico;
 import br.com.sysge.model.conf.ConfiguracaoBackup;
 import br.com.sysge.service.conf.BackupService;
@@ -120,7 +122,7 @@ public class BackupController implements Serializable{
 		try {
 			configuracaoBackupService.salvar(configuracaoBackup);
 			FacesUtil.mensagemInfo("Configuração salva com sucesso!");
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | SchedulerException e) {
 			FacesUtil.mensagemErro(e.getMessage());
 		}
 	}

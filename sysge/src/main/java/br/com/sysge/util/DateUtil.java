@@ -1,5 +1,6 @@
 package br.com.sysge.util;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,6 +8,14 @@ import java.time.ZoneId;
 import java.util.Date;
 
 public class DateUtil {
+	
+	 public static SimpleDateFormat dateFormat(){
+		 return new SimpleDateFormat("dd-MM-yy-hh-mm-ss");
+	 }
+	
+	  public static String dateToString(LocalDate localDate){
+		  return new SimpleDateFormat("dd/MM/yyyy").format(DateUtil.asDate(localDate));
+	  }
 
 	  public static Date asDate(LocalDate localDate) {
 	    return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
