@@ -1,10 +1,11 @@
 # Sistema de ordem de serviços
 
 Tecnologias utilizadas:
-* Java
+* Java 8
 * JSF / Primefaces
 * Hibernate
-* MySQL
+* MySQL 8.0.17
+* Apache tomcat-7.0.96
 
 ![backup](https://user-images.githubusercontent.com/9463295/100172962-401da480-2ea8-11eb-9071-7301a30106bd.png)
 ![agenda](https://user-images.githubusercontent.com/9463295/100172966-43b12b80-2ea8-11eb-986f-3d790db92f7a.png)
