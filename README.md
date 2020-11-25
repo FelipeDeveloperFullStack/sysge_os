@@ -1,5 +1,11 @@
 # Sistema de ordem de serviços
 
+Tecnologias utilizadas:
+* Java
+* JSF / Primefaces
+* Hibernate
+* MySQL
+
 ![backup](https://user-images.githubusercontent.com/9463295/100172962-401da480-2ea8-11eb-9071-7301a30106bd.png)
 ![agenda](https://user-images.githubusercontent.com/9463295/100172966-43b12b80-2ea8-11eb-986f-3d790db92f7a.png)
 ![Lançamento financeiro](https://user-images.githubusercontent.com/9463295/100172968-4449c200-2ea8-11eb-816e-012ffa011c65.png)
